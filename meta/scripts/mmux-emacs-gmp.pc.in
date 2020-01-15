@@ -1,0 +1,31 @@
+prefix=@prefix@
+exec_prefix=@exec_prefix@
+
+bindir=@bindir@
+datarootdir=@datarootdir@
+datadir=@datadir@
+docdir=${prefix}/doc
+includedir=@includedir@
+infodir=@infodir@
+htmldir=${docdir}
+libdir=@libdir@
+libexecdir=@libexecdir@
+localstatedir=@localstatedir@
+mandir=@mandir@
+sbindir=@sbindir@
+sharedstatedir=@sharedstatedir@
+sysconfdir=@sysconfdir@
+
+## ------------------------------------------------------------
+
+Name: @PACKAGE_NAME@
+Description: GNU Emacs module on top of a C11 library, GMP interface
+Version: @MMUX_PKG_CONFIG_VERSION@
+#Requires: ccexceptions >= 0.9.0, ccmemory >= 0.2.2, ccstructs >= 0.3.0, ccstrings >= 0.1.0
+Libs: -L${libdir} -lmmux-emacs-gmp
+Cflags: -I${includedir}
+
+### end of file
+# Local Variables:
+# mode: script
+# End:

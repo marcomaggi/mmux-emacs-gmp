@@ -1,0 +1,342 @@
+\input texinfo.tex
+@c %**start of header
+@setfilename mmux-emacs-gmp.info
+@settitle MMUX Emacs GMP
+@c %**end of header
+
+@include version.texi
+@include macros.texi
+
+@c page
+@c ------------------------------------------------------------
+@c Values.
+@c ------------------------------------------------------------
+
+@set TITLE                      MMUX Emacs GMP
+
+@c To be used as @value{PACKAGE} whenever we need to include the full
+@c name of this package.
+@set PACKAGE                    MMUX Emacs GMP
+
+@c To be used as @value{PACKAGE} whenever we need to include the
+@c nickname of the project: the name that is used to compose the
+@c distribution tarball or the web address.
+@set PACKAGE_NICKNAME           mmux-emacs-gmp
+
+@c To be used as @value{AUTHOR} whenever we need to include the list of
+@c authors of this document.
+@set AUTHOR                     Marco Maggi
+
+@c To be used as @value{AUTHOR_EMAIL} whenever we need to include the
+@c email of the *single* author of this document.
+@set AUTHOR_EMAIL               @email{mrc.mgg@@gmail.com}
+
+@c To be used as @value{COPYRIGHT_YEARS} whenever we need to include the
+@c list of copyright years.
+@set COPYRIGHT_YEARS            2020
+
+@c ------------------------------------------------------------
+
+@set PackageAutoconfPrefix              MMUX_EMACS_GMP
+@set PackagePkgconfigModule             @code{mmux-emacs-gmp}
+@set PackageLibsVar                     @env{MMUX_EMACS_GMP_LIBS}
+@set PackageCflagsVar                   @env{MMUX_EMACS_GMP_CFLAGS}
+
+@set PackageLibstem                     @file{mmux-emacs-gmp}
+@set PackageSharedLibraryBasename       @file{libmmux-emacs-gmp}
+
+@set PackageEmacsModule                 @file{mmux-emacs-gmp}
+@set PackageHeader                      mmux-emacs-gmp.h
+@set PackageHeaderFile                  @file{@value{PackageHeader}}
+
+@set PackageApiCPrefixLower             mmux_emacs_gmp_
+@set PackageApiCPrefixUpper             MMUX_EMACS_GMP_
+@set PackageApiElispPrefix              mmux-gmp-
+
+@set GithubUrl                 @url{https://github.com/marcomaggi/@value{PACKAGE_NICKNAME}}
+@set BitbucketUrl              @url{https://bitbucket.org/marcomaggi/@value{PACKAGE_NICKNAME}}
+@set DownloadUrl               @url{https://bitbucket.org/marcomaggi/@value{PACKAGE_NICKNAME}/downloads}
+@set DocumentationUrl          @url{https://marcomaggi.github.io/docs/@value{PACKAGE_NICKNAME}.html}
+
+@c page
+@c ------------------------------------------------------------
+@c Local macros.
+@c ------------------------------------------------------------
+
+@macro gmpref{NODE, TITLE}
+@xref{\NODE\,\TITLE\,\TITLE\,gmp}
+@end macro
+
+@macro gmp{}
+@acronym{gmp}
+@end macro
+
+@c page
+@c ------------------------------------------------------------
+@c Copyright notice.
+@c ------------------------------------------------------------
+
+@copying
+This document describes version @value{VERSION} of @value{PACKAGE}, a @gnu{} Emacs module
+implemented on top of a C11 language library, providing an interface to the @gmp{} library.
+
+The library supports @posix{} platforms.  This package is meant to work with @gnu{} Emacs version
+26+.  This package depends upon the external packages: @samp{cl-lib}.  To run the test suite: this
+package requires the ERT package.
+
+This package is distributed under the terms of the @gnu{} General Public License (@gpl{}).
+
+The latest release can be downloaded from:
+
+@center @value{DownloadUrl}
+
+@noindent
+development takes place at:
+
+@center @value{GithubUrl}
+
+@noindent
+and as backup at:
+
+@center @value{BitbucketUrl}
+
+@noindent
+Copyright @copyright{} @value{COPYRIGHT_YEARS} by @value{AUTHOR} @value{AUTHOR_EMAIL}@*
+
+@quotation
+Permission is granted to copy, distribute and/or modify this document under the terms of the @gnu{}
+Free Documentation License, Version 1.3 or any later version published by the Free Software
+Foundation; with Invariant Sections being ``@gnu{} Free Documentation License'' and ``@gnu{} General
+Public License'', no Front--Cover Texts, and no Back--Cover Texts.  A copy of the license is
+included in the section entitled ``@gnu{} Free Documentation License''.
+@end quotation
+@end copying
+
+@c page
+@c ------------------------------------------------------------
+@c Headers.
+@c ------------------------------------------------------------
+
+@titlepage
+@title @value{TITLE}
+@subtitle Revision @value{VERSION}
+@author @value{AUTHOR} @value{AUTHOR_EMAIL}
+@page
+@vskip 0pt plus 1filll
+@insertcopying
+@end titlepage
+
+@c ------------------------------------------------------------
+
+@ifinfo
+@dircategory Development
+@direntry
+* mmux-emacs-gmp: (mmux-emacs-gmp).       MMUX Emacs GMP, an interface to GMP.
+@end direntry
+@end ifinfo
+
+@c ------------------------------------------------------------
+
+@ignore
+@syncodeindex tp cp
+@syncodeindex vr cp
+@syncodeindex fn cp
+@end ignore
+
+@c page
+@ifnottex
+@node Top
+@top @value{TITLE}
+
+@insertcopying
+
+@menu
+* overview::                    Overview of the package.
+* version::                     Version functions.
+
+Appendices
+
+* Package License::             GNU General Public License.
+* Documentation License::       GNU Free Documentation License.
+* references::                  Bibliography and references.
+
+Indexes
+
+* concept index::               An entry for each concept.
+* function index::              An entry for each function.
+* variable index::              An entry for each variable.
+* type index::                  An entry for each type.
+
+External documents
+
+* modules: (elisp)Writing Dynamic Modules.
+@end menu
+@end ifnottex
+
+@c page
+@node overview
+@chapter Overview of the package
+
+
+This document describes version @value{VERSION} of @value{PACKAGE}, a @gnu{} Emacs module
+implemented on top of a C11 language library, providing an interface to the @gmp{} library.
+
+The library supports @posix{} platforms.  This package is meant to work with @gnu{} Emacs version
+26+.  This package depends upon the external packages: @samp{cl-lib}.  To run the test suite: this
+package requires the ERT package.
+
+@value{PACKAGE} installs a single elisp module @value{PackageEmacsModule} and a C language shared
+library with basename @value{PackageSharedLibraryBasename} (using the @gnu{} Libtool
+infrastructure).  All the elisp definition names are prefixed with
+@code{@value{PackageApiElispPrefix}}.  The C language shared library is installed under
+@samp{$libdir}, for example:
+
+@center @file{/usr/local/lib64}
+
+@noindent
+while the elisp module goes under @samp{$lispdir}, for example:
+
+@center @file{/usr/local/share/emacs/site-lisp}
+
+@noindent
+so to load the module (under an Emacs installation with dynamic modules enabled) we should do
+something like:
+
+@lisp
+(add-to-list 'load-path "/usr/local/lib64"
+                        "/usr/local/share/emacs/site-lisp")
+(require 'mmux-emacs-gmp)
+@end lisp
+
+@cindex @value{PackageHeaderFile}, header file
+@cindex Header file @value{PackageHeaderFile}
+It might be possible that we want to write a C language library making use of the facilities of this
+package; so @value{PACKAGE} installs the single header file @value{PackageHeaderFile}.  All the C
+language function names in the @api{} are prefixed with @code{@value{PackageApiCPrefixLower}}; all
+the C language preprocessor symbol names are prefixed with @code{@value{PackageApiCPrefixUpper}};
+all the type names are prefixed with @code{@value{PackageApiCPrefixLower}} and suffixed with
+@code{_t}.
+
+@menu
+* overview linking::            Linking code with the library.
+@end menu
+
+@include overview-linking.texi
+
+@c page
+@node version
+@chapter Version functions
+
+
+The installed libraries follow version numbering as established by the @gnu{} Autotools.  For an
+explanation of interface numbers as managed by @gnu{} Libtool @xref{Libtool versioning, interface,
+Libtool's versioning system, libtool, Shared library support for @gnu{}}.
+
+
+@defun mmux-gmp-version-string
+Return a string representing the interface version number.
+@end defun
+
+
+@defun mmux-gmp-version-interface-current
+Return an integer representing the library interface current number.
+@end defun
+
+
+@defun mmux-gmp-version-interface-revision
+Return an integer representing the library interface current revision number.
+@end defun
+
+
+@defun mmux-gmp-version-interface-age
+Return an integer representing the library interface current age.
+@end defun
+
+
+@deftypefun {char const *} mmux_emacs_gmp_version_string (void)
+Return a pointer to a statically allocated @asciiz{} string representing the interface version
+number.
+@end deftypefun
+
+
+@deftypefun int mmux_emacs_gmp_version_interface_current (void)
+Return an integer representing the library interface current number.
+@end deftypefun
+
+
+@deftypefun int mmux_emacs_gmp_version_interface_revision (void)
+Return an integer representing the library interface current revision number.
+@end deftypefun
+
+
+@deftypefun int mmux_emacs_gmp_version_interface_age (void)
+Return an integer representing the library interface current age.
+@end deftypefun
+
+@c page
+@c ------------------------------------------------------------
+@c Appendices.
+@c ------------------------------------------------------------
+
+@include gpl-3.0.texi
+@include fdl-1.3.texi
+
+@c page
+@node references
+@appendix Bibliography and references
+
+
+The documentation of @value{PACKAGE} is available online:
+
+@center @value{DocumentationUrl}
+
+@noindent
+the latest release of this package can be downloaded from:
+
+@center @value{DownloadUrl}
+
+@noindent
+development takes place at:
+
+@center @value{GithubUrl}
+
+@noindent
+and as backup at:
+
+@center @value{BitbucketUrl}
+
+We can found informations and examples about Emacs modules at the repository mirror, under the
+@file{modules} directory:
+
+@center @url{https://github.com/emacs-mirror/emacs}
+
+There is also a list of resources about Emacs modules:
+
+@center @url{https://github.com/emacs-pe/emacs-modules}
+
+@c page
+@node concept index
+@appendix An entry for each concept
+
+@printindex cp
+
+@node function index
+@appendix An entry for each function.
+
+@printindex fn
+
+@node variable index
+@appendix An entry for each variable.
+
+@printindex vr
+
+@node type index
+@appendix An entry for each type.
+
+@printindex tp
+
+@contents
+@bye
+
+@c end of file
+
