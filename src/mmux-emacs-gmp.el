@@ -4,7 +4,7 @@
 
 ;; Author: Marco Maggi <mrc.mgg@gmail.com>
 ;; Created: Jan 15, 2020
-;; Time-stamp: <2020-01-15 11:12:36 marco>
+;; Time-stamp: <2020-01-15 16:16:44 marco>
 ;; Keywords: extensions
 
 ;; This file is part of MMUX Emacs GMP.
@@ -34,6 +34,9 @@
 (require 'cl-lib)
 (load "libmmux-emacs-gmp")
 
+
+;;;; error definitions
+
 (define-error 'mmux-gmp-error
   "Error while executing a MMUX Emacs GMP operation."
   'error)
@@ -42,22 +45,108 @@
   "Error allocating memory."
   'mmux-gmp-error)
 
-(cl-defstruct mmux-gmp-cplx
+
+;;;; user-ptr object wrappers
+
+(cl-defstruct (mmux-gmp-mpz (:constructor make-mmux-gmp-mpz*))
   obj)
 
-(defun mmux-gmp-make-cplx (X Y)
-  "Build and return a new cplx object."
-  (make-mmux-gmp-cplx :obj (mmux-gmp-cplx-cmake X Y)))
+(defun make-mmux-gmp-mpz ()
+  "Build and return a new, uninitialised, mmux-gmp-mpz object."
+  (make-mmux-gmp-mpz* :obj (mmux-gmp-c-mpz-make)))
 
-(defun mmux-gmp-get-X (obj)
-  "Return the X component of an object of type `mmux-gmp-cplx'."
-  (cl-assert (mmux-gmp-cplx-p obj))
-  (mmux-gmp-cplx-cget-X (mmux-gmp-cplx-obj obj)))
+;;; --------------------------------------------------------------------
 
-(defun mmux-gmp-get-Y (obj)
-  "Return the Y component of an object of type `mmux-gmp-cplx'."
-  (cl-assert (mmux-gmp-cplx-p obj))
-  (mmux-gmp-cplx-cget-Y (mmux-gmp-cplx-obj obj)))
+(cl-defstruct (mmux-gmp-mpq (:constructor make-mmux-gmp-mpq*))
+  obj)
+
+(defun make-mmux-gmp-mpq ()
+  "Build and return a new, uninitialised, mmux-gmp-mpq object."
+  (make-mmux-gmp-mpq* :obj (mmux-gmp-c-mpq-make)))
+
+;;; --------------------------------------------------------------------
+
+(cl-defstruct (mmux-gmp-mpf (:constructor make-mmux-gmp-mpf*))
+  obj)
+
+(defun make-mmux-gmp-mpf ()
+  "Build and return a new, uninitialised, mmux-gmp-mpf object."
+  (make-mmux-gmp-mpf* :obj (mmux-gmp-c-mpf-make)))
+
+
+;;;; integer functions: assignment
+
+(defun mpz-set (rop op)
+  "Assign the value of an mmux-gmp-mpz object to another mmux-gmp-mpz object."
+  (cl-assert (mmux-gmp-mpz-p rop))
+  (cl-assert (mmux-gmp-mpz-p op))
+  (mmux-gmp-c-mpz-set (mmux-gmp-mpz-obj rop) (mmux-gmp-mpz-obj op)))
+
+(defun mpz-set-si (rop op)
+  "Assign the value of an exact integer_t object to an mmux-gmp-mpz object."
+  (cl-assert (mmux-gmp-mpz-p rop))
+  (cl-assert (integerp op))
+  (mmux-gmp-c-mpz-set-si (mmux-gmp-mpz-obj rop) op))
+
+(defun mpz-set-d (rop op)
+  "Assign the value of a floating point object to an mmux-gmp-mpz object."
+  (cl-assert (mmux-gmp-mpz-p rop))
+  (cl-assert (floatp op))
+  (mmux-gmp-c-mpz-set-d (mmux-gmp-mpz-obj rop) op))
+
+(defun mpz-set-q (rop op)
+  "Assign the value of an mmux-gmp-mpq object to another mmux-gmp-mpz object."
+  (cl-assert (mmux-gmp-mpz-p rop))
+  (cl-assert (mmux-gmp-mpq-p op))
+  (mmux-gmp-c-mpz-set-q (mmux-gmp-mpz-obj rop) op))
+
+(defun mpz-set-f (rop op)
+  "Assign the value of an mmux-gmp-mpf object to another mmux-gmp-mpz object."
+  (cl-assert (mmux-gmp-mpz-p rop))
+  (cl-assert (mmux-gmp-mpf-p op))
+  (mmux-gmp-c-mpz-set-f (mmux-gmp-mpz-obj rop) op))
+
+(defun mpz-set-str (rop str base)
+  "Assign the value of a string object to another mmux-gmp-mpz object."
+  (cl-assert (mmux-gmp-mpz-p rop))
+  (cl-assert (stringp str))
+  (cl-assert (and (integerp base)
+		  (or (= 0 base)
+		      (<= 2 base 36))))
+  (mmux-gmp-c-mpz-set-str (mmux-gmp-mpz-obj rop) str base))
+
+(defun mpz-swap (op1 op2)
+  "Swap the values of two mmux-gmp-mpz objects."
+  (cl-assert (mmux-gmp-mpz-p op1))
+  (cl-assert (mmux-gmp-mpz-p op2))
+  (mmux-gmp-c-mpz-swap (mmux-gmp-mpz-obj op1) (mmux-gmp-mpz-obj op2)))
+
+
+;;;; integer functions: arithmetic
+
+(defun mmux-gmp-mpz-add (rop op1 op2)
+  "Add two mmux-gmp-mpz objects."
+  (cl-assert (mmux-gmp-mpz-p rop))
+  (cl-assert (mmux-gmp-mpz-p op1))
+  (cl-assert (mmux-gmp-mpz-p op2))
+  (mmux-gmp-mpz-cadd (mmux-gmp-mpz-obj rop) (mmux-gmp-mpz-obj op1) (mmux-gmp-mpz-obj op2)))
+
+
+;;;; integer functions: conversion
+
+(defun %base-p (N)
+  (and (integerp N)
+       (or (<= +2 N +36)
+	   (>= -2 N -36))))
+
+(defun mpz-get-str (base op)
+  "Convert an object of type mmux-gmp-mpz to a string."
+  (cl-assert (%base-p base))
+  (cl-assert (mmux-gmp-mpz-p op))
+  (mmux-gmp-c-mpz-get-str base (mmux-gmp-mpz-obj op)))
+
+
+;;;; done
 
 (provide 'mmux-emacs-gmp)
 

@@ -83,21 +83,8 @@ extern "C" {
  ** Headers.
  ** ----------------------------------------------------------------- */
 
-/* Enable latest POSIX features. */
-#define _POSIX_C_SOURCE		200809L
-
-#if 0
-#include <stdio.h>
-#include <stdlib.h>
-#include <stdbool.h>
-#include <stdint.h>
-#include <stddef.h> /* for offsetof() */
-#include <setjmp.h>
-#include <errno.h>
-#include <unistd.h>
-#endif
-
 #include <emacs-module.h>
+#include <gmp.h>
 
 
 /** --------------------------------------------------------------------
@@ -115,7 +102,7 @@ extern "C" {
 mmux_emacs_gmp_decl char const *	mmux_emacs_gmp_version_string		(void);
 mmux_emacs_gmp_decl int		mmux_emacs_gmp_version_interface_current	(void);
 mmux_emacs_gmp_decl int		mmux_emacs_gmp_version_interface_revision	(void);
-mmux_emacs_gmp_decl int		mmux_emacs_gmp_version_interface_age	(void);
+mmux_emacs_gmp_decl int		mmux_emacs_gmp_version_interface_age		(void);
 
 
 /** --------------------------------------------------------------------

@@ -22,15 +22,17 @@
 (require 'ert)
 (require 'mmux-emacs-gmp)
 
-(ert-deftest make-cplx ()
-  "Build a cplx object."
-  (should (mmux-gmp-make-cplx 1.0 2.0)))
+(ert-deftest make-mpz ()
+  "Build an mpz_t object."
+  (should (mmux-gmp-mpz-p (make-mmux-gmp-mpz))))
 
-(ert-deftest inspect-cplx ()
-  "Inspect a cplx object."
-  (let ((obj (mmux-gmp-make-cplx 1.0 2.0)))
-    (should (= 1.0 (mmux-gmp-get-X obj)))
-    (should (= 2.0 (mmux-gmp-get-Y obj)))))
+(ert-deftest make-mpq ()
+  "Build an mpq_t object."
+  (should (mmux-gmp-mpq-p (make-mmux-gmp-mpq))))
+
+(ert-deftest make-mpf ()
+  "Build an mpf_t object."
+  (should (mmux-gmp-mpf-p (make-mmux-gmp-mpf))))
 
 (ert-run-tests-batch-and-exit)
 

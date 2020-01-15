@@ -1,12 +1,12 @@
 /*
   Part of: MMUX Emacs GMP
-  Contents: usge examples for user-ptr elisp objects
+  Contents: user-ptr elisp objects wrapping GMP types
   Date: Jan 15, 2020
 
   Abstract
 
-	This module implements example functions  accessing and creating the user-ptr
-	elisp objects.
+	This module  implements functions accessing  and creating the  user-ptr elisp
+	objects wrapping the GMP data types.
 
   Copyright (C) 2020 Marco Maggi <mrc.mgg@gmail.com>
 
@@ -28,38 +28,29 @@
  ** ----------------------------------------------------------------- */
 
 #include "mmux-emacs-gmp-internals.h"
-#include <string.h>
 #include <stdlib.h>
 #include <errno.h>
+#include <string.h>
 
 
 /** --------------------------------------------------------------------
- ** Example functions.
+ ** Allocation functions: "mpz_t".
  ** ----------------------------------------------------------------- */
 
-typedef struct mmux_gmp_cplx_t	mmux_gmp_cplx_t;
-
-struct mmux_gmp_cplx_t {
-  double	X;
-  double	Y;
-};
-
 static void
-cplx_finalizer (void * obj)
+mmux_emacs_mpz_finalizer (void * obj)
 {
-  free(obj);
+  mpz_clear(obj);
 }
 
 static emacs_value
-Fmmux_gmp_cplx_cmake (emacs_env *env, ptrdiff_t nargs MMUX_EMACS_GMP_UNUSED,
-			   emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
+Fmmux_gmp_c_mpz_make (emacs_env *env, ptrdiff_t nargs MMUX_EMACS_GMP_UNUSED,
+		      emacs_value args[] MMUX_EMACS_GMP_UNUSED, void * data MMUX_EMACS_GMP_UNUSED)
 {
-  double		X = env->extract_float(env, args[0]);
-  double		Y = env->extract_float(env, args[1]);
-  mmux_gmp_cplx_t	* obj;
+  mpz_ptr	obj;
 
   errno = 0;
-  obj   = malloc(sizeof(mmux_gmp_cplx_t));
+  obj   = malloc(sizeof(__mpz_struct));
   if (NULL == obj) {
     char const		* errmsg = strerror(errno);
     emacs_value		Serrmsg = env->make_string(env, errmsg, strlen(errmsg));
@@ -71,28 +62,79 @@ Fmmux_gmp_cplx_cmake (emacs_env *env, ptrdiff_t nargs MMUX_EMACS_GMP_UNUSED,
     env->non_local_exit_signal(env, env->intern(env, "mmux-gmp-no-memory-error"), Serrmsg);
     return env->intern(env, "nil");
   } else {
-    obj->X = X;
-    obj->Y = Y;
-    return env->make_user_ptr(env, cplx_finalizer, obj);
+    mpz_init(obj);
+    return env->make_user_ptr(env, mmux_emacs_mpz_finalizer, obj);
   }
 }
 
-static emacs_value
-Fmmux_gmp_cplx_cget_X (emacs_env *env, ptrdiff_t nargs MMUX_EMACS_GMP_UNUSED,
-			    emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
-{
-  mmux_gmp_cplx_t	* obj = env->get_user_ptr(env, args[0]);
+
+/** --------------------------------------------------------------------
+ ** Allocation functions: "mpq_t".
+ ** ----------------------------------------------------------------- */
 
-  return env->make_float(env, obj->X);
+static void
+mmux_emacs_mpq_finalizer (void * obj)
+{
+  mpq_clear(obj);
 }
 
 static emacs_value
-Fmmux_gmp_cplx_cget_Y (emacs_env *env, ptrdiff_t nargs MMUX_EMACS_GMP_UNUSED,
-			    emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
+Fmmux_gmp_c_mpq_make (emacs_env *env, ptrdiff_t nargs MMUX_EMACS_GMP_UNUSED,
+		      emacs_value args[] MMUX_EMACS_GMP_UNUSED, void * data MMUX_EMACS_GMP_UNUSED)
 {
-  mmux_gmp_cplx_t	* obj = env->get_user_ptr(env, args[0]);
+  mpq_ptr	obj;
 
-  return env->make_float(env, obj->Y);
+  errno = 0;
+  obj   = malloc(sizeof(__mpq_struct));
+  if (NULL == obj) {
+    char const		* errmsg = strerror(errno);
+    emacs_value		Serrmsg = env->make_string(env, errmsg, strlen(errmsg));
+
+    /* Signal an error,  then immediately return.  In the "elisp"  Info file: see the
+       node "Standard Errors" for a list of  the standard error symbols; see the node
+       "Error Symbols"  for methods to define  error symbols.  (Marco Maggi;  Jan 14,
+       2020) */
+    env->non_local_exit_signal(env, env->intern(env, "mmux-gmp-no-memory-error"), Serrmsg);
+    return env->intern(env, "nil");
+  } else {
+    mpq_init(obj);
+    return env->make_user_ptr(env, mmux_emacs_mpq_finalizer, obj);
+  }
+}
+
+
+/** --------------------------------------------------------------------
+ ** Allocation functions: "mpf_t".
+ ** ----------------------------------------------------------------- */
+
+static void
+mmux_emacs_mpf_finalizer (void * obj)
+{
+  mpf_clear(obj);
+}
+
+static emacs_value
+Fmmux_gmp_c_mpf_make (emacs_env *env, ptrdiff_t nargs MMUX_EMACS_GMP_UNUSED,
+		      emacs_value args[] MMUX_EMACS_GMP_UNUSED, void * data MMUX_EMACS_GMP_UNUSED)
+{
+  mpf_ptr	obj;
+
+  errno = 0;
+  obj   = malloc(sizeof(__mpf_struct));
+  if (NULL == obj) {
+    char const		* errmsg = strerror(errno);
+    emacs_value		Serrmsg = env->make_string(env, errmsg, strlen(errmsg));
+
+    /* Signal an error,  then immediately return.  In the "elisp"  Info file: see the
+       node "Standard Errors" for a list of  the standard error symbols; see the node
+       "Error Symbols"  for methods to define  error symbols.  (Marco Maggi;  Jan 14,
+       2020) */
+    env->non_local_exit_signal(env, env->intern(env, "mmux-gmp-no-memory-error"), Serrmsg);
+    return env->intern(env, "nil");
+  } else {
+    mpf_init(obj);
+    return env->make_user_ptr(env, mmux_emacs_mpf_finalizer, obj);
+  }
 }
 
 
@@ -103,25 +145,25 @@ Fmmux_gmp_cplx_cget_Y (emacs_env *env, ptrdiff_t nargs MMUX_EMACS_GMP_UNUSED,
 #define NUMBER_OF_MODULE_FUNCTIONS	3
 static module_function_t const module_functions_table[NUMBER_OF_MODULE_FUNCTIONS] = {
   {
-    .name		= "mmux-gmp-cplx-cmake",
-    .implementation	= Fmmux_gmp_cplx_cmake,
-    .min_arity		= 2,
-    .max_arity		= 2,
-    .documentation	= "Build and return a new cplx object."
+    .name		= "mmux-gmp-c-mpz-make",
+    .implementation	= Fmmux_gmp_c_mpz_make,
+    .min_arity		= 0,
+    .max_arity		= 0,
+    .documentation	= "Build and return a new mmux-gmp-mpz object."
   },
   {
-    .name		= "mmux-gmp-cplx-cget-X",
-    .implementation	= Fmmux_gmp_cplx_cget_X,
-    .min_arity		= 1,
-    .max_arity		= 1,
-    .documentation	= "Return the X component of a cplx object."
+    .name		= "mmux-gmp-c-mpq-make",
+    .implementation	= Fmmux_gmp_c_mpq_make,
+    .min_arity		= 0,
+    .max_arity		= 0,
+    .documentation	= "Build and return a new mmux-gmp-mpq object."
   },
   {
-    .name		= "mmux-gmp-cplx-cget-Y",
-    .implementation	= Fmmux_gmp_cplx_cget_Y,
-    .min_arity		= 1,
-    .max_arity		= 1,
-    .documentation	= "Return the Y component of a cplx object."
+    .name		= "mmux-gmp-c-mpf-make",
+    .implementation	= Fmmux_gmp_c_mpf_make,
+    .min_arity		= 0,
+    .max_arity		= 0,
+    .documentation	= "Build and return a new mmux-gmp-mpf object."
   },
 };
 
@@ -131,9 +173,9 @@ static module_function_t const module_functions_table[NUMBER_OF_MODULE_FUNCTIONS
  ** ----------------------------------------------------------------- */
 
 void
-mmux_gmp_user_ptr_objects_init (emacs_env * env)
+mmux_emacs_gmp_user_pointer_objects_init (emacs_env * env)
 {
-  mmux_gmp_define_functions_from_table(env, module_functions_table, NUMBER_OF_MODULE_FUNCTIONS);
+  mmux_emacs_gmp_define_functions_from_table(env, module_functions_table, NUMBER_OF_MODULE_FUNCTIONS);
 }
 
 /* end of file */

@@ -108,12 +108,8 @@ PKG_PREREQ([0.29])
 PKG_INSTALLDIR
 MMUX_CHECK_PKG_CONFIG_MACROS
 
-dnl PKG_CHECK_MODULES([GSL],[gsl >= 1.16],[gsl=yes],[gsl=no])
-dnl GSL_CPPFLAGS=$(pkg-config gsl --cflags)
-dnl GSL_LDFLAGS=$(pkg-config gsl --libs)
-
-dnl AC_CHECK_HEADERS([gmp.h],,[AC_MSG_ERROR([Cannot find libgmp.])])
-dnl AC_CHECK_LIB([gmp],[__gmpn_add],,[AC_MSG_ERROR([Cannot find libgmp.])])
+AC_CHECK_HEADERS([gmp.h],,[AC_MSG_ERROR([Cannot find libgmp.])])
+AC_CHECK_LIB([gmp],[__gmpn_add],,[AC_MSG_ERROR([Cannot find libgmp.])])
 
 AC_CACHE_SAVE
 

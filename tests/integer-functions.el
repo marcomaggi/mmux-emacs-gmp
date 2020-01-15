@@ -22,20 +22,19 @@
 (require 'ert)
 (require 'mmux-emacs-gmp)
 
-(ert-deftest use-integer ()
-  "Use an integer."
-  (should (= +101 (mmux-gmp-use-integer +100)))
-  (should (= -320 (mmux-gmp-use-integer -321))))
+(ert-deftest mpz-set-si ()
+  "Assign an exact integer to an mmux-gmp-mpz object."
+  (let ((op (make-mmux-gmp-mpz)))
+    (mpz-set-si op 123)
+    (should (equal "123" (mpz-get-str 10 op)))))
 
-(ert-deftest use-float ()
-  "Use a float."
-  (should (= +101.0 (mmux-gmp-use-float +100.0)))
-  (should (= -320.0 (mmux-gmp-use-float -321.0))))
-
-(ert-deftest use-string ()
-  "Use a string."
-  (should (string= "" (mmux-gmp-use-string "")))
-  (should (string= "ciao mamma" (mmux-gmp-use-string "ciao mamma"))))
+(ert-deftest mpz-set ()
+  "Assign an mmux-gmp-mpz object to an mmux-gmp-mpz object."
+  (let ((op1 (make-mmux-gmp-mpz))
+	(op2 (make-mmux-gmp-mpz)))
+    (mpz-set-si op1 123)
+    (mpz-set    op2 op1)
+    (should (equal "123" (mpz-get-str 10 op2)))))
 
 (ert-run-tests-batch-and-exit)
 

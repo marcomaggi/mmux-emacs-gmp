@@ -34,6 +34,8 @@
 #  include <config.h>
 #endif
 #include "mmux-emacs-gmp.h"
+#include <assert.h>
+#include <stdio.h>
 
 
 /** --------------------------------------------------------------------
@@ -71,13 +73,13 @@ mmux_emacs_gmp_decl int  plugin_is_GPL_compatible;
  ** ----------------------------------------------------------------- */
 
 mmux_emacs_gmp_private_decl void
-mmux_gmp_define_functions_from_table (emacs_env * env, module_function_t const * module_functions, int number_of_module_functions);
+mmux_emacs_gmp_define_functions_from_table (emacs_env * env, module_function_t const * module_functions, int number_of_module_functions);
 
 mmux_emacs_gmp_private_decl void
-mmux_gmp_builtin_objects_init (emacs_env * env);
+mmux_emacs_gmp_user_pointer_objects_init (emacs_env * env);
 
 mmux_emacs_gmp_private_decl void
-mmux_gmp_user_ptr_objects_init (emacs_env * env);
+mmux_emacs_gmp_integer_functions_init (emacs_env * env);
 
 
 /** --------------------------------------------------------------------

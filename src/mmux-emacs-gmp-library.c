@@ -146,7 +146,7 @@ static module_function_t const module_functions_table[NUMBER_OF_MODULE_FUNCTIONS
  ** ----------------------------------------------------------------- */
 
 void
-mmux_gmp_define_functions_from_table (emacs_env * env, module_function_t const * module_functions, int number_of_module_functions)
+mmux_emacs_gmp_define_functions_from_table (emacs_env * env, module_function_t const * module_functions, int number_of_module_functions)
 {
   emacs_value	Qdefalias = env->intern(env, "defalias");
 
@@ -175,9 +175,9 @@ emacs_module_init (struct emacs_runtime *ert)
     if (env->size < (ptrdiff_t)sizeof(*env)) {
       return 2;
     } else {
-      mmux_gmp_define_functions_from_table(env, module_functions_table, NUMBER_OF_MODULE_FUNCTIONS);
-      mmux_gmp_builtin_objects_init(env);
-      mmux_gmp_user_ptr_objects_init(env);
+      mmux_emacs_gmp_define_functions_from_table(env, module_functions_table, NUMBER_OF_MODULE_FUNCTIONS);
+      mmux_emacs_gmp_user_pointer_objects_init(env);
+      mmux_emacs_gmp_integer_functions_init(env);
       return 0;
     }
   }

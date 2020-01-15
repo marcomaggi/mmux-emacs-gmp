@@ -41,11 +41,11 @@ libmmux_emacs_gmp_la_CPPFLAGS	= $(AM_CPPFLAGS)
 libmmux_emacs_gmp_la_CFLAGS	= $(AM_CFLAGS)
 libmmux_emacs_gmp_la_LDFLAGS	= $(mmux_emacs_gmp_LINKER_VERSION) $(AM_LDFLAGS)
 libmmux_emacs_gmp_la_SOURCES	= \
-	src/mmux-emacs-gmp.h			\
-	src/mmux-emacs-gmp-internals.h		\
-	src/mmux-emacs-gmp-library.c		\
-	src/mmux-emacs-gmp-builtin-objects.c	\
-	src/mmux-emacs-gmp-user-pointer-objects.c
+	src/mmux-emacs-gmp.h				\
+	src/mmux-emacs-gmp-internals.h			\
+	src/mmux-emacs-gmp-library.c			\
+	src/mmux-emacs-gmp-user-pointer-objects.c	\
+	src/mmux-emacs-gmp-integer-functions.c
 
 
 #### Emacs code
@@ -63,8 +63,8 @@ src/mmux-emacs-gmp.elc: libmmux-emacs-gmp.la
 
 MMUX_EMACS_GMP_TESTS = \
 	tests/version.el		\
-	tests/builtin-objects-use.el	\
-	tests/user-pointer-objects.el
+	tests/user-pointer-objects.el	\
+	tests/integer-functions.el
 
 EXTRA_DIST	+= $(MMUX_EMACS_GMP_TESTS)
 TESTS		 = $(MMUX_EMACS_GMP_TESTS)
