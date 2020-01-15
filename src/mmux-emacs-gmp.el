@@ -4,7 +4,7 @@
 
 ;; Author: Marco Maggi <mrc.mgg@gmail.com>
 ;; Created: Jan 15, 2020
-;; Time-stamp: <2020-01-15 16:23:47 marco>
+;; Time-stamp: <2020-01-15 16:25:26 marco>
 ;; Keywords: extensions
 
 ;; This file is part of MMUX Emacs GMP.
@@ -113,7 +113,7 @@
   (cl-assert (mmux-gmp-mpz-p rop))
   (cl-assert (stringp str))
   (cl-assert (and (integerp base)
-		  (or (= 0 base)
+		  (or (zerop base)
 		      (<= 2 base 36))))
   (mmux-gmp-c-mpz-set-str (mmux-gmp-mpz-obj rop) str base))
 
@@ -136,14 +136,11 @@
 
 ;;;; integer functions: conversion
 
-(defun %base-p (N)
-  (and (integerp N)
-       (or (<= +2 N +36)
-	   (>= -2 N -36))))
-
 (defun mpz-get-str (base op)
   "Convert an object of type mmux-gmp-mpz to a string."
-  (cl-assert (%base-p base))
+  (cl-assert (and (integerp base)
+		  (or (<= +2 base +36)
+		      (>= -2 base -36))))
   (cl-assert (mmux-gmp-mpz-p op))
   (mmux-gmp-c-mpz-get-str base (mmux-gmp-mpz-obj op)))
 
