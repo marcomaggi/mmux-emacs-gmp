@@ -67,10 +67,6 @@
 @xref{\NODE\,\TITLE\,\TITLE\,gmp}
 @end macro
 
-@macro gmp{}
-@acronym{gmp}
-@end macro
-
 @c page
 @c ------------------------------------------------------------
 @c Copyright notice.
