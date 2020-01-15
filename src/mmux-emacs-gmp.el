@@ -4,7 +4,7 @@
 
 ;; Author: Marco Maggi <mrc.mgg@gmail.com>
 ;; Created: Jan 15, 2020
-;; Time-stamp: <2020-01-15 16:16:44 marco>
+;; Time-stamp: <2020-01-15 16:23:47 marco>
 ;; Keywords: extensions
 
 ;; This file is part of MMUX Emacs GMP.
@@ -32,6 +32,8 @@
 ;;; Code:
 
 (require 'cl-lib)
+(eval-when-compile
+  (load "libmmux-emacs-gmp"))
 (load "libmmux-emacs-gmp")
 
 
@@ -129,7 +131,7 @@
   (cl-assert (mmux-gmp-mpz-p rop))
   (cl-assert (mmux-gmp-mpz-p op1))
   (cl-assert (mmux-gmp-mpz-p op2))
-  (mmux-gmp-mpz-cadd (mmux-gmp-mpz-obj rop) (mmux-gmp-mpz-obj op1) (mmux-gmp-mpz-obj op2)))
+  (mmux-gmp-c-mpz-add (mmux-gmp-mpz-obj rop) (mmux-gmp-mpz-obj op1) (mmux-gmp-mpz-obj op2)))
 
 
 ;;;; integer functions: conversion
