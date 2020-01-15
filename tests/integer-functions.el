@@ -36,6 +36,20 @@
     (mpz-set    op2 op1)
     (should (equal "123" (mpz-get-str 10 op2)))))
 
+
+;;;; conversion functions
+
+(ert-deftest mpz-get-str ()
+  "Conversion to string."
+  (let ((op (make-mmux-gmp-mpz)))
+    (mpz-set-si op 15)
+    (should (equal "15" (mpz-get-str 10 op)))
+    (should (equal "f"  (mpz-get-str 16 op)))
+    (should (equal "F"  (mpz-get-str -16 op)))))
+
+
+;;;; done
+
 (ert-run-tests-batch-and-exit)
 
 ;;; test.el ends here
