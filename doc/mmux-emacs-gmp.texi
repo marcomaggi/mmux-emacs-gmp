@@ -150,6 +150,8 @@ included in the section entitled ``@gnu{} Free Documentation License''.
 * overview::                    Overview of the package.
 * version::                     Version functions.
 * integers::                    Exact integer objects and operations.
+* rationals::                   Rational number objects and operations.
+* floats::                      Floating-point number objects and operations.
 
 Appendices
 
@@ -344,7 +346,7 @@ Assign the value of an exact integer object to an @objtype{mmux-gmp-mpz} object.
 
 
 @defun mpz-set-d @var{rop} @var{flo}
-Assign the value of a floating point object to an @objtype{mmux-gmp-mpz} object.
+Assign the value of a floating--point object to an @objtype{mmux-gmp-mpz} object.
 
 @lisp
 (defconst rop (make-mmux-gmp-mpz))
@@ -408,6 +410,191 @@ positive between @math{2} and @math{36} or negative between @math{-2} and @math{
   (mpz-get-str  16 op)      @result{} "f"
   (mpz-get-str -16 op)      @result{} "F"
   )
+@end lisp
+@end defun
+
+@c page
+@node rationals
+@chapter Rational number objects and operations
+
+
+@deftp {Object Type} mmux-gmp-mpq
+Type of structures representing a multiple precision rational numbers.  It is a wrapper for the
+@objtype{mpq_t} object.  These objects, and their internal representation, are correctly garbage
+collected.
+@end deftp
+
+
+@menu
+* rationals allocation::        Allocating rational numbers.
+* rationals predicates::        Rational number predicates.
+* rationals assignment::        Assigning values to rational
+                                number objects.
+* rationals conversion::        Converting rational numbers to
+                                other objects.
+@end menu
+
+@c page
+@node rationals allocation
+@section Allocating rational numbers
+
+
+@defun make-mmux-gmp-mpq
+Build and return a new @objtype{mmux-gmp-mpq} object instance.  When called with no arguments: the
+object is uninitialised.
+@end defun
+
+@c page
+@node rationals predicates
+@section Rational number predicates
+
+
+
+@defun mmux-gmp-mpq-p @var{obj}
+Return true if @var{obj} is an instance of @objtype{mmux-gmp-mpq}; otherwise return false.
+
+@lisp
+(mmux-gmp-mpq-p (make-mmux-gmp-mpq))    @result{} t
+(mmux-gmp-mpq-p 123)                    @result{} nil
+@end lisp
+@end defun
+
+@c page
+@node rationals assignment
+@section Assigning values to rational number objects
+
+
+@defun mpq-set @var{rop} @var{op}
+Assign the value of @var{op} to @var{rop}; both the operands must be of type @objtype{mmux-gmp-mpq}.
+@end defun
+
+
+@defun mpq-set @var{rop} @var{op}
+Assign the value of @var{op} to @var{rop}; both the operands must be of type @objtype{mmux-gmp-mpq}.
+@end defun
+
+@c page
+@node rationals conversion
+@section Converting rational numbers to other objects
+
+@c page
+@node floats
+@chapter Floating-point number objects and operations
+
+
+@deftp {Object Type} mmux-gmp-mpf
+Type of structures representing a multiple precision floating--point numbers.  It is a wrapper for
+the @objtype{mpf_t} object.  These objects, and their internal representation, are correctly garbage
+collected.
+@end deftp
+
+
+@menu
+* floats allocation::           Allocating floating-point numbers.
+* floats predicates::           Floating-point number predicates.
+* floats assignment::           Assigning values to floating-point
+                                number objects.
+* floats conversion::           Converting floating-point numbers to
+                                other objects.
+@end menu
+
+@c page
+@node floats allocation
+@section Allocating floating--point numbers
+
+
+@defun make-mmux-gmp-mpf
+Build and return a new @objtype{mmux-gmp-mpf} object instance.  When called with no arguments: the
+object is uninitialised.
+@end defun
+
+@c page
+@node floats predicates
+@section Floating--point number predicates
+
+
+@defun mmux-gmp-mpf-p @var{obj}
+Return true if @var{obj} is an instance of @objtype{mmux-gmp-mpf}; otherwise return false.
+
+@lisp
+(mmux-gmp-mpf-p (make-mmux-gmp-mpf))    @result{} t
+(mmux-gmp-mpf-p 123)                    @result{} nil
+@end lisp
+@end defun
+
+@c page
+@node floats assignment
+@section Assigning values to floating--point number objects
+
+
+@defun mpf-set @var{rop} @var{op}
+Assign the value of @var{op} to @var{rop}; both the operands must be of type @objtype{mmux-gmp-mpf}.
+
+@lisp
+@end lisp
+@end defun
+
+
+@defun mpf-set-si @var{rop} @var{int}
+Assign the value of an exact integer object to an @objtype{mmux-gmp-mpf} object.
+
+@lisp
+@end lisp
+@end defun
+
+
+@defun mpf-set-d @var{rop} @var{flo}
+Assign the value of a floating--point object to an @objtype{mmux-gmp-mpf} object.
+
+@lisp
+@end lisp
+@end defun
+
+
+@defun mpf-set-z @var{rop} @var{op}
+Assign the value of an @objtype{mmux-gmp-mpz} object to an @objtype{mmux-gmp-mpf} object.
+
+@lisp
+@end lisp
+@end defun
+
+
+@defun mpf-set-q @var{rop} @var{op}
+Assign the value of an @objtype{mmux-gmp-mpq} object to an @objtype{mmux-gmp-mpf} object.
+
+@lisp
+@end lisp
+@end defun
+
+
+@defun mpf-set-str @var{rop} @var{str} @var{base}
+Assign the value of a string object to an @objtype{mmux-gmp-mpf} object.  The argument @var{base}
+must be an exact integer representing the base of the numeric string representation: a positive
+value between @math{2} and @math{62} or a negative value between @math{-2} and @math{-62}.
+
+@lisp
+@end lisp
+@end defun
+
+
+@defun mpf-swap @vari{op} @varii{op}
+Swap the values between two @objtype{mmux-gmp-mpf} objects.
+
+@lisp
+@end lisp
+@end defun
+
+@c page
+@node floats conversion
+@section Converting floating--point numbers to other objects
+
+
+@defun mpf-get-str @var{base} @var{op}
+Convert an object @var{op} of type @objtype{mmux-gmp-mpf} to a string; return the resulting string.
+@var{base} must be an exact integer representing the base of the numeric string representation:
+positive between @math{+2} and @math{+62} or negative between @math{-2} and @math{-36}.
+
+@lisp
 @end lisp
 @end defun
 

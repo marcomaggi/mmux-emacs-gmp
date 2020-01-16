@@ -57,6 +57,17 @@ Fmmux_gmp_c_mpz_set_si (emacs_env *env, ptrdiff_t nargs, emacs_value args[], voi
 }
 
 static emacs_value
+Fmmux_gmp_c_mpz_set_ui (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
+{
+  assert(2 == nargs);
+  mpz_ptr	rop = env->get_user_ptr(env, args[0]);
+  intmax_t	op  = env->extract_integer(env, args[1]);
+
+  mpz_set_ui(rop, (unsigned long int)op);
+  return env->intern(env, "nil");
+}
+
+static emacs_value
 Fmmux_gmp_c_mpz_set_d (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
 {
   assert(2 == nargs);
@@ -173,7 +184,7 @@ Fmmux_gmp_c_mpz_get_str (emacs_env *env, ptrdiff_t nargs MMUX_EMACS_GMP_UNUSED,
  ** Elisp functions table.
  ** ----------------------------------------------------------------- */
 
-#define NUMBER_OF_MODULE_FUNCTIONS	9
+#define NUMBER_OF_MODULE_FUNCTIONS	10
 static module_function_t const module_functions_table[NUMBER_OF_MODULE_FUNCTIONS] = {
   /* Assignment function. */
   {
@@ -181,49 +192,56 @@ static module_function_t const module_functions_table[NUMBER_OF_MODULE_FUNCTIONS
     .implementation	= Fmmux_gmp_c_mpz_set,
     .min_arity		= 2,
     .max_arity		= 2,
-    .documentation	= "Assign the value of an mmux-gmp-mpz object to another mmux-gmp-mpz object."
+    .documentation	= "Assign the value of an `mmux-gmp-mpz' object to another `mmux-gmp-mpz' object."
   },
   {
     .name		= "mmux-gmp-c-mpz-set-si",
     .implementation	= Fmmux_gmp_c_mpz_set_si,
     .min_arity		= 2,
     .max_arity		= 2,
-    .documentation	= "Assign the value of a signed integer to an mmux-gmp-mpz object."
+    .documentation	= "Assign the value of a signed integer to an `mmux-gmp-mpz' object."
+  },
+  {
+    .name		= "mmux-gmp-c-mpz-set-ui",
+    .implementation	= Fmmux_gmp_c_mpz_set_ui,
+    .min_arity		= 2,
+    .max_arity		= 2,
+    .documentation	= "Assign the value of an unsigned integer to an `mmux-gmp-mpz' object."
   },
   {
     .name		= "mmux-gmp-c-mpz-set-d",
     .implementation	= Fmmux_gmp_c_mpz_set_d,
     .min_arity		= 2,
     .max_arity		= 2,
-    .documentation	= "Assign the value of floating point object to an mmux-gmp-mpz object."
+    .documentation	= "Assign the value of floating-point object to an `mmux-gmp-mpz' object."
   },
   {
     .name		= "mmux-gmp-c-mpz-set-q",
     .implementation	= Fmmux_gmp_c_mpz_set_q,
     .min_arity		= 2,
     .max_arity		= 2,
-    .documentation	= "Assign the value of an mmux-gmp-mpq object to an mmux-gmp-mpz object."
+    .documentation	= "Assign the value of an `mmux-gmp-mpq' object to an `mmux-gmp-mpz' object."
   },
   {
     .name		= "mmux-gmp-c-mpz-set-f",
     .implementation	= Fmmux_gmp_c_mpz_set_f,
     .min_arity		= 2,
     .max_arity		= 2,
-    .documentation	= "Assign the value of an mmux-gmp-mpf object to an mmux-gmp-mpz object."
+    .documentation	= "Assign the value of an `mmux-gmp-mpf' object to an `mmux-gmp-mpz' object."
   },
   {
     .name		= "mmux-gmp-c-mpz-set-str",
     .implementation	= Fmmux_gmp_c_mpz_set_str,
     .min_arity		= 3,
     .max_arity		= 3,
-    .documentation	= "Assign the value of an string object to an mmux-gmp-mpz object."
+    .documentation	= "Assign the value of a string object to an `mmux-gmp-mpz' object."
   },
   {
     .name		= "mmux-gmp-c-mpz-swap",
     .implementation	= Fmmux_gmp_c_mpz_swap,
     .min_arity		= 2,
     .max_arity		= 2,
-    .documentation	= "Swap the values of two mmux-gmp-mpz objects."
+    .documentation	= "Swap the values of two `mmux-gmp-mpz' objects."
   },
 
 
@@ -233,7 +251,7 @@ static module_function_t const module_functions_table[NUMBER_OF_MODULE_FUNCTIONS
     .implementation	= Fmmux_gmp_c_mpz_add,
     .min_arity		= 3,
     .max_arity		= 3,
-    .documentation	= "Add two mmux-gmp-mpz objects."
+    .documentation	= "Add two `mmux-gmp-mpz' objects."
   },
 
   /* Conversion functions */
@@ -242,7 +260,7 @@ static module_function_t const module_functions_table[NUMBER_OF_MODULE_FUNCTIONS
     .implementation	= Fmmux_gmp_c_mpz_get_str,
     .min_arity		= 2,
     .max_arity		= 2,
-    .documentation	= "Convert an mmux-gmp-mpz object to a string."
+    .documentation	= "Convert an `mmux-gmp-mpz' object to a string."
   },
 };
 
@@ -252,7 +270,7 @@ static module_function_t const module_functions_table[NUMBER_OF_MODULE_FUNCTIONS
  ** ----------------------------------------------------------------- */
 
 void
-mmux_emacs_gmp_integer_functions_init (emacs_env * env)
+mmux_emacs_gmp_integer_number_functions_init (emacs_env * env)
 {
   mmux_emacs_gmp_define_functions_from_table(env, module_functions_table, NUMBER_OF_MODULE_FUNCTIONS);
 }

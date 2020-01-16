@@ -1,4 +1,4 @@
-;;; builtin-objects-use.el --- dynamic module test
+;;; integer-numbers.el --- dynamic module test
 
 ;; Copyright (C) 2020 by Marco Maggi
 
@@ -34,10 +34,35 @@
     (should (equal "123" (mpz-get-str 10 op)))))
 
 (ert-deftest mpz-set-si ()
-  "Assign an exact integer to an `mmux-gmp-mpz' object."
+  "Assign a signed exact integer to an `mmux-gmp-mpz' object."
+  (should (equal "123" (let ((rop (make-mmux-gmp-mpz)))
+			 (mpz-set-si rop 123)
+			 (mpz-get-str 10 rop))))
+  (should (equal "-123" (let ((rop (make-mmux-gmp-mpz)))
+			  (mpz-set-si rop -123)
+			  (mpz-get-str 10 rop)))))
+
+(ert-deftest mpz-set-ui ()
+  "Assign an unsigned exact integer to an `mmux-gmp-mpz' object."
   (let ((rop (make-mmux-gmp-mpz)))
-    (mpz-set-si rop 123)
+    (mpz-set-ui rop 123)
     (should (equal "123" (mpz-get-str 10 rop)))))
+
+(ert-deftest mpz-set-q ()
+  "Assign an `mmux-gmp-mpq' object to an `mmux-gmp-mpz' object."
+  (let ((rop (make-mmux-gmp-mpz))
+	(op  (make-mmux-gmp-mpq)))
+    (mpq-set-si op 10 7)
+    (mpz-set-q rop op)
+    (should (equal "1" (mpz-get-str 10 rop)))))
+
+(ert-deftest mpz-set-f ()
+  "Assign an `mmux-gmp-mpf' object to an `mmux-gmp-mpz' object."
+  (let ((rop (make-mmux-gmp-mpz))
+	(op  (make-mmux-gmp-mpf)))
+    (mpf-set-d op 12.34)
+    (mpz-set-f rop op)
+    (should (equal "12" (mpz-get-str 10 rop)))))
 
 (ert-deftest mpz-set-d ()
   "Assign a floating point to an `mmux-gmp-mpz' object."

@@ -177,7 +177,9 @@ emacs_module_init (struct emacs_runtime *ert)
     } else {
       mmux_emacs_gmp_define_functions_from_table(env, module_functions_table, NUMBER_OF_MODULE_FUNCTIONS);
       mmux_emacs_gmp_user_pointer_objects_init(env);
-      mmux_emacs_gmp_integer_functions_init(env);
+      mmux_emacs_gmp_integer_number_functions_init(env);
+      mmux_emacs_gmp_rational_number_functions_init(env);
+      mmux_emacs_gmp_floating_point_number_functions_init(env);
       return 0;
     }
   }

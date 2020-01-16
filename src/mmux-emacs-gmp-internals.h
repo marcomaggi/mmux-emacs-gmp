@@ -79,7 +79,13 @@ mmux_emacs_gmp_private_decl void
 mmux_emacs_gmp_user_pointer_objects_init (emacs_env * env);
 
 mmux_emacs_gmp_private_decl void
-mmux_emacs_gmp_integer_functions_init (emacs_env * env);
+mmux_emacs_gmp_integer_number_functions_init (emacs_env * env);
+
+mmux_emacs_gmp_private_decl void
+mmux_emacs_gmp_rational_number_functions_init (emacs_env * env);
+
+mmux_emacs_gmp_private_decl void
+mmux_emacs_gmp_floating_point_number_functions_init (emacs_env * env);
 
 
 /** --------------------------------------------------------------------
