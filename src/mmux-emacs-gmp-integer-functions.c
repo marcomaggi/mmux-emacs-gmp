@@ -92,19 +92,29 @@ Fmmux_gmp_c_mpz_set_f (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void
 static emacs_value
 Fmmux_gmp_c_mpz_set_str (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
 {
-  assert(2 == nargs);
+  assert(3 == nargs);
   mpz_ptr	rop  = env->get_user_ptr    (env, args[0]);
   intmax_t	base = env->extract_integer (env, args[2]);
   ptrdiff_t	len  = 0;
 
   env->copy_string_contents(env, args[1], NULL, &len);
-  {
+  if (len <= 4096) {
     char	buf[len];
     int		rv;
 
     env->copy_string_contents(env, args[1], buf, &len);
     rv = mpz_set_str(rop, buf, (int)base);
     return env->make_integer(env, rv);
+  } else {
+    char const *	errmsg  = "input string exceeds maximum length";
+    emacs_value		Serrmsg = env->make_string(env, errmsg, strlen(errmsg));
+
+    /* Signal an error,  then immediately return.  In the "elisp"  Info file: see the
+       node "Standard Errors" for a list of  the standard error symbols; see the node
+       "Error Symbols"  for methods to define  error symbols.  (Marco Maggi;  Jan 14,
+       2020) */
+    env->non_local_exit_signal(env, env->intern(env, "mmux-gmp-string-too-long"), Serrmsg);
+    return env->intern(env, "nil");
   }
 }
 

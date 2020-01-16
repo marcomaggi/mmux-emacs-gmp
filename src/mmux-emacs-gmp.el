@@ -4,7 +4,7 @@
 
 ;; Author: Marco Maggi <mrc.mgg@gmail.com>
 ;; Created: Jan 15, 2020
-;; Time-stamp: <2020-01-15 16:25:26 marco>
+;; Time-stamp: <2020-01-16 06:30:16 marco>
 ;; Keywords: extensions
 
 ;; This file is part of MMUX Emacs GMP.
@@ -47,6 +47,10 @@
   "Error allocating memory."
   'mmux-gmp-error)
 
+(define-error 'mmux-gmp-string-too-long
+  "String exceeds maximum length."
+  'mmux-gmp-error)
+
 
 ;;;; user-ptr object wrappers
 
@@ -85,7 +89,7 @@
   (mmux-gmp-c-mpz-set (mmux-gmp-mpz-obj rop) (mmux-gmp-mpz-obj op)))
 
 (defun mpz-set-si (rop op)
-  "Assign the value of an exact integer_t object to an mmux-gmp-mpz object."
+  "Assign the value of an exact integer object to an mmux-gmp-mpz object."
   (cl-assert (mmux-gmp-mpz-p rop))
   (cl-assert (integerp op))
   (mmux-gmp-c-mpz-set-si (mmux-gmp-mpz-obj rop) op))
@@ -97,19 +101,19 @@
   (mmux-gmp-c-mpz-set-d (mmux-gmp-mpz-obj rop) op))
 
 (defun mpz-set-q (rop op)
-  "Assign the value of an mmux-gmp-mpq object to another mmux-gmp-mpz object."
+  "Assign the value of an mmux-gmp-mpq object to an mmux-gmp-mpz object."
   (cl-assert (mmux-gmp-mpz-p rop))
   (cl-assert (mmux-gmp-mpq-p op))
   (mmux-gmp-c-mpz-set-q (mmux-gmp-mpz-obj rop) op))
 
 (defun mpz-set-f (rop op)
-  "Assign the value of an mmux-gmp-mpf object to another mmux-gmp-mpz object."
+  "Assign the value of an mmux-gmp-mpf object to an mmux-gmp-mpz object."
   (cl-assert (mmux-gmp-mpz-p rop))
   (cl-assert (mmux-gmp-mpf-p op))
   (mmux-gmp-c-mpz-set-f (mmux-gmp-mpz-obj rop) op))
 
 (defun mpz-set-str (rop str base)
-  "Assign the value of a string object to another mmux-gmp-mpz object."
+  "Assign the value of a string object to an mmux-gmp-mpz object."
   (cl-assert (mmux-gmp-mpz-p rop))
   (cl-assert (stringp str))
   (cl-assert (and (integerp base)

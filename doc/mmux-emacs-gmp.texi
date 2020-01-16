@@ -319,11 +319,77 @@ Return true if @var{obj} is an instance of @objtype{mmux-gmp-mpz}; otherwise ret
 @section Assigning values to objects
 
 
-@defun mpz-set @vari{op} @varii{op}
-Assign the value of @varii{op} to @vari{op}; both the operands must be of type
-@objtype{mmux-gmp-mpz}.
+@defun mpz-set @var{rop} @var{op}
+Assign the value of @var{op} to @var{rop}; both the operands must be of type @objtype{mmux-gmp-mpz}.
+
+@lisp
+(defconst rop (make-mmux-gmp-mpz))
+(defconst op  (make-mmux-gmp-mpz))
+(mpz-set-si rop 123)
+(mpz-set    op rop)
+(mpz-get-str 10 op)     @result{} "123"
+@end lisp
 @end defun
 
+
+@defun mpz-set-si @var{rop} @var{int}
+Assign the value of an exact integer object to an @objtype{mmux-gmp-mpz} object.
+
+@lisp
+(defconst rop (make-mmux-gmp-mpz))
+(mpz-set-si rop 123)
+(mpz-get-str 10 op)     @result{} "123"
+@end lisp
+@end defun
+
+
+@defun mpz-set-d @var{rop} @var{flo}
+Assign the value of a floating point object to an @objtype{mmux-gmp-mpz} object.
+
+@lisp
+(defconst rop (make-mmux-gmp-mpz))
+(mpz-set-d rop 12.3)
+(mpz-get-str 10 rop)    @result{} "12"
+@end lisp
+@end defun
+
+
+@defun mpz-set-q @var{rop} @var{op}
+Assign the value of an @objtype{mmux-gmp-mpq} object to an @objtype{mmux-gmp-mpz} object.
+@end defun
+
+
+@defun mpz-set-f @var{rop} @var{op}
+Assign the value of an @objtype{mmux-gmp-mpf} object to an @objtype{mmux-gmp-mpz} object.
+@end defun
+
+
+@defun mpz-set-str @var{rop} @var{str} @var{base}
+Assign the value of a string object to an @objtype{mmux-gmp-mpz} object.  The argument @var{base}
+must be an exact integer representing the base of the numeric string representation: @math{0} or a
+value between @math{2} and @math{32}.
+
+@lisp
+(defconst rop (make-mmux-gmp-mpz))
+(mpz-set-str rop "123" 10)
+(mpz-get-str 10 rop)    @result{} "123"
+@end lisp
+@end defun
+
+
+@defun mpz-swap @vari{op} @varii{op}
+Swap the values between two @objtype{mmux-gmp-mpz} objects.
+
+@lisp
+(defconst op1 (make-mmux-gmp-mpz))
+(defconst op2 (make-mmux-gmp-mpz))
+(mpz-set-si op1 123)
+(mpz-set-si op2 456)
+(mpz-swap op1 op2)
+(mpz-get-str 10 op1)  @result{} "456"
+(mpz-get-str 10 op2)  @result{} "123"
+@end lisp
+@end defun
 
 @c page
 @node integers conversion
