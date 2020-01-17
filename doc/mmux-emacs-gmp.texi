@@ -676,6 +676,10 @@ and as backup at:
 
 @center @value{BitbucketUrl}
 
+We can find @gmp{} here:
+
+@center @url{https://gmplib.org/}
+
 We can found informations and examples about Emacs modules at the repository mirror, under the
 @file{modules} directory:
 

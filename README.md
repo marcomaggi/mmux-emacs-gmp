@@ -185,6 +185,10 @@ the GNU Project software can be found here:
 
 [http://www.gnu.org/](http://www.gnu.org/)
 
+we can find GMP here:
+
+[https://gmplib.org/](https://gmplib.org/)
+
 ## Badges and static analysis
 
 ### Travis CI
