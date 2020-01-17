@@ -153,6 +153,7 @@ included in the section entitled ``@gnu{} Free Documentation License''.
 * integers::                    Exact integer objects and operations.
 * rationals::                   Rational number objects and operations.
 * floats::                      Floating-point number objects and operations.
+* errors::                      How errors are signalled.
 
 Appendices
 
@@ -643,6 +644,32 @@ positive between @math{+2} and @math{+62} or negative between @math{-2} and @mat
 @lisp
 @end lisp
 @end defun
+
+@c page
+@node errors
+@chapter How errors are signalled
+
+
+Occasionally the functions in @value{PACKAGE} signal an error; the following error symbols are
+defined.
+
+
+@defvr {Error Symbol} mmux-gmp-error
+The base type of all the error symbols.
+@end defvr
+
+
+@defvr {Error Symbol} mmux-gmp-no-memory-error
+@defvrx {Parent Error Symbol} mmux-gmp-error
+Used to signal that there was not enough memory to allocate an object.
+@end defvr
+
+
+@defvr {Error Symbol} mmux-gmp-string-too-long
+@defvrx {Parent Error Symbol} mmux-gmp-error
+Used to signal that a string argument is to long to be processed.  As example, this may happen when
+converting strings to and from elisp objects.
+@end defvr
 
 @c page
 @c ------------------------------------------------------------
