@@ -23,6 +23,25 @@
 (require 'mmux-emacs-gmp)
 
 
+;;;; allocation functions
+
+(ert-deftest mpz-1 ()
+  "Build an `mpz' object: integer init values."
+  (should (equal "123" (let ((op (mpz 123)))
+			 (mpz-get-str 10 op)))))
+
+(ert-deftest mpz-2 ()
+  "Build an `mpz' object: floating-point init value."
+  (should (equal "1"
+		 (let ((op (mpz 1.2)))
+		   (mpz-get-str 10 op)))))
+
+(ert-deftest mpz-3 ()
+  "Build an `mpz' object: no init values."
+  (should (equal "0" (let ((op (mpz)))
+		       (mpz-get-str 10 op)))))
+
+
 ;;;; assignment functions
 
 (ert-deftest mpz-set ()

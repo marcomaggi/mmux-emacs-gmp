@@ -136,6 +136,7 @@ Fmmux_gmp_c_mpf_make (emacs_env *env, ptrdiff_t nargs MMUX_EMACS_GMP_UNUSED,
     return env->intern(env, "nil");
   } else {
     mpf_init(obj);
+    mpf_set_ui(obj, 0);
     return env->make_user_ptr(env, mmux_emacs_mpf_finalizer, obj);
   }
 }

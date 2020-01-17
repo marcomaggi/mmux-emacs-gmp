@@ -23,6 +23,27 @@
 (require 'mmux-emacs-gmp)
 
 
+;;;; allocation functions
+
+(ert-deftest mpf-1 ()
+  "Build an `mpf' object: integer init values."
+  (should (equal "+0.123e+3"
+		 (let ((op (mpf 123)))
+		   (mpf-get-str* 10 5 op)))))
+
+(ert-deftest mpf-2 ()
+  "Build an `mpf' object: floating-point init value."
+  (should (equal "+0.12e+1"
+		 (let ((op (mpf 1.2)))
+		   (mpf-get-str* 10 5 op)))))
+
+(ert-deftest mpf-3 ()
+  "Build an `mpf' object: no init values."
+  (should (equal "0.0"
+		 (let ((op (mpf)))
+		   (mpf-get-str* 10 5 op)))))
+
+
 ;;;; assignment functions
 
 (ert-deftest mpf-set ()

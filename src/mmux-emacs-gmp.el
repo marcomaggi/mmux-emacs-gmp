@@ -4,7 +4,7 @@
 
 ;; Author: Marco Maggi <mrc.mgg@gmail.com>
 ;; Created: Jan 15, 2020
-;; Time-stamp: <2020-01-17 11:36:21 marco>
+;; Time-stamp: <2020-01-17 11:53:04 marco>
 ;; Keywords: extensions
 
 ;; This file is part of MMUX Emacs GMP.
@@ -364,15 +364,17 @@
   "Convert an object of type `mpf' to a formatted string."
   (let* ((rv		(mpf-get-str base ndigits op))
 	 (mantissa.str	(car rv))
-	 (exponent	(cdr rv))
-	 (negative?	(string= "-" (substring mantissa.str 0 1))))
-    (format "%s0.%se%s%d"
-	    (if negative? "-" "+")
-	    (if negative? (substring mantissa.str 1) mantissa.str)
-	    (cond ((< 0 exponent)	"+")
-		  ((> 0 exponent)	"-")
-		  (t			""))
-	    (abs exponent))))
+	 (exponent	(cdr rv)))
+    (if (string= "" mantissa.str)
+	"0.0"
+      (let ((negative?	(if (string= "-" (substring mantissa.str 0 1)) t nil)))
+	(format "%s0.%se%s%d"
+		(if negative? "-" "+")
+		(if negative? (substring mantissa.str 1) mantissa.str)
+		(cond ((< 0 exponent)	"+")
+		      ((> 0 exponent)	"-")
+		      (t		""))
+		(abs exponent))))))
 
 
 ;;;; done

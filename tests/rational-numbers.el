@@ -25,16 +25,21 @@
 
 ;;;; allocation functions
 
-(ert-deftest mpq ()
+(ert-deftest mpq-1 ()
   "Build an `mpq' object: integer init values."
   (should (equal "3/4" (let ((op (mpq 3 4)))
 			 (mpq-get-str 10 op)))))
 
-(ert-deftest mpq ()
+(ert-deftest mpq-2 ()
   "Build an `mpq' object: floating-point init value."
   (should (equal "5404319552844595/4503599627370496"
 		 (let ((op (mpq 1.2)))
 		   (mpq-get-str 10 op)))))
+
+(ert-deftest mpq-3 ()
+  "Build an `mpq' object: no init values."
+  (should (equal "0" (let ((op (mpq)))
+		       (mpq-get-str 10 op)))))
 
 
 ;;;; assignment functions
