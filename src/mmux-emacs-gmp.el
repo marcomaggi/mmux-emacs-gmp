@@ -4,7 +4,7 @@
 
 ;; Author: Marco Maggi <mrc.mgg@gmail.com>
 ;; Created: Jan 15, 2020
-;; Time-stamp: <2020-01-17 11:53:04 marco>
+;; Time-stamp: <2020-01-17 15:43:42 marco>
 ;; Keywords: extensions
 
 ;; This file is part of MMUX Emacs GMP.
@@ -193,6 +193,26 @@
 
 
 ;;;; integer number functions: conversion
+
+(defun mpz-get-ui (op)
+  "Convert an object of type `mpz' to an unsigned exact integer number."
+  (cl-assert (mpz-p op))
+  (mmux-gmp-c-mpz-get-ui (mpz-obj op)))
+
+(defun mpz-get-si (op)
+  "Convert an object of type `mpz' to a signed exact integer number."
+  (cl-assert (mpz-p op))
+  (mmux-gmp-c-mpz-get-si (mpz-obj op)))
+
+(defun mpz-get-d (op)
+  "Convert an object of type `mpz' to a floating-point number."
+  (cl-assert (mpz-p op))
+  (mmux-gmp-c-mpz-get-d (mpz-obj op)))
+
+(defun mpz-get-d-2exp (op)
+  "Convert an object of type `mpz' to a floating-point number, returning the exponent separately."
+  (cl-assert (mpz-p op))
+  (mmux-gmp-c-mpz-get-d-2exp (mpz-obj op)))
 
 (defun mpz-get-str (base op)
   "Convert an object of type `mpz' to a string."

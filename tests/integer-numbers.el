@@ -118,12 +118,39 @@
 
 ;;;; conversion functions
 
+(ert-deftest mpz-get-ui ()
+  "Conversion to unsigned integer."
+  (should (equal 123
+		 (let ((op (mpz 123)))
+		   (mpz-get-ui op)))))
+
+(ert-deftest mpz-get-si ()
+  "Conversion to signed integer."
+  (should (equal 123
+		 (let ((op (mpz 123)))
+		   (mpz-get-si op)))))
+
+(ert-deftest mpz-get-d ()
+  "Conversion to signed integer."
+  (should (equal 123.0
+		 (let ((op (mpz 123)))
+		   (mpz-get-d op)))))
+
+(ert-deftest mpz-get-d-2exp ()
+  "Conversion to signed integer."
+  ;; We can test in the *scratch* buffer that:
+  ;;
+  ;;   (* 0.9609375 (expt 2 7)) => 123.0
+  ;;
+  (should (equal '(0.9609375 . 7)
+		 (let ((op (mpz 123)))
+		   (mpz-get-d-2exp op)))))
+
 (ert-deftest mpz-get-str ()
   "Conversion to string."
-  (let ((op (mpz)))
-    (mpz-set-si op 15)
-    (should (equal "15" (mpz-get-str 10 op)))
-    (should (equal "f"  (mpz-get-str 16 op)))
+  (let ((op (mpz 15)))
+    (should (equal "15" (mpz-get-str +10 op)))
+    (should (equal "f"  (mpz-get-str +16 op)))
     (should (equal "F"  (mpz-get-str -16 op)))))
 
 

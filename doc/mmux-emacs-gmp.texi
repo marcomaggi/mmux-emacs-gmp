@@ -435,6 +435,47 @@ Swap the values between two @objtype{mpz} objects.
 @section Converting exact integers to other objects
 
 
+@defun mpz-get-ui @var{op}
+Convert an object @var{op} of type @objtype{mpz} to an unsigned exact integer number.
+
+@lisp
+(mpz-get-ui (mpz 123))  @result{} 123
+@end lisp
+@end defun
+
+
+@defun mpz-get-si @var{op}
+Convert an object @var{op} of type @objtype{mpz} to an signed exact integer number.
+
+@lisp
+(mpz-get-si (mpz 123))  @result{} 123
+@end lisp
+@end defun
+
+
+@defun mpz-get-d @var{op}
+Convert an object @var{op} of type @objtype{mpz} to a floating--point number.
+
+@lisp
+(mpz-get-d (mpz 123))  @result{} 123.0
+@end lisp
+@end defun
+
+
+@defun mpz-get-d-2exp @var{op}
+Convert an object @var{op} of type @objtype{mpz} to a floating--point number, yielding the exponent
+separately.  The return value is a pair whose car is a floating--point number and whose cdr is the
+exponent:
+
+@lisp
+(defconst rv (mpz-get-d-2exp (mpz 123)))
+
+rv                                      @result{} (0.9609375 . 7)
+(* (car rv) (expt 2 (cdr rv)))          @result{} 123.0
+@end lisp
+@end defun
+
+
 @defun mpz-get-str @var{base} @var{op}
 Convert an object @var{op} of type @objtype{mpz} to a string; return the resulting string.
 @var{base} must be an exact integer representing the base of the numeric string representation:
