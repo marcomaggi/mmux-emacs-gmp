@@ -313,7 +313,7 @@ When the @var{INIT} argument is provided: it must be an initialisation value for
 object.  I can be: an exact integer number; a floating--point number; an @objtype{mpz} object; an
 @objtype{mpq} object; an @objtype{mpf} object.
 
-When the @var{INIT} argument is missing: the returned object is left uninitialised.
+When the @var{INIT} argument is missing: the returned object is initialised to zero.
 @end defun
 
 @c page
@@ -483,12 +483,30 @@ When the @var{INIT} argument is provided and the argument @var{DENOMINATOR-INIT}
 must be an initialisation value for the @objtype{mpq} object.  It can be: a floating--point number;
 an @objtype{mpz} object; an @objtype{mpq} object; an @objtype{mpf} object.
 
+@lisp
+(let ((op (mpq 1.2)))
+  (mpq-get-str 10 op))
+@result{} "5404319552844595/4503599627370496"
+@end lisp
+
 When both the @var{INIT} and @var{DENOMINATOR-INIT} arguments are provided: they must be
 initialisation values for the numerator and the denominator of the new rational number.  They can
 be: exact integer numbers.
 
+@lisp
+(let ((op (mpq 3 4)))
+  (mpq-get-str 10 op))
+@result{} "3/4"
+@end lisp
+
 When both the @var{INIT} and @var{DENOMINATOR-INIT} arguments are missing: the returned object is
-set to zero uninitialised.
+set to zero.
+
+@lisp
+(let ((op (mpq)))
+  (mpq-get-str 10 op))
+@result{} "0"
+@end lisp
 @end defun
 
 @c page
@@ -654,7 +672,19 @@ When the @var{INIT} argument is provided: it must be an initialisation value for
 object.  I can be: an exact integer number; a floating--point number; an @objtype{mpz} object; an
 @objtype{mpq} object; an @objtype{mpf} object.
 
-When the @var{INIT} argument is missing: the returned object is left uninitialised.
+@lisp
+(let ((op (mpf 123)))
+  (mpf-get-str* 10 5 op))
+@result{} "+0.123e+3"
+@end lisp
+
+When the @var{INIT} argument is missing: the returned object is set to zero.
+
+@lisp
+(let ((op (mpf)))
+  (mpf-get-str* 10 5 op))
+@result{} "0.0"
+@end lisp
 @end defun
 
 @c page
