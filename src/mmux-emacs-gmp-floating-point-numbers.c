@@ -144,25 +144,59 @@ Fmmux_gmp_c_mpf_swap (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void 
 
 
 /** --------------------------------------------------------------------
- ** Arithmetic functions.
+ ** Conversion functions.
  ** ----------------------------------------------------------------- */
 
 static emacs_value
-Fmmux_gmp_c_mpf_add (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
+Fmmux_gmp_c_mpf_get_ui (emacs_env *env, ptrdiff_t nargs MMUX_EMACS_GMP_UNUSED,
+			emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
 {
-  assert(3 == nargs);
-  mpf_ptr	rop = env->get_user_ptr(env, args[0]);
-  mpf_ptr	op1 = env->get_user_ptr(env, args[1]);
-  mpf_ptr	op2 = env->get_user_ptr(env, args[2]);
+  assert(1 == nargs);
+  mpf_ptr	op   = env->get_user_ptr    (env, args[0]);
 
-  mpf_add(rop, op1, op2);
-  return env->intern(env, "nil");
+  return env->make_integer(env, (intmax_t)mpf_get_ui(op));
 }
 
-
-/** --------------------------------------------------------------------
- ** Conversion functions.
- ** ----------------------------------------------------------------- */
+static emacs_value
+Fmmux_gmp_c_mpf_get_si (emacs_env *env, ptrdiff_t nargs MMUX_EMACS_GMP_UNUSED,
+			emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
+{
+  assert(1 == nargs);
+  mpf_ptr	op   = env->get_user_ptr    (env, args[0]);
+
+  return env->make_integer(env, (intmax_t)mpf_get_si(op));
+}
+
+static emacs_value
+Fmmux_gmp_c_mpf_get_d (emacs_env *env, ptrdiff_t nargs MMUX_EMACS_GMP_UNUSED,
+			emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
+{
+  assert(1 == nargs);
+  mpf_ptr	op   = env->get_user_ptr    (env, args[0]);
+
+  return env->make_float(env, (intmax_t)mpf_get_d(op));
+}
+
+static emacs_value
+Fmmux_gmp_c_mpf_get_d_2exp (emacs_env *env, ptrdiff_t nargs MMUX_EMACS_GMP_UNUSED,
+			    emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
+{
+  assert(1 == nargs);
+  mpf_ptr	op   = env->get_user_ptr    (env, args[0]);
+  double	rv;
+  mp_exp_t	exponent;
+
+  rv = mpf_get_d_2exp(&exponent, op);
+  {
+    emacs_value Qcons       = env->intern(env, "cons");
+    emacs_value operands[2] = {
+      env->make_float(env, rv),
+      env->make_integer(env, (intmax_t)exponent)
+    };
+
+    return env->funcall(env, Qcons, 2, operands);
+  }
+}
 
 static emacs_value
 Fmmux_gmp_c_mpf_get_str (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
@@ -204,10 +238,27 @@ Fmmux_gmp_c_mpf_get_str (emacs_env *env, ptrdiff_t nargs, emacs_value args[], vo
 
 
 /** --------------------------------------------------------------------
+ ** Arithmetic functions.
+ ** ----------------------------------------------------------------- */
+
+static emacs_value
+Fmmux_gmp_c_mpf_add (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
+{
+  assert(3 == nargs);
+  mpf_ptr	rop = env->get_user_ptr(env, args[0]);
+  mpf_ptr	op1 = env->get_user_ptr(env, args[1]);
+  mpf_ptr	op2 = env->get_user_ptr(env, args[2]);
+
+  mpf_add(rop, op1, op2);
+  return env->intern(env, "nil");
+}
+
+
+/** --------------------------------------------------------------------
  ** Elisp functions table.
  ** ----------------------------------------------------------------- */
 
-#define NUMBER_OF_MODULE_FUNCTIONS	10
+#define NUMBER_OF_MODULE_FUNCTIONS	14
 static module_function_t const module_functions_table[NUMBER_OF_MODULE_FUNCTIONS] = {
   /* Assignment function. */
   {
@@ -267,6 +318,42 @@ static module_function_t const module_functions_table[NUMBER_OF_MODULE_FUNCTIONS
     .documentation	= "Swap the values of two `mpf' objects."
   },
 
+  /* Conversion functions */
+  {
+    .name		= "mmux-gmp-c-mpf-get-ui",
+    .implementation	= Fmmux_gmp_c_mpf_get_ui,
+    .min_arity		= 1,
+    .max_arity		= 1,
+    .documentation	= "Convert an object of type `mpf' to an unsigned exact integer number."
+  },
+  {
+    .name		= "mmux-gmp-c-mpf-get-si",
+    .implementation	= Fmmux_gmp_c_mpf_get_si,
+    .min_arity		= 1,
+    .max_arity		= 1,
+    .documentation	= "Convert an object of type `mpf' to a signed exact integer number."
+  },
+  {
+    .name		= "mmux-gmp-c-mpf-get-d",
+    .implementation	= Fmmux_gmp_c_mpf_get_d,
+    .min_arity		= 1,
+    .max_arity		= 1,
+    .documentation	= "Convert an object of type `mpf' to a floating-point number."
+  },
+  {
+    .name		= "mmux-gmp-c-mpf-get-d-2exp",
+    .implementation	= Fmmux_gmp_c_mpf_get_d_2exp,
+    .min_arity		= 1,
+    .max_arity		= 1,
+    .documentation	= "Convert an object of type `mpf' to a floating-point number, returning the exponent separately."
+  },
+  {
+    .name		= "mmux-gmp-c-mpf-get-str",
+    .implementation	= Fmmux_gmp_c_mpf_get_str,
+    .min_arity		= 3,
+    .max_arity		= 3,
+    .documentation	= "Convert an `mpf' object to a string."
+  },
 
   /* Arithmetic functions. */
   {
@@ -275,15 +362,6 @@ static module_function_t const module_functions_table[NUMBER_OF_MODULE_FUNCTIONS
     .min_arity		= 3,
     .max_arity		= 3,
     .documentation	= "Add two `mpf' objects."
-  },
-
-  /* Conversion functions */
-  {
-    .name		= "mmux-gmp-c-mpf-get-str",
-    .implementation	= Fmmux_gmp_c_mpf_get_str,
-    .min_arity		= 3,
-    .max_arity		= 3,
-    .documentation	= "Convert an `mpf' object to a string."
   },
 };
 

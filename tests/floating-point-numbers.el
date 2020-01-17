@@ -91,6 +91,36 @@
 
 ;;;; conversion functions
 
+(ert-deftest mpf-get-ui ()
+  "Conversion to unsigned integer."
+  (should (equal 123
+		 (let ((op (mpf 123)))
+		   (mpf-get-ui op)))))
+
+(ert-deftest mpf-get-si ()
+  "Conversion to signed integer."
+  (should (equal 123
+		 (let ((op (mpf 123)))
+		   (mpf-get-si op)))))
+
+(ert-deftest mpf-get-d ()
+  "Conversion to signed integer."
+  (should (equal 123.0
+		 (let ((op (mpf 123)))
+		   (mpf-get-d op)))))
+
+(ert-deftest mpf-get-d-2exp ()
+  "Conversion to signed integer."
+  ;; We can test in the *scratch* buffer that:
+  ;;
+  ;;   (* 0.9609375 (expt 2 7)) => 123.0
+  ;;
+  (should (equal '(0.9609375 . 7)
+		 (let ((op (mpf 123)))
+		   (mpf-get-d-2exp op)))))
+
+;;; --------------------------------------------------------------------
+
 (ert-deftest mpf-get-str ()
   "Conversion to string."
   (defconst op (mpf))

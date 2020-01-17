@@ -834,12 +834,93 @@ Swap the values between two @objtype{mpf} objects.
 @section Converting floating--point numbers to other objects
 
 
-@defun mpf-get-str @var{base} @var{op}
-Convert an object @var{op} of type @objtype{mpf} to a string; return the resulting string.
-@var{base} must be an exact integer representing the base of the numeric string representation:
-positive between @math{+2} and @math{+62} or negative between @math{-2} and @math{-36}.
+@defun mpf-get-ui @var{op}
+Convert an object @var{op} of type @objtype{mpf} to an unsigned exact integer number.
 
 @lisp
+(mpf-get-ui (mpf 123))  @result{} 123
+@end lisp
+@end defun
+
+
+@defun mpf-get-si @var{op}
+Convert an object @var{op} of type @objtype{mpf} to an signed exact integer number.
+
+@lisp
+(mpf-get-si (mpf 123))  @result{} 123
+@end lisp
+@end defun
+
+
+@defun mpf-get-d @var{op}
+Convert an object @var{op} of type @objtype{mpf} to a floating--point number.
+
+@lisp
+(mpf-get-d (mpf 123))  @result{} 123.0
+@end lisp
+@end defun
+
+
+@defun mpf-get-d-2exp @var{op}
+Convert an object @var{op} of type @objtype{mpf} to a floating--point number, yielding the exponent
+separately.  The return value is a pair whose car is a floating--point number and whose cdr is the
+exponent:
+
+@lisp
+(defconst rv (mpf-get-d-2exp (mpf 123)))
+
+rv                                      @result{} (0.9609375 . 7)
+(* (car rv) (expt 2 (cdr rv)))          @result{} 123.0
+@end lisp
+@end defun
+
+
+@defun mpf-get-str @var{base} @var{ndigits} @var{op}
+Convert an object @var{op} of type @objtype{mpf} to a string; return a pair object whose car is a
+string representing the mantissa and whose cdr is an exact integer representing the exponent.
+
+The arguments @var{base} must be an exact integer representing the base of the numeric string
+representation: positive between @math{+2} and @math{+62} or negative between @math{-2} and
+@math{-36}.
+
+The argument @var{ndigits} must be an exact integer representing the number of digits to generate.
+
+@lisp
+(let ((op       (mpf 15))
+      (ndigits  5))
+  (mpf-get-str +10 ndigits op)  @result{} ("15" . 2)
+  (mpf-get-str +16 ndigits op)  @result{} ("f"  . 1)
+  (mpf-get-str -16 ndigits op)  @result{} ("F"  . 1)
+  )
+
+(let ((op       (mpf))
+      (ndigits  5))
+  (mpf-set-d op 12.34)
+  (mpf-get-str +10 ndigits op))
+@result{} ("1234" . 2)
+@end lisp
+@end defun
+
+
+@defun mpf-get-str* @var{base} @var{ndigits} @var{op}
+Convert an object @var{op} of type @objtype{mpf} to a formatted string; return the string.  The
+arguments @var{base} and @var{ndigits} are the same as documented for @func{mpf-get-str}.
+
+@lisp
+(let ((op       (mpf))
+      (ndigits  5))
+  (mpf-set-d op +0.001234)
+  (mpf-get-str* +10 ndigits op))
+@result{} "+0.1234e-2"
+
+(let ((op       (mpf))
+      (ndigits  5))
+  (mpf-set-d op +12.34)
+  (mpf-get-str* +10 ndigits op))
+@result{} "+0.1234e+2"
+
+(mpf-get-str* 10 5 (mpf))
+@result{} "0.0"
 @end lisp
 @end defun
 

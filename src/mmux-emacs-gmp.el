@@ -4,7 +4,7 @@
 
 ;; Author: Marco Maggi <mrc.mgg@gmail.com>
 ;; Created: Jan 15, 2020
-;; Time-stamp: <2020-01-17 16:07:47 marco>
+;; Time-stamp: <2020-01-17 16:39:08 marco>
 ;; Keywords: extensions
 
 ;; This file is part of MMUX Emacs GMP.
@@ -363,17 +363,27 @@
   (mmux-gmp-c-mpf-swap (mpf-obj op1) (mpf-obj op2)))
 
 
-;;;; floating-point number functions: arithmetic
-
-(defun mpf-add (rop op1 op2)
-  "Add two `mpf' objects."
-  (cl-assert (mpf-p rop))
-  (cl-assert (mpf-p op1))
-  (cl-assert (mpf-p op2))
-  (mmux-gmp-c-mpf-add (mpf-obj rop) (mpf-obj op1) (mpf-obj op2)))
-
-
 ;;;; floating-point number functions: conversion
+
+(defun mpf-get-ui (op)
+  "Convert an object of type `mpf' to an unsigned exact integer number."
+  (cl-assert (mpf-p op))
+  (mmux-gmp-c-mpf-get-ui (mpf-obj op)))
+
+(defun mpf-get-si (op)
+  "Convert an object of type `mpf' to a signed exact integer number."
+  (cl-assert (mpf-p op))
+  (mmux-gmp-c-mpf-get-si (mpf-obj op)))
+
+(defun mpf-get-d (op)
+  "Convert an object of type `mpf' to a floating-point number."
+  (cl-assert (mpf-p op))
+  (mmux-gmp-c-mpf-get-d (mpf-obj op)))
+
+(defun mpf-get-d-2exp (op)
+  "Convert an object of type `mpf' to a floating-point number, returning the exponent separately."
+  (cl-assert (mpf-p op))
+  (mmux-gmp-c-mpf-get-d-2exp (mpf-obj op)))
 
 (defun mpf-get-str (base ndigits op)
   "Convert an object of type `mpf' to a string."
@@ -400,6 +410,16 @@
 		      ((> 0 exponent)	"-")
 		      (t		""))
 		(abs exponent))))))
+
+
+;;;; floating-point number functions: arithmetic
+
+(defun mpf-add (rop op1 op2)
+  "Add two `mpf' objects."
+  (cl-assert (mpf-p rop))
+  (cl-assert (mpf-p op1))
+  (cl-assert (mpf-p op2))
+  (mmux-gmp-c-mpf-add (mpf-obj rop) (mpf-obj op1) (mpf-obj op2)))
 
 
 ;;;; done
