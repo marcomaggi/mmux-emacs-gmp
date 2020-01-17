@@ -45,13 +45,13 @@
 /* These error  strings must match the  error symbols defined with  `define-error' in
    the mdoule source file. */
 #undef  MMUX_EMAC_GMP_ERROR
-#define MMUX_EMAC_GMP_ERROR			"&mmux-gmp-error"
+#define MMUX_EMAC_GMP_ERROR			"mmux-gmp-error"
 
 #undef  MMUX_EMAC_GMP_ERROR_NO_MEMORY
-#define MMUX_EMAC_GMP_ERROR_NO_MEMORY		"&mmux-gmp-no-memory-error"
+#define MMUX_EMAC_GMP_ERROR_NO_MEMORY		"mmux-gmp-no-memory-error"
 
 #undef  MMUX_EMAC_GMP_ERROR_STRING_TOO_LONG
-#define MMUX_EMAC_GMP_ERROR_STRING_TOO_LONG	"&mmux-gmp-string-too-long"
+#define MMUX_EMAC_GMP_ERROR_STRING_TOO_LONG	"mmux-gmp-string-too-long"
 
 
 /** --------------------------------------------------------------------

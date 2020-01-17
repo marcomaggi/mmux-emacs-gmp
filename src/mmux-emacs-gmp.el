@@ -4,7 +4,7 @@
 
 ;; Author: Marco Maggi <mrc.mgg@gmail.com>
 ;; Created: Jan 15, 2020
-;; Time-stamp: <2020-01-17 06:41:04 marco>
+;; Time-stamp: <2020-01-17 06:58:14 marco>
 ;; Keywords: extensions
 
 ;; This file is part of MMUX Emacs GMP.
@@ -39,17 +39,17 @@
 
 ;;;; error definitions
 
-(define-error '&mmux-gmp-error
+(define-error 'mmux-gmp-error
   "Error while executing a MMUX Emacs GMP operation."
   'error)
 
-(define-error '&mmux-gmp-no-memory-error
+(define-error 'mmux-gmp-no-memory-error
   "Error allocating memory."
-  '&mmux-gmp-error)
+  'mmux-gmp-error)
 
-(define-error '&mmux-gmp-string-too-long
+(define-error 'mmux-gmp-string-too-long
   "String exceeds maximum length."
-  '&mmux-gmp-error)
+  'mmux-gmp-error)
 
 
 ;;;; user-ptr object wrappers
