@@ -23,15 +23,15 @@
 (require 'mmux-emacs-gmp)
 
 (ert-deftest make-mpz ()
-  "Build an mpz_t object."
+  "Build an `mpz' object."
   (should (mpz-p (mpz))))
 
 (ert-deftest make-mpq ()
-  "Build an mpq_t object."
+  "Build an `mpq' object."
   (should (mpq-p (mpq))))
 
 (ert-deftest make-mpf ()
-  "Build an mpf_t object."
+  "Build an `mpf' object."
   (should (mpf-p (mpf))))
 
 (ert-run-tests-batch-and-exit)

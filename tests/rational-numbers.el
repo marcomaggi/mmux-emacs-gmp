@@ -23,6 +23,20 @@
 (require 'mmux-emacs-gmp)
 
 
+;;;; allocation functions
+
+(ert-deftest mpq ()
+  "Build an `mpq' object: integer init values."
+  (should (equal "3/4" (let ((op (mpq 3 4)))
+			 (mpq-get-str 10 op)))))
+
+(ert-deftest mpq ()
+  "Build an `mpq' object: floating-point init value."
+  (should (equal "5404319552844595/4503599627370496"
+		 (let ((op (mpq 1.2)))
+		   (mpq-get-str 10 op)))))
+
+
 ;;;; assignment functions
 
 (ert-deftest mpq-set ()

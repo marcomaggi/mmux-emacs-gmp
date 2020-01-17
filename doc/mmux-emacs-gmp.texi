@@ -475,15 +475,20 @@ garbage collected.
 @section Allocating rational numbers
 
 
-@defun mpq &optional @var{INIT}
+@defun mpq &optional @var{INIT} @var{DENOMINATOR-INIT}
 Build and return a new @objtype{mpq} object instance.  When called with no arguments: the object is
 uninitialised.
 
-When the @var{INIT} argument is provided: it must be an initialisation value for the @objtype{mpq}
-object.  I can be: an exact integer number; a floating--point number; an @objtype{mpz} object; an
-@objtype{mpq} object; an @objtype{mpf} object.
+When the @var{INIT} argument is provided and the argument @var{DENOMINATOR-INIT} is not: @var{INIT}
+must be an initialisation value for the @objtype{mpq} object.  It can be: a floating--point number;
+an @objtype{mpz} object; an @objtype{mpq} object; an @objtype{mpf} object.
 
-When the @var{INIT} argument is missing: the returned object is left uninitialised.
+When both the @var{INIT} and @var{DENOMINATOR-INIT} arguments are provided: they must be
+initialisation values for the numerator and the denominator of the new rational number.  They can
+be: exact integer numbers.
+
+When both the @var{INIT} and @var{DENOMINATOR-INIT} arguments are missing: the returned object is
+set to zero uninitialised.
 @end defun
 
 @c page

@@ -4,7 +4,7 @@
 
 ;; Author: Marco Maggi <mrc.mgg@gmail.com>
 ;; Created: Jan 15, 2020
-;; Time-stamp: <2020-01-17 11:30:47 marco>
+;; Time-stamp: <2020-01-17 11:36:21 marco>
 ;; Keywords: extensions
 
 ;; This file is part of MMUX Emacs GMP.
@@ -83,21 +83,25 @@
 (cl-defstruct (mpq (:constructor make-mpq))
   obj)
 
-(defun mpq (&optional INIT)
+(defun mpq (&optional INIT DENOMINATOR-INIT)
   "Build and return a new, uninitialised, `mpq' object."
   (let ((Q (mmux-gmp-c-mpq-make)))
-    (cond ((integerp INIT)
-	   (mmux-gmp-c-mpq-set-si Q INIT))
-	  ((floatp INIT)
-	   (mmux-gmp-c-mpq-set-d  Q INIT))
-	  ((mpq-p INIT)
-	   (mmux-gmp-c-mpq-set    Q INIT))
-	  ((mpz-p INIT)
-	   (mmux-gmp-c-mpq-set-z  Q INIT))
-	  ((mpf-p INIT)
-	   (mmux-gmp-c-mpq-set-f  Q INIT))
-	  (INIT
-	   (signal 'mmux-gmp-invalid-initialisation-value (list INIT))))
+    (if DENOMINATOR-INIT
+	(cond ((and (integerp INIT)
+		    (integerp DENOMINATOR-INIT))
+	       (mmux-gmp-c-mpq-set-si Q INIT DENOMINATOR-INIT))
+	      (INIT
+	       (signal 'mmux-gmp-invalid-initialisation-value (list INIT DENOMINATOR-INIT))))
+      (cond ((floatp INIT)
+	     (mmux-gmp-c-mpq-set-d  Q INIT))
+	    ((mpq-p INIT)
+	     (mmux-gmp-c-mpq-set    Q INIT))
+	    ((mpz-p INIT)
+	     (mmux-gmp-c-mpq-set-z  Q INIT))
+	    ((mpf-p INIT)
+	     (mmux-gmp-c-mpq-set-f  Q INIT))
+	    (INIT
+	     (signal 'mmux-gmp-invalid-initialisation-value (list INIT)))))
     (make-mpq :obj Q)))
 
 ;;; --------------------------------------------------------------------
