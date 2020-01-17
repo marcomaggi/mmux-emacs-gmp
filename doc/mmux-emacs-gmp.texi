@@ -187,9 +187,9 @@ package requires the ERT package.
 
 @value{PACKAGE} installs a single elisp module @value{PackageEmacsModule} and a C language shared
 library with basename @value{PackageSharedLibraryBasename} (using the @gnu{} Libtool
-infrastructure).  All the elisp definition names are prefixed with
-@code{@value{PackageApiElispPrefix}}.  The C language shared library is installed under
-@samp{$libdir}, for example:
+infrastructure).  All the elisp definition names are prefixed with either
+@code{@value{PackageApiElispPrefix}}, @samp{mpz-}, @samp{mpq-} or @samp{mpf-}.  The C language
+shared library is installed under @samp{$libdir}, for example:
 
 @center @file{/usr/local/lib64}
 
@@ -216,6 +216,12 @@ language function names in the @api{} are prefixed with @code{@value{PackageApiC
 the C language preprocessor symbol names are prefixed with @code{@value{PackageApiCPrefixUpper}};
 all the type names are prefixed with @code{@value{PackageApiCPrefixLower}} and suffixed with
 @code{_t}.
+
+Most of the functions implemented by @gmp{} are wrapped by @value{PACKAGE}, with the exclusion of
+the initialisation functions.  The elisp function names are equal to the C language function names,
+with each underscore turned into a dash; so @cfunc{mpz_get_str} becomes @func{mpz-get-str}.  Only a
+brief description of the arguments is given in this document: for the full meaning of the function
+arguments we should refer to the original @gmp{} documentation.
 
 @menu
 * overview linking::            Linking code with the library.
