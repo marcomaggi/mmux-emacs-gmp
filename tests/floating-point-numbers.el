@@ -44,6 +44,20 @@
 		   (mpf-get-str* 10 5 op)))))
 
 
+;;;; initialisation functions
+
+(ert-deftest mpf-set/get-default-prec ()
+  "Set and get the default precision of `mpf' objects."
+  (mpf-set-default-prec 123)
+  (should (equal 128 (mpf-get-default-prec))))
+
+(ert-deftest mpf-set/get-prec ()
+  "Set and get the precision of `mpf' objects."
+  (let ((rop (mpf 1.0)))
+    (mpf-set-prec rop 123)
+    (should (equal 128 (mpf-get-prec rop)))))
+
+
 ;;;; assignment functions
 
 (ert-deftest mpf-set ()

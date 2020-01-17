@@ -4,7 +4,7 @@
 
 ;; Author: Marco Maggi <mrc.mgg@gmail.com>
 ;; Created: Jan 15, 2020
-;; Time-stamp: <2020-01-17 16:39:08 marco>
+;; Time-stamp: <2020-01-17 16:53:26 marco>
 ;; Keywords: extensions
 
 ;; This file is part of MMUX Emacs GMP.
@@ -306,6 +306,30 @@
   (cl-assert (mpq-p op1))
   (cl-assert (mpq-p op2))
   (mmux-gmp-c-mpq-add (mpq-obj rop) (mpq-obj op1) (mpq-obj op2)))
+
+
+;;;; floating-point number functions: initialisation
+
+(defun mpf-set-default-prec (prec)
+  "Set the default precision of `mpf' objects."
+  (cl-assert (and (integerp prec)
+		  (< 0 prec)))
+  (mmux-gmp-c-mpf-set-default-prec prec))
+
+(defun mpf-get-default-prec ()
+  "Get the default precision of `mpf' objects."
+  (mmux-gmp-c-mpf-get-default-prec))
+
+(defun mpf-set-prec (rop prec)
+  "Set the default precision of an `mpf' object."
+  (cl-assert (mpf-p rop))
+  (cl-assert (and (integerp prec)
+		  (< 0 prec)))
+  (mmux-gmp-c-mpf-set-prec (mpf-obj rop) prec))
+
+(defun mpf-get-prec (rop)
+  "Get the precision of an `mpf' object."
+  (mmux-gmp-c-mpf-get-prec (mpf-obj rop)))
 
 
 ;;;; floating-point number functions: assignment

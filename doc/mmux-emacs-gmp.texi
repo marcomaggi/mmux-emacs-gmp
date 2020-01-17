@@ -718,6 +718,8 @@ correctly garbage collected.
 
 @menu
 * floats allocation::           Allocating floating-point numbers.
+* floats initialisation::       Floating-point numbers initialisation
+                                functions.
 * floats predicates::           Floating-point number predicates.
 * floats assignment::           Assigning values to floating-point
                                 number objects.
@@ -751,6 +753,32 @@ When the @var{INIT} argument is missing: the returned object is set to zero.
   (mpf-get-str* 10 5 op))
 @result{} "0.0"
 @end lisp
+@end defun
+
+@c page
+@node floats initialisation
+@section Floating--point numbers initialisation functions
+
+
+@defun mpf-set-default-prec @var{prec}
+Set the default precision of @objtype{mpf} object to at least @var{prec}, which must be an exact
+integer number object.
+@end defun
+
+
+@defun mpf-get-default-prec
+Return an exact integer number representing the current default precision of @objtype{mpf} objects.
+@end defun
+
+
+@defun mpf-set-prec @var{rop} @var{prec}
+Set the precision of the @objtype{mpf} object @var{rop} to at least @var{prec}, which must be an
+exact integer number object.
+@end defun
+
+
+@defun mpf-get-prec @var{rop}
+Return an exact integer number representing the precision of the @objtype{mpf} object @var{rop}.
 @end defun
 
 @c page

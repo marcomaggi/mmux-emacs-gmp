@@ -33,6 +33,50 @@
 
 
 /** --------------------------------------------------------------------
+ ** Initialisation functions.
+ ** ----------------------------------------------------------------- */
+
+static emacs_value
+Fmmux_gmp_c_mpf_set_default_prec (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
+{
+  assert(1 == nargs);
+  mp_bitcnt_t	prec = env->extract_integer(env, args[0]);
+
+  mpf_set_default_prec(prec);
+  return env->intern(env, "nil");
+}
+
+static emacs_value
+Fmmux_gmp_c_mpf_get_default_prec (emacs_env *env, ptrdiff_t nargs,
+				  emacs_value args[] MMUX_EMACS_GMP_UNUSED, void * data MMUX_EMACS_GMP_UNUSED)
+{
+  assert(0 == nargs);
+
+  return env->make_integer(env, (intmax_t)mpf_get_default_prec());
+}
+
+static emacs_value
+Fmmux_gmp_c_mpf_set_prec (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
+{
+  assert(2 == nargs);
+  mpf_ptr	rop  = env->get_user_ptr(env, args[0]);
+  mp_bitcnt_t	prec = env->extract_integer(env, args[1]);
+
+  mpf_set_prec(rop, prec);
+  return env->intern(env, "nil");
+}
+
+static emacs_value
+Fmmux_gmp_c_mpf_get_prec (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
+{
+  assert(1 == nargs);
+  mpf_ptr	rop  = env->get_user_ptr(env, args[0]);
+
+  return env->make_integer(env, (intmax_t)mpf_get_prec(rop));
+}
+
+
+/** --------------------------------------------------------------------
  ** Assignment functions.
  ** ----------------------------------------------------------------- */
 
@@ -258,8 +302,38 @@ Fmmux_gmp_c_mpf_add (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void *
  ** Elisp functions table.
  ** ----------------------------------------------------------------- */
 
-#define NUMBER_OF_MODULE_FUNCTIONS	14
+#define NUMBER_OF_MODULE_FUNCTIONS	18
 static module_function_t const module_functions_table[NUMBER_OF_MODULE_FUNCTIONS] = {
+  /* Assignment function. */
+  {
+    .name		= "mmux-gmp-c-mpf-set-default-prec",
+    .implementation	= Fmmux_gmp_c_mpf_set_default_prec,
+    .min_arity		= 1,
+    .max_arity		= 1,
+    .documentation	= "Set the default precision of `mpf' objects."
+  },
+  {
+    .name		= "mmux-gmp-c-mpf-get-default-prec",
+    .implementation	= Fmmux_gmp_c_mpf_get_default_prec,
+    .min_arity		= 0,
+    .max_arity		= 0,
+    .documentation	= "Get the default precision of `mpf' objects."
+  },
+  {
+    .name		= "mmux-gmp-c-mpf-set-prec",
+    .implementation	= Fmmux_gmp_c_mpf_set_prec,
+    .min_arity		= 2,
+    .max_arity		= 2,
+    .documentation	= "Set the default precision of an `mpf' object."
+  },
+  {
+    .name		= "mmux-gmp-c-mpf-get-prec",
+    .implementation	= Fmmux_gmp_c_mpf_get_prec,
+    .min_arity		= 1,
+    .max_arity		= 1,
+    .documentation	= "Get the default precision of an `mpf' object."
+  },
+
   /* Assignment function. */
   {
     .name		= "mmux-gmp-c-mpf-set",
