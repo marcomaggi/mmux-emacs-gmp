@@ -6,6 +6,7 @@
 
 @include version.texi
 @include macros.texi
+@include elisp-macros.texi
 
 @c page
 @c ------------------------------------------------------------
@@ -278,9 +279,9 @@ Return an integer representing the library interface current age.
 
 
 @deftp {Object Type} mmux-gmp-mpz
-Type of structures representing a multiple precision exact integer.  It is a wrapper for the
-@objtype{mpz_t} object.  These objects, and their internal representation, are correctly garbage
-collected.
+Type of structures representing a multiple precision exact integer.  It is a wrapper for the C
+language type @objtype{mpz_t}.  These objects, and their internal representation, are correctly
+garbage collected.
 @end deftp
 
 
@@ -308,7 +309,7 @@ object is uninitialised.
 
 
 @defun mmux-gmp-mpz-p @var{obj}
-Return true if @var{obj} is an instance of @objtype{mmux-gmp-mpz}; otherwise return false.
+Return @true{} if @var{obj} is an instance of @objtype{mmux-gmp-mpz}; otherwise return @false{}.
 
 @lisp
 (mmux-gmp-mpz-p (make-mmux-gmp-mpz))    @result{} t
@@ -419,9 +420,9 @@ positive between @math{2} and @math{36} or negative between @math{-2} and @math{
 
 
 @deftp {Object Type} mmux-gmp-mpq
-Type of structures representing a multiple precision rational numbers.  It is a wrapper for the
-@objtype{mpq_t} object.  These objects, and their internal representation, are correctly garbage
-collected.
+Type of structures representing a multiple precision rational numbers.  It is a wrapper for the C
+language type @objtype{mpq_t}.  These objects, and their internal representation, are correctly
+garbage collected.
 @end deftp
 
 
@@ -484,8 +485,8 @@ Assign the value of @var{op} to @var{rop}; both the operands must be of type @ob
 
 @deftp {Object Type} mmux-gmp-mpf
 Type of structures representing a multiple precision floating--point numbers.  It is a wrapper for
-the @objtype{mpf_t} object.  These objects, and their internal representation, are correctly garbage
-collected.
+the C language type @objtype{mpf_t}.  These objects, and their internal representation, are
+correctly garbage collected.
 @end deftp
 
 
