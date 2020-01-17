@@ -659,6 +659,12 @@ The base type of all the error symbols.
 @end defvr
 
 
+@defvr {Error Symbol} mmux-gmp-invalid-initialisation-value
+@defvrx {Parent Error Symbol} mmux-gmp-error
+Used to signal an invalid initialisation value for an object constructor.
+@end defvr
+
+
 @defvr {Error Symbol} mmux-gmp-no-memory-error
 @defvrx {Parent Error Symbol} mmux-gmp-error
 Used to signal that there was not enough memory to allocate an object.

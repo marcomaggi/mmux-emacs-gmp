@@ -4,7 +4,7 @@
 
 ;; Author: Marco Maggi <mrc.mgg@gmail.com>
 ;; Created: Jan 15, 2020
-;; Time-stamp: <2020-01-17 07:07:37 marco>
+;; Time-stamp: <2020-01-17 07:31:49 marco>
 ;; Keywords: extensions
 
 ;; This file is part of MMUX Emacs GMP.
@@ -51,6 +51,10 @@
   "String exceeds maximum length."
   'mmux-gmp-error)
 
+(define-error 'mmux-gmp-invalid-initialisation-value
+  "Invalid initialisation value."
+  'mmux-gmp-error)
+
 
 ;;;; user-ptr object wrappers
 
@@ -69,7 +73,9 @@
 	  ((mpq-p INIT)
 	   (mmux-gmp-c-mpz-set-q  Z INIT))
 	  ((mpf-p INIT)
-	   (mmux-gmp-c-mpz-set-f  Z INIT)))
+	   (mmux-gmp-c-mpz-set-f  Z INIT))
+	  (INIT
+	   (signal 'mmux-gmp-invalid-initialisation-value (list INIT))))
     (make-mpz :obj Z)))
 
 ;;; --------------------------------------------------------------------
@@ -89,7 +95,9 @@
 	  ((mpz-p INIT)
 	   (mmux-gmp-c-mpq-set-z  Q INIT))
 	  ((mpf-p INIT)
-	   (mmux-gmp-c-mpq-set-f  Q INIT)))
+	   (mmux-gmp-c-mpq-set-f  Q INIT))
+	  (INIT
+	   (signal 'mmux-gmp-invalid-initialisation-value (list INIT))))
     (make-mpq :obj Q)))
 
 ;;; --------------------------------------------------------------------
@@ -109,7 +117,9 @@
 	  ((mpz-p INIT)
 	   (mmux-gmp-c-mpf-set-z  F INIT))
 	  ((mpq-p INIT)
-	   (mmux-gmp-c-mpf-set-q  F INIT)))
+	   (mmux-gmp-c-mpf-set-q  F INIT))
+	  (INIT
+	   (signal 'mmux-gmp-invalid-initialisation-value (list INIT))))
     (make-mpf :obj F)))
 
 
