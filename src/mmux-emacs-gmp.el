@@ -4,7 +4,7 @@
 
 ;; Author: Marco Maggi <mrc.mgg@gmail.com>
 ;; Created: Jan 15, 2020
-;; Time-stamp: <2020-01-17 06:58:14 marco>
+;; Time-stamp: <2020-01-17 07:07:37 marco>
 ;; Keywords: extensions
 
 ;; This file is part of MMUX Emacs GMP.
@@ -57,27 +57,60 @@
 (cl-defstruct (mpz (:constructor make-mpz))
   obj)
 
-(defun mpz ()
-  "Build and return a new, uninitialised, mpz object."
-  (make-mpz :obj (mmux-gmp-c-mpz-make)))
+(defun mpz (&optional INIT)
+  "Build and return a new, uninitialised, `mpz' object."
+  (let ((Z (mmux-gmp-c-mpz-make)))
+    (cond ((integerp INIT)
+	   (mmux-gmp-c-mpz-set-si Z INIT))
+	  ((floatp INIT)
+	   (mmux-gmp-c-mpz-set-d  Z INIT))
+	  ((mpz-p INIT)
+	   (mmux-gmp-c-mpz-set    Z INIT))
+	  ((mpq-p INIT)
+	   (mmux-gmp-c-mpz-set-q  Z INIT))
+	  ((mpf-p INIT)
+	   (mmux-gmp-c-mpz-set-f  Z INIT)))
+    (make-mpz :obj Z)))
 
 ;;; --------------------------------------------------------------------
 
 (cl-defstruct (mpq (:constructor make-mpq))
   obj)
 
-(defun mpq ()
+(defun mpq (&optional INIT)
   "Build and return a new, uninitialised, `mpq' object."
-  (make-mpq :obj (mmux-gmp-c-mpq-make)))
+  (let ((Q (mmux-gmp-c-mpq-make)))
+    (cond ((integerp INIT)
+	   (mmux-gmp-c-mpq-set-si Q INIT))
+	  ((floatp INIT)
+	   (mmux-gmp-c-mpq-set-d  Q INIT))
+	  ((mpq-p INIT)
+	   (mmux-gmp-c-mpq-set    Q INIT))
+	  ((mpz-p INIT)
+	   (mmux-gmp-c-mpq-set-z  Q INIT))
+	  ((mpf-p INIT)
+	   (mmux-gmp-c-mpq-set-f  Q INIT)))
+    (make-mpq :obj Q)))
 
 ;;; --------------------------------------------------------------------
 
 (cl-defstruct (mpf (:constructor make-mpf))
   obj)
 
-(defun mpf ()
-  "Build and return a new, uninitialised, mpf object."
-  (make-mpf :obj (mmux-gmp-c-mpf-make)))
+(defun mpf (&optional INIT)
+  "Build and return a new, uninitialised, `mpf' object."
+  (let ((F (mmux-gmp-c-mpf-make)))
+    (cond ((integerp INIT)
+	   (mmux-gmp-c-mpf-set-si F INIT))
+	  ((floatp INIT)
+	   (mmux-gmp-c-mpf-set-d  F INIT))
+	  ((mpf-p INIT)
+	   (mmux-gmp-c-mpf-set    F INIT))
+	  ((mpz-p INIT)
+	   (mmux-gmp-c-mpf-set-z  F INIT))
+	  ((mpq-p INIT)
+	   (mmux-gmp-c-mpf-set-q  F INIT)))
+    (make-mpf :obj F)))
 
 
 ;;;; integer number functions: assignment
