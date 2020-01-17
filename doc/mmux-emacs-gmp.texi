@@ -334,6 +334,7 @@ Assign the value of @var{op} to @var{rop}; both the operands must be of type @ob
 @lisp
 (defconst rop (mpz))
 (defconst op  (mpz))
+
 (mpz-set-si rop 123)
 (mpz-set    op rop)
 (mpz-get-str 10 op)     @result{} "123"
@@ -346,6 +347,7 @@ Assign the value of an exact integer object to an @objtype{mpz} object.
 
 @lisp
 (defconst rop (mpz))
+
 (mpz-set-si rop 123)
 (mpz-get-str 10 op)     @result{} "123"
 @end lisp
@@ -357,6 +359,7 @@ Assign the value of a floating--point object to an @objtype{mpz} object.
 
 @lisp
 (defconst rop (mpz))
+
 (mpz-set-d rop 12.3)
 (mpz-get-str 10 rop)    @result{} "12"
 @end lisp
@@ -365,11 +368,29 @@ Assign the value of a floating--point object to an @objtype{mpz} object.
 
 @defun mpz-set-q @var{rop} @var{op}
 Assign the value of an @objtype{mpq} object to an @objtype{mpz} object.
+
+@lisp
+(defconst rop (mpz))
+(defconst op  (mpq))
+
+(mpq-set-si op 10 7)
+(mpz-set-q rop op)
+(mpz-get-str 10 rop)    @result{} "1"
+@end lisp
 @end defun
 
 
 @defun mpz-set-f @var{rop} @var{op}
 Assign the value of an @objtype{mpf} object to an @objtype{mpz} object.
+
+@lisp
+(defconst rop (mpz))
+(defconst op  (mpf))
+
+(mpf-set-d op 12.34)
+(mpz-set-f rop op)
+(mpz-get-str 10 rop)    @result{} "12"
+@end lisp
 @end defun
 
 
@@ -380,6 +401,7 @@ between @math{2} and @math{32}.
 
 @lisp
 (defconst rop (mpz))
+
 (mpz-set-str rop "123" 10)
 (mpz-get-str 10 rop)    @result{} "123"
 @end lisp
@@ -392,6 +414,7 @@ Swap the values between two @objtype{mpz} objects.
 @lisp
 (defconst op1 (mpz))
 (defconst op2 (mpz))
+
 (mpz-set-si op1 123)
 (mpz-set-si op2 456)
 (mpz-swap op1 op2)
