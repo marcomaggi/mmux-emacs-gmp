@@ -134,6 +134,7 @@
 
 ;;;; done
 
+(garbage-collect)
 (ert-run-tests-batch-and-exit)
 
 ;;; test.el ends here

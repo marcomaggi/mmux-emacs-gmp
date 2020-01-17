@@ -41,6 +41,7 @@ static void
 mmux_emacs_mpz_finalizer (void * obj)
 {
   mpz_clear(obj);
+  free(obj);
 }
 
 static emacs_value
@@ -76,6 +77,7 @@ static void
 mmux_emacs_mpq_finalizer (void * obj)
 {
   mpq_clear(obj);
+  free(obj);
 }
 
 static emacs_value
@@ -111,6 +113,7 @@ static void
 mmux_emacs_mpf_finalizer (void * obj)
 {
   mpf_clear(obj);
+  free(obj);
 }
 
 static emacs_value
