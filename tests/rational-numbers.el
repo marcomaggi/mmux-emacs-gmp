@@ -113,13 +113,20 @@
 
 ;;;; conversion functions
 
+(ert-deftest mpq-get-d ()
+  "Conversion to signed integer."
+  (should (equal 1.2
+		 (let ((op (mpq 1.2)))
+		   (mpq-get-d op)))))
+
 (ert-deftest mpq-get-str ()
   "Conversion to string."
-  (defconst op (mpq))
-  (mpq-set-si op 3 4)
-  (should (equal "3/4" (mpq-get-str 10 op)))
-  (should (equal "3/4" (mpq-get-str 16 op)))
-  (should (equal "3/4" (mpq-get-str -16 op))))
+  (let ()
+    (defconst op (mpq))
+    (mpq-set-si op 17 13)
+    (should (equal "17/13" (mpq-get-str +10 op)))
+    (should (equal "11/d"  (mpq-get-str +16 op)))
+    (should (equal "11/D"  (mpq-get-str -16 op)))))
 
 
 ;;;; done

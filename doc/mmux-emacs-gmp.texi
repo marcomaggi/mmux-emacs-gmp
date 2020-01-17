@@ -679,6 +679,31 @@ Swap the values between two @objtype{mpq} objects.
 @node rationals conversion
 @section Converting rational numbers to other objects
 
+
+@defun mpq-get-d @var{op}
+Convert an object @var{op} of type @objtype{mpq} to a floating--point number.
+
+@lisp
+(mpq-get-d (mp1 12.3))  @result{} 12.3
+@end lisp
+@end defun
+
+
+@defun mpq-get-str @var{base} @var{op}
+Convert an object @var{op} of type @objtype{mpq} to a string; return the resulting string.
+@var{base} must be an exact integer representing the base of the numeric string representation:
+positive between @math{2} and @math{36} or negative between @math{-2} and @math{-36}.
+
+@lisp
+(defconst op (mpq))
+(mpq-set-si op 17 13)
+
+(mpq-get-str +10 op)    @result{} "17/13"
+(mpq-get-str +16 op)    @result{} "11/d"
+(mpq-get-str -16 op)    @result{} "11/D"
+@end lisp
+@end defun
+
 @c page
 @node floats
 @chapter Floating-point number objects and operations

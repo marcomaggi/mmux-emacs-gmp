@@ -144,25 +144,18 @@ Fmmux_gmp_c_mpq_swap (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void 
 
 
 /** --------------------------------------------------------------------
- ** Arithmetic functions.
+ ** Conversion functions.
  ** ----------------------------------------------------------------- */
 
 static emacs_value
-Fmmux_gmp_c_mpq_add (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
+Fmmux_gmp_c_mpq_get_d (emacs_env *env, ptrdiff_t nargs MMUX_EMACS_GMP_UNUSED,
+			emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
 {
-  assert(3 == nargs);
-  mpq_ptr	rop = env->get_user_ptr(env, args[0]);
-  mpq_ptr	op1 = env->get_user_ptr(env, args[1]);
-  mpq_ptr	op2 = env->get_user_ptr(env, args[2]);
+  assert(1 == nargs);
+  mpq_ptr	op   = env->get_user_ptr    (env, args[0]);
 
-  mpq_add(rop, op1, op2);
-  return env->intern(env, "nil");
+  return env->make_float(env, mpq_get_d(op));
 }
-
-
-/** --------------------------------------------------------------------
- ** Conversion functions.
- ** ----------------------------------------------------------------- */
 
 static emacs_value
 Fmmux_gmp_c_mpq_get_str (emacs_env *env, ptrdiff_t nargs MMUX_EMACS_GMP_UNUSED,
@@ -183,10 +176,27 @@ Fmmux_gmp_c_mpq_get_str (emacs_env *env, ptrdiff_t nargs MMUX_EMACS_GMP_UNUSED,
 
 
 /** --------------------------------------------------------------------
+ ** Arithmetic functions.
+ ** ----------------------------------------------------------------- */
+
+static emacs_value
+Fmmux_gmp_c_mpq_add (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
+{
+  assert(3 == nargs);
+  mpq_ptr	rop = env->get_user_ptr(env, args[0]);
+  mpq_ptr	op1 = env->get_user_ptr(env, args[1]);
+  mpq_ptr	op2 = env->get_user_ptr(env, args[2]);
+
+  mpq_add(rop, op1, op2);
+  return env->intern(env, "nil");
+}
+
+
+/** --------------------------------------------------------------------
  ** Elisp functions table.
  ** ----------------------------------------------------------------- */
 
-#define NUMBER_OF_MODULE_FUNCTIONS	10
+#define NUMBER_OF_MODULE_FUNCTIONS	11
 static module_function_t const module_functions_table[NUMBER_OF_MODULE_FUNCTIONS] = {
   /* Assignment function. */
   {
@@ -246,6 +256,21 @@ static module_function_t const module_functions_table[NUMBER_OF_MODULE_FUNCTIONS
     .documentation	= "Swap the values of two `mpq' objects."
   },
 
+  /* Conversion functions */
+  {
+    .name		= "mmux-gmp-c-mpq-get-d",
+    .implementation	= Fmmux_gmp_c_mpq_get_d,
+    .min_arity		= 1,
+    .max_arity		= 1,
+    .documentation	= "Convert an object of type `mpq' to a floating-point number."
+  },
+  {
+    .name		= "mmux-gmp-c-mpq-get-str",
+    .implementation	= Fmmux_gmp_c_mpq_get_str,
+    .min_arity		= 2,
+    .max_arity		= 2,
+    .documentation	= "Convert an `mpq' object to a string."
+  },
 
   /* Arithmetic functions. */
   {
@@ -254,15 +279,6 @@ static module_function_t const module_functions_table[NUMBER_OF_MODULE_FUNCTIONS
     .min_arity		= 3,
     .max_arity		= 3,
     .documentation	= "Add two `mpq' objects."
-  },
-
-  /* Conversion functions */
-  {
-    .name		= "mmux-gmp-c-mpq-get-str",
-    .implementation	= Fmmux_gmp_c_mpq_get_str,
-    .min_arity		= 2,
-    .max_arity		= 2,
-    .documentation	= "Convert an `mpq' object to a string."
   },
 };
 

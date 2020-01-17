@@ -4,7 +4,7 @@
 
 ;; Author: Marco Maggi <mrc.mgg@gmail.com>
 ;; Created: Jan 15, 2020
-;; Time-stamp: <2020-01-17 15:43:42 marco>
+;; Time-stamp: <2020-01-17 16:07:47 marco>
 ;; Keywords: extensions
 
 ;; This file is part of MMUX Emacs GMP.
@@ -282,17 +282,12 @@
   (mmux-gmp-c-mpq-swap (mpq-obj op1) (mpq-obj op2)))
 
 
-;;;; rational number functions: arithmetic
-
-(defun mpq-add (rop op1 op2)
-  "Add two `mpq' objects."
-  (cl-assert (mpq-p rop))
-  (cl-assert (mpq-p op1))
-  (cl-assert (mpq-p op2))
-  (mmux-gmp-c-mpq-add (mpq-obj rop) (mpq-obj op1) (mpq-obj op2)))
-
-
 ;;;; rational number functions: conversion
+
+(defun mpq-get-d (op)
+  "Convert an object of type `mpq' to a floating-point number."
+  (cl-assert (mpq-p op))
+  (mmux-gmp-c-mpq-get-d (mpq-obj op)))
 
 (defun mpq-get-str (base op)
   "Convert an object of type `mpq' to a string."
@@ -301,6 +296,16 @@
 		      (>= -2 base -36))))
   (cl-assert (mpq-p op))
   (mmux-gmp-c-mpq-get-str base (mpq-obj op)))
+
+
+;;;; rational number functions: arithmetic
+
+(defun mpq-add (rop op1 op2)
+  "Add two `mpq' objects."
+  (cl-assert (mpq-p rop))
+  (cl-assert (mpq-p op1))
+  (cl-assert (mpq-p op2))
+  (mmux-gmp-c-mpq-add (mpq-obj rop) (mpq-obj op1) (mpq-obj op2)))
 
 
 ;;;; floating-point number functions: assignment
