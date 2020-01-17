@@ -27,17 +27,17 @@
 
 (ert-deftest mpq-set ()
   "Assign an `mpq' object to an `mpq' object."
-  (defconst rop (mpq))
-  (defconst op  (mpq))
-  (mpq-set-si rop 3 4)
-  (mpq-set    op rop)
-  (should (equal "3/4" (mpq-get-str 10 op))))
+  (should (equal "3/4" (let ((rop (mpq))
+			     (op  (mpq)))
+			 (mpq-set-si rop 3 4)
+			 (mpq-set    op rop)
+			 (mpq-get-str 10 op)))))
 
 (ert-deftest mpq-set-si ()
   "Assign two signed exact integers to an `mpq' object."
-  (defconst rop (mpq))
-  (mpq-set-si rop 3 4)
-  (should (equal "3/4" (mpq-get-str 10 rop))))
+  (should (equal "3/4" (let ((rop (mpq)))
+			 (mpq-set-si rop 3 4)
+			 (mpq-get-str 10 rop)))))
 
 (ert-deftest mpq-set-si-1 ()
   "Assign two signed exact integers to an `mpq' object."

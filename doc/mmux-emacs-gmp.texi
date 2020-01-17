@@ -219,10 +219,10 @@ all the type names are prefixed with @code{@value{PackageApiCPrefixLower}} and s
 @code{_t}.
 
 Most of the functions implemented by @gmp{} are wrapped by @value{PACKAGE}, with the exclusion of
-the initialisation functions.  The elisp function names are equal to the C language function names,
-with each underscore turned into a dash; so @cfunc{mpz_get_str} becomes @func{mpz-get-str}.  Only a
-brief description of the arguments is given in this document: for the full meaning of the function
-arguments we should refer to the original @gmp{} documentation.
+the initialisation functions and some other functions.  The elisp function names are equal to the C
+language function names, with each underscore turned into a dash; so @cfunc{mpz_get_str} becomes
+@func{mpz-get-str}.  Only a brief description of the arguments is given in this document: for the
+full meaning of the function arguments we should refer to the original @gmp{} documentation.
 
 @menu
 * overview linking::            Linking code with the library.
@@ -507,11 +507,27 @@ Return @true{} if @var{obj} is an instance of @objtype{mpq}; otherwise return @f
 
 @defun mpq-set @var{rop} @var{op}
 Assign the value of @var{op} to @var{rop}; both the operands must be of type @objtype{mpq}.
+
+@lisp
+(let ((rop (mpq))
+      (op  (mpq)))
+  (mpq-set-si rop 3 4)
+  (mpq-set    op rop)
+  (mpq-get-str 10 op))
+@result{} "3/4"
+@end lisp
 @end defun
 
 
-@defun mpq-set @var{rop} @var{op}
-Assign the value of @var{op} to @var{rop}; both the operands must be of type @objtype{mpq}.
+@defun mpq-set-si @var{rop} @var{integer}
+Assign the value of the exact integer number @var{integer} to the @objtype{mpq} object @var{rop}.
+
+@lisp
+(let ((rop (mpq)))
+  (mpq-set-si rop 3 4)
+  (mpq-get-str 10 rop))
+@result{} "3/4"
+@end lisp
 @end defun
 
 @c page
