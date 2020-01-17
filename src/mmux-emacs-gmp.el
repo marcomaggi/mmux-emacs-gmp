@@ -4,7 +4,7 @@
 
 ;; Author: Marco Maggi <mrc.mgg@gmail.com>
 ;; Created: Jan 15, 2020
-;; Time-stamp: <2020-01-17 07:31:49 marco>
+;; Time-stamp: <2020-01-17 11:30:47 marco>
 ;; Keywords: extensions
 
 ;; This file is part of MMUX Emacs GMP.
@@ -233,14 +233,14 @@
 (defun mpq-set-z (rop op)
   "Assign the value of an `mpz' object to an `mpq' object."
   (cl-assert (mpq-p rop))
-  (cl-assert (mpq-p op))
-  (mmux-gmp-c-mpq-set-z (mpq-obj rop) op))
+  (cl-assert (mpz-p op))
+  (mmux-gmp-c-mpq-set-z (mpq-obj rop) (mpz-obj op)))
 
 (defun mpq-set-f (rop op)
   "Assign the value of an `mpf' object to an `mpq' object."
   (cl-assert (mpq-p rop))
   (cl-assert (mpf-p op))
-  (mmux-gmp-c-mpq-set-f (mpq-obj rop) op))
+  (mmux-gmp-c-mpq-set-f (mpq-obj rop) (mpf-obj op)))
 
 (defun mpq-set-str (rop str base)
   "Assign the value of a string object to an `mpq' object."
@@ -248,7 +248,7 @@
   (cl-assert (stringp str))
   (cl-assert (and (integerp base)
 		  (or (zerop base)
-		      (<= 2 base 36))))
+		      (<= 2 base 62))))
   (mmux-gmp-c-mpq-set-str (mpq-obj rop) str base))
 
 (defun mpq-swap (op1 op2)

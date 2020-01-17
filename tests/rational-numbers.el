@@ -41,37 +41,55 @@
 
 (ert-deftest mpq-set-si-1 ()
   "Assign two signed exact integers to an `mpq' object."
-  (defconst rop (mpq))
-  (mpq-set-si rop -3 4)
-  (should (equal "-3/4" (mpq-get-str 10 rop))))
+  (should (equal "-3/4" (let ((rop (mpq)))
+			  (mpq-set-si rop -3 4)
+			  (mpq-get-str 10 rop)))))
 
 (ert-deftest mpq-set-ui ()
   "Assign two unsigned exact integers to an `mpq' object."
-  (defconst rop (mpq))
-  (mpq-set-ui rop 3 4)
-  (should (equal "3/4" (mpq-get-str 10 rop))))
+  (should (equal "3/4" (let ((rop (mpq)))
+			 (mpq-set-ui rop 3 4)
+			 (mpq-get-str 10 rop)))))
 
 (ert-deftest mpq-set-d ()
   "Assign a floating-point to an `mpq' object."
-  (defconst rop (mpq))
-  (mpq-set-d rop 1.2)
-  (should (equal "5404319552844595/4503599627370496" (mpq-get-str 10 rop))))
+  (should (equal "5404319552844595/4503599627370496"
+		 (let ((rop (mpq)))
+		   (mpq-set-d rop 1.2)
+		   (mpq-get-str 10 rop)))))
+
+(ert-deftest mpq-set-z ()
+  "Assign an `mpz' object to an `mpq' object."
+  (should (equal "123"
+		 (let ((rop (mpq))
+		       (op  (mpz 123)))
+		   (mpq-set-z rop op)
+		   (mpq-get-str 10 rop)))))
+
+(ert-deftest mpq-set-f ()
+  "Assign an `mpf' object to an `mpq' object."
+  (should (equal "5404319552844595/4503599627370496"
+		 (let ((rop (mpq))
+		       (op  (mpf 1.2)))
+		   (mpq-set-f rop op)
+		   (mpq-get-str 10 rop)))))
 
 (ert-deftest mpq-set-str ()
   "Assign a string value to an `mpq' object."
-  (defconst rop (mpq))
-  (mpq-set-str rop "3/4" 10)
-  (should (equal "3/4" (mpq-get-str 10 rop))))
+  (should (equal "3/4"
+		 (let ((rop (mpq)))
+		   (mpq-set-str rop "3/4" 10)
+		   (mpq-get-str 10 rop)))))
 
 (ert-deftest mpq-swap ()
   "Swap values between `mpq' objects."
-  (defconst op1 (mpq))
-  (defconst op2 (mpq))
-  (mpq-set-si op1 3 4)
-  (mpq-set-si op2 5 6)
-  (mpq-swap op1 op2)
-  (should (equal "3/4" (mpq-get-str 10 op2)))
-  (should (equal "5/6" (mpq-get-str 10 op1))))
+  (let ((op1 (mpq))
+	(op2 (mpq)))
+    (mpq-set-si op1 3 4)
+    (mpq-set-si op2 5 6)
+    (mpq-swap op1 op2)
+    (should (equal "3/4" (mpq-get-str 10 op2)))
+    (should (equal "5/6" (mpq-get-str 10 op1)))))
 
 
 ;;;; conversion functions

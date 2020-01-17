@@ -519,14 +519,95 @@ Assign the value of @var{op} to @var{rop}; both the operands must be of type @ob
 @end defun
 
 
-@defun mpq-set-si @var{rop} @var{integer}
-Assign the value of the exact integer number @var{integer} to the @objtype{mpq} object @var{rop}.
+@defun mpq-set-si @var{rop} @var{numerator-integer} @var{denominator-integer}
+Assign the value of the signed exact integer numbers @var{numerator-integer} and
+@var{denominator-integer} to the @objtype{mpq} object @var{rop}.
 
 @lisp
 (let ((rop (mpq)))
   (mpq-set-si rop 3 4)
   (mpq-get-str 10 rop))
 @result{} "3/4"
+@end lisp
+@end defun
+
+
+@defun mpq-set-ui @var{rop} @var{numerator-integer} @var{denominator-integer}
+Assign the value of the unsigned exact integer numbers @var{numerator-integer} and
+@var{denominator-integer} to the @objtype{mpq} object @var{rop}.
+
+@lisp
+(let ((rop (mpq)))
+  (mpq-set-ui rop 3 4)
+  (mpq-get-str 10 rop))
+@result{} "3/4"
+@end lisp
+@end defun
+
+
+@defun mpq-set-d @var{rop} @var{flo}
+Assign the value of a floating--point object to an @objtype{mpq} object.
+
+@lisp
+(let ((rop (mpq)))
+  (mpq-set-d rop 1.2)
+  (mpq-get-str 10 rop))
+@result{} "5404319552844595/4503599627370496"
+@end lisp
+@end defun
+
+
+@defun mpq-set-z @var{rop} @var{op}
+Assign the value of an @objtype{mpz} object to an @objtype{mpq} object.
+
+@lisp
+(let ((rop (mpq))
+      (op  (mpz 123)))
+  (mpq-set-z rop op)
+  (mpq-get-str 10 rop))
+@result{} "123"
+@end lisp
+@end defun
+
+
+@defun mpq-set-f @var{rop} @var{op}
+Assign the value of an @objtype{mpf} object to an @objtype{mpq} object.
+
+@lisp
+(let ((rop (mpq))
+      (op  (mpf 1.2)))
+  (mpq-set-f rop op)
+  (mpq-get-str 10 rop))
+@result{} "5404319552844595/4503599627370496"
+@end lisp
+@end defun
+
+
+@defun mpq-set-str @var{rop} @var{str} @var{base}
+Assign the value of a string object to an @objtype{mpq} object.  The argument @var{base} must be an
+exact integer representing the base of the numeric string representation: @math{0} or a value
+between @math{2} and @math{62}.
+
+@lisp
+(let ((rop (mpq)))
+  (mpq-set-str rop "3/4" 10)
+  (mpq-get-str 10 rop))
+@end lisp
+@end defun
+
+
+@defun mpq-swap @vari{op} @varii{op}
+Swap the values between two @objtype{mpq} objects.
+
+@lisp
+(let ((op1 (mpq))
+      (op2 (mpq)))
+  (mpq-set-si op1 3 4)
+  (mpq-set-si op2 5 6)
+  (mpq-swap op1 op2)
+  (mpq-get-str 10 op2)  @result{} "3/4"
+  (mpq-get-str 10 op1)  @result{} "5/6"
+  )
 @end lisp
 @end defun
 

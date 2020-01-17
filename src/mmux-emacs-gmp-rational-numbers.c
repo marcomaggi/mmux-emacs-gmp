@@ -227,8 +227,8 @@ static module_function_t const module_functions_table[NUMBER_OF_MODULE_FUNCTIONS
   {
     .name		= "mmux-gmp-c-mpq-set-f",
     .implementation	= Fmmux_gmp_c_mpq_set_f,
-    .min_arity		= 3,
-    .max_arity		= 3,
+    .min_arity		= 2,
+    .max_arity		= 2,
     .documentation	= "Assign the values of an mmux-gmp-mpf object to an `mpq' object."
   },
   {
