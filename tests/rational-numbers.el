@@ -26,47 +26,47 @@
 ;;;; assignment functions
 
 (ert-deftest mpq-set ()
-  "Assign an `mmux-gmp-mpq' object to an `mmux-gmp-mpq' object."
-  (defconst rop (make-mmux-gmp-mpq))
-  (defconst op  (make-mmux-gmp-mpq))
+  "Assign an `mpq' object to an `mpq' object."
+  (defconst rop (mpq))
+  (defconst op  (mpq))
   (mpq-set-si rop 3 4)
   (mpq-set    op rop)
   (should (equal "3/4" (mpq-get-str 10 op))))
 
 (ert-deftest mpq-set-si ()
-  "Assign two signed exact integers to an `mmux-gmp-mpq' object."
-  (defconst rop (make-mmux-gmp-mpq))
+  "Assign two signed exact integers to an `mpq' object."
+  (defconst rop (mpq))
   (mpq-set-si rop 3 4)
   (should (equal "3/4" (mpq-get-str 10 rop))))
 
 (ert-deftest mpq-set-si-1 ()
-  "Assign two signed exact integers to an `mmux-gmp-mpq' object."
-  (defconst rop (make-mmux-gmp-mpq))
+  "Assign two signed exact integers to an `mpq' object."
+  (defconst rop (mpq))
   (mpq-set-si rop -3 4)
   (should (equal "-3/4" (mpq-get-str 10 rop))))
 
 (ert-deftest mpq-set-ui ()
-  "Assign two unsigned exact integers to an `mmux-gmp-mpq' object."
-  (defconst rop (make-mmux-gmp-mpq))
+  "Assign two unsigned exact integers to an `mpq' object."
+  (defconst rop (mpq))
   (mpq-set-ui rop 3 4)
   (should (equal "3/4" (mpq-get-str 10 rop))))
 
 (ert-deftest mpq-set-d ()
-  "Assign a floating-point to an `mmux-gmp-mpq' object."
-  (defconst rop (make-mmux-gmp-mpq))
+  "Assign a floating-point to an `mpq' object."
+  (defconst rop (mpq))
   (mpq-set-d rop 1.2)
   (should (equal "5404319552844595/4503599627370496" (mpq-get-str 10 rop))))
 
 (ert-deftest mpq-set-str ()
-  "Assign a string value to an `mmux-gmp-mpq' object."
-  (defconst rop (make-mmux-gmp-mpq))
+  "Assign a string value to an `mpq' object."
+  (defconst rop (mpq))
   (mpq-set-str rop "3/4" 10)
   (should (equal "3/4" (mpq-get-str 10 rop))))
 
 (ert-deftest mpq-swap ()
-  "Swap values between `mmux-gmp-mpq' objects."
-  (defconst op1 (make-mmux-gmp-mpq))
-  (defconst op2 (make-mmux-gmp-mpq))
+  "Swap values between `mpq' objects."
+  (defconst op1 (mpq))
+  (defconst op2 (mpq))
   (mpq-set-si op1 3 4)
   (mpq-set-si op2 5 6)
   (mpq-swap op1 op2)
@@ -78,7 +78,7 @@
 
 (ert-deftest mpq-get-str ()
   "Conversion to string."
-  (defconst op (make-mmux-gmp-mpq))
+  (defconst op (mpq))
   (mpq-set-si op 3 4)
   (should (equal "3/4" (mpq-get-str 10 op)))
   (should (equal "3/4" (mpq-get-str 16 op)))

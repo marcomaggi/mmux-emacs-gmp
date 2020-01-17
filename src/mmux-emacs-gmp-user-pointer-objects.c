@@ -149,21 +149,21 @@ static module_function_t const module_functions_table[NUMBER_OF_MODULE_FUNCTIONS
     .implementation	= Fmmux_gmp_c_mpz_make,
     .min_arity		= 0,
     .max_arity		= 0,
-    .documentation	= "Build and return a new mmux-gmp-mpz object."
+    .documentation	= "Build and return a new user-pointer object to be embedded into a `mpz' object."
   },
   {
     .name		= "mmux-gmp-c-mpq-make",
     .implementation	= Fmmux_gmp_c_mpq_make,
     .min_arity		= 0,
     .max_arity		= 0,
-    .documentation	= "Build and return a new mmux-gmp-mpq object."
+    .documentation	= "Build and return a new user-pointer object to be embedded into a `mpq' object."
   },
   {
     .name		= "mmux-gmp-c-mpf-make",
     .implementation	= Fmmux_gmp_c_mpf_make,
     .min_arity		= 0,
     .max_arity		= 0,
-    .documentation	= "Build and return a new mmux-gmp-mpf object."
+    .documentation	= "Build and return a new user-pointer object to be embedded into a `mpf' object."
   },
 };
 

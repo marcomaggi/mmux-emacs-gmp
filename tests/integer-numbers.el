@@ -26,60 +26,60 @@
 ;;;; assignment functions
 
 (ert-deftest mpz-set ()
-  "Assign an `mmux-gmp-mpz' object to an `mmux-gmp-mpz' object."
-  (let ((rop (make-mmux-gmp-mpz))
-	(op  (make-mmux-gmp-mpz)))
+  "Assign an `mpz' object to an `mpz' object."
+  (let ((rop (mpz))
+	(op  (mpz)))
     (mpz-set-si rop 123)
     (mpz-set    op rop)
     (should (equal "123" (mpz-get-str 10 op)))))
 
 (ert-deftest mpz-set-si ()
-  "Assign a signed exact integer to an `mmux-gmp-mpz' object."
-  (should (equal "123" (let ((rop (make-mmux-gmp-mpz)))
+  "Assign a signed exact integer to an `mpz' object."
+  (should (equal "123" (let ((rop (mpz)))
 			 (mpz-set-si rop 123)
 			 (mpz-get-str 10 rop))))
-  (should (equal "-123" (let ((rop (make-mmux-gmp-mpz)))
+  (should (equal "-123" (let ((rop (mpz)))
 			  (mpz-set-si rop -123)
 			  (mpz-get-str 10 rop)))))
 
 (ert-deftest mpz-set-ui ()
-  "Assign an unsigned exact integer to an `mmux-gmp-mpz' object."
-  (let ((rop (make-mmux-gmp-mpz)))
+  "Assign an unsigned exact integer to an `mpz' object."
+  (let ((rop (mpz)))
     (mpz-set-ui rop 123)
     (should (equal "123" (mpz-get-str 10 rop)))))
 
 (ert-deftest mpz-set-q ()
-  "Assign an `mmux-gmp-mpq' object to an `mmux-gmp-mpz' object."
-  (let ((rop (make-mmux-gmp-mpz))
-	(op  (make-mmux-gmp-mpq)))
+  "Assign an `mpq' object to an `mpz' object."
+  (let ((rop (mpz))
+	(op  (mpq)))
     (mpq-set-si op 10 7)
     (mpz-set-q rop op)
     (should (equal "1" (mpz-get-str 10 rop)))))
 
 (ert-deftest mpz-set-f ()
-  "Assign an `mmux-gmp-mpf' object to an `mmux-gmp-mpz' object."
-  (let ((rop (make-mmux-gmp-mpz))
-	(op  (make-mmux-gmp-mpf)))
+  "Assign an `mpf' object to an `mpz' object."
+  (let ((rop (mpz))
+	(op  (mpf)))
     (mpf-set-d op 12.34)
     (mpz-set-f rop op)
     (should (equal "12" (mpz-get-str 10 rop)))))
 
 (ert-deftest mpz-set-d ()
-  "Assign a floating point to an `mmux-gmp-mpz' object."
-  (let ((rop (make-mmux-gmp-mpz)))
+  "Assign a floating point to an `mpz' object."
+  (let ((rop (mpz)))
     (mpz-set-d rop 12.3)
     (should (equal "12" (mpz-get-str 10 rop)))))
 
 (ert-deftest mpz-set-str ()
-  "Assign a string value to an `mmux-gmp-mpz' object."
-  (let ((rop (make-mmux-gmp-mpz)))
+  "Assign a string value to an `mpz' object."
+  (let ((rop (mpz)))
     (mpz-set-str rop "123" 10)
     (should (equal "123" (mpz-get-str 10 rop)))))
 
 (ert-deftest mpz-swap ()
-  "Swap values between `mmux-gmp-mpz' objects."
-  (let ((op1 (make-mmux-gmp-mpz))
-	(op2 (make-mmux-gmp-mpz)))
+  "Swap values between `mpz' objects."
+  (let ((op1 (mpz))
+	(op2 (mpz)))
     (mpz-set-si op1 123)
     (mpz-set-si op2 456)
     (mpz-swap op1 op2)
@@ -87,9 +87,9 @@
     (should (equal "456" (mpz-get-str 10 op1)))))
 
 (ert-deftest mpz-swap-1 ()
-  "Swap values between `mmux-gmp-mpz' objects."
-  (defconst op1 (make-mmux-gmp-mpz))
-  (defconst op2 (make-mmux-gmp-mpz))
+  "Swap values between `mpz' objects."
+  (defconst op1 (mpz))
+  (defconst op2 (mpz))
   (mpz-set-si op1 123)
   (mpz-set-si op2 456)
   (mpz-swap op1 op2)
@@ -101,7 +101,7 @@
 
 (ert-deftest mpz-get-str ()
   "Conversion to string."
-  (let ((op (make-mmux-gmp-mpz)))
+  (let ((op (mpz)))
     (mpz-set-si op 15)
     (should (equal "15" (mpz-get-str 10 op)))
     (should (equal "f"  (mpz-get-str 16 op)))

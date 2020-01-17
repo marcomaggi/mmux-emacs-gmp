@@ -298,7 +298,7 @@ garbage collected.
 @section Allocating exact integers
 
 
-@defun make-mmux-gmp-mpz
+@defun mpz
 Build and return a new @objtype{mmux-gmp-mpz} object instance.  When called with no arguments: the
 object is uninitialised.
 @end defun
@@ -308,12 +308,12 @@ object is uninitialised.
 @section Exact integer predicates
 
 
-@defun mmux-gmp-mpz-p @var{obj}
+@defun mpz-p @var{obj}
 Return @true{} if @var{obj} is an instance of @objtype{mmux-gmp-mpz}; otherwise return @false{}.
 
 @lisp
-(mmux-gmp-mpz-p (make-mmux-gmp-mpz))    @result{} t
-(mmux-gmp-mpz-p 123)                    @result{} nil
+(mpz-p (mpz))   @result{} t
+(mpz-p 123)     @result{} nil
 @end lisp
 @end defun
 
@@ -326,8 +326,8 @@ Return @true{} if @var{obj} is an instance of @objtype{mmux-gmp-mpz}; otherwise 
 Assign the value of @var{op} to @var{rop}; both the operands must be of type @objtype{mmux-gmp-mpz}.
 
 @lisp
-(defconst rop (make-mmux-gmp-mpz))
-(defconst op  (make-mmux-gmp-mpz))
+(defconst rop (mpz))
+(defconst op  (mpz))
 (mpz-set-si rop 123)
 (mpz-set    op rop)
 (mpz-get-str 10 op)     @result{} "123"
@@ -339,7 +339,7 @@ Assign the value of @var{op} to @var{rop}; both the operands must be of type @ob
 Assign the value of an exact integer object to an @objtype{mmux-gmp-mpz} object.
 
 @lisp
-(defconst rop (make-mmux-gmp-mpz))
+(defconst rop (mpz))
 (mpz-set-si rop 123)
 (mpz-get-str 10 op)     @result{} "123"
 @end lisp
@@ -350,7 +350,7 @@ Assign the value of an exact integer object to an @objtype{mmux-gmp-mpz} object.
 Assign the value of a floating--point object to an @objtype{mmux-gmp-mpz} object.
 
 @lisp
-(defconst rop (make-mmux-gmp-mpz))
+(defconst rop (mpz))
 (mpz-set-d rop 12.3)
 (mpz-get-str 10 rop)    @result{} "12"
 @end lisp
@@ -373,7 +373,7 @@ must be an exact integer representing the base of the numeric string representat
 value between @math{2} and @math{32}.
 
 @lisp
-(defconst rop (make-mmux-gmp-mpz))
+(defconst rop (mpz))
 (mpz-set-str rop "123" 10)
 (mpz-get-str 10 rop)    @result{} "123"
 @end lisp
@@ -384,8 +384,8 @@ value between @math{2} and @math{32}.
 Swap the values between two @objtype{mmux-gmp-mpz} objects.
 
 @lisp
-(defconst op1 (make-mmux-gmp-mpz))
-(defconst op2 (make-mmux-gmp-mpz))
+(defconst op1 (mpz))
+(defconst op2 (mpz))
 (mpz-set-si op1 123)
 (mpz-set-si op2 456)
 (mpz-swap op1 op2)
@@ -405,7 +405,7 @@ Convert an object @var{op} of type @objtype{mmux-gmp-mpz} to a string; return th
 positive between @math{2} and @math{36} or negative between @math{-2} and @math{-36}.
 
 @lisp
-(let ((op (make-mmux-gmp-mpz)))
+(let ((op (mpz)))
   (mpz-set-si op 15)
   (mpz-get-str  10 op)      @result{} "15"
   (mpz-get-str  16 op)      @result{} "f"
@@ -440,7 +440,7 @@ garbage collected.
 @section Allocating rational numbers
 
 
-@defun make-mmux-gmp-mpq
+@defun mpq
 Build and return a new @objtype{mmux-gmp-mpq} object instance.  When called with no arguments: the
 object is uninitialised.
 @end defun
@@ -451,12 +451,12 @@ object is uninitialised.
 
 
 
-@defun mmux-gmp-mpq-p @var{obj}
+@defun mpq-p @var{obj}
 Return true if @var{obj} is an instance of @objtype{mmux-gmp-mpq}; otherwise return false.
 
 @lisp
-(mmux-gmp-mpq-p (make-mmux-gmp-mpq))    @result{} t
-(mmux-gmp-mpq-p 123)                    @result{} nil
+(mpq-p (mpq))    @result{} t
+(mpq-p 123)                    @result{} nil
 @end lisp
 @end defun
 
@@ -504,7 +504,7 @@ correctly garbage collected.
 @section Allocating floating--point numbers
 
 
-@defun make-mmux-gmp-mpf
+@defun mpf
 Build and return a new @objtype{mmux-gmp-mpf} object instance.  When called with no arguments: the
 object is uninitialised.
 @end defun
@@ -514,12 +514,12 @@ object is uninitialised.
 @section Floating--point number predicates
 
 
-@defun mmux-gmp-mpf-p @var{obj}
+@defun mpf-p @var{obj}
 Return true if @var{obj} is an instance of @objtype{mmux-gmp-mpf}; otherwise return false.
 
 @lisp
-(mmux-gmp-mpf-p (make-mmux-gmp-mpf))    @result{} t
-(mmux-gmp-mpf-p 123)                    @result{} nil
+(mpf-p (mpf))   @result{} t
+(mpf-p 123)     @result{} nil
 @end lisp
 @end defun
 

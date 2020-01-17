@@ -126,7 +126,7 @@ Fmmux_gmp_c_mpq_set_str (emacs_env *env, ptrdiff_t nargs, emacs_value args[], vo
        node "Standard Errors" for a list of  the standard error symbols; see the node
        "Error Symbols"  for methods to define  error symbols.  (Marco Maggi;  Jan 14,
        2020) */
-    env->non_local_exit_signal(env, env->intern(env, "mmux-gmp-string-too-long"), Serrmsg);
+    env->non_local_exit_signal(env, env->intern(env, MMUX_EMAC_GMP_ERROR_STRING_TOO_LONG), Serrmsg);
     return env->intern(env, "nil");
   }
 }
@@ -194,56 +194,56 @@ static module_function_t const module_functions_table[NUMBER_OF_MODULE_FUNCTIONS
     .implementation	= Fmmux_gmp_c_mpq_set,
     .min_arity		= 2,
     .max_arity		= 2,
-    .documentation	= "Assign the value of an `mmux-gmp-mpq' object to another `mmux-gmp-mpq' object."
+    .documentation	= "Assign the value of an `mpq' object to another `mpq' object."
   },
   {
     .name		= "mmux-gmp-c-mpq-set-si",
     .implementation	= Fmmux_gmp_c_mpq_set_si,
     .min_arity		= 3,
     .max_arity		= 3,
-    .documentation	= "Assign the values of two signed integers to an `mmux-gmp-mpq' object."
+    .documentation	= "Assign the values of two signed integers to an `mpq' object."
   },
   {
     .name		= "mmux-gmp-c-mpq-set-ui",
     .implementation	= Fmmux_gmp_c_mpq_set_ui,
     .min_arity		= 3,
     .max_arity		= 3,
-    .documentation	= "Assign the values of two unsigned integers to an `mmux-gmp-mpq' object."
+    .documentation	= "Assign the values of two unsigned integers to an `mpq' object."
   },
   {
     .name		= "mmux-gmp-c-mpq-set-d",
     .implementation	= Fmmux_gmp_c_mpq_set_d,
     .min_arity		= 2,
     .max_arity		= 2,
-    .documentation	= "Assign the value of a floating-point object to an `mmux-gmp-mpq' object."
+    .documentation	= "Assign the value of a floating-point object to an `mpq' object."
   },
   {
     .name		= "mmux-gmp-c-mpq-set-z",
     .implementation	= Fmmux_gmp_c_mpq_set_z,
     .min_arity		= 2,
     .max_arity		= 2,
-    .documentation	= "Assign the value of an `mmux-gmp-mpz' object to an `mmux-gmp-mpq' object."
+    .documentation	= "Assign the value of an `mpz' object to an `mpq' object."
   },
   {
     .name		= "mmux-gmp-c-mpq-set-f",
     .implementation	= Fmmux_gmp_c_mpq_set_f,
     .min_arity		= 3,
     .max_arity		= 3,
-    .documentation	= "Assign the values of an mmux-gmp-mpf object to an `mmux-gmp-mpq' object."
+    .documentation	= "Assign the values of an mmux-gmp-mpf object to an `mpq' object."
   },
   {
     .name		= "mmux-gmp-c-mpq-set-str",
     .implementation	= Fmmux_gmp_c_mpq_set_str,
     .min_arity		= 3,
     .max_arity		= 3,
-    .documentation	= "Assign the value of a string object to an `mmux-gmp-mpq' object."
+    .documentation	= "Assign the value of a string object to an `mpq' object."
   },
   {
     .name		= "mmux-gmp-c-mpq-swap",
     .implementation	= Fmmux_gmp_c_mpq_swap,
     .min_arity		= 2,
     .max_arity		= 2,
-    .documentation	= "Swap the values of two `mmux-gmp-mpq' objects."
+    .documentation	= "Swap the values of two `mpq' objects."
   },
 
 
@@ -253,7 +253,7 @@ static module_function_t const module_functions_table[NUMBER_OF_MODULE_FUNCTIONS
     .implementation	= Fmmux_gmp_c_mpq_add,
     .min_arity		= 3,
     .max_arity		= 3,
-    .documentation	= "Add two `mmux-gmp-mpq' objects."
+    .documentation	= "Add two `mpq' objects."
   },
 
   /* Conversion functions */
@@ -262,7 +262,7 @@ static module_function_t const module_functions_table[NUMBER_OF_MODULE_FUNCTIONS
     .implementation	= Fmmux_gmp_c_mpq_get_str,
     .min_arity		= 2,
     .max_arity		= 2,
-    .documentation	= "Convert an `mmux-gmp-mpq' object to a string."
+    .documentation	= "Convert an `mpq' object to a string."
   },
 };
 
