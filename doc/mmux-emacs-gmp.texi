@@ -298,6 +298,7 @@ garbage collected.
 * integers assignment::         Assigning values to objects.
 * integers conversion::         Converting exact integers to
                                 other objects.
+* integers arithmetic::         Arithmetic operations.
 @end menu
 
 @c page
@@ -487,6 +488,206 @@ positive between @math{2} and @math{36} or negative between @math{-2} and @math{
 (mpz-get-str  10 op)    @result{} "15"
 (mpz-get-str  16 op)    @result{} "f"
 (mpz-get-str -16 op)    @result{} "F"
+@end lisp
+@end defun
+
+@c page
+@node integers arithmetic
+@section Arithmetic operations
+
+
+@defun mpz-add @var{rop} @vari{op} @varii{op}
+Add two @objtype{mpz} objects.
+
+@lisp
+(let ((rop      (mpz))
+      (op1      (mpz 10))
+      (op2      (mpz 1)))
+  (mpz-add rop op1 op2)
+  (mpz-get-ui rop))
+@result{} 11
+@end lisp
+@end defun
+
+
+@defun mpz-add-ui @var{rop} @vari{op} @varii{op}
+Add an @objtype{mpz} object to an unsigned exact integer number.
+
+@lisp
+(let ((rop      (mpz))
+      (op1      (mpz 10))
+      (op2      1))
+  (mpz-add-ui rop op1 op2)
+  (mpz-get-ui rop))
+@result{} 11
+@end lisp
+@end defun
+
+
+@defun mpz-sub @var{rop} @vari{op} @varii{op}
+Subtract two @objtype{mpz} objects.
+
+@lisp
+(let ((rop      (mpz))
+      (op1      (mpz 11))
+      (op2      (mpz 1)))
+  (mpz-sub rop op1 op2)
+  (mpz-get-ui rop))
+@result{} 10
+@end lisp
+@end defun
+
+
+@defun mpz-sub-ui @var{rop} @vari{op} @varii{op}
+Subtract an unsigned exact integer number from an @objtype{mpz} object.
+
+@lisp
+(let ((rop      (mpz))
+      (op1      (mpz 11))
+      (op2      1))
+  (mpz-sub-ui rop op1 op2)
+  (mpz-get-ui rop))
+@result{} 10
+@end lisp
+@end defun
+
+
+@defun mpz-addmul @var{rop} @vari{op} @varii{op}
+Multiply two @objtype{mpz} objects, then add the result to another @objtype{mpz} object.
+
+@lisp
+(let ((rop     (mpz 100))
+      (op1     (mpz 11))
+      (op2     (mpz 2)))
+  (mpz-addmul rop op1 op2)
+  (mpz-get-ui rop))
+@result{} (+ 100 (* 11 2))
+@end lisp
+@end defun
+
+
+@defun mpz-addmul-ui @var{rop} @vari{op} @varii{op}
+Multiply an @objtype{mpz} object with an unsigned exact integer number, then add the result to
+another @objtype{mpz} object.
+
+@lisp
+(let ((rop     (mpz 100))
+      (op1     (mpz 11))
+      (op2     2))
+  (mpz-addmul-ui rop op1 op2)
+  (mpz-get-ui rop))
+@result{} (+ 100 (* 11 2))
+@end lisp
+@end defun
+
+
+@defun mpz-submul @var{rop} @vari{op} @varii{op}
+Multiply two @objtype{mpz} objects, then subtract the result from another @objtype{mpz} object.
+
+@lisp
+(let ((rop     (mpz 100))
+      (op1     (mpz 11))
+      (op2     (mpz 2)))
+  (mpz-submul rop op1 op2)
+  (mpz-get-ui rop))
+@result{} (- 100 (* 11 2))
+@end lisp
+@end defun
+
+
+@defun mpz-submul-ui @var{rop} @vari{op} @varii{op}
+Multiply an @objtype{mpz} object with an unsigned exact integer number, then subtract the result
+from another @objtype{mpz} object.
+
+@lisp
+(let ((rop     (mpz 100))
+      (op1     (mpz 11))
+      (op2     2))
+  (mpz-submul-ui rop op1 op2)
+  (mpz-get-ui rop))
+@result{} (- 100 (* 11 2))
+@end lisp
+@end defun
+
+
+@defun mpz-mul @var{rop} @vari{op} @varii{op}
+Multiply two @objtype{mpz} objects.
+
+@lisp
+(let ((rop     (mpz))
+      (op1     (mpz 111))
+      (op2     (mpz 2)))
+  (mpz-mul rop op1 op2)
+  (mpz-get-ui rop))
+@result{} 222
+@end lisp
+@end defun
+
+
+@defun mpz-mul-si @var{rop} @vari{op} @varii{op}
+Multiply an @objtype{mpz} object by a signed exact integer number.
+
+@lisp
+(let ((rop     (mpz))
+      (op1     (mpz 111))
+      (op2     2))
+  (mpz-mul-si rop op1 op2)
+  (mpz-get-ui rop))
+@result{} 222
+@end lisp
+@end defun
+
+
+@defun mpz-mul-ui @var{rop} @vari{op} @varii{op}
+Multiply an @objtype{mpz} object by an unsigned exact integer number.
+
+@lisp
+(let ((rop     (mpz))
+      (op1     (mpz 111))
+      (op2     2))
+  (mpz-mul-ui rop op1 op2)
+  (mpz-get-ui rop))
+@result{} 222
+@end lisp
+@end defun
+
+
+@defun mpz-mul-2exp @var{rop} @var{op} @var{bitcnt}
+Left shift an @objtype{mpz} object.
+
+@lisp
+(let ((rop     (mpz))
+      (op      (mpz #b10101))
+      (bitcnt  2))
+  (mpz-mul-2exp rop op bitcnt)
+  (mpz-get-ui rop))
+@result{} #b1010100
+@end lisp
+@end defun
+
+
+@defun mpz-neg @var{rop} @var{op}
+Negate an @objtype{mpz} object.
+
+@lisp
+(let ((rop     (mpz))
+      (op      (mpz 123)))
+  (mpz-neg rop op)
+  (mpz-get-si rop))
+@result{} -123
+@end lisp
+@end defun
+
+
+@defun mpz-abs @var{rop} @var{op}
+Compute the absolute value of an @objtype{mpz} object.
+
+@lisp
+(let ((rop     (mpz))
+      (op      (mpz -123)))
+  (mpz-abs rop op)
+  (mpz-get-ui rop))
+@result{} 123
 @end lisp
 @end defun
 

@@ -4,7 +4,7 @@
 
 ;; Author: Marco Maggi <mrc.mgg@gmail.com>
 ;; Created: Jan 15, 2020
-;; Time-stamp: <2020-01-17 16:53:26 marco>
+;; Time-stamp: <2020-01-18 17:24:31 marco>
 ;; Keywords: extensions
 
 ;; This file is part of MMUX Emacs GMP.
@@ -190,6 +190,106 @@
   (cl-assert (mpz-p op1))
   (cl-assert (mpz-p op2))
   (mmux-gmp-c-mpz-add (mpz-obj rop) (mpz-obj op1) (mpz-obj op2)))
+
+(defun mpz-add-ui (rop op1 op2)
+  "Add an `mpz' object to an unsigned exact integer number."
+  (cl-assert (mpz-p rop))
+  (cl-assert (mpz-p op1))
+  (cl-assert (integerp op2))
+  (mmux-gmp-c-mpz-add-ui (mpz-obj rop) (mpz-obj op1) op2))
+
+;;; --------------------------------------------------------------------
+
+(defun mpz-sub (rop op1 op2)
+  "Subtract two `mpz' objects."
+  (cl-assert (mpz-p rop))
+  (cl-assert (mpz-p op1))
+  (cl-assert (mpz-p op2))
+  (mmux-gmp-c-mpz-sub (mpz-obj rop) (mpz-obj op1) (mpz-obj op2)))
+
+(defun mpz-sub-ui (rop op1 op2)
+  "Subtract an unsigned exact integer number from an `mpz' object."
+  (cl-assert (mpz-p rop))
+  (cl-assert (mpz-p op1))
+  (cl-assert (integerp op2))
+  (mmux-gmp-c-mpz-sub-ui (mpz-obj rop) (mpz-obj op1) op2))
+
+;;; --------------------------------------------------------------------
+
+(defun mpz-addmul (rop op1 op2)
+  "Multiply two `mpz' objects, then add the result to another `mpz' object."
+  (cl-assert (mpz-p rop))
+  (cl-assert (mpz-p op1))
+  (cl-assert (mpz-p op2))
+  (mmux-gmp-c-mpz-addmul (mpz-obj rop) (mpz-obj op1) (mpz-obj op2)))
+
+(defun mpz-addmul-ui (rop op1 op2)
+  "Multiply an `mpz' object with an unsigned exact integer number, then add the result to another `mpz' object."
+  (cl-assert (mpz-p rop))
+  (cl-assert (mpz-p op1))
+  (cl-assert (integerp op2))
+  (mmux-gmp-c-mpz-addmul-ui (mpz-obj rop) (mpz-obj op1) op2))
+
+;;; --------------------------------------------------------------------
+
+(defun mpz-submul (rop op1 op2)
+  "Multiply two `mpz' objects, then subtract the result from another `mpz' object."
+  (cl-assert (mpz-p rop))
+  (cl-assert (mpz-p op1))
+  (cl-assert (mpz-p op2))
+  (mmux-gmp-c-mpz-submul (mpz-obj rop) (mpz-obj op1) (mpz-obj op2)))
+
+(defun mpz-submul-ui (rop op1 op2)
+  "Multiply an `mpz' object with an unsigned exact integer number, then subtract the result from another `mpz' object."
+  (cl-assert (mpz-p rop))
+  (cl-assert (mpz-p op1))
+  (cl-assert (integerp op2))
+  (mmux-gmp-c-mpz-submul-ui (mpz-obj rop) (mpz-obj op1) op2))
+
+;;; --------------------------------------------------------------------
+
+(defun mpz-mul (rop op1 op2)
+  "Multiply two `mpz' objects."
+  (cl-assert (mpz-p rop))
+  (cl-assert (mpz-p op1))
+  (cl-assert (mpz-p op2))
+  (mmux-gmp-c-mpz-mul (mpz-obj rop) (mpz-obj op1) (mpz-obj op2)))
+
+(defun mpz-mul-si (rop op1 op2)
+  "Multiply an `mpz' object by a signed exact integer number."
+  (cl-assert (mpz-p rop))
+  (cl-assert (mpz-p op1))
+  (cl-assert (integerp op2))
+  (mmux-gmp-c-mpz-mul-si (mpz-obj rop) (mpz-obj op1) op2))
+
+(defun mpz-mul-ui (rop op1 op2)
+  "Multiply an `mpz' object by an unsigned exact integer number."
+  (cl-assert (mpz-p rop))
+  (cl-assert (mpz-p op1))
+  (cl-assert (and (integerp op2)
+		  (<= 0 op2)))
+  (mmux-gmp-c-mpz-mul-ui (mpz-obj rop) (mpz-obj op1) op2))
+
+;;; --------------------------------------------------------------------
+
+(defun mpz-mul-2exp (rop op bitcnt)
+  "Left shift an `mpz' object."
+  (cl-assert (mpz-p rop))
+  (cl-assert (mpz-p op))
+  (cl-assert (integerp bitcnt))
+  (mmux-gmp-c-mpz-mul-2exp (mpz-obj rop) (mpz-obj op) bitcnt))
+
+(defun mpz-neg (rop op)
+  "Negate an `mpz' object."
+  (cl-assert (mpz-p rop))
+  (cl-assert (mpz-p op))
+  (mmux-gmp-c-mpz-neg (mpz-obj rop) (mpz-obj op)))
+
+(defun mpz-abs (rop op)
+  "Compute the absolute value of an `mpz' object."
+  (cl-assert (mpz-p rop))
+  (cl-assert (mpz-p op))
+  (mmux-gmp-c-mpz-abs (mpz-obj rop) (mpz-obj op)))
 
 
 ;;;; integer number functions: conversion

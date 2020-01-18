@@ -5,7 +5,7 @@
 
   Abstract
 
-	This module  implements adapters for the integer functions.
+	This module implements adapters for the integer functions.
 
   Copyright (C) 2020 Marco Maggi <mrc.mgg@gmail.com>
 
@@ -230,12 +230,176 @@ Fmmux_gmp_c_mpz_add (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void *
   return env->intern(env, "nil");
 }
 
+static emacs_value
+Fmmux_gmp_c_mpz_add_ui (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
+{
+  assert(3 == nargs);
+  mpz_ptr	rop = env->get_user_ptr(env, args[0]);
+  mpz_ptr	op1 = env->get_user_ptr(env, args[1]);
+  intmax_t	op2 = env->extract_integer(env, args[2]);
+
+  mpz_add_ui(rop, op1, (unsigned long int)op2);
+  return env->intern(env, "nil");
+}
+
+/* ------------------------------------------------------------------ */
+
+static emacs_value
+Fmmux_gmp_c_mpz_sub (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
+{
+  assert(3 == nargs);
+  mpz_ptr	rop = env->get_user_ptr(env, args[0]);
+  mpz_ptr	op1 = env->get_user_ptr(env, args[1]);
+  mpz_ptr	op2 = env->get_user_ptr(env, args[2]);
+
+  mpz_sub(rop, op1, op2);
+  return env->intern(env, "nil");
+}
+
+static emacs_value
+Fmmux_gmp_c_mpz_sub_ui (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
+{
+  assert(3 == nargs);
+  mpz_ptr	rop = env->get_user_ptr(env, args[0]);
+  mpz_ptr	op1 = env->get_user_ptr(env, args[1]);
+  intmax_t	op2 = env->extract_integer(env, args[2]);
+
+  mpz_sub_ui(rop, op1, (unsigned long int)op2);
+  return env->intern(env, "nil");
+}
+
+/* ------------------------------------------------------------------ */
+
+static emacs_value
+Fmmux_gmp_c_mpz_addmul (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
+{
+  assert(3 == nargs);
+  mpz_ptr	rop = env->get_user_ptr(env, args[0]);
+  mpz_ptr	op1 = env->get_user_ptr(env, args[1]);
+  mpz_ptr	op2 = env->get_user_ptr(env, args[2]);
+
+  mpz_addmul(rop, op1, op2);
+  return env->intern(env, "nil");
+}
+
+static emacs_value
+Fmmux_gmp_c_mpz_addmul_ui (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
+{
+  assert(3 == nargs);
+  mpz_ptr	rop = env->get_user_ptr(env, args[0]);
+  mpz_ptr	op1 = env->get_user_ptr(env, args[1]);
+  intmax_t	op2 = env->extract_integer(env, args[2]);
+
+  mpz_addmul_ui(rop, op1, (unsigned long int)op2);
+  return env->intern(env, "nil");
+}
+
+/* ------------------------------------------------------------------ */
+
+static emacs_value
+Fmmux_gmp_c_mpz_submul (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
+{
+  assert(3 == nargs);
+  mpz_ptr	rop = env->get_user_ptr(env, args[0]);
+  mpz_ptr	op1 = env->get_user_ptr(env, args[1]);
+  mpz_ptr	op2 = env->get_user_ptr(env, args[2]);
+
+  mpz_submul(rop, op1, op2);
+  return env->intern(env, "nil");
+}
+
+static emacs_value
+Fmmux_gmp_c_mpz_submul_ui (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
+{
+  assert(3 == nargs);
+  mpz_ptr	rop = env->get_user_ptr(env, args[0]);
+  mpz_ptr	op1 = env->get_user_ptr(env, args[1]);
+  intmax_t	op2 = env->extract_integer(env, args[2]);
+
+  mpz_submul_ui(rop, op1, (unsigned long int)op2);
+  return env->intern(env, "nil");
+}
+
+/* ------------------------------------------------------------------ */
+
+static emacs_value
+Fmmux_gmp_c_mpz_mul (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
+{
+  assert(3 == nargs);
+  mpz_ptr	rop = env->get_user_ptr(env, args[0]);
+  mpz_ptr	op1 = env->get_user_ptr(env, args[1]);
+  mpz_ptr	op2 = env->get_user_ptr(env, args[2]);
+
+  mpz_mul(rop, op1, op2);
+  return env->intern(env, "nil");
+}
+
+static emacs_value
+Fmmux_gmp_c_mpz_mul_si (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
+{
+  assert(3 == nargs);
+  mpz_ptr	rop = env->get_user_ptr(env, args[0]);
+  mpz_ptr	op1 = env->get_user_ptr(env, args[1]);
+  intmax_t	op2 = env->extract_integer(env, args[2]);
+
+  mpz_mul_si(rop, op1, (signed long int)op2);
+  return env->intern(env, "nil");
+}
+
+static emacs_value
+Fmmux_gmp_c_mpz_mul_ui (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
+{
+  assert(3 == nargs);
+  mpz_ptr	rop = env->get_user_ptr(env, args[0]);
+  mpz_ptr	op1 = env->get_user_ptr(env, args[1]);
+  intmax_t	op2 = env->extract_integer(env, args[2]);
+
+  mpz_mul_ui(rop, op1, (unsigned long int)op2);
+  return env->intern(env, "nil");
+}
+
+/* ------------------------------------------------------------------ */
+
+static emacs_value
+Fmmux_gmp_c_mpz_mul_2exp (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
+{
+  assert(3 == nargs);
+  mpz_ptr	rop = env->get_user_ptr(env, args[0]);
+  mpz_ptr	op1 = env->get_user_ptr(env, args[1]);
+  intmax_t	op2 = env->extract_integer(env, args[2]);
+
+  mpz_mul_2exp(rop, op1, (mp_bitcnt_t)op2);
+  return env->intern(env, "nil");
+}
+
+static emacs_value
+Fmmux_gmp_c_mpz_neg (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
+{
+  assert(2 == nargs);
+  mpz_ptr	rop = env->get_user_ptr(env, args[0]);
+  mpz_ptr	op  = env->get_user_ptr(env, args[1]);
+
+  mpz_neg(rop, op);
+  return env->intern(env, "nil");
+}
+
+static emacs_value
+Fmmux_gmp_c_mpz_abs (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
+{
+  assert(2 == nargs);
+  mpz_ptr	rop = env->get_user_ptr(env, args[0]);
+  mpz_ptr	op  = env->get_user_ptr(env, args[1]);
+
+  mpz_abs(rop, op);
+  return env->intern(env, "nil");
+}
+
 
 /** --------------------------------------------------------------------
  ** Elisp functions table.
  ** ----------------------------------------------------------------- */
 
-#define NUMBER_OF_MODULE_FUNCTIONS	14
+#define NUMBER_OF_MODULE_FUNCTIONS	27
 static module_function_t const module_functions_table[NUMBER_OF_MODULE_FUNCTIONS] = {
   /* Assignment function. */
   {
@@ -339,6 +503,97 @@ static module_function_t const module_functions_table[NUMBER_OF_MODULE_FUNCTIONS
     .min_arity		= 3,
     .max_arity		= 3,
     .documentation	= "Add two `mpz' objects."
+  },
+  {
+    .name		= "mmux-gmp-c-mpz-add-ui",
+    .implementation	= Fmmux_gmp_c_mpz_add_ui,
+    .min_arity		= 3,
+    .max_arity		= 3,
+    .documentation	= "Add an `mpz' object to an unsigned exact iteger number.",
+  },
+  {
+    .name		= "mmux-gmp-c-mpz-sub",
+    .implementation	= Fmmux_gmp_c_mpz_sub,
+    .min_arity		= 3,
+    .max_arity		= 3,
+    .documentation	= "Subtract an `mpz' object from another `mpz' object.",
+  },
+  {
+    .name		= "mmux-gmp-c-mpz-sub-ui",
+    .implementation	= Fmmux_gmp_c_mpz_sub_ui,
+    .min_arity		= 3,
+    .max_arity		= 3,
+    .documentation	= "Subtract an unsigned exact integer number from an `mpz' object.",
+  },
+  {
+    .name		= "mmux-gmp-c-mpz-addmul",
+    .implementation	= Fmmux_gmp_c_mpz_addmul,
+    .min_arity		= 3,
+    .max_arity		= 3,
+    .documentation	= "Multiply two `mpz' objects, then add the result to another `mpz' object.",
+  },
+  {
+    .name		= "mmux-gmp-c-mpz-addmul-ui",
+    .implementation	= Fmmux_gmp_c_mpz_addmul_ui,
+    .min_arity		= 3,
+    .max_arity		= 3,
+    .documentation	= "Multiply an `mpz' object by an unsigned exact integer number, then add the result to another `mpz' object."
+  },
+  {
+    .name		= "mmux-gmp-c-mpz-submul",
+    .implementation	= Fmmux_gmp_c_mpz_submul,
+    .min_arity		= 3,
+    .max_arity		= 3,
+    .documentation	= "Multiply two `mpz' objects, then subtract the result from another `mpz' object.",
+  },
+  {
+    .name		= "mmux-gmp-c-mpz-submul-ui",
+    .implementation	= Fmmux_gmp_c_mpz_submul_ui,
+    .min_arity		= 3,
+    .max_arity		= 3,
+    .documentation	= "Multiply an `mpz' object with an unsigned exact integer number, then subtract the result from another `mpz' object.",
+  },
+  {
+    .name		= "mmux-gmp-c-mpz-mul",
+    .implementation	= Fmmux_gmp_c_mpz_mul,
+    .min_arity		= 3,
+    .max_arity		= 3,
+    .documentation	= "Multiply two `mpz' objects."
+  },
+  {
+    .name		= "mmux-gmp-c-mpz-mul-si",
+    .implementation	= Fmmux_gmp_c_mpz_mul_si,
+    .min_arity		= 3,
+    .max_arity		= 3,
+    .documentation	= "Multiply an `mpz' object by a signed exact integer number."
+  },
+  {
+    .name		= "mmux-gmp-c-mpz-mul-ui",
+    .implementation	= Fmmux_gmp_c_mpz_mul_ui,
+    .min_arity		= 3,
+    .max_arity		= 3,
+    .documentation	= "Multiply an `mpz' object by an unsigned exact integer number."
+  },
+  {
+    .name		= "mmux-gmp-c-mpz-mul-2exp",
+    .implementation	= Fmmux_gmp_c_mpz_mul_2exp,
+    .min_arity		= 3,
+    .max_arity		= 3,
+    .documentation	= "Left shift an `mpz'.",
+  },
+  {
+    .name		= "mmux-gmp-c-mpz-neg",
+    .implementation	= Fmmux_gmp_c_mpz_neg,
+    .min_arity		= 2,
+    .max_arity		= 2,
+    .documentation	= "Negate an `mpz' object.",
+  },
+  {
+    .name		= "mmux-gmp-c-mpz-abs",
+    .implementation	= Fmmux_gmp_c_mpz_abs,
+    .min_arity		= 2,
+    .max_arity		= 2,
+    .documentation	= "Compute the absolute value of an `mpz' object",
   },
 };
 

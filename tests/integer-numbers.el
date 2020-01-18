@@ -154,6 +154,148 @@
     (should (equal "F"  (mpz-get-str -16 op)))))
 
 
+;;;; arithmetic functions
+
+(ert-deftest mpz-add ()
+  "Add `mpz' objects."
+  (should (equal 11
+		 (let ((rop	(mpz))
+		       (op1	(mpz 10))
+		       (op2	(mpz 1)))
+		   (mpz-add rop op1 op2)
+		   (mpz-get-ui rop)))))
+
+(ert-deftest mpz-add-ui ()
+  "Add an `mpz' object to an unsigned integer."
+  (should (equal 11
+		 (let ((rop	(mpz))
+		       (op1	(mpz 10))
+		       (op2	1))
+		   (mpz-add-ui rop op1 op2)
+		   (mpz-get-ui rop)))))
+
+;;; --------------------------------------------------------------------
+
+(ert-deftest mpz-sub ()
+  "Subtract an `mpz' objects from an `mpz' object."
+  (should (equal 10
+		 (let ((rop	(mpz))
+		       (op1	(mpz 11))
+		       (op2	(mpz 1)))
+		   (mpz-sub rop op1 op2)
+		   (mpz-get-ui rop)))))
+
+(ert-deftest mpz-sub-ui ()
+  "Subtract an unsigned integer from an `mpz' object."
+  (should (equal 10
+		 (let ((rop	(mpz))
+		       (op1	(mpz 11))
+		       (op2	1))
+		   (mpz-sub-ui rop op1 op2)
+		   (mpz-get-ui rop)))))
+
+;;; --------------------------------------------------------------------
+
+(ert-deftest mpz-addmul ()
+  "Multiply two `mpz' objects, then add the result to another `mpz' object."
+  (should (equal (+ 100 (* 11 2))
+		 (let ((rop	(mpz 100))
+		       (op1	(mpz 11))
+		       (op2	(mpz 2)))
+		   (mpz-addmul rop op1 op2)
+		   (mpz-get-ui rop)))))
+
+(ert-deftest mpz-addmul-ui ()
+  "Multiply an `mpz' object by an unsigned integer, then add the result to an `mpz' object."
+  (should (equal (+ 100 (* 11 2))
+		 (let ((rop	(mpz 100))
+		       (op1	(mpz 11))
+		       (op2	2))
+		   (mpz-addmul-ui rop op1 op2)
+		   (mpz-get-ui rop)))))
+
+;;; --------------------------------------------------------------------
+
+(ert-deftest mpz-submul ()
+  "Multiply two `mpz' objects, then subtract the result from another `mpz' object."
+  (should (equal (- 100 (* 11 2))
+		 (let ((rop	(mpz 100))
+		       (op1	(mpz 11))
+		       (op2	(mpz 2)))
+		   (mpz-submul rop op1 op2)
+		   (mpz-get-ui rop)))))
+
+(ert-deftest mpz-submul-ui ()
+  "Multiply an `mpz' object by an unsigned integer, then subtract the result from an `mpz' object."
+  (should (equal (- 100 (* 11 2))
+		 (let ((rop	(mpz 100))
+		       (op1	(mpz 11))
+		       (op2	2))
+		   (mpz-submul-ui rop op1 op2)
+		   (mpz-get-ui rop)))))
+
+;;; --------------------------------------------------------------------
+
+(ert-deftest mpz-mul ()
+  "Multiply two `mpz' objects."
+  (should (equal 222
+		 (let ((rop	(mpz))
+		       (op1	(mpz 111))
+		       (op2	(mpz 2)))
+		   (mpz-mul rop op1 op2)
+		   (mpz-get-ui rop)))))
+
+(ert-deftest mpz-mul-si ()
+  "Multiply an `mpz' object by a signed exact integer number."
+  (should (equal 222
+		 (let ((rop	(mpz))
+		       (op1	(mpz 111))
+		       (op2	2))
+		   (mpz-mul-si rop op1 op2)
+		   (mpz-get-ui rop)))))
+
+(ert-deftest mpz-mul-ui ()
+  "Multiply an `mpz' object by an unsigned exact integer number."
+  (should (equal 222
+		 (let ((rop	(mpz))
+		       (op1	(mpz 111))
+		       (op2	2))
+		   (mpz-mul-ui rop op1 op2)
+		   (mpz-get-ui rop)))))
+
+;;; --------------------------------------------------------------------
+
+(ert-deftest mpz-mul-2exp ()
+  "Left shift an `mpz' object."
+  (should (equal #b1010100
+		 (let ((rop	(mpz))
+		       (op	(mpz #b10101))
+		       (bitcnt	2))
+		   (mpz-mul-2exp rop op bitcnt)
+		   (mpz-get-ui rop)))))
+
+(ert-deftest mpz-neg ()
+  "Left shift an `mpz' object."
+  (should (equal -123
+		 (let ((rop	(mpz))
+		       (op	(mpz 123)))
+		   (mpz-neg rop op)
+		   (mpz-get-si rop))))
+  (should (equal +123
+		 (let ((rop	(mpz))
+		       (op	(mpz -123)))
+		   (mpz-neg rop op)
+		   (mpz-get-si rop)))))
+
+(ert-deftest mpz-abs ()
+  "Left shift an `mpz' object."
+  (should (equal 123
+		 (let ((rop	(mpz))
+		       (op	(mpz -123)))
+		   (mpz-abs rop op)
+		   (mpz-get-ui rop)))))
+
+
 ;;;; done
 
 (garbage-collect)
