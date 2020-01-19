@@ -24,8 +24,9 @@ This package  provides a  dynamic module for  GNU Emacs  implementing an
 interface to the GMP library on a C11 language library.
 
   The library targets POSIX systems.  This package is meant to work with
-GNU Emacs version 26+.  This package depends upon the external packages:
-cl-lib.  To run the test suite: this package requires the ERT package.
+GNU Emacs version 26+ and GMP version 6.1.2+.  This package depends upon
+the  external packages:  cl-lib.  To  run the  test suite:  this package
+requires the ERT package.
 
   The package uses the GNU Autotools  and it is tested, using Travis CI,
 on both Ubuntu  GNU+Linux systems and OS X systems.   The package relies

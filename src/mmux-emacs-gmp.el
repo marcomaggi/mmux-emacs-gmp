@@ -4,7 +4,7 @@
 
 ;; Author: Marco Maggi <mrc.mgg@gmail.com>
 ;; Created: Jan 15, 2020
-;; Time-stamp: <2020-01-18 17:24:31 marco>
+;; Time-stamp: <2020-01-19 07:10:51 marco>
 ;; Keywords: extensions
 
 ;; This file is part of MMUX Emacs GMP.
@@ -54,6 +54,14 @@
 (define-error 'mmux-gmp-invalid-initialisation-value
   "Invalid initialisation value."
   'mmux-gmp-error)
+
+
+;;;; helpers
+
+(defun mmux-gmp-bitcnt-p (obj)
+  "Return true if OBJ is compatible with `mp_bitcnt_t'."
+  (and (integerp obj)
+       (<= 0 obj)))
 
 
 ;;;; user-ptr object wrappers
@@ -321,6 +329,197 @@
 		      (>= -2 base -36))))
   (cl-assert (mpz-p op))
   (mmux-gmp-c-mpz-get-str base (mpz-obj op)))
+
+
+;;;; integer number functions: division
+
+;;; void mpz_cdiv_q (mpz_t Q, const mpz_t N, const mpz_t D)
+(defun mpz-cdiv-q (Q N D)
+  ""
+  (cl-assert (mpz-p Q))
+  (cl-assert (mpz-p N))
+  (cl-assert (mpz-p D))
+  (mmux-gmp-c-cdiv-q (mpz-obj Q) (mpz-obj N) (mpz-obj D)))
+
+;;; void mpz_cdiv_r (mpz_t R, const mpz_t N, const mpz_t D) */
+(defun mpz-cdiv-r ()
+  ""
+  (mmux-gmp-c-cdiv-r))
+
+;;; void mpz_cdiv_qr (mpz_t Q, mpz_t R, const mpz_t N, const mpz_t D) */
+(defun mpz-cdiv-qr ()
+  ""
+  (mmux-gmp-c-cdiv-qr))
+
+;;; unsigned long int mpz_cdiv_q_ui (mpz_t Q, const mpz_t N, unsigned long int D) */
+(defun mpz-cdiv-q-ui ()
+  ""
+  (mmux-gmp-c-cdiv-q-ui))
+
+;;; unsigned long int mpz_cdiv_r_ui (mpz_t R, const mpz_t N, unsigned long int D) */
+(defun mpz-cdiv-r-ui ()
+  ""
+  (mmux-gmp-c-cdiv-r-ui))
+
+;;; unsigned long int mpz_cdiv_qr_ui (mpz_t Q, mpz_t R, const mpz_t N, unsigned long int D) */
+(defun mpz-cdiv-qr-ui ()
+  ""
+  (mmux-gmp-c-cdiv-qr-ui))
+
+;;; unsigned long int mpz_cdiv_ui (const mpz_t N, unsigned long int D) */
+(defun mpz-cdiv-ui ()
+  ""
+  (mmux-gmp-c-cdiv-ui))
+
+;;; void mpz_cdiv_q_2exp (mpz_t Q, const mpz_t N, mp_bitcnt_t B) */
+(defun mpz-cdiv-q-2exp ()
+  ""
+  (mmux-gmp-c-cdiv-q-2exp))
+
+;;; void mpz_cdiv_r_2exp (mpz_t R, const mpz_t N, mp_bitcnt_t B) */
+(defun mpz-cdiv-2-2exp ()
+  ""
+  (mmux-gmp-c-cdiv-2-2exp))
+
+;;; void mpz_fdiv_q (mpz_t Q, const mpz_t N, const mpz_t D) */
+(defun mpz-fdiv-q ()
+  ""
+  (mmux-gmp-c-fdiv-q))
+
+;;; void mpz_fdiv_r (mpz_t R, const mpz_t N, const mpz_t D) */
+(defun mpz-fdiv-r ()
+  ""
+  (mmux-gmp-c-fdiv-r))
+
+;;; void mpz_fdiv_qr (mpz_t Q, mpz_t R, const mpz_t N, const mpz_t D) */
+(defun mpz-fdiv-qr ()
+  ""
+  (mmux-gmp-c-fdiv-qr))
+
+;;; unsigned long int mpz_fdiv_q_ui (mpz_t Q, const mpz_t N, unsigned long int D) */
+(defun mpz-fdiv-q-ui ()
+  ""
+  (mmux-gmp-c-fdiv-q-ui))
+
+;;; unsigned long int mpz_fdiv_r_ui (mpz_t R, const mpz_t N, unsigned long int D) */
+(defun mpz-fdiv-r-ui ()
+  ""
+  (mmux-gmp-c-fdiv-r-ui))
+
+;;; unsigned long int mpz_fdiv_qr_ui (mpz_t Q, mpz_t R, const mpz_t N, unsigned long int D) */
+(defun mpz-fdiv-qr-ui ()
+  ""
+  (mmux-gmp-c-fdiv-qr-ui))
+
+;;; unsigned long int mpz_fdiv_ui (const mpz_t N, unsigned long int D) */
+(defun mpz-fdiv-ui ()
+  ""
+  (mmux-gmp-c-fdiv-ui))
+
+;;; void mpz_fdiv_q_2exp (mpz_t Q, const mpz_t N, mp_bitcnt_t B) */
+(defun mpz-fdiv-q-2exp ()
+  ""
+  (mmux-gmp-c-fdiv-q-2exp))
+
+;;; void mpz_fdiv_r_2exp (mpz_t R, const mpz_t N, mp_bitcnt_t B) */
+(defun mpz-fdiv-r-2exp ()
+  ""
+  (mmux-gmp-c-fdiv-r-2exp))
+
+;;; void mpz_tdiv_q (mpz_t Q, const mpz_t N, const mpz_t D) */
+(defun mpz-tdiv-q ()
+  ""
+  (mmux-gmp-c-tdiv-q))
+
+;;; void mpz_tdiv_r (mpz_t R, const mpz_t N, const mpz_t D) */
+(defun mpz-tdiv-r ()
+  ""
+  (mmux-gmp-c-tdiv-r))
+
+;;; void mpz_tdiv_qr (mpz_t Q, mpz_t R, const mpz_t N, const mpz_t D) */
+(defun mpz-tdiv-qr ()
+  ""
+  (mmux-gmp-c-tdiv-qr))
+
+;;; unsigned long int mpz_tdiv_q_ui (mpz_t Q, const mpz_t N, unsigned long int D) */
+(defun mpz-tdiv-q-ui ()
+  ""
+  (mmux-gmp-c-tdiv-q-ui))
+
+;;; unsigned long int mpz_tdiv_r_ui (mpz_t R, const mpz_t N, unsigned long int D) */
+(defun mpz-tdiv-r-ui ()
+  ""
+  (mmux-gmp-c-tdiv-r-ui))
+
+;;; unsigned long int mpz_tdiv_qr_ui (mpz_t Q, mpz_t R, const mpz_t N, unsigned long int D) */
+(defun mpz-tdiv-qr-ui ()
+  ""
+  (mmux-gmp-c-tdiv-qr-ui))
+
+;;; unsigned long int mpz_tdiv_ui (const mpz_t N, unsigned long int D) */
+(defun mpz-tdiv-ui ()
+  ""
+  (mmux-gmp-c-tdiv-ui))
+
+;;; void mpz_tdiv_q_2exp (mpz_t Q, const mpz_t N, mp_bitcnt_t B) */
+(defun mpz-tdiv-q-2exp ()
+  ""
+  (mmux-gmp-c-tdiv-q-2exp))
+
+;;; void mpz_tdiv_r_2exp (mpz_t R, const mpz_t N, mp_bitcnt_t B) */
+(defun mpz-tdiv-r-2exp ()
+  ""
+  (mmux-gmp-c-tdiv-r-2exp))
+
+;;; void mpz_mod (mpz_t R, const mpz_t N, const mpz_t D) */
+(defun mpz-mod ()
+  ""
+  (mmux-gmp-c-mod))
+
+;;; unsigned long int mpz_mod_ui (mpz_t R, const mpz_t N, unsigned long int D) */
+(defun mpz-mod-ui ()
+  ""
+  (mmux-gmp-c-mod-ui))
+
+;;; void mpz_divexact (mpz_t Q, const mpz_t N, const mpz_t D) */
+(defun mpz-divexact ()
+  ""
+  (mmux-gmp-c-divexact))
+
+;;; void mpz_divexact_ui (mpz_t Q, const mpz_t N, unsigned long D) */
+(defun mpz-divexact-ui ()
+  ""
+  (mmux-gmp-c-divexact-ui))
+
+;;; int mpz_divisible_p (const mpz_t N, const mpz_t D) */
+(defun mpz-divisible-p ()
+  ""
+  (mmux-gmp-c-divisible-p))
+
+;;; int mpz_divisible_ui_p (const mpz_t N, unsigned long int D) */
+(defun mpz-divisible-ui-p ()
+  ""
+  (mmux-gmp-c-divisible-ui-p))
+
+;;; int mpz_divisible_2exp_p (const mpz_t N, mp_bitcnt_t B) */
+(defun mpz-divisible-2exp-p ()
+  ""
+  (mmux-gmp-c-divisible-2exp-p))
+
+;;; int mpz_congruent_p (const mpz_t N, const mpz_t C, const mpz_t D) */
+(defun mpz-congruent-p ()
+  ""
+  (mmux-gmp-c-congruent-p))
+
+;;; int mpz_congruent_ui_p (const mpz_t N, unsigned long int C, unsigned long int D) */
+(defun mpz-congruent-ui-p ()
+  ""
+  (mmux-gmp-c-congruent-ui-p))
+
+;;; int mpz_congruent_2exp_p (const mpz_t N, const mpz_t C, mp_bitcnt_t B) */
+(defun mpz-congruent-2exp-p ()
+  ""
+  (mmux-gmp-c-congruent-2exp-p))
 
 
 ;;;; rational number functions: assignment

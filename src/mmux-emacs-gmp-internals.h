@@ -53,6 +53,60 @@
 #undef  MMUX_EMAC_GMP_ERROR_STRING_TOO_LONG
 #define MMUX_EMAC_GMP_ERROR_STRING_TOO_LONG	"mmux-gmp-string-too-long"
 
+/* ------------------------------------------------------------------ */
+
+#undef  mmux_get_ptr
+#define mmux_get_ptr(ENV, ARG)		((ENV)->get_user_ptr((ENV), (ARG)))
+
+#undef  mmux_get_int
+#define mmux_get_int(ENV, ARG)		((ENV)->extract_integer((ENV), (ARG)))
+
+#undef  mmux_get_flo
+#define mmux_get_flo(ENV, ARG)		((ENV)->extract_float((ENV), (ARG)))
+
+#undef  mmux_get_ulint
+#define mmux_get_ulint(ENV, ARG)	((mmux_ulint_t)(mmux_get_int((ENV), (ARG))))
+
+#undef  mmux_get_slint
+#define mmux_get_slint(ENV, ARG)	((mmux_slint_t)(mmux_get_int((ENV), (ARG))))
+
+/* ------------------------------------------------------------------ */
+
+#undef  mmux_make_nil
+#define mmux_make_nil(ENV)		((env)->intern((env), "nil"))
+
+#undef  mmux_make_true
+#define mmux_make_true(ENV)		((env)->intern((env), "t"))
+
+#undef  mmux_make_int
+#define mmux_make_int(ENV, ARG)		((ENV)->make_integer((ENV), (intmax_t)(ARG)))
+
+#undef  mmux_make_float
+#define mmux_make_float(ENV, ARG)	((ENV)->make_integer((ENV), (ARG)))
+
+#undef  mmux_make_ulint
+#define mmux_make_ulint(ENV, ARG)	(mmux_make_int((ENV), (ARG)))
+
+#undef  mmux_make_slint
+#define mmux_make_slint(ENV, ARG)	(mmux_make_int((ENV), (ARG)))
+
+/* ------------------------------------------------------------------ */
+
+#undef  mmux_get_mpz
+#define mmux_get_mpz(ENV, ARG)		((mpz_ptr)(mmux_get_ptr((ENV), (ARG))))
+
+#undef  mmux_get_mpq
+#define mmux_get_mpq(ENV, ARG)		((mpq_ptr)(mmux_get_ptr((ENV), (ARG))))
+
+#undef  mmux_get_mpf
+#define mmux_get_mpf(ENV, ARG)		((mpf_ptr)(mmux_get_ptr((ENV), (ARG))))
+
+#undef  mmux_get_bitcnt
+#define mmux_get_bitcnt(ENV, ARG)	((mp_bitcnt_t)((ENV)->extract_integer((ENV), (ARG))))
+
+#undef  mmux_get_prec
+#define mmux_get_prec(ENV, ARG)		((mp_prec_t)((ENV)->extract_integer((ENV), (ARG))))
+
 
 /** --------------------------------------------------------------------
  ** Type definitions.
@@ -69,6 +123,11 @@ struct module_function_t {
   ptrdiff_t			max_arity;
   char const			* documentation;
 };
+
+/* ------------------------------------------------------------------ */
+
+typedef signed   long int	mmux_slint_t;
+typedef unsigned long int	mmux_ulint_t;
 
 
 /** --------------------------------------------------------------------

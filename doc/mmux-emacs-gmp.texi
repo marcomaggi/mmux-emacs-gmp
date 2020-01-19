@@ -59,6 +59,8 @@
 @set DownloadUrl               @url{https://bitbucket.org/marcomaggi/@value{PACKAGE_NICKNAME}/downloads}
 @set DocumentationUrl          @url{https://marcomaggi.github.io/docs/@value{PACKAGE_NICKNAME}.html}
 
+@set GMPversion                 6.1.2+
+
 @c page
 @c ------------------------------------------------------------
 @c Local macros.
@@ -78,8 +80,8 @@ This document describes version @value{VERSION} of @value{PACKAGE}, a @gnu{} Ema
 implemented on top of a C11 language library, providing an interface to the @gmp{} library.
 
 The library supports @posix{} platforms.  This package is meant to work with @gnu{} Emacs version
-26+.  This package depends upon the external packages: @samp{cl-lib}.  To run the test suite: this
-package requires the ERT package.
+26+ and @gmp{} version @value{GMPversion}.  This package depends upon the external packages:
+@samp{cl-lib}.  To run the test suite: this package requires the ERT package.
 
 This package is distributed under the terms of the @gnu{} General Public License (@gpl{}).
 
@@ -183,8 +185,8 @@ This document describes version @value{VERSION} of @value{PACKAGE}, a @gnu{} Ema
 implemented on top of a C11 language library, providing an interface to the @gmp{} library.
 
 The library supports @posix{} platforms.  This package is meant to work with @gnu{} Emacs version
-26+.  This package depends upon the external packages: @samp{cl-lib}.  To run the test suite: this
-package requires the ERT package.
+26+ and @gmp{} version @value{GMPversion}.  This package depends upon the external packages:
+@samp{cl-lib}.  To run the test suite: this package requires the ERT package.
 
 @value{PACKAGE} installs a single elisp module @value{PackageEmacsModule} and a C language shared
 library with basename @value{PackageSharedLibraryBasename} (using the @gnu{} Libtool
@@ -299,6 +301,7 @@ garbage collected.
 * integers conversion::         Converting exact integers to
                                 other objects.
 * integers arithmetic::         Arithmetic operations.
+* integers division::           Division operations.
 @end menu
 
 @c page
@@ -690,6 +693,11 @@ Compute the absolute value of an @objtype{mpz} object.
 @result{} 123
 @end lisp
 @end defun
+
+@c page
+@node integers division
+@section Division operations
+
 
 @c page
 @node rationals
