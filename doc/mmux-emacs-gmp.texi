@@ -699,6 +699,373 @@ Compute the absolute value of an @objtype{mpz} object.
 @section Division operations
 
 
+The division functions divide numerator @math{N} by the denominator @math{D}, forming a quotient
+@math{Q} and/or remainder @math{R}; for the @code{2exp} functions, @math{D=2^B} where @math{B} is
+the bit count.  The rounding is in three styles, each suiting different applications.
+
+@table @code
+@item cdiv
+Rounds @math{Q} up towards +infinity, and @math{R} will have the opposite sign to @math{D}.  The
+@code{c} stands for ``ceil''.
+
+@item fdiv
+Rounds @math{Q} down towards -infinity, and @math{R} will have the same sign as @math{D}.  The @code{f}
+stands for ``floor''.
+
+@item tdiv
+Rounds @math{Q} towards zero, and @math{R} will have the same sign as @math{N}.  The @code{t} stands
+for ``truncate''.
+@end table
+
+In all cases @math{Q} and @math{R} will satisfy @math{N = Q * D + R}, and @math{R} will satisfy
+@math{0 <= abs(R) < abs(D)}.
+
+@menu
+* integers division ceil::      Rounding towards +infinity (ceil).
+* integers division floor::     Rounding towards -infinity (floor).
+* integers division truncate::  Rounding towards zero (truncate).
+* integers division modulo::    Modulo functions.
+* integers division exact::     Exact division.
+@end menu
+
+@c page
+@node integers division ceil
+@subsection Rounding towards +infinity (ceil)
+
+
+@defun mpz-cdiv-q @var{Q} @var{N} @var{D}
+@var{D}ivide @var{N} by @var{D}, forming a quotient @var{Q} and/or remainder @var{R}.
+
+@lisp
+@end lisp
+@end defun
+
+
+@defun mpz-cdiv-r @var{R} @var{N} @var{D}
+@var{D}ivide @var{N} by @var{D}, forming a quotient @var{Q} and/or remainder @var{R}.
+
+@lisp
+@end lisp
+@end defun
+
+
+@defun mpz-cdiv-qr @var{Q} @var{R} @var{N} @var{D}
+@var{D}ivide @var{N} by @var{D}, forming a quotient @var{Q} and/or remainder @var{R}.
+
+@lisp
+@end lisp
+@end defun
+
+
+@defun mpz-cdiv-q-ui @var{Q} @var{N} @var{D}
+@var{D}ivide @var{N} by @var{D}, forming a quotient @var{Q} and/or remainder @var{R}.
+
+@lisp
+@end lisp
+@end defun
+
+
+@defun mpz-cdiv-r-ui @var{R} @var{N} @var{D}
+@var{D}ivide @var{N} by @var{D}, forming a quotient @var{Q} and/or remainder @var{R}.
+
+@lisp
+@end lisp
+@end defun
+
+
+@defun mpz-cdiv-qr-ui @var{Q} @var{R} @var{N} @var{D}
+@var{D}ivide @var{N} by @var{D}, forming a quotient @var{Q} and/or remainder @var{R}.
+
+@lisp
+@end lisp
+@end defun
+
+
+@defun mpz-cdiv-ui @var{N} @var{D}
+@var{D}ivide @var{N} by @var{D}, forming a quotient @var{Q} and/or remainder @var{R}.
+
+@lisp
+@end lisp
+@end defun
+
+
+@defun mpz-cdiv-q-2exp @var{Q} @var{N} @var{B}
+@var{D}ivide @var{N} by @var{D}, forming a quotient @var{Q} and/or remainder @var{R}; compute
+@var{D} as 2^@var{B}.
+
+@lisp
+@end lisp
+@end defun
+
+
+@defun mpz-cdiv-2-2exp @var{R} @var{N} @var{B}
+@var{D}ivide @var{N} by @var{D}, forming a quotient @var{Q} and/or remainder @var{R}; compute
+@var{D} as 2^@var{B}.
+
+@lisp
+@end lisp
+@end defun
+
+@c page
+@node integers division floor
+@subsection Rounding towards -infinity (floor)
+
+
+@defun mpz-fdiv-q @var{Q} @var{N} @var{D}
+@var{D}ivide @var{N} by @var{D}, forming a quotient @var{Q} and/or remainder @var{R}.
+
+@lisp
+@end lisp
+@end defun
+
+
+@defun mpz-fdiv-r @var{R} @var{N} @var{D}
+@var{D}ivide @var{N} by @var{D}, forming a quotient @var{Q} and/or remainder @var{R}.
+
+@lisp
+@end lisp
+@end defun
+
+
+@defun mpz-fdiv-qr @var{Q} @var{R} @var{N} @var{D}
+@var{D}ivide @var{N} by @var{D}, forming a quotient @var{Q} and/or remainder @var{R}.
+
+@lisp
+@end lisp
+@end defun
+
+
+@defun mpz-fdiv-q-ui @var{Q} @var{N} @var{D}
+@var{D}ivide @var{N} by @var{D}, forming a quotient @var{Q} and/or remainder @var{R}.
+
+@lisp
+@end lisp
+@end defun
+
+
+@defun mpz-fdiv-r-ui @var{R} @var{N} @var{D}
+@var{D}ivide @var{N} by @var{D}, forming a quotient @var{Q} and/or remainder @var{R}.
+
+@lisp
+@end lisp
+@end defun
+
+
+@defun mpz-fdiv-qr-ui @var{Q} @var{R} @var{N} @var{D}
+@var{D}ivide @var{N} by @var{D}, forming a quotient @var{Q} and/or remainder @var{R}.
+
+@lisp
+@end lisp
+@end defun
+
+
+@defun mpz-fdiv-ui @var{N} @var{D}
+@var{D}ivide @var{N} by @var{D}, forming a quotient @var{Q} and/or remainder @var{R}.
+
+@lisp
+@end lisp
+@end defun
+
+
+@defun mpz-fdiv-q-2exp @var{Q} @var{N} @var{B}
+@var{D}ivide @var{N} by @var{D}, forming a quotient @var{Q} and/or remainder @var{R}; compute
+@var{D} as 2^@var{B}.
+
+@lisp
+@end lisp
+@end defun
+
+
+@defun mpz-fdiv-r-2exp @var{R} @var{N} @var{B}
+@var{D}ivide @var{N} by @var{D}, forming a quotient @var{Q} and/or remainder @var{R}; compute
+@var{D} as 2^@var{B}.
+
+@lisp
+@end lisp
+@end defun
+
+@c page
+@node integers division truncate
+@subsection Rounding towards zero (truncate)
+
+
+@defun mpz-tdiv-q @var{Q} @var{N} @var{D}
+@var{D}ivide @var{N} by @var{D}, forming a quotient @var{Q} and/or remainder @var{R}.
+
+@lisp
+@end lisp
+@end defun
+
+
+@defun mpz-tdiv-r @var{R} @var{N} @var{D}
+@var{D}ivide @var{N} by @var{D}, forming a quotient @var{Q} and/or remainder @var{R}.
+
+@lisp
+@end lisp
+@end defun
+
+
+@defun mpz-tdiv-qr @var{Q} @var{R} @var{N} @var{D}
+@var{D}ivide @var{N} by @var{D}, forming a quotient @var{Q} and/or remainder @var{R}.
+
+@lisp
+@end lisp
+@end defun
+
+
+@defun mpz-tdiv-q-ui @var{Q} @var{N} @var{D}
+@var{D}ivide @var{N} by @var{D}, forming a quotient @var{Q} and/or remainder @var{R}.
+
+@lisp
+@end lisp
+@end defun
+
+
+@defun mpz-tdiv-r-ui @var{R} @var{N} @var{D}
+@var{D}ivide @var{N} by @var{D}, forming a quotient @var{Q} and/or remainder @var{R}.
+
+@lisp
+@end lisp
+@end defun
+
+
+@defun mpz-tdiv-qr-ui @var{Q} @var{R} @var{N} @var{D}
+@var{D}ivide @var{N} by @var{D}, forming a quotient @var{Q} and/or remainder @var{R}.
+
+@lisp
+@end lisp
+@end defun
+
+
+@defun mpz-tdiv-ui @var{N} @var{D}
+@var{D}ivide @var{N} by @var{D}, forming a quotient @var{Q} and/or remainder @var{R}.
+
+@lisp
+@end lisp
+@end defun
+
+
+@defun mpz-tdiv-q-2exp @var{Q} @var{N} @var{B}
+@var{D}ivide @var{N} by @var{D}, forming a quotient @var{Q} and/or remainder @var{R}; compute
+@var{D} as 2^@var{B}.
+
+@lisp
+@end lisp
+@end defun
+
+
+@defun mpz-tdiv-r-2exp @var{R} @var{N} @var{B}
+@var{D}ivide @var{N} by @var{D}, forming a quotient @var{Q} and/or remainder @var{R}; compute
+@var{D} as 2^@var{B}.
+
+@lisp
+@end lisp
+@end defun
+
+@c page
+@node integers division modulo
+@subsection Modulo functions
+
+
+@defun mpz-mod @var{R} @var{N} @var{D}
+Set @var{R} to @var{N} mod @var{D}.
+
+@lisp
+@end lisp
+@end defun
+
+
+@defun mpz-mod-ui @var{R} @var{N} @var{D}
+Set @var{R} to @var{N} mod @var{D}.
+
+@lisp
+@end lisp
+@end defun
+
+@c page
+@node integers division exact
+@subsection Exact division
+
+
+The following functions will return correct results only when @math{D} is an exact divisor of
+@math{N}.
+
+
+@defun mpz-divexact @var{Q} @var{N} @var{D}
+Set @var{Q} to @var{N}/@var{D}.
+
+@lisp
+@end lisp
+@end defun
+
+
+@defun mpz-divexact-ui @var{Q} @var{N} @var{D}
+Set @var{Q} to @var{N}/@var{D}.
+
+@lisp
+@end lisp
+@end defun
+
+@c ------------------------------------------------------------------------
+
+@subsubheading Exact division tests
+
+
+@defun mpz-divisible-p @var{N} @var{D}
+Return true if @var{N} is exactly divisible by @var{D}.
+
+@lisp
+@end lisp
+@end defun
+
+
+@defun mpz-divisible-ui-p @var{N} @var{D}
+Return true if @var{N} is exactly divisible by @var{D}.
+
+@lisp
+@end lisp
+@end defun
+
+
+@defun mpz-divisible-2exp-p @var{N} @var{B}
+Return true if @var{N} is exactly divisible by 2^@var{B}.
+
+@lisp
+@end lisp
+@end defun
+
+@c ------------------------------------------------------------------------
+
+@subsubheading Congruency tests
+
+
+@math{N} is congruent to @math{C} modulo @math{D} if there exists an integer @math{Q} satisfying
+@math{N = C + Q * D}.
+
+
+@defun mpz-congruent-p @var{N} @var{C} @var{D}
+Return non-zero if @var{N} is congruent to @var{C} modulo @var{D}.
+
+@lisp
+@end lisp
+@end defun
+
+
+@defun mpz-congruent-ui-p @var{N} @var{C} @var{D}
+Return non-zero if @var{N} is congruent to @var{C} modulo @var{D}.
+
+@lisp
+@end lisp
+@end defun
+
+
+@defun mpz-congruent-2exp-p @var{N} @var{C} @var{B}
+Return non-zero if @var{N} is congruent to @var{C} modulo 2^@var{B}.
+
+@lisp
+@end lisp
+@end defun
+
 @c page
 @node rationals
 @chapter Rational number objects and operations

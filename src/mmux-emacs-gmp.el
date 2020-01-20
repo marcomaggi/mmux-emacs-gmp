@@ -4,7 +4,7 @@
 
 ;; Author: Marco Maggi <mrc.mgg@gmail.com>
 ;; Created: Jan 15, 2020
-;; Time-stamp: <2020-01-19 07:10:51 marco>
+;; Time-stamp: <2020-01-20 06:17:34 marco>
 ;; Keywords: extensions
 
 ;; This file is part of MMUX Emacs GMP.
@@ -62,6 +62,15 @@
   "Return true if OBJ is compatible with `mp_bitcnt_t'."
   (and (integerp obj)
        (<= 0 obj)))
+
+(defun mmux-gmp-ulint-p (N)
+  "Return true if N is compatible with `unsigned long int'."
+  (and (integerp N)
+       (<= 0 N)))
+
+(defun mmux-gmp-slint-p (N)
+  "Return true if N is compatible with `signed long int'."
+  (integerp N))
 
 
 ;;;; user-ptr object wrappers
@@ -335,191 +344,311 @@
 
 ;;; void mpz_cdiv_q (mpz_t Q, const mpz_t N, const mpz_t D)
 (defun mpz-cdiv-q (Q N D)
-  ""
+  "Divide N by D, forming a quotient Q and/or remainder R."
   (cl-assert (mpz-p Q))
   (cl-assert (mpz-p N))
   (cl-assert (mpz-p D))
   (mmux-gmp-c-cdiv-q (mpz-obj Q) (mpz-obj N) (mpz-obj D)))
 
 ;;; void mpz_cdiv_r (mpz_t R, const mpz_t N, const mpz_t D) */
-(defun mpz-cdiv-r ()
-  ""
-  (mmux-gmp-c-cdiv-r))
+(defun mpz-cdiv-r (R N D)
+  "Divide N by D, forming a quotient Q and/or remainder R."
+  (cl-assert (mpz-p R))
+  (cl-assert (mpz-p N))
+  (cl-assert (mpz-p D))
+  (mmux-gmp-c-cdiv-r (mpz-obj R) (mpz-obj N) (mpz-obj D)))
 
 ;;; void mpz_cdiv_qr (mpz_t Q, mpz_t R, const mpz_t N, const mpz_t D) */
-(defun mpz-cdiv-qr ()
-  ""
-  (mmux-gmp-c-cdiv-qr))
+(defun mpz-cdiv-qr (Q R N D)
+  "Divide N by D, forming a quotient Q and/or remainder R."
+  (cl-assert (mpz-p Q))
+  (cl-assert (mpz-p R))
+  (cl-assert (mpz-p N))
+  (cl-assert (mpz-p D))
+  (mmux-gmp-c-cdiv-qr (mpz-obj Q) (mpz-obj R) (mpz-obj N) (mpz-obj D)))
 
 ;;; unsigned long int mpz_cdiv_q_ui (mpz_t Q, const mpz_t N, unsigned long int D) */
-(defun mpz-cdiv-q-ui ()
-  ""
-  (mmux-gmp-c-cdiv-q-ui))
+(defun mpz-cdiv-q-ui (Q N D)
+  "Divide N by D, forming a quotient Q and/or remainder R."
+  (cl-assert (mpz-p Q))
+  (cl-assert (mpz-p N))
+  (cl-assert (mmux-gmp-ulint-p D))
+  (mmux-gmp-c-cdiv-q-ui (mpz-obj Q) (mpz-obj N) D))
 
 ;;; unsigned long int mpz_cdiv_r_ui (mpz_t R, const mpz_t N, unsigned long int D) */
-(defun mpz-cdiv-r-ui ()
-  ""
-  (mmux-gmp-c-cdiv-r-ui))
+(defun mpz-cdiv-r-ui (R N D)
+  "Divide N by D, forming a quotient Q and/or remainder R."
+  (cl-assert (mpz-p R))
+  (cl-assert (mpz-p N))
+  (cl-assert (mmux-gmp-ulint-p D))
+  (mmux-gmp-c-cdiv-r-ui (mpz-obj R) (mpz-obj N) D))
 
 ;;; unsigned long int mpz_cdiv_qr_ui (mpz_t Q, mpz_t R, const mpz_t N, unsigned long int D) */
-(defun mpz-cdiv-qr-ui ()
-  ""
-  (mmux-gmp-c-cdiv-qr-ui))
+(defun mpz-cdiv-qr-ui (Q R N D)
+  "Divide N by D, forming a quotient Q and/or remainder R."
+  (cl-assert (mpz-p Q))
+  (cl-assert (mpz-p R))
+  (cl-assert (mpz-p N))
+  (cl-assert (mmux-gmp-ulint-p D))
+  (mmux-gmp-c-cdiv-qr-ui (mpz-obj Q) (mpz-obj R) (mpz-obj N) D))
 
 ;;; unsigned long int mpz_cdiv_ui (const mpz_t N, unsigned long int D) */
-(defun mpz-cdiv-ui ()
-  ""
-  (mmux-gmp-c-cdiv-ui))
+(defun mpz-cdiv-ui (N D)
+  "Divide N by D, forming a quotient Q and/or remainder R."
+  (cl-assert (mpz-p N))
+  (cl-assert (mmux-gmp-ulint-p D))
+  (mmux-gmp-c-cdiv-ui (mpz-obj N) D))
 
 ;;; void mpz_cdiv_q_2exp (mpz_t Q, const mpz_t N, mp_bitcnt_t B) */
-(defun mpz-cdiv-q-2exp ()
-  ""
-  (mmux-gmp-c-cdiv-q-2exp))
+(defun mpz-cdiv-q-2exp (Q N B)
+  "Divide N by D, forming a quotient Q and/or remainder R; compute D as 2^B."
+  (cl-assert (mpz-p Q))
+  (cl-assert (mpz-p N))
+  (cl-assert (mmux-gmp-bitcnt-p B))
+  (mmux-gmp-c-cdiv-q-2exp (mpz-obj Q) (mpz-obj N) B))
 
 ;;; void mpz_cdiv_r_2exp (mpz_t R, const mpz_t N, mp_bitcnt_t B) */
-(defun mpz-cdiv-2-2exp ()
-  ""
-  (mmux-gmp-c-cdiv-2-2exp))
+(defun mpz-cdiv-2-2exp (R N B)
+  "Divide N by D, forming a quotient Q and/or remainder R; compute D as 2^B."
+  (cl-assert (mpz-p R))
+  (cl-assert (mpz-p N))
+  (cl-assert (mmux-gmp-bitcnt-p B))
+  (mmux-gmp-c-cdiv-2-2exp (mpz-obj R) (mpz-obj N) B))
+
+;;; --------------------------------------------------------------------
 
 ;;; void mpz_fdiv_q (mpz_t Q, const mpz_t N, const mpz_t D) */
-(defun mpz-fdiv-q ()
-  ""
-  (mmux-gmp-c-fdiv-q))
+(defun mpz-fdiv-q (Q N D)
+  "Divide N by D, forming a quotient Q and/or remainder R."
+  (cl-assert (mpz-p Q))
+  (cl-assert (mpz-p N))
+  (cl-assert (mpz-p D))
+  (mmux-gmp-c-fdiv-q (mpz-obj Q) (mpz-obj N) (mpz-obj D)))
 
 ;;; void mpz_fdiv_r (mpz_t R, const mpz_t N, const mpz_t D) */
-(defun mpz-fdiv-r ()
-  ""
-  (mmux-gmp-c-fdiv-r))
+(defun mpz-fdiv-r (R N D)
+  "Divide N by D, forming a quotient Q and/or remainder R."
+  (cl-assert (mpz-p R))
+  (cl-assert (mpz-p N))
+  (cl-assert (mpz-p D))
+  (mmux-gmp-c-fdiv-r (mpz-obj R) (mpz-obj N) (mpz-obj D)))
 
 ;;; void mpz_fdiv_qr (mpz_t Q, mpz_t R, const mpz_t N, const mpz_t D) */
-(defun mpz-fdiv-qr ()
-  ""
-  (mmux-gmp-c-fdiv-qr))
+(defun mpz-fdiv-qr (Q R N D)
+  "Divide N by D, forming a quotient Q and/or remainder R."
+  (cl-assert (mpz-p Q))
+  (cl-assert (mpz-p R))
+  (cl-assert (mpz-p N))
+  (cl-assert (mpz-p D))
+  (mmux-gmp-c-fdiv-qr (mpz-obj Q) (mpz-obj R) (mpz-obj N) (mpz-obj D)))
 
 ;;; unsigned long int mpz_fdiv_q_ui (mpz_t Q, const mpz_t N, unsigned long int D) */
-(defun mpz-fdiv-q-ui ()
-  ""
-  (mmux-gmp-c-fdiv-q-ui))
+(defun mpz-fdiv-q-ui (Q N D)
+  "Divide N by D, forming a quotient Q and/or remainder R."
+  (cl-assert (mpz-p Q))
+  (cl-assert (mpz-p N))
+  (cl-assert (mmux-gmp-ulint-p D))
+  (mmux-gmp-c-fdiv-q-ui (mpz-obj Q) (mpz-obj N) D))
 
 ;;; unsigned long int mpz_fdiv_r_ui (mpz_t R, const mpz_t N, unsigned long int D) */
-(defun mpz-fdiv-r-ui ()
-  ""
-  (mmux-gmp-c-fdiv-r-ui))
+(defun mpz-fdiv-r-ui (R N D)
+  "Divide N by D, forming a quotient Q and/or remainder R."
+  (cl-assert (mpz-p R))
+  (cl-assert (mpz-p N))
+  (cl-assert (mmux-gmp-ulint-p D))
+  (mmux-gmp-c-fdiv-r-ui (mpz-obj R) (mpz-obj N) D))
 
 ;;; unsigned long int mpz_fdiv_qr_ui (mpz_t Q, mpz_t R, const mpz_t N, unsigned long int D) */
-(defun mpz-fdiv-qr-ui ()
-  ""
-  (mmux-gmp-c-fdiv-qr-ui))
+(defun mpz-fdiv-qr-ui (Q R N D)
+  "Divide N by D, forming a quotient Q and/or remainder R."
+  (cl-assert (mpz-p Q))
+  (cl-assert (mpz-p R))
+  (cl-assert (mpz-p N))
+  (cl-assert (mmux-gmp-ulint-p D))
+  (mmux-gmp-c-fdiv-qr-ui (mpz-obj Q) (mpz-obj R) (mpz-obj N) D))
 
 ;;; unsigned long int mpz_fdiv_ui (const mpz_t N, unsigned long int D) */
-(defun mpz-fdiv-ui ()
-  ""
-  (mmux-gmp-c-fdiv-ui))
+(defun mpz-fdiv-ui (N D)
+  "Divide N by D, forming a quotient Q and/or remainder R."
+  (cl-assert (mpz-p N))
+  (cl-assert (mmux-gmp-ulint-p D))
+  (mmux-gmp-c-fdiv-ui (mpz-obj N) D))
 
 ;;; void mpz_fdiv_q_2exp (mpz_t Q, const mpz_t N, mp_bitcnt_t B) */
-(defun mpz-fdiv-q-2exp ()
-  ""
-  (mmux-gmp-c-fdiv-q-2exp))
+(defun mpz-fdiv-q-2exp (Q N B)
+  "Divide N by D, forming a quotient Q and/or remainder R; compute D as 2^B."
+  (cl-assert (mpz-p Q))
+  (cl-assert (mpz-p N))
+  (cl-assert (mmux-gmp-bitcnt-p B))
+  (mmux-gmp-c-fdiv-q-2exp (mpz-obj Q) (mpz-obj N) B))
 
 ;;; void mpz_fdiv_r_2exp (mpz_t R, const mpz_t N, mp_bitcnt_t B) */
-(defun mpz-fdiv-r-2exp ()
-  ""
-  (mmux-gmp-c-fdiv-r-2exp))
+(defun mpz-fdiv-r-2exp (R N B)
+  "Divide N by D, forming a quotient Q and/or remainder R; compute D as 2^B."
+  (cl-assert (mpz-p R))
+  (cl-assert (mpz-p N))
+  (cl-assert (mmux-gmp-bitcnt-p B))
+  (mmux-gmp-c-fdiv-r-2exp (mpz-obj R) (mpz-obj N) B))
+
+;;; --------------------------------------------------------------------
 
 ;;; void mpz_tdiv_q (mpz_t Q, const mpz_t N, const mpz_t D) */
-(defun mpz-tdiv-q ()
-  ""
-  (mmux-gmp-c-tdiv-q))
+(defun mpz-tdiv-q (Q N D)
+  "Divide N by D, forming a quotient Q and/or remainder R."
+  (cl-assert (mpz-p Q))
+  (cl-assert (mpz-p N))
+  (cl-assert (mpz-p D))
+  (mmux-gmp-c-tdiv-q (mpz-obj Q) (mpz-obj N) (mpz-obj D)))
 
 ;;; void mpz_tdiv_r (mpz_t R, const mpz_t N, const mpz_t D) */
-(defun mpz-tdiv-r ()
-  ""
-  (mmux-gmp-c-tdiv-r))
+(defun mpz-tdiv-r (R N D)
+  "Divide N by D, forming a quotient Q and/or remainder R."
+  (cl-assert (mpz-p R))
+  (cl-assert (mpz-p N))
+  (cl-assert (mpz-p D))
+  (mmux-gmp-c-tdiv-r (mpz-obj R) (mpz-obj N) (mpz-obj D)))
 
 ;;; void mpz_tdiv_qr (mpz_t Q, mpz_t R, const mpz_t N, const mpz_t D) */
-(defun mpz-tdiv-qr ()
-  ""
-  (mmux-gmp-c-tdiv-qr))
+(defun mpz-tdiv-qr (Q R N D)
+  "Divide N by D, forming a quotient Q and/or remainder R."
+  (cl-assert (mpz-p Q))
+  (cl-assert (mpz-p R))
+  (cl-assert (mpz-p N))
+  (cl-assert (mpz-p D))
+  (mmux-gmp-c-tdiv-qr (mpz-obj Q) (mpz-obj R) (mpz-obj N) (mpz-obj D)))
 
 ;;; unsigned long int mpz_tdiv_q_ui (mpz_t Q, const mpz_t N, unsigned long int D) */
-(defun mpz-tdiv-q-ui ()
-  ""
-  (mmux-gmp-c-tdiv-q-ui))
+(defun mpz-tdiv-q-ui (Q N D)
+  "Divide N by D, forming a quotient Q and/or remainder R."
+  (cl-assert (mpz-p Q))
+  (cl-assert (mpz-p N))
+  (cl-assert (mmux-gmp-ulint-p D))
+  (mmux-gmp-c-tdiv-q-ui (mpz-obj Q) (mpz-obj N) D))
 
 ;;; unsigned long int mpz_tdiv_r_ui (mpz_t R, const mpz_t N, unsigned long int D) */
-(defun mpz-tdiv-r-ui ()
-  ""
-  (mmux-gmp-c-tdiv-r-ui))
+(defun mpz-tdiv-r-ui (R N D)
+  "Divide N by D, forming a quotient Q and/or remainder R."
+  (cl-assert (mpz-p R))
+  (cl-assert (mpz-p N))
+  (cl-assert (mmux-gmp-ulint-p D))
+  (mmux-gmp-c-tdiv-r-ui (mpz-obj R) (mpz-obj N) D))
 
 ;;; unsigned long int mpz_tdiv_qr_ui (mpz_t Q, mpz_t R, const mpz_t N, unsigned long int D) */
-(defun mpz-tdiv-qr-ui ()
-  ""
-  (mmux-gmp-c-tdiv-qr-ui))
+(defun mpz-tdiv-qr-ui (Q R N D)
+  "Divide N by D, forming a quotient Q and/or remainder R."
+  (cl-assert (mpz-p Q))
+  (cl-assert (mpz-p R))
+  (cl-assert (mpz-p N))
+  (cl-assert (mmux-gmp-ulint-p D))
+  (mmux-gmp-c-tdiv-qr-ui (mpz-obj Q) (mpz-obj R) (mpz-obj N) D))
 
 ;;; unsigned long int mpz_tdiv_ui (const mpz_t N, unsigned long int D) */
-(defun mpz-tdiv-ui ()
-  ""
-  (mmux-gmp-c-tdiv-ui))
+(defun mpz-tdiv-ui (N D)
+  "Divide N by D, forming a quotient Q and/or remainder R."
+  (cl-assert (mpz-p N))
+  (cl-assert (mmux-gmp-ulint-p D))
+  (mmux-gmp-c-tdiv-ui (mpz-obj N) D))
 
 ;;; void mpz_tdiv_q_2exp (mpz_t Q, const mpz_t N, mp_bitcnt_t B) */
-(defun mpz-tdiv-q-2exp ()
-  ""
-  (mmux-gmp-c-tdiv-q-2exp))
+(defun mpz-tdiv-q-2exp (Q N B)
+  "Divide N by D, forming a quotient Q and/or remainder R; compute D as 2^B."
+  (cl-assert (mpz-p Q))
+  (cl-assert (mpz-p N))
+  (cl-assert (mmux-gmp-bitcnt-p B))
+  (mmux-gmp-c-tdiv-q-2exp (mpz-obj Q) (mpz-obj N) B))
 
 ;;; void mpz_tdiv_r_2exp (mpz_t R, const mpz_t N, mp_bitcnt_t B) */
-(defun mpz-tdiv-r-2exp ()
-  ""
-  (mmux-gmp-c-tdiv-r-2exp))
+(defun mpz-tdiv-r-2exp (R N B)
+  "Divide N by D, forming a quotient Q and/or remainder R; compute D as 2^B."
+  (cl-assert (mpz-p R))
+  (cl-assert (mpz-p N))
+  (cl-assert (mmux-gmp-bitcnt-p B))
+  (mmux-gmp-c-tdiv-r-2exp (mpz-obj R) (mpz-obj N) B))
+
+;;; --------------------------------------------------------------------
 
 ;;; void mpz_mod (mpz_t R, const mpz_t N, const mpz_t D) */
-(defun mpz-mod ()
-  ""
-  (mmux-gmp-c-mod))
+(defun mpz-mod (R N D)
+  "Set R to N mod D."
+  (cl-assert (mpz-p R))
+  (cl-assert (mpz-p N))
+  (cl-assert (mpz-p D))
+  (mmux-gmp-c-mod (mpz-obj R) (mpz-obj N) (mpz-obj D)))
 
 ;;; unsigned long int mpz_mod_ui (mpz_t R, const mpz_t N, unsigned long int D) */
-(defun mpz-mod-ui ()
-  ""
-  (mmux-gmp-c-mod-ui))
+(defun mpz-mod-ui (R N D)
+  "Set R to N mod D."
+  (cl-assert (mpz-p R))
+  (cl-assert (mpz-p N))
+  (cl-assert (mpz-p D))
+  (mmux-gmp-c-mod-ui (mpz-obj R) (mpz-obj N) D))
+
+;;; --------------------------------------------------------------------
 
 ;;; void mpz_divexact (mpz_t Q, const mpz_t N, const mpz_t D) */
-(defun mpz-divexact ()
-  ""
-  (mmux-gmp-c-divexact))
+(defun mpz-divexact (Q N D)
+  "Set Q to N/D."
+  (cl-assert (mpz-p Q))
+  (cl-assert (mpz-p N))
+  (cl-assert (mpz-p D))
+  (mmux-gmp-c-divexact (mpz-obj Q) (mpz-obj N) (mpz-obj D)))
 
 ;;; void mpz_divexact_ui (mpz_t Q, const mpz_t N, unsigned long D) */
-(defun mpz-divexact-ui ()
-  ""
-  (mmux-gmp-c-divexact-ui))
+(defun mpz-divexact-ui (Q N D)
+  "Set Q to N/D."
+  (cl-assert (mpz-p Q))
+  (cl-assert (mpz-p N))
+  (cl-assert (mmux-gmp-ulint-p D))
+  (mmux-gmp-c-divexact-ui (mpz-obj Q) (mpz-obj N) D))
+
+;;; --------------------------------------------------------------------
 
 ;;; int mpz_divisible_p (const mpz_t N, const mpz_t D) */
-(defun mpz-divisible-p ()
-  ""
-  (mmux-gmp-c-divisible-p))
+(defun mpz-divisible-p (N D)
+  "Return true if N is exactly divisible by D."
+  (cl-assert (mpz-p N))
+  (cl-assert (mpz-p D))
+  (mmux-gmp-c-divisible-p (mpz-obj N) (mpz-obj D)))
 
 ;;; int mpz_divisible_ui_p (const mpz_t N, unsigned long int D) */
-(defun mpz-divisible-ui-p ()
-  ""
-  (mmux-gmp-c-divisible-ui-p))
+(defun mpz-divisible-ui-p (N D)
+  "Return true if N is exactly divisible by D."
+  (cl-assert (mpz-p N))
+  (cl-assert (mpz-p D))
+  (mmux-gmp-c-divisible-ui-p (mpz-obj N) (mpz-obj D)))
 
 ;;; int mpz_divisible_2exp_p (const mpz_t N, mp_bitcnt_t B) */
-(defun mpz-divisible-2exp-p ()
-  ""
-  (mmux-gmp-c-divisible-2exp-p))
+(defun mpz-divisible-2exp-p (N B)
+  "Return true if N is exactly divisible by 2^B."
+  (cl-assert (mpz-p N))
+  (cl-assert (mmux-gmp-bitcnt-p B))
+  (mmux-gmp-c-divisible-2exp-p (mpz-obj N) B))
+
+;;; --------------------------------------------------------------------
 
 ;;; int mpz_congruent_p (const mpz_t N, const mpz_t C, const mpz_t D) */
-(defun mpz-congruent-p ()
-  ""
-  (mmux-gmp-c-congruent-p))
+(defun mpz-congruent-p (N C D)
+  "Return non-zero if N is congruent to C modulo D."
+  (cl-assert (mpz-p N))
+  (cl-assert (mpz-p C))
+  (cl-assert (mpz-p D))
+  (mmux-gmp-c-congruent-p (mpz-obj N) (mpz-obj C) (mpz-obj D)))
 
 ;;; int mpz_congruent_ui_p (const mpz_t N, unsigned long int C, unsigned long int D) */
-(defun mpz-congruent-ui-p ()
-  ""
-  (mmux-gmp-c-congruent-ui-p))
+(defun mpz-congruent-ui-p (N C D)
+  "Return non-zero if N is congruent to C modulo D."
+  (cl-assert (mpz-p N))
+  (cl-assert (mmux-gmp-ulint-p C))
+  (cl-assert (mmux-gmp-ulint-p D))
+  (mmux-gmp-c-congruent-ui-p (mpz-obj N) C D))
 
 ;;; int mpz_congruent_2exp_p (const mpz_t N, const mpz_t C, mp_bitcnt_t B) */
-(defun mpz-congruent-2exp-p ()
-  ""
-  (mmux-gmp-c-congruent-2exp-p))
+(defun mpz-congruent-2exp-p (N C B)
+  "Return non-zero if N is congruent to C modulo 2^B."
+  (cl-assert (mpz-p N))
+  (cl-assert (mpz-p C))
+  (cl-assert (mmux-gmp-bitcnt-p B))
+  (mmux-gmp-c-congruent-2exp-p (mpz-obj N) (mpz-obj C) B))
 
 
 ;;;; rational number functions: assignment

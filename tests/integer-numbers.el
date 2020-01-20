@@ -23,6 +23,12 @@
 (require 'mmux-emacs-gmp)
 
 
+;;;; helpers
+
+(defmacro check (EXPR => RESULT)
+  `(should (equal ,RESULT ,EXPR)))
+
+
 ;;;; allocation functions
 
 (ert-deftest mpz-1 ()
@@ -294,6 +300,61 @@
 		       (op	(mpz -123)))
 		   (mpz-abs rop op)
 		   (mpz-get-ui rop)))))
+
+
+;;;; integer division functions: ceil rounding
+
+(ert-deftest mpz-cdiv-q ()
+  ""
+  (check
+      (let ((Q	(mpz))
+	    (N	(mpz 10))
+	    (D	(mpz 3)))
+	(mpz-cdiv-q Q N D)
+	(mpz-get-ui Q))
+    => 4))
+
+@defun mpz-cdiv-q Q N D
+
+
+@defun mpz-cdiv-r R N D
+
+
+@defun mpz-cdiv-qr Q R N D
+
+
+@defun mpz-cdiv-q-ui Q N D
+
+
+@defun mpz-cdiv-r-ui R N D
+
+
+@defun mpz-cdiv-qr-ui Q R N D
+
+
+@defun mpz-cdiv-ui N D
+
+
+@defun mpz-cdiv-q-2exp Q N B
+
+
+@defun mpz-cdiv-2-2exp R N B
+
+
+;;;; integer division functions: floor rounding
+
+
+
+;;;; integer division functions: truncate rounding
+
+
+
+;;;; integer division functions: modulo functions
+
+
+
+;;;; integer division functions: exact division
+
 
 
 ;;;; done
