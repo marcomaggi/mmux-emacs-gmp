@@ -408,19 +408,313 @@
 
 
 ;;;; integer division functions: floor rounding
+;;
+;;The template operation is:
+;;
+;;   N = Q * D + R
+;;
+;;and with floor rounding we have:
+;;
+;; N = 10
+;; D = 3
+;; Q = floor(N/D) = floor(10 / 3) = floor(3.33333) = 3
+;; R = N - Q * D = 10 - 3 * 3 = +1
+;;
+;;for the 2exp functions:
+;;
+;; N = 10
+;; B = 3
+;; D = 2^B = 2^3 = 8
+;; Q = floor(N/D) = floor(10 / 8) = floor(1.25) = 1
+;; R = N - Q * D = 10 - 1 * 8 = 10 - 8 = +2
+;;
 
+(ert-deftest mpz-fdiv-q ()
+  ""
+  (let ((Q	(mpz))
+	(N	(mpz 10))
+	(D	(mpz 3)))
+    (mpz-fdiv-q Q N D)
+    (should (equal 3 (mpz-get-si Q)))))
+
+(ert-deftest mpz-fdiv-r ()
+  ""
+  (let ((R	(mpz))
+	(N	(mpz 10))
+	(D	(mpz 3)))
+    (mpz-fdiv-r R N D)
+    (should (equal +1 (mpz-get-si R)))))
+
+(ert-deftest mpz-fdiv-qr ()
+  ""
+  (let ((Q	(mpz))
+	(R	(mpz))
+	(N	(mpz 10))
+	(D	(mpz 3)))
+    (mpz-fdiv-qr Q R N D)
+    (should (equal +3 (mpz-get-si Q)))
+    (should (equal +1 (mpz-get-si R)))))
+
+;;; --------------------------------------------------------------------
+
+(ert-deftest mpz-fdiv-q-ui ()
+  ""
+  (let ((Q	(mpz))
+	(N	(mpz 10))
+	(D	3))
+    (let ((absR	(mpz-fdiv-q-ui Q N D)))
+      (should (equal +3 (mpz-get-si Q)))
+      (should (equal +1 absR)))))
+
+(ert-deftest mpz-fdiv-r-ui ()
+  ""
+  (let ((R	(mpz))
+	(N	(mpz 10))
+	(D	3))
+    (let ((absR	(mpz-fdiv-r-ui R N D)))
+      (should (equal +1 (mpz-get-si R)))
+      (should (equal +1 absR)))))
+
+(ert-deftest mpz-fdiv-qr-ui ()
+  ""
+  (let ((Q	(mpz))
+	(R	(mpz))
+	(N	(mpz 10))
+	(D	3))
+    (let ((absR (mpz-fdiv-qr-ui Q R N D)))
+      (should (equal +3 (mpz-get-si Q)))
+      (should (equal +1 (mpz-get-si R)))
+      (should (equal +1 absR)))))
+
+(ert-deftest mpz-fdiv-ui ()
+  ""
+  (let ((N	(mpz 10))
+	(D	3))
+    (let ((absR	(mpz-fdiv-ui N D)))
+      (should (equal +1 absR)))))
+
+;;; --------------------------------------------------------------------
+
+(ert-deftest mpz-fdiv-q-2exp ()
+  ""
+  (let ((Q	(mpz))
+	(N	(mpz 10))
+	(B	3))
+    (mpz-fdiv-q-2exp Q N B)
+    (should (equal +1 (mpz-get-si Q)))))
+
+(ert-deftest mpz-fdiv-r-2exp ()
+  ""
+  (let ((R	(mpz))
+	(N	(mpz 10))
+	(B	3))
+    (mpz-fdiv-r-2exp R N B)
+    (should (equal +2 (mpz-get-si R)))))
 
 
 ;;;; integer division functions: truncate rounding
+;;
+;;The template operation is:
+;;
+;;   N = Q * D + R
+;;
+;;and with truncate rounding we have:
+;;
+;; N = 10
+;; D = 3
+;; Q = truncate(N/D) = truncate(10 / 3) = truncate(3.33333) = 3
+;; R = N - Q * D = 10 - 3 * 3 = +1
+;;
+;;for the 2exp functions:
+;;
+;; N = 10
+;; B = 3
+;; D = 2^B = 2^3 = 8
+;; Q = truncate(N/D) = truncate(10 / 8) = truncate(1.25) = 1
+;; R = N - Q * D = 10 - 1 * 8 = 10 - 8 = +2
+;;
 
+(ert-deftest mpz-tdiv-q ()
+  ""
+  (let ((Q	(mpz))
+	(N	(mpz 10))
+	(D	(mpz 3)))
+    (mpz-tdiv-q Q N D)
+    (should (equal 3 (mpz-get-si Q)))))
+
+(ert-deftest mpz-tdiv-r ()
+  ""
+  (let ((R	(mpz))
+	(N	(mpz 10))
+	(D	(mpz 3)))
+    (mpz-tdiv-r R N D)
+    (should (equal +1 (mpz-get-si R)))))
+
+(ert-deftest mpz-tdiv-qr ()
+  ""
+  (let ((Q	(mpz))
+	(R	(mpz))
+	(N	(mpz 10))
+	(D	(mpz 3)))
+    (mpz-tdiv-qr Q R N D)
+    (should (equal +3 (mpz-get-si Q)))
+    (should (equal +1 (mpz-get-si R)))))
+
+;;; --------------------------------------------------------------------
+
+(ert-deftest mpz-tdiv-q-ui ()
+  ""
+  (let ((Q	(mpz))
+	(N	(mpz 10))
+	(D	3))
+    (let ((absR	(mpz-tdiv-q-ui Q N D)))
+      (should (equal +3 (mpz-get-si Q)))
+      (should (equal +1 absR)))))
+
+(ert-deftest mpz-tdiv-r-ui ()
+  ""
+  (let ((R	(mpz))
+	(N	(mpz 10))
+	(D	3))
+    (let ((absR	(mpz-tdiv-r-ui R N D)))
+      (should (equal +1 (mpz-get-si R)))
+      (should (equal +1 absR)))))
+
+(ert-deftest mpz-tdiv-qr-ui ()
+  ""
+  (let ((Q	(mpz))
+	(R	(mpz))
+	(N	(mpz 10))
+	(D	3))
+    (let ((absR (mpz-tdiv-qr-ui Q R N D)))
+      (should (equal +3 (mpz-get-si Q)))
+      (should (equal +1 (mpz-get-si R)))
+      (should (equal +1 absR)))))
+
+(ert-deftest mpz-tdiv-ui ()
+  ""
+  (let ((N	(mpz 10))
+	(D	3))
+    (let ((absR	(mpz-tdiv-ui N D)))
+      (should (equal +1 absR)))))
+
+;;; --------------------------------------------------------------------
+
+(ert-deftest mpz-tdiv-q-2exp ()
+  ""
+  (let ((Q	(mpz))
+	(N	(mpz 10))
+	(B	3))
+    (mpz-tdiv-q-2exp Q N B)
+    (should (equal +1 (mpz-get-si Q)))))
+
+(ert-deftest mpz-tdiv-r-2exp ()
+  ""
+  (let ((R	(mpz))
+	(N	(mpz 10))
+	(B	3))
+    (mpz-tdiv-r-2exp R N B)
+    (should (equal +2 (mpz-get-si R)))))
 
 
 ;;;; integer division functions: modulo functions
+;;
+;;The template operation is:
+;;
+;;   N = Q * D + R
+;;
+;;and with floor rounding we have:
+;;
+;; N = 10
+;; D = 3
+;; Q = floor(N/D) = floor(10 / 3) = floor(3.33333) = 3
+;; R = N - Q * D = 10 - 3 * 3 = +1
+;;
 
+(ert-deftest mpz-mod ()
+  ""
+  (let ((R	(mpz))
+	(N	(mpz 10))
+	(D	(mpz 3)))
+    (mpz-mod R N D)
+    (should (equal 1 (mpz-get-si R)))))
+
+;;; --------------------------------------------------------------------
+
+(ert-deftest mpz-mod-ui ()
+  ""
+  (let ((R	(mpz))
+	(N	(mpz 10))
+	(D	3))
+    (should (equal 1 (mpz-mod-ui R N D)))))
 
 
 ;;;; integer division functions: exact division
 
+(ert-deftest mpz-divexact ()
+  "Set Q to N/D."
+  (let ((Q	(mpz))
+	(N	(mpz 9))
+	(D	(mpz 3)))
+    (mpz-divexact Q N D)
+    (should (equal 3 (mpz-get-si Q)))))
+
+(ert-deftest mpz-divexact-ui ()
+  "Set Q to N/D."
+  (let ((Q	(mpz))
+	(N	(mpz 9))
+	(D	3))
+    (mpz-divexact-ui Q N D)
+    (should (equal 3 (mpz-get-si Q)))))
+
+;;; --------------------------------------------------------------------
+
+;;; int mpz_divisible_p (const mpz_t N, const mpz_t D) */
+(ert-deftest mpz-divisible-p ()
+  "Return true if N is exactly divisible by D."
+  (let ((N	(mpz 9))
+	(D	(mpz 3)))
+    (should (mpz-divisible-p N D))))
+
+;;; int mpz_divisible_ui_p (const mpz_t N, unsigned long int D) */
+(ert-deftest mpz-divisible-ui-p ()
+  "Return true if N is exactly divisible by D."
+  (let ((N	(mpz 9))
+	(D	3))
+    (should (mpz-divisible-ui-p N D))))
+
+;;; int mpz_divisible_2exp_p (const mpz_t N, mp_bitcnt_t B) */
+(ert-deftest mpz-divisible-2exp-p ()
+  "Return true if N is exactly divisible by 2^B."
+  (let ((N	(mpz 16))
+	(B	3))
+    (should (mpz-divisible-2exp-p N B))))
+
+;;; --------------------------------------------------------------------
+
+;;; int mpz_congruent_p (const mpz_t N, const mpz_t C, const mpz_t D) */
+(ert-deftest mpz-congruent-p ()
+  "Return non-zero if N is congruent to C modulo D; Q exists such that: N = C + Q * D."
+  (let ((N	(mpz 7))
+	(C	(mpz 1))
+	(D	(mpz 3)))
+    (should (mpz-congruent-p N C D))))
+
+;;; int mpz_congruent_ui_p (const mpz_t N, unsigned long int C, unsigned long int D) */
+(ert-deftest mpz-congruent-ui-p ()
+  "Return non-zero if N is congruent to C modulo D; Q exists such that: N = C + Q * D."
+  (let ((N	(mpz 7))
+	(C	1)
+	(D	3))
+    (should (mpz-congruent-ui-p N C D))))
+
+;;; int mpz_congruent_2exp_p (const mpz_t N, const mpz_t C, mp_bitcnt_t B) */
+(ert-deftest mpz-congruent-2exp-p ()
+  "Return non-zero if N is congruent to C modulo D = 2^B; Q exists such that: N = C + Q * D."
+  (let ((N	(mpz 17))
+	(C	(mpz 1))
+	(B	3))
+    (should (mpz-congruent-2exp-p N C B))))
 
 
 ;;;; done

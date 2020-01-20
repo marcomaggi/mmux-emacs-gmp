@@ -587,7 +587,7 @@ Fmmux_gmp_c_fdiv_r_ui (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void
 static emacs_value
 Fmmux_gmp_c_fdiv_qr_ui (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
 {
-  assert(3 == nargs);
+  assert(4 == nargs);
   mpz_ptr	Q = mmux_get_mpz(env, args[0]);
   mpz_ptr	R = mmux_get_mpz(env, args[1]);
   mpz_ptr	N = mmux_get_mpz(env, args[2]);
@@ -855,7 +855,7 @@ Fmmux_gmp_c_congruent_p (emacs_env *env, ptrdiff_t nargs, emacs_value args[], vo
 static emacs_value
 Fmmux_gmp_c_congruent_ui_p (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
 {
-  assert(2 == nargs);
+  assert(3 == nargs);
   mpz_ptr	N = mmux_get_mpz(env, args[0]);
   mmux_ulint_t	C = mmux_get_ulint(env, args[1]);
   mmux_ulint_t	D = mmux_get_ulint(env, args[2]);
@@ -867,10 +867,10 @@ Fmmux_gmp_c_congruent_ui_p (emacs_env *env, ptrdiff_t nargs, emacs_value args[],
 static emacs_value
 Fmmux_gmp_c_congruent_2exp_p (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
 {
-  assert(2 == nargs);
+  assert(3 == nargs);
   mpz_ptr	N = mmux_get_mpz(env, args[0]);
   mpz_ptr	C = mmux_get_mpz(env, args[1]);
-  mp_bitcnt_t	B = mmux_get_bitcnt(env, args[1]);
+  mp_bitcnt_t	B = mmux_get_bitcnt(env, args[2]);
 
   return ((mpz_congruent_2exp_p(N, C, B))? mmux_make_true(env) : mmux_make_nil(env));
 }
@@ -1249,8 +1249,8 @@ static module_function_t const module_functions_table[NUMBER_OF_MODULE_FUNCTIONS
   { /* unsigned long int mpz_tdiv_ui (const mpz_t N, unsigned long int D) */
     .name		= "mmux-gmp-c-tdiv-ui",
     .implementation	= Fmmux_gmp_c_tdiv_ui,
-    .min_arity		= 3,
-    .max_arity		= 3,
+    .min_arity		= 2,
+    .max_arity		= 2,
     .documentation	= "Divide N by D, forming a quotient Q and/or remainder R.",
   },
   { /* void mpz_tdiv_q_2exp (mpz_t Q, const mpz_t N, mp_bitcnt_t B) */
@@ -1319,22 +1319,22 @@ static module_function_t const module_functions_table[NUMBER_OF_MODULE_FUNCTIONS
   { /* int mpz_congruent_p (const mpz_t N, const mpz_t C, const mpz_t D) */
     .name		= "mmux-gmp-c-congruent-p",
     .implementation	= Fmmux_gmp_c_congruent_p,
-    .min_arity		= 2,
-    .max_arity		= 2,
+    .min_arity		= 3,
+    .max_arity		= 3,
     .documentation	= "Return non-zero if N is congruent to C modulo D.",
   },
   { /* int mpz_congruent_ui_p (const mpz_t N, unsigned long int C, unsigned long int D) */
     .name		= "mmux-gmp-c-congruent-ui-p",
     .implementation	= Fmmux_gmp_c_congruent_ui_p,
-    .min_arity		= 2,
-    .max_arity		= 2,
+    .min_arity		= 3,
+    .max_arity		= 3,
     .documentation	= "Return non-zero if N is congruent to C modulo D.",
   },
   { /* int mpz_congruent_2exp_p (const mpz_t N, const mpz_t C, mp_bitcnt_t B) */
     .name		= "mmux-gmp-c-congruent-2exp-p",
     .implementation	= Fmmux_gmp_c_congruent_2exp_p,
-    .min_arity		= 2,
-    .max_arity		= 2,
+    .min_arity		= 3,
+    .max_arity		= 3,
     .documentation	= "Return non-zero if N is congruent to C modulo 2^B.",
   },
 };

@@ -4,7 +4,7 @@
 
 ;; Author: Marco Maggi <mrc.mgg@gmail.com>
 ;; Created: Jan 15, 2020
-;; Time-stamp: <2020-01-20 07:02:15 marco>
+;; Time-stamp: <2020-01-20 10:55:39 marco>
 ;; Keywords: extensions
 
 ;; This file is part of MMUX Emacs GMP.
@@ -580,7 +580,7 @@
   "Set R to N mod D."
   (cl-assert (mpz-p R))
   (cl-assert (mpz-p N))
-  (cl-assert (mpz-p D))
+  (cl-assert (mmux-gmp-ulint-p D))
   (mmux-gmp-c-mod-ui (mpz-obj R) (mpz-obj N) D))
 
 ;;; --------------------------------------------------------------------
@@ -614,8 +614,8 @@
 (defun mpz-divisible-ui-p (N D)
   "Return true if N is exactly divisible by D."
   (cl-assert (mpz-p N))
-  (cl-assert (mpz-p D))
-  (mmux-gmp-c-divisible-ui-p (mpz-obj N) (mpz-obj D)))
+  (cl-assert (mmux-gmp-ulint-p D))
+  (mmux-gmp-c-divisible-ui-p (mpz-obj N) D))
 
 ;;; int mpz_divisible_2exp_p (const mpz_t N, mp_bitcnt_t B) */
 (defun mpz-divisible-2exp-p (N B)

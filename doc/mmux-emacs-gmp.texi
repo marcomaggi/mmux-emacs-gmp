@@ -893,10 +893,44 @@ Divide @var{N} by @var{D}, forming a quotient @var{Q} and/or remainder @var{R}; 
 @subsection Rounding towards -infinity (floor)
 
 
+For the examples in this section, the template operation is:
+
+@example
+N = Q * D + R
+@end example
+
+@noindent
+and with floor rounding we have:
+
+@example
+N = 10
+D = 3
+Q = floor(N/D) = floor(10 / 3) = floor(3.33333) = 3
+R = N - Q * D = 10 - 3 * 3 = +1
+@end example
+
+@noindent
+for the @code{2exp} functions:
+
+@example
+N = 10
+B = 3
+D = 2^B = 2^3 = 8
+Q = floor(N/D) = floor(10 / 8) = floor(1.25) = 1
+R = N - Q * D = 10 - 1 * 8 = 10 - 8 = +2
+@end example
+
+
 @defun mpz-fdiv-q @var{Q} @var{N} @var{D}
 Divide @var{N} by @var{D}, forming a quotient @var{Q} and/or remainder @var{R}.
 
 @lisp
+(let ((Q      (mpz))
+      (N      (mpz 10))
+      (D      (mpz 3)))
+  (mpz-fdiv-q Q N D)
+  (mpz-get-si Q))
+@result{} +3
 @end lisp
 @end defun
 
@@ -905,6 +939,12 @@ Divide @var{N} by @var{D}, forming a quotient @var{Q} and/or remainder @var{R}.
 Divide @var{N} by @var{D}, forming a quotient @var{Q} and/or remainder @var{R}.
 
 @lisp
+(let ((R      (mpz))
+      (N      (mpz 10))
+      (D      (mpz 3)))
+  (mpz-fdiv-r R N D)
+  (mpz-get-si R))
+@result{} +1
 @end lisp
 @end defun
 
@@ -913,6 +953,13 @@ Divide @var{N} by @var{D}, forming a quotient @var{Q} and/or remainder @var{R}.
 Divide @var{N} by @var{D}, forming a quotient @var{Q} and/or remainder @var{R}.
 
 @lisp
+(let ((Q      (mpz))
+      (R      (mpz))
+      (N      (mpz 10))
+      (D      (mpz 3)))
+  (mpz-fdiv-qr Q R N D)
+  (mpz-get-si Q)        @result{} +3
+  (mpz-get-si R))       @result{} +1
 @end lisp
 @end defun
 
@@ -921,6 +968,12 @@ Divide @var{N} by @var{D}, forming a quotient @var{Q} and/or remainder @var{R}.
 Divide @var{N} by @var{D}, forming a quotient @var{Q} and/or remainder @var{R}.
 
 @lisp
+(let ((Q      (mpz))
+      (N      (mpz 10))
+      (D      3))
+  (let ((absR (mpz-fdiv-q-ui Q N D)))
+    (mpz-get-si Q)      @result{} +3
+    absR))              @result{} +1
 @end lisp
 @end defun
 
@@ -929,6 +982,12 @@ Divide @var{N} by @var{D}, forming a quotient @var{Q} and/or remainder @var{R}.
 Divide @var{N} by @var{D}, forming a quotient @var{Q} and/or remainder @var{R}.
 
 @lisp
+(let ((R      (mpz))
+      (N      (mpz 10))
+      (D      3))
+  (let ((absR (mpz-fdiv-r-ui R N D)))
+    (mpz-get-si R)      @result{} +1
+    absR))              @result{} +1
 @end lisp
 @end defun
 
@@ -937,6 +996,14 @@ Divide @var{N} by @var{D}, forming a quotient @var{Q} and/or remainder @var{R}.
 Divide @var{N} by @var{D}, forming a quotient @var{Q} and/or remainder @var{R}.
 
 @lisp
+(let ((Q      (mpz))
+      (R      (mpz))
+      (N      (mpz 10))
+      (D      3))
+  (let ((absR (mpz-fdiv-qr-ui Q R N D)))
+    (mpz-get-si Q)      @result{} +3
+    (mpz-get-si R)      @result{} +1
+    absR))              @result{} +1
 @end lisp
 @end defun
 
@@ -945,6 +1012,10 @@ Divide @var{N} by @var{D}, forming a quotient @var{Q} and/or remainder @var{R}.
 Divide @var{N} by @var{D}, forming a quotient @var{Q} and/or remainder @var{R}.
 
 @lisp
+(let ((N      (mpz 10))
+      (D      3))
+  (mpz-fdiv-ui N D))
+@result{} +1
 @end lisp
 @end defun
 
@@ -954,6 +1025,12 @@ Divide @var{N} by @var{D}, forming a quotient @var{Q} and/or remainder @var{R}; 
 @var{D} as 2^@var{B}.
 
 @lisp
+(let ((Q      (mpz))
+      (N      (mpz 10))
+      (B      3))
+  (mpz-fdiv-q-2exp Q N B)
+  (mpz-get-si Q))
+@result{} +1
 @end lisp
 @end defun
 
@@ -963,6 +1040,12 @@ Divide @var{N} by @var{D}, forming a quotient @var{Q} and/or remainder @var{R}; 
 @var{D} as 2^@var{B}.
 
 @lisp
+(let ((R      (mpz))
+      (N      (mpz 10))
+      (B      3))
+  (mpz-fdiv-r-2exp R N B)
+  (mpz-get-si R))
+@result{} +2
 @end lisp
 @end defun
 
@@ -971,10 +1054,44 @@ Divide @var{N} by @var{D}, forming a quotient @var{Q} and/or remainder @var{R}; 
 @subsection Rounding towards zero (truncate)
 
 
+For the examples in this section, the template operation is:
+
+@example
+N = Q * D + R
+@end example
+
+@noindent
+and with truncate rounding we have:
+
+@example
+N = 10
+D = 3
+Q = truncate(N/D) = truncate(10 / 3) = truncate(3.33333) = 3
+R = N - Q * D = 10 - 3 * 3 = +1
+@end example
+
+@noindent
+for the @code{2exp} functions:
+
+@example
+N = 10
+B = 3
+D = 2^B = 2^3 = 8
+Q = truncate(N/D) = truncate(10 / 8) = truncate(1.25) = 1
+R = N - Q * D = 10 - 1 * 8 = 10 - 8 = +2
+@end example
+
+
 @defun mpz-tdiv-q @var{Q} @var{N} @var{D}
 Divide @var{N} by @var{D}, forming a quotient @var{Q} and/or remainder @var{R}.
 
 @lisp
+(let ((Q      (mpz))
+      (N      (mpz 10))
+      (D      (mpz 3)))
+  (mpz-tdiv-q Q N D)
+  (mpz-get-si Q))
+@result{} +3
 @end lisp
 @end defun
 
@@ -983,6 +1100,12 @@ Divide @var{N} by @var{D}, forming a quotient @var{Q} and/or remainder @var{R}.
 Divide @var{N} by @var{D}, forming a quotient @var{Q} and/or remainder @var{R}.
 
 @lisp
+(let ((R      (mpz))
+      (N      (mpz 10))
+      (D      (mpz 3)))
+  (mpz-tdiv-r R N D)
+  (mpz-get-si R))
+@result{} +1
 @end lisp
 @end defun
 
@@ -991,6 +1114,13 @@ Divide @var{N} by @var{D}, forming a quotient @var{Q} and/or remainder @var{R}.
 Divide @var{N} by @var{D}, forming a quotient @var{Q} and/or remainder @var{R}.
 
 @lisp
+(let ((Q      (mpz))
+      (R      (mpz))
+      (N      (mpz 10))
+      (D      (mpz 3)))
+  (mpz-tdiv-qr Q R N D)
+  (mpz-get-si Q)        @result{} +3
+  (mpz-get-si R))       @result{} +1
 @end lisp
 @end defun
 
@@ -999,6 +1129,12 @@ Divide @var{N} by @var{D}, forming a quotient @var{Q} and/or remainder @var{R}.
 Divide @var{N} by @var{D}, forming a quotient @var{Q} and/or remainder @var{R}.
 
 @lisp
+(let ((Q      (mpz))
+      (N      (mpz 10))
+      (D      3))
+  (let ((absR (mpz-tdiv-q-ui Q N D)))
+    (mpz-get-si Q)      @result{} +3
+    absR))              @result{} +1
 @end lisp
 @end defun
 
@@ -1007,6 +1143,12 @@ Divide @var{N} by @var{D}, forming a quotient @var{Q} and/or remainder @var{R}.
 Divide @var{N} by @var{D}, forming a quotient @var{Q} and/or remainder @var{R}.
 
 @lisp
+(let ((R      (mpz))
+      (N      (mpz 10))
+      (D      3))
+  (let ((absR (mpz-tdiv-r-ui R N D)))
+    (mpz-get-si R)      @result{} +1
+    absR))              @result{} +1
 @end lisp
 @end defun
 
@@ -1015,6 +1157,14 @@ Divide @var{N} by @var{D}, forming a quotient @var{Q} and/or remainder @var{R}.
 Divide @var{N} by @var{D}, forming a quotient @var{Q} and/or remainder @var{R}.
 
 @lisp
+(let ((Q      (mpz))
+      (R      (mpz))
+      (N      (mpz 10))
+      (D      3))
+  (let ((absR (mpz-tdiv-qr-ui Q R N D)))
+    (mpz-get-si Q)      @result{} +3
+    (mpz-get-si R)      @result{} +1
+    absR))              @result{} +1
 @end lisp
 @end defun
 
@@ -1023,6 +1173,10 @@ Divide @var{N} by @var{D}, forming a quotient @var{Q} and/or remainder @var{R}.
 Divide @var{N} by @var{D}, forming a quotient @var{Q} and/or remainder @var{R}.
 
 @lisp
+(let ((N      (mpz 10))
+      (D      3))
+  (mpz-tdiv-ui N D))
+@result{} +1
 @end lisp
 @end defun
 
@@ -1032,6 +1186,12 @@ Divide @var{N} by @var{D}, forming a quotient @var{Q} and/or remainder @var{R}; 
 @var{D} as 2^@var{B}.
 
 @lisp
+(let ((Q      (mpz))
+      (N      (mpz 10))
+      (B      3))
+  (mpz-tdiv-q-2exp Q N B)
+  (mpz-get-si Q))
+@result{} +1
 @end lisp
 @end defun
 
@@ -1041,6 +1201,12 @@ Divide @var{N} by @var{D}, forming a quotient @var{Q} and/or remainder @var{R}; 
 @var{D} as 2^@var{B}.
 
 @lisp
+(let ((R      (mpz))
+      (N      (mpz 10))
+      (B      3))
+  (mpz-tdiv-r-2exp R N B)
+  (mpz-get-si R))
+@result{} +2
 @end lisp
 @end defun
 
@@ -1049,10 +1215,20 @@ Divide @var{N} by @var{D}, forming a quotient @var{Q} and/or remainder @var{R}; 
 @subsection Modulo functions
 
 
+The following functions use floor rounding, @ref{integers division floor, Rounding towards -infinity
+(floor)}.
+
+
 @defun mpz-mod @var{R} @var{N} @var{D}
 Set @var{R} to @var{N} mod @var{D}.
 
 @lisp
+(let ((R      (mpz))
+      (N      (mpz 10))
+      (D      (mpz 3)))
+  (mpz-mod R N D)
+  (mpz-get-si R))
+@result{} 1
 @end lisp
 @end defun
 
@@ -1061,6 +1237,11 @@ Set @var{R} to @var{N} mod @var{D}.
 Set @var{R} to @var{N} mod @var{D}.
 
 @lisp
+(let ((R      (mpz))
+      (N      (mpz 10))
+      (D      3))
+  (mpz-mod-ui R N D))
+@result{} 1
 @end lisp
 @end defun
 
@@ -1077,6 +1258,12 @@ The following functions will return correct results only when @math{D} is an exa
 Set @var{Q} to @var{N}/@var{D}.
 
 @lisp
+(let ((Q      (mpz))
+      (N      (mpz 9))
+      (D      (mpz 3)))
+  (mpz-divexact Q N D)
+  (mpz-get-si Q))
+@result{} 3
 @end lisp
 @end defun
 
@@ -1085,6 +1272,12 @@ Set @var{Q} to @var{N}/@var{D}.
 Set @var{Q} to @var{N}/@var{D}.
 
 @lisp
+(let ((Q      (mpz))
+      (N      (mpz 9))
+      (D      3))
+  (mpz-divexact-ui Q N D)
+  (mpz-get-si Q))
+@result{} 3
 @end lisp
 @end defun
 
@@ -1097,6 +1290,10 @@ Set @var{Q} to @var{N}/@var{D}.
 Return true if @var{N} is exactly divisible by @var{D}.
 
 @lisp
+(let ((N      (mpz 9))
+      (D      (mpz 3)))
+  (mpz-divisible-p N D))
+@result{} t
 @end lisp
 @end defun
 
@@ -1105,6 +1302,10 @@ Return true if @var{N} is exactly divisible by @var{D}.
 Return true if @var{N} is exactly divisible by @var{D}.
 
 @lisp
+(let ((N      (mpz 9))
+      (D      3))
+  (mpz-divisible-ui-p N D))
+@result{} t
 @end lisp
 @end defun
 
@@ -1113,6 +1314,10 @@ Return true if @var{N} is exactly divisible by @var{D}.
 Return true if @var{N} is exactly divisible by 2^@var{B}.
 
 @lisp
+(let ((N      (mpz 16))
+      (B      3))
+  (mpz-divisible-2exp-p N B))
+@result{} t
 @end lisp
 @end defun
 
@@ -1129,6 +1334,11 @@ Return true if @var{N} is exactly divisible by 2^@var{B}.
 Return non-zero if @var{N} is congruent to @var{C} modulo @var{D}.
 
 @lisp
+(let ((N      (mpz 7))
+      (C      (mpz 1))
+      (D      (mpz 3)))
+  (mpz-congruent-p N C D))
+@result{} t
 @end lisp
 @end defun
 
@@ -1137,6 +1347,11 @@ Return non-zero if @var{N} is congruent to @var{C} modulo @var{D}.
 Return non-zero if @var{N} is congruent to @var{C} modulo @var{D}.
 
 @lisp
+(let ((N      (mpz 7))
+      (C      1)
+      (D      3))
+  (mpz-congruent-ui-p N C D))
+@result{} t
 @end lisp
 @end defun
 
@@ -1145,6 +1360,11 @@ Return non-zero if @var{N} is congruent to @var{C} modulo @var{D}.
 Return non-zero if @var{N} is congruent to @var{C} modulo 2^@var{B}.
 
 @lisp
+(let ((N      (mpz 17))
+      (C      (mpz 1))
+      (B      3))
+  (mpz-congruent-2exp-p N C B))
+@result{} t
 @end lisp
 @end defun
 
