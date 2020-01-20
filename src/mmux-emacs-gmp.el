@@ -4,7 +4,7 @@
 
 ;; Author: Marco Maggi <mrc.mgg@gmail.com>
 ;; Created: Jan 15, 2020
-;; Time-stamp: <2020-01-20 06:17:34 marco>
+;; Time-stamp: <2020-01-20 07:02:15 marco>
 ;; Keywords: extensions
 
 ;; This file is part of MMUX Emacs GMP.
@@ -408,12 +408,12 @@
   (mmux-gmp-c-cdiv-q-2exp (mpz-obj Q) (mpz-obj N) B))
 
 ;;; void mpz_cdiv_r_2exp (mpz_t R, const mpz_t N, mp_bitcnt_t B) */
-(defun mpz-cdiv-2-2exp (R N B)
+(defun mpz-cdiv-r-2exp (R N B)
   "Divide N by D, forming a quotient Q and/or remainder R; compute D as 2^B."
   (cl-assert (mpz-p R))
   (cl-assert (mpz-p N))
   (cl-assert (mmux-gmp-bitcnt-p B))
-  (mmux-gmp-c-cdiv-2-2exp (mpz-obj R) (mpz-obj N) B))
+  (mmux-gmp-c-cdiv-r-2exp (mpz-obj R) (mpz-obj N) B))
 
 ;;; --------------------------------------------------------------------
 

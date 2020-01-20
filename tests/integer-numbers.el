@@ -169,7 +169,7 @@
 		       (op1	(mpz 10))
 		       (op2	(mpz 1)))
 		   (mpz-add rop op1 op2)
-		   (mpz-get-ui rop)))))
+		   (mpz-get-si rop)))))
 
 (ert-deftest mpz-add-ui ()
   "Add an `mpz' object to an unsigned integer."
@@ -178,7 +178,7 @@
 		       (op1	(mpz 10))
 		       (op2	1))
 		   (mpz-add-ui rop op1 op2)
-		   (mpz-get-ui rop)))))
+		   (mpz-get-si rop)))))
 
 ;;; --------------------------------------------------------------------
 
@@ -189,7 +189,7 @@
 		       (op1	(mpz 11))
 		       (op2	(mpz 1)))
 		   (mpz-sub rop op1 op2)
-		   (mpz-get-ui rop)))))
+		   (mpz-get-si rop)))))
 
 (ert-deftest mpz-sub-ui ()
   "Subtract an unsigned integer from an `mpz' object."
@@ -198,7 +198,7 @@
 		       (op1	(mpz 11))
 		       (op2	1))
 		   (mpz-sub-ui rop op1 op2)
-		   (mpz-get-ui rop)))))
+		   (mpz-get-si rop)))))
 
 ;;; --------------------------------------------------------------------
 
@@ -209,7 +209,7 @@
 		       (op1	(mpz 11))
 		       (op2	(mpz 2)))
 		   (mpz-addmul rop op1 op2)
-		   (mpz-get-ui rop)))))
+		   (mpz-get-si rop)))))
 
 (ert-deftest mpz-addmul-ui ()
   "Multiply an `mpz' object by an unsigned integer, then add the result to an `mpz' object."
@@ -218,7 +218,7 @@
 		       (op1	(mpz 11))
 		       (op2	2))
 		   (mpz-addmul-ui rop op1 op2)
-		   (mpz-get-ui rop)))))
+		   (mpz-get-si rop)))))
 
 ;;; --------------------------------------------------------------------
 
@@ -229,7 +229,7 @@
 		       (op1	(mpz 11))
 		       (op2	(mpz 2)))
 		   (mpz-submul rop op1 op2)
-		   (mpz-get-ui rop)))))
+		   (mpz-get-si rop)))))
 
 (ert-deftest mpz-submul-ui ()
   "Multiply an `mpz' object by an unsigned integer, then subtract the result from an `mpz' object."
@@ -238,7 +238,7 @@
 		       (op1	(mpz 11))
 		       (op2	2))
 		   (mpz-submul-ui rop op1 op2)
-		   (mpz-get-ui rop)))))
+		   (mpz-get-si rop)))))
 
 ;;; --------------------------------------------------------------------
 
@@ -249,7 +249,7 @@
 		       (op1	(mpz 111))
 		       (op2	(mpz 2)))
 		   (mpz-mul rop op1 op2)
-		   (mpz-get-ui rop)))))
+		   (mpz-get-si rop)))))
 
 (ert-deftest mpz-mul-si ()
   "Multiply an `mpz' object by a signed exact integer number."
@@ -258,7 +258,7 @@
 		       (op1	(mpz 111))
 		       (op2	2))
 		   (mpz-mul-si rop op1 op2)
-		   (mpz-get-ui rop)))))
+		   (mpz-get-si rop)))))
 
 (ert-deftest mpz-mul-ui ()
   "Multiply an `mpz' object by an unsigned exact integer number."
@@ -267,7 +267,7 @@
 		       (op1	(mpz 111))
 		       (op2	2))
 		   (mpz-mul-ui rop op1 op2)
-		   (mpz-get-ui rop)))))
+		   (mpz-get-si rop)))))
 
 ;;; --------------------------------------------------------------------
 
@@ -278,7 +278,7 @@
 		       (op	(mpz #b10101))
 		       (bitcnt	2))
 		   (mpz-mul-2exp rop op bitcnt)
-		   (mpz-get-ui rop)))))
+		   (mpz-get-si rop)))))
 
 (ert-deftest mpz-neg ()
   "Left shift an `mpz' object."
@@ -299,46 +299,112 @@
 		 (let ((rop	(mpz))
 		       (op	(mpz -123)))
 		   (mpz-abs rop op)
-		   (mpz-get-ui rop)))))
+		   (mpz-get-si rop)))))
 
 
 ;;;; integer division functions: ceil rounding
+;;
+;;The template operation is:
+;;
+;;   N = Q * D + R
+;;
+;;and with ceil rounding we have:
+;;
+;; N = 10
+;; D = 3
+;; Q = ceil(N/D) = ceil(10 / 3) = ceil(3.33333) = 4
+;; R = N - Q * D = 10 - 4 * 3 = -2
+;;
+;;for the 2exp functions:
+;;
+;; N = 10
+;; B = 3
+;; D = 2^B = 2^3 = 8
+;; Q = ceil(N/D) = ceil(10 / 8) = ceil(1.25) = 2
+;; R = N - Q * D = 10 - 2 * 8 = 10 - 16 = -6
+;;
 
 (ert-deftest mpz-cdiv-q ()
   ""
-  (check
-      (let ((Q	(mpz))
-	    (N	(mpz 10))
-	    (D	(mpz 3)))
-	(mpz-cdiv-q Q N D)
-	(mpz-get-ui Q))
-    => 4))
+  (let ((Q	(mpz))
+	(N	(mpz 10))
+	(D	(mpz 3)))
+    (mpz-cdiv-q Q N D)
+    (should (equal 4 (mpz-get-si Q)))))
 
-@defun mpz-cdiv-q Q N D
+(ert-deftest mpz-cdiv-r ()
+  ""
+  (let ((R	(mpz))
+	(N	(mpz 10))
+	(D	(mpz 3)))
+    (mpz-cdiv-r R N D)
+    (should (equal -2 (mpz-get-si R)))))
 
+(ert-deftest mpz-cdiv-qr ()
+  ""
+  (let ((Q	(mpz))
+	(R	(mpz))
+	(N	(mpz 10))
+	(D	(mpz 3)))
+    (mpz-cdiv-qr Q R N D)
+    (should (equal +4 (mpz-get-si Q)))
+    (should (equal -2 (mpz-get-si R)))))
 
-@defun mpz-cdiv-r R N D
+;;; --------------------------------------------------------------------
 
+(ert-deftest mpz-cdiv-q-ui ()
+  ""
+  (let ((Q	(mpz))
+	(N	(mpz 10))
+	(D	3))
+    (let ((absR	(mpz-cdiv-q-ui Q N D)))
+      (should (equal +4 (mpz-get-si Q)))
+      (should (equal +2 absR)))))
 
-@defun mpz-cdiv-qr Q R N D
+(ert-deftest mpz-cdiv-r-ui ()
+  ""
+  (let ((R	(mpz))
+	(N	(mpz 10))
+	(D	3))
+    (let ((absR	(mpz-cdiv-r-ui R N D)))
+      (should (equal -2 (mpz-get-si R)))
+      (should (equal +2 absR)))))
 
+(ert-deftest mpz-cdiv-qr-ui ()
+  ""
+  (let ((Q	(mpz))
+	(R	(mpz))
+	(N	(mpz 10))
+	(D	3))
+    (let ((absR (mpz-cdiv-qr-ui Q R N D)))
+      (should (equal +4 (mpz-get-si Q)))
+      (should (equal -2 (mpz-get-si R)))
+      (should (equal +2 absR)))))
 
-@defun mpz-cdiv-q-ui Q N D
+(ert-deftest mpz-cdiv-ui ()
+  ""
+  (let ((N	(mpz 10))
+	(D	3))
+    (let ((absR	(mpz-cdiv-ui N D)))
+      (should (equal +2 absR)))))
 
+;;; --------------------------------------------------------------------
 
-@defun mpz-cdiv-r-ui R N D
+(ert-deftest mpz-cdiv-q-2exp ()
+  ""
+  (let ((Q	(mpz))
+	(N	(mpz 10))
+	(B	3))
+    (mpz-cdiv-q-2exp Q N B)
+    (should (equal +2 (mpz-get-si Q)))))
 
-
-@defun mpz-cdiv-qr-ui Q R N D
-
-
-@defun mpz-cdiv-ui N D
-
-
-@defun mpz-cdiv-q-2exp Q N B
-
-
-@defun mpz-cdiv-2-2exp R N B
+(ert-deftest mpz-cdiv-r-2exp ()
+  ""
+  (let ((R	(mpz))
+	(N	(mpz 10))
+	(B	3))
+    (mpz-cdiv-r-2exp R N B)
+    (should (equal -6 (mpz-get-si R)))))
 
 
 ;;;; integer division functions: floor rounding

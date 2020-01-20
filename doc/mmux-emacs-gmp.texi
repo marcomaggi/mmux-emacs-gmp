@@ -733,76 +733,158 @@ In all cases @math{Q} and @math{R} will satisfy @math{N = Q * D + R}, and @math{
 @subsection Rounding towards +infinity (ceil)
 
 
+For the examples in this section, remember that the template operation is:
+
+@example
+N = Q * D + R
+@end example
+
+@noindent
+and with ceil rounding we have:
+
+@example
+N = 10
+D = 3
+Q = ceil(N/D) = ceil(10 / 3) = ceil(3.33333) = 4
+R = N - Q * D = 10 - 4 * 3 = -2
+@end example
+
+@noindent
+for the @code{2exp} functions:
+
+@example
+N = 10
+B = 3
+D = 2^B = 2^3 = 8
+Q = ceil(N/D) = ceil(10 / 8) = ceil(1.25) = 2
+R = N - Q * D = 10 - 2 * 8 = 10 - 16 = -6
+@end example
+
+
 @defun mpz-cdiv-q @var{Q} @var{N} @var{D}
-@var{D}ivide @var{N} by @var{D}, forming a quotient @var{Q} and/or remainder @var{R}.
+Divide @var{N} by @var{D}, forming a quotient @var{Q} and/or remainder @var{R}.
 
 @lisp
+(let ((Q      (mpz))
+      (N      (mpz 10))
+      (D      (mpz 3)))
+  (mpz-cdiv-q Q N D)
+  (mpz-get-si Q))
+@result{} 4
 @end lisp
 @end defun
 
 
 @defun mpz-cdiv-r @var{R} @var{N} @var{D}
-@var{D}ivide @var{N} by @var{D}, forming a quotient @var{Q} and/or remainder @var{R}.
+Divide @var{N} by @var{D}, forming a quotient @var{Q} and/or remainder @var{R}.
 
 @lisp
+(let ((R      (mpz))
+      (N      (mpz 10))
+      (D      (mpz 3)))
+  (mpz-cdiv-r R N D)
+  (mpz-get-si R))
+@result{} -2
 @end lisp
 @end defun
 
 
 @defun mpz-cdiv-qr @var{Q} @var{R} @var{N} @var{D}
-@var{D}ivide @var{N} by @var{D}, forming a quotient @var{Q} and/or remainder @var{R}.
+Divide @var{N} by @var{D}, forming a quotient @var{Q} and/or remainder @var{R}.
 
 @lisp
+  (let ((Q      (mpz))
+      (R      (mpz))
+      (N      (mpz 10))
+      (D      (mpz 3)))
+  (mpz-cdiv-qr Q R N D)
+  (mpz-get-si Q)        @result{} +4
+  (mpz-get-si R))       @result{} -2
 @end lisp
 @end defun
 
 
 @defun mpz-cdiv-q-ui @var{Q} @var{N} @var{D}
-@var{D}ivide @var{N} by @var{D}, forming a quotient @var{Q} and/or remainder @var{R}.
+Divide @var{N} by @var{D}, forming a quotient @var{Q} and/or remainder @var{R}.
 
 @lisp
+(let ((Q      (mpz))
+      (N      (mpz 10))
+      (D      3))
+  (let ((absR (mpz-cdiv-q-ui Q N D)))
+    (mpz-get-si Q)      @result{} +4
+    absR))              @result{} +2
 @end lisp
 @end defun
 
 
 @defun mpz-cdiv-r-ui @var{R} @var{N} @var{D}
-@var{D}ivide @var{N} by @var{D}, forming a quotient @var{Q} and/or remainder @var{R}.
+Divide @var{N} by @var{D}, forming a quotient @var{Q} and/or remainder @var{R}.
 
 @lisp
+(let ((R      (mpz))
+      (N      (mpz 10))
+      (D      3))
+  (let ((absR (mpz-cdiv-r-ui R N D)))
+    (mpz-get-si R)      @result{} -2
+    absR))              @result{} +2
 @end lisp
 @end defun
 
 
 @defun mpz-cdiv-qr-ui @var{Q} @var{R} @var{N} @var{D}
-@var{D}ivide @var{N} by @var{D}, forming a quotient @var{Q} and/or remainder @var{R}.
+Divide @var{N} by @var{D}, forming a quotient @var{Q} and/or remainder @var{R}.
 
 @lisp
+(let ((Q      (mpz))
+      (R      (mpz))
+      (N      (mpz 10))
+      (D      3))
+  (let ((absR (mpz-cdiv-qr-ui Q R N D)))
+    (mpz-get-si Q)      @result{} +4
+    (mpz-get-si R)      @result{} -2
+    absR))              @result{} +2
 @end lisp
 @end defun
 
 
 @defun mpz-cdiv-ui @var{N} @var{D}
-@var{D}ivide @var{N} by @var{D}, forming a quotient @var{Q} and/or remainder @var{R}.
+Divide @var{N} by @var{D}, forming a quotient @var{Q} and/or remainder @var{R}.
 
 @lisp
+(let ((N      (mpz 10))
+      (D      3))
+  (mpz-cdiv-ui N D))    @result{} +2
 @end lisp
 @end defun
 
 
 @defun mpz-cdiv-q-2exp @var{Q} @var{N} @var{B}
-@var{D}ivide @var{N} by @var{D}, forming a quotient @var{Q} and/or remainder @var{R}; compute
+Divide @var{N} by @var{D}, forming a quotient @var{Q} and/or remainder @var{R}; compute
 @var{D} as 2^@var{B}.
 
 @lisp
+(let ((Q      (mpz))
+      (N      (mpz 10))
+      (B      3))
+  (mpz-cdiv-q-2exp Q N B)
+  (mpz-get-si Q))
+@result{} +2
 @end lisp
 @end defun
 
 
-@defun mpz-cdiv-2-2exp @var{R} @var{N} @var{B}
-@var{D}ivide @var{N} by @var{D}, forming a quotient @var{Q} and/or remainder @var{R}; compute
+@defun mpz-cdiv-r-2exp @var{R} @var{N} @var{B}
+Divide @var{N} by @var{D}, forming a quotient @var{Q} and/or remainder @var{R}; compute
 @var{D} as 2^@var{B}.
 
 @lisp
+(let ((R      (mpz))
+      (N      (mpz 10))
+      (B      3))
+  (mpz-cdiv-r-2exp R N B)
+  (mpz-get-si R))
+@result{} -6
 @end lisp
 @end defun
 
@@ -812,7 +894,7 @@ In all cases @math{Q} and @math{R} will satisfy @math{N = Q * D + R}, and @math{
 
 
 @defun mpz-fdiv-q @var{Q} @var{N} @var{D}
-@var{D}ivide @var{N} by @var{D}, forming a quotient @var{Q} and/or remainder @var{R}.
+Divide @var{N} by @var{D}, forming a quotient @var{Q} and/or remainder @var{R}.
 
 @lisp
 @end lisp
@@ -820,7 +902,7 @@ In all cases @math{Q} and @math{R} will satisfy @math{N = Q * D + R}, and @math{
 
 
 @defun mpz-fdiv-r @var{R} @var{N} @var{D}
-@var{D}ivide @var{N} by @var{D}, forming a quotient @var{Q} and/or remainder @var{R}.
+Divide @var{N} by @var{D}, forming a quotient @var{Q} and/or remainder @var{R}.
 
 @lisp
 @end lisp
@@ -828,7 +910,7 @@ In all cases @math{Q} and @math{R} will satisfy @math{N = Q * D + R}, and @math{
 
 
 @defun mpz-fdiv-qr @var{Q} @var{R} @var{N} @var{D}
-@var{D}ivide @var{N} by @var{D}, forming a quotient @var{Q} and/or remainder @var{R}.
+Divide @var{N} by @var{D}, forming a quotient @var{Q} and/or remainder @var{R}.
 
 @lisp
 @end lisp
@@ -836,7 +918,7 @@ In all cases @math{Q} and @math{R} will satisfy @math{N = Q * D + R}, and @math{
 
 
 @defun mpz-fdiv-q-ui @var{Q} @var{N} @var{D}
-@var{D}ivide @var{N} by @var{D}, forming a quotient @var{Q} and/or remainder @var{R}.
+Divide @var{N} by @var{D}, forming a quotient @var{Q} and/or remainder @var{R}.
 
 @lisp
 @end lisp
@@ -844,7 +926,7 @@ In all cases @math{Q} and @math{R} will satisfy @math{N = Q * D + R}, and @math{
 
 
 @defun mpz-fdiv-r-ui @var{R} @var{N} @var{D}
-@var{D}ivide @var{N} by @var{D}, forming a quotient @var{Q} and/or remainder @var{R}.
+Divide @var{N} by @var{D}, forming a quotient @var{Q} and/or remainder @var{R}.
 
 @lisp
 @end lisp
@@ -852,7 +934,7 @@ In all cases @math{Q} and @math{R} will satisfy @math{N = Q * D + R}, and @math{
 
 
 @defun mpz-fdiv-qr-ui @var{Q} @var{R} @var{N} @var{D}
-@var{D}ivide @var{N} by @var{D}, forming a quotient @var{Q} and/or remainder @var{R}.
+Divide @var{N} by @var{D}, forming a quotient @var{Q} and/or remainder @var{R}.
 
 @lisp
 @end lisp
@@ -860,7 +942,7 @@ In all cases @math{Q} and @math{R} will satisfy @math{N = Q * D + R}, and @math{
 
 
 @defun mpz-fdiv-ui @var{N} @var{D}
-@var{D}ivide @var{N} by @var{D}, forming a quotient @var{Q} and/or remainder @var{R}.
+Divide @var{N} by @var{D}, forming a quotient @var{Q} and/or remainder @var{R}.
 
 @lisp
 @end lisp
@@ -868,7 +950,7 @@ In all cases @math{Q} and @math{R} will satisfy @math{N = Q * D + R}, and @math{
 
 
 @defun mpz-fdiv-q-2exp @var{Q} @var{N} @var{B}
-@var{D}ivide @var{N} by @var{D}, forming a quotient @var{Q} and/or remainder @var{R}; compute
+Divide @var{N} by @var{D}, forming a quotient @var{Q} and/or remainder @var{R}; compute
 @var{D} as 2^@var{B}.
 
 @lisp
@@ -877,7 +959,7 @@ In all cases @math{Q} and @math{R} will satisfy @math{N = Q * D + R}, and @math{
 
 
 @defun mpz-fdiv-r-2exp @var{R} @var{N} @var{B}
-@var{D}ivide @var{N} by @var{D}, forming a quotient @var{Q} and/or remainder @var{R}; compute
+Divide @var{N} by @var{D}, forming a quotient @var{Q} and/or remainder @var{R}; compute
 @var{D} as 2^@var{B}.
 
 @lisp
@@ -890,7 +972,7 @@ In all cases @math{Q} and @math{R} will satisfy @math{N = Q * D + R}, and @math{
 
 
 @defun mpz-tdiv-q @var{Q} @var{N} @var{D}
-@var{D}ivide @var{N} by @var{D}, forming a quotient @var{Q} and/or remainder @var{R}.
+Divide @var{N} by @var{D}, forming a quotient @var{Q} and/or remainder @var{R}.
 
 @lisp
 @end lisp
@@ -898,7 +980,7 @@ In all cases @math{Q} and @math{R} will satisfy @math{N = Q * D + R}, and @math{
 
 
 @defun mpz-tdiv-r @var{R} @var{N} @var{D}
-@var{D}ivide @var{N} by @var{D}, forming a quotient @var{Q} and/or remainder @var{R}.
+Divide @var{N} by @var{D}, forming a quotient @var{Q} and/or remainder @var{R}.
 
 @lisp
 @end lisp
@@ -906,7 +988,7 @@ In all cases @math{Q} and @math{R} will satisfy @math{N = Q * D + R}, and @math{
 
 
 @defun mpz-tdiv-qr @var{Q} @var{R} @var{N} @var{D}
-@var{D}ivide @var{N} by @var{D}, forming a quotient @var{Q} and/or remainder @var{R}.
+Divide @var{N} by @var{D}, forming a quotient @var{Q} and/or remainder @var{R}.
 
 @lisp
 @end lisp
@@ -914,7 +996,7 @@ In all cases @math{Q} and @math{R} will satisfy @math{N = Q * D + R}, and @math{
 
 
 @defun mpz-tdiv-q-ui @var{Q} @var{N} @var{D}
-@var{D}ivide @var{N} by @var{D}, forming a quotient @var{Q} and/or remainder @var{R}.
+Divide @var{N} by @var{D}, forming a quotient @var{Q} and/or remainder @var{R}.
 
 @lisp
 @end lisp
@@ -922,7 +1004,7 @@ In all cases @math{Q} and @math{R} will satisfy @math{N = Q * D + R}, and @math{
 
 
 @defun mpz-tdiv-r-ui @var{R} @var{N} @var{D}
-@var{D}ivide @var{N} by @var{D}, forming a quotient @var{Q} and/or remainder @var{R}.
+Divide @var{N} by @var{D}, forming a quotient @var{Q} and/or remainder @var{R}.
 
 @lisp
 @end lisp
@@ -930,7 +1012,7 @@ In all cases @math{Q} and @math{R} will satisfy @math{N = Q * D + R}, and @math{
 
 
 @defun mpz-tdiv-qr-ui @var{Q} @var{R} @var{N} @var{D}
-@var{D}ivide @var{N} by @var{D}, forming a quotient @var{Q} and/or remainder @var{R}.
+Divide @var{N} by @var{D}, forming a quotient @var{Q} and/or remainder @var{R}.
 
 @lisp
 @end lisp
@@ -938,7 +1020,7 @@ In all cases @math{Q} and @math{R} will satisfy @math{N = Q * D + R}, and @math{
 
 
 @defun mpz-tdiv-ui @var{N} @var{D}
-@var{D}ivide @var{N} by @var{D}, forming a quotient @var{Q} and/or remainder @var{R}.
+Divide @var{N} by @var{D}, forming a quotient @var{Q} and/or remainder @var{R}.
 
 @lisp
 @end lisp
@@ -946,7 +1028,7 @@ In all cases @math{Q} and @math{R} will satisfy @math{N = Q * D + R}, and @math{
 
 
 @defun mpz-tdiv-q-2exp @var{Q} @var{N} @var{B}
-@var{D}ivide @var{N} by @var{D}, forming a quotient @var{Q} and/or remainder @var{R}; compute
+Divide @var{N} by @var{D}, forming a quotient @var{Q} and/or remainder @var{R}; compute
 @var{D} as 2^@var{B}.
 
 @lisp
@@ -955,7 +1037,7 @@ In all cases @math{Q} and @math{R} will satisfy @math{N = Q * D + R}, and @math{
 
 
 @defun mpz-tdiv-r-2exp @var{R} @var{N} @var{B}
-@var{D}ivide @var{N} by @var{D}, forming a quotient @var{Q} and/or remainder @var{R}; compute
+Divide @var{N} by @var{D}, forming a quotient @var{Q} and/or remainder @var{R}; compute
 @var{D} as 2^@var{B}.
 
 @lisp

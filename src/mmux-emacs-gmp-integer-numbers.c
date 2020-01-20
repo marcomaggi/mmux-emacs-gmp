@@ -483,8 +483,8 @@ static emacs_value
 Fmmux_gmp_c_cdiv_ui (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
 {
   assert(2 == nargs);
-  mpz_ptr	N = mmux_get_mpz(env, args[2]);
-  mmux_ulint_t	D = mmux_get_ulint(env, args[3]);
+  mpz_ptr	N = mmux_get_mpz(env, args[0]);
+  mmux_ulint_t	D = mmux_get_ulint(env, args[1]);
 
   return mmux_make_int(env, mpz_cdiv_ui(N, D));
 }
@@ -506,7 +506,7 @@ Fmmux_gmp_c_cdiv_q_2exp (emacs_env *env, ptrdiff_t nargs, emacs_value args[], vo
 
 /* void mpz_cdiv_r_2exp (mpz_t R, const mpz_t N, mp_bitcnt_t B) */
 static emacs_value
-Fmmux_gmp_c_cdiv_2_2exp (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
+Fmmux_gmp_c_cdiv_r_2exp (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
 {
   assert(3 == nargs);
   mpz_ptr	R = mmux_get_mpz(env, args[0]);
@@ -1135,8 +1135,8 @@ static module_function_t const module_functions_table[NUMBER_OF_MODULE_FUNCTIONS
     .documentation	= "Divide N by D, forming a quotient Q and/or remainder R; compute D as 2^B.",
   },
   { /* void mpz_cdiv_r_2exp (mpz_t R, const mpz_t N, mp_bitcnt_t B) */
-    .name		= "mmux-gmp-c-cdiv-2-2exp",
-    .implementation	= Fmmux_gmp_c_cdiv_2_2exp,
+    .name		= "mmux-gmp-c-cdiv-r-2exp",
+    .implementation	= Fmmux_gmp_c_cdiv_r_2exp,
     .min_arity		= 3,
     .max_arity		= 3,
     .documentation	= "Divide N by D, forming a quotient Q and/or remainder R; compute D as 2^B.",
