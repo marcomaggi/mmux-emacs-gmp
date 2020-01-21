@@ -104,8 +104,8 @@ static emacs_value
 Fmmux_gmp_c_mpz_set_str (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
 {
   assert(3 == nargs);
-  mpz_ptr	rop  = mmux_get_ptr    (env, args[0]);
-  intmax_t	base = mmux_get_int (env, args[2]);
+  mpz_ptr	rop  = mmux_get_ptr	(env, args[0]);
+  mmux_sint_t	base = mmux_get_sint	(env, args[2]);
   ptrdiff_t	len  = 0;
 
   env->copy_string_contents(env, args[1], NULL, &len);
@@ -114,7 +114,7 @@ Fmmux_gmp_c_mpz_set_str (emacs_env *env, ptrdiff_t nargs, emacs_value args[], vo
     int		rv;
 
     env->copy_string_contents(env, args[1], buf, &len);
-    rv = mpz_set_str(rop, buf, (int)base);
+    rv = mpz_set_str(rop, buf, base);
     return mmux_make_int(env, rv);
   } else {
     char const *	errmsg  = "input string exceeds maximum length";
@@ -201,11 +201,11 @@ Fmmux_gmp_c_mpz_get_str (emacs_env *env, ptrdiff_t nargs MMUX_EMACS_GMP_UNUSED,
 			 emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
 {
   assert(2 == nargs);
-  intmax_t	base = mmux_get_int (env, args[0]);
-  mpz_ptr	op   = mmux_get_ptr    (env, args[1]);
+  mmux_sint_t	base = mmux_get_sint (env, args[0]);
+  mpz_ptr	op   = mmux_get_ptr  (env, args[1]);
 
   {
-    int		maxlen = 2 + mpz_sizeinbase(op, (int)base);
+    int		maxlen = 2 + mpz_sizeinbase(op, base);
     char	str[maxlen];
 
     mpz_get_str(str, base, op);
@@ -236,9 +236,9 @@ Fmmux_gmp_c_mpz_add_ui (emacs_env *env, ptrdiff_t nargs, emacs_value args[], voi
   assert(3 == nargs);
   mpz_ptr	rop = mmux_get_mpz(env, args[0]);
   mpz_ptr	op1 = mmux_get_mpz(env, args[1]);
-  intmax_t	op2 = mmux_get_int(env, args[2]);
+  mmux_ulint_t	op2 = mmux_get_ulint(env, args[2]);
 
-  mpz_add_ui(rop, op1, (unsigned long int)op2);
+  mpz_add_ui(rop, op1, op2);
   return mmux_make_nil(env);
 }
 
@@ -262,9 +262,9 @@ Fmmux_gmp_c_mpz_sub_ui (emacs_env *env, ptrdiff_t nargs, emacs_value args[], voi
   assert(3 == nargs);
   mpz_ptr	rop = mmux_get_mpz(env, args[0]);
   mpz_ptr	op1 = mmux_get_mpz(env, args[1]);
-  intmax_t	op2 = mmux_get_int(env, args[2]);
+  mmux_ulint_t	op2 = mmux_get_ulint(env, args[2]);
 
-  mpz_sub_ui(rop, op1, (unsigned long int)op2);
+  mpz_sub_ui(rop, op1, op2);
   return mmux_make_nil(env);
 }
 
@@ -288,9 +288,9 @@ Fmmux_gmp_c_mpz_addmul_ui (emacs_env *env, ptrdiff_t nargs, emacs_value args[], 
   assert(3 == nargs);
   mpz_ptr	rop = mmux_get_mpz(env, args[0]);
   mpz_ptr	op1 = mmux_get_mpz(env, args[1]);
-  intmax_t	op2 = mmux_get_int(env, args[2]);
+  mmux_ulint_t	op2 = mmux_get_ulint(env, args[2]);
 
-  mpz_addmul_ui(rop, op1, (unsigned long int)op2);
+  mpz_addmul_ui(rop, op1, op2);
   return mmux_make_nil(env);
 }
 
@@ -314,9 +314,9 @@ Fmmux_gmp_c_mpz_submul_ui (emacs_env *env, ptrdiff_t nargs, emacs_value args[], 
   assert(3 == nargs);
   mpz_ptr	rop = mmux_get_mpz(env, args[0]);
   mpz_ptr	op1 = mmux_get_mpz(env, args[1]);
-  intmax_t	op2 = mmux_get_int(env, args[2]);
+  mmux_ulint_t	op2 = mmux_get_ulint(env, args[2]);
 
-  mpz_submul_ui(rop, op1, (unsigned long int)op2);
+  mpz_submul_ui(rop, op1, op2);
   return mmux_make_nil(env);
 }
 
@@ -340,9 +340,9 @@ Fmmux_gmp_c_mpz_mul_si (emacs_env *env, ptrdiff_t nargs, emacs_value args[], voi
   assert(3 == nargs);
   mpz_ptr	rop = mmux_get_mpz(env, args[0]);
   mpz_ptr	op1 = mmux_get_mpz(env, args[1]);
-  intmax_t	op2 = mmux_get_int(env, args[2]);
+  mmux_slint_t	op2 = mmux_get_slint(env, args[2]);
 
-  mpz_mul_si(rop, op1, (signed long int)op2);
+  mpz_mul_si(rop, op1, op2);
   return mmux_make_nil(env);
 }
 
@@ -352,9 +352,9 @@ Fmmux_gmp_c_mpz_mul_ui (emacs_env *env, ptrdiff_t nargs, emacs_value args[], voi
   assert(3 == nargs);
   mpz_ptr	rop = mmux_get_mpz(env, args[0]);
   mpz_ptr	op1 = mmux_get_mpz(env, args[1]);
-  intmax_t	op2 = mmux_get_int(env, args[2]);
+  mmux_ulint_t	op2 = mmux_get_ulint(env, args[2]);
 
-  mpz_mul_ui(rop, op1, (unsigned long int)op2);
+  mpz_mul_ui(rop, op1, op2);
   return mmux_make_nil(env);
 }
 
@@ -366,9 +366,9 @@ Fmmux_gmp_c_mpz_mul_2exp (emacs_env *env, ptrdiff_t nargs, emacs_value args[], v
   assert(3 == nargs);
   mpz_ptr	rop = mmux_get_mpz(env, args[0]);
   mpz_ptr	op1 = mmux_get_mpz(env, args[1]);
-  intmax_t	op2 = mmux_get_int(env, args[2]);
+  mp_bitcnt_t	op2 = mmux_get_bitcnt(env, args[2]);
 
-  mpz_mul_2exp(rop, op1, (mp_bitcnt_t)op2);
+  mpz_mul_2exp(rop, op1, op2);
   return mmux_make_nil(env);
 }
 
@@ -1043,7 +1043,7 @@ Fmmux_gmp_c_mpz_sizeinbase (emacs_env *env, ptrdiff_t nargs, emacs_value args[],
 {
   assert(2 == nargs);
   mpz_ptr	op	= mmux_get_mpz(env, args[0]);
-  mmux_sint_t	base	= mmux_get_int(env, args[1]);
+  mmux_sint_t	base	= mmux_get_sint(env, args[1]);
 
   return mmux_make_ulint(env, mpz_sizeinbase(op, base));
 }
