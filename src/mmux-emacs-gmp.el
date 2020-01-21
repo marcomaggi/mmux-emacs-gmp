@@ -4,7 +4,7 @@
 
 ;; Author: Marco Maggi <mrc.mgg@gmail.com>
 ;; Created: Jan 15, 2020
-;; Time-stamp: <2020-01-21 17:51:35 marco>
+;; Time-stamp: <2020-01-21 17:54:04 marco>
 ;; Keywords: extensions
 
 ;; This file is part of MMUX Emacs GMP.
@@ -677,8 +677,7 @@
   (cl-assert (mpz-p rop))
   (cl-assert (mpz-p base))
   (cl-assert (and (mpz-p exp)
-		  ;;FIXME (< 0 (mmux-gmp-c-mpz-cmp-si (mpz-obj exp) 0))
-		  t))
+		  (< 0 (mmux-gmp-c-mpz-cmp-si (mpz-obj exp) 0))))
   (cl-assert (and (mpz-p mod)
 		  (mmux-gmp-c-mpz-odd-p (mpz-obj mod))))
   (mmux-gmp-c-mpz-powm-sec (mpz-obj rop) (mpz-obj base) (mpz-obj exp) (mpz-obj mod)))
