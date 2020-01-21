@@ -78,14 +78,24 @@ TESTS		 = $(MMUX_EMACS_GMP_TESTS)
 AM_TESTS_ENVIRONMENT	=
 TEST_EXTENSIONS		= .el
 EL_LOG_COMPILER		= $(EMACS)
-AM_EL_LOG_FLAGS		= --batch --quick --directory $(builddir)/.libs --directory $(builddir)/src -l
+AM_EL_LOG_FLAGS		= --batch --quick --directory $(builddir)/.libs --directory $(builddir)/src --load
+
+.PHONY: test
 
 ## --------------------------------------------------------------------
 
-MMUX_EMACS_INSTALLCHECK	= $(EMACS) --batch --quick --directory $(libdir) --directory $(lispdir) -l
+MMUX_EMACS_INSTALLCHECK	= $(EMACS) --batch --quick --directory $(libdir) --directory $(lispdir) --load
 
 installcheck-local: $(TESTS)
 	@for f in $(TESTS); do $(MMUX_EMACS_INSTALLCHECK) $(srcdir)/$$f; done
+
+## --------------------------------------------------------------------
+
+MMUX_EMACS_GMP_TEST_SELECTED_TESTS	= $(srcdir)/tests/*$(file)*.el
+MMUX_EMACS_GMP_TEST_RUNTESTS		= $(EMACS) --batch --quick --directory $(builddir)/.libs --directory $(builddir)/src --load
+
+test:
+	for f in $(MMUX_EMACS_GMP_TEST_SELECTED_TESTS) ; do $(MMUX_EMACS_GMP_TEST_RUNTESTS) $$f; done
 
 
 #### common rules

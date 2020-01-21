@@ -33,6 +33,8 @@ config.cache
 configure
 depcomp
 test-driver
+tests/*.log
+tests/*.trs
 doc/mdate-sh
 doc/stamp-vti
 doc/texinfo.tex
