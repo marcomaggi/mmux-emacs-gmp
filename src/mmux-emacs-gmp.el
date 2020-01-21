@@ -4,7 +4,7 @@
 
 ;; Author: Marco Maggi <mrc.mgg@gmail.com>
 ;; Created: Jan 15, 2020
-;; Time-stamp: <2020-01-21 15:21:10 marco>
+;; Time-stamp: <2020-01-21 17:39:34 marco>
 ;; Keywords: extensions
 
 ;; This file is part of MMUX Emacs GMP.
@@ -698,6 +698,65 @@
   (cl-assert (mmux-gmp-ulint-p base))
   (cl-assert (mmux-gmp-ulint-p exp))
   (mmux-gmp-c-mpz-ui-pow-ui (mpz-obj rop) base exp))
+
+
+;;;; comparison functions
+
+;; int mpz_cmp (const mpz_t OP1, const mpz_t OP2)
+(cl-defgeneric mpz-cmp (op1 op2)
+  "Compare OP1 and OP2.")
+(cl-defmethod mpz-cmp ((op1 mpz) (op2 mpz))
+  "Compare OP1 and OP2."
+  (mmux-gmp-c-mpz-cmp (mpz-obj op1) (mpz-obj op2)))
+
+;; int mpz_cmp_d (const mpz_t OP1, double OP2)
+(cl-defgeneric mpz-cmp-d (op1 op2)
+  "Compare OP1 and OP2.")
+(cl-defmethod mpz-cmp-d ((op1 mpz) (op2 float))
+  "Compare OP1 and OP2."
+  (mmux-gmp-c-mpz-cmp-d (mpz-obj op1) op2))
+
+;; int mpz_cmp_si (const mpz_t OP1, signed long int OP2)
+(cl-defgeneric mpz-cmp-si (op1 op2)
+  "Compare OP1 and OP2.")
+(cl-defmethod mpz-cmp-si ((op1 mpz) (op2 integer))
+  "Compare OP1 and OP2."
+  (mmux-gmp-c-mpz-cmp-si (mpz-obj op1) op2))
+
+;; int mpz_cmp_ui (const mpz_t OP1, unsigned long int OP2)
+(cl-defgeneric mpz-cmp-ui (op1 op2)
+  "Compare OP1 and OP2.")
+(cl-defmethod mpz-cmp-ui ((op1 mpz) (op2 integer))
+  "Compare OP1 and OP2."
+  (cl-assert (<= 0 op2))
+  (mmux-gmp-c-mpz-cmp-ui (mpz-obj op1) op2))
+
+;;; --------------------------------------------------------------------
+
+;; int mpz_cmpabs (const mpz_t OP1, const mpz_t OP2)
+(cl-defgeneric mpz-cmpabs (op1 op2)
+  "Compare the absolute values of OP1 and OP2.")
+(cl-defmethod mpz-cmpabs ((op1 mpz) (op2 mpz))
+  "Compare the absolute values of OP1 and OP2."
+  (mmux-gmp-c-mpz-cmpabs (mpz-obj op1) (mpz-obj op2)))
+
+;; int mpz_cmpabs_d (const mpz_t OP1, double OP2)
+(cl-defgeneric mpz-cmpabs-d (op1 op2)
+  "Compare the absolute values of OP1 and OP2.")
+(cl-defmethod mpz-cmpabs-d ((op1 mpz) (op2 float))
+  "Compare the absolute values of OP1 and OP2."
+  (mmux-gmp-c-mpz-cmpabs-d (mpz-obj op1) op2))
+
+;; int mpz_cmpabs_ui (const mpz_t OP1, unsigned long int OP2)
+(cl-defgeneric mpz-cmpabs-ui (op1 op2)
+  "Compare the absolute values of OP1 and OP2.")
+(cl-defmethod mpz-cmpabs-ui ((op1 mpz) (op2 integer))
+  "Compare the absolute values of OP1 and OP2."
+  (cl-assert (<= 0 op2))
+  (mmux-gmp-c-mpz-cmpabs-ui (mpz-obj op1) op2))
+
+;;; --------------------------------------------------------------------
+
 
 
 ;;;; integer number functions: miscellaneous

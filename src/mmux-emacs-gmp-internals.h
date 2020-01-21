@@ -63,6 +63,10 @@
 
 #undef  mmux_get_flo
 #define mmux_get_flo(ENV, ARG)		((ENV)->extract_float((ENV), (ARG)))
+#undef  mmux_get_float
+#define mmux_get_float(ENV, ARG)	((ENV)->extract_float((ENV), (ARG)))
+#undef  mmux_get_double
+#define mmux_get_double(ENV, ARG)	((ENV)->extract_float((ENV), (ARG)))
 
 #undef  mmux_get_ulint
 #define mmux_get_ulint(ENV, ARG)	((mmux_ulint_t)(mmux_get_int((ENV), (ARG))))

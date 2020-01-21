@@ -773,6 +773,60 @@
 		   (mpz-get-ui rop)))))
 
 
+;;;; comparison
+
+;; int mpz_cmp (const mpz_t OP1, const mpz_t OP2)
+(ert-deftest mpz-cmp ()
+  "Compare OP1 and OP2."
+  (should (equal -1 (mpz-cmp (mpz 1) (mpz 2))))
+  (should (equal  0 (mpz-cmp (mpz 0) (mpz 0))))
+  (should (equal +1 (mpz-cmp (mpz 2) (mpz 1)))))
+
+;; int mpz_cmp_d (const mpz_t OP1, double OP2)
+(ert-deftest mpz-cmp-d ()
+  "Compare OP1 and OP2."
+  (should (equal -1 (mpz-cmp-d (mpz 1) 2.0)))
+  (should (equal  0 (mpz-cmp-d (mpz 0) 0.0)))
+  (should (equal +1 (mpz-cmp-d (mpz 2) 1.0))))
+
+;; int mpz_cmp_si (const mpz_t OP1, signed long int OP2)
+(ert-deftest mpz-cmp-si ()
+  "Compare OP1 and OP2."
+  (should (equal -1 (mpz-cmp-si (mpz -2) -1)))
+  (should (equal  0 (mpz-cmp-si (mpz  0)  0)))
+  (should (equal +1 (mpz-cmp-si (mpz -1) -2))))
+
+;; int mpz_cmp_ui (const mpz_t OP1, unsigned long int OP2)
+(ert-deftest mpz-cmp-ui ()
+  "Compare OP1 and OP2."
+  (should (equal -1 (mpz-cmp-ui (mpz 1) 2)))
+  (should (equal  0 (mpz-cmp-ui (mpz 0) 0)))
+  (should (equal +1 (mpz-cmp-ui (mpz 2) 1))))
+
+;;; --------------------------------------------------------------------
+
+;; int mpz_cmpabs (const mpz_t OP1, const mpz_t OP2)
+(ert-deftest mpz-cmpabs ()
+  "Compare the absolute values of OP1 and OP2."
+  (should (equal -1 (mpz-cmpabs (mpz 1) (mpz -2))))
+  (should (equal  0 (mpz-cmpabs (mpz 0) (mpz 0))))
+  (should (equal +1 (mpz-cmpabs (mpz 2) (mpz 1)))))
+
+;; int mpz_cmpabs_d (const mpz_t OP1, double OP2)
+(ert-deftest mpz-cmpabs-d ()
+  "Compare the absolute values of OP1 and OP2."
+  (should (equal -1 (mpz-cmpabs-d (mpz 1) -2.0)))
+  (should (equal  0 (mpz-cmpabs-d (mpz 0)  0.0)))
+  (should (equal +1 (mpz-cmpabs-d (mpz 2)  1.0))))
+
+;; int mpz_cmpabs_ui (const mpz_t OP1, unsigned long int OP2)
+(ert-deftest mpz-cmpabs-ui ()
+  "Compare the absolute values of OP1 and OP2."
+  (should (equal -1 (mpz-cmpabs-ui (mpz  1) 2)))
+  (should (equal  0 (mpz-cmpabs-ui (mpz  0) 0)))
+  (should (equal +1 (mpz-cmpabs-ui (mpz -2) 1))))
+
+
 ;;;; miscellaneous functions
 
 ;; int mpz_fits_ulong_p (const mpz_t OP)

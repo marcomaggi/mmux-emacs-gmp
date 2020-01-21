@@ -303,6 +303,7 @@ garbage collected.
 * integers arithmetic::         Arithmetic operations.
 * integers division::           Division operations.
 * integers exponentiation::     Exponentiation operations.
+* integers comparison::         Commparison functions.
 * integers miscellaneous::      Miscellaneous functions.
 @end menu
 
@@ -1453,53 +1454,151 @@ Set @var{ROP} to @var{BASE} raised to @var{EXP}.
 @end defun
 
 @c page
+@node integers comparison
+@section Commparison functions
+
+
+@deffn {Generic Function} mpz-cmp (@vari{op} @varii{op})
+@deffnx {Method} mpz-cmp ((@vari{op} mpz) (@varii{op} mpz))
+Compare @vari{OP} and @varii{OP}.
+
+@lisp
+(mpz-cmp (mpz 1) (mpz 2))       @result{} -1
+(mpz-cmp (mpz 0) (mpz 0))       @result{} 0
+(mpz-cmp (mpz 2) (mpz 1))       @result{} +1
+@end lisp
+@end deffn
+
+
+@deffn {Generic Function} mpz-cmp-d (@vari{op} @varii{op})
+@deffnx {Method} mpz-cmp-d ((@vari{op} mpz) (@varii{op} float))
+Compare @vari{OP} and @varii{OP}.
+
+@lisp
+(mpz-cmp-d (mpz 1) 2.0))        @result{} -1
+(mpz-cmp-d (mpz 0) 0.0))        @result{} 0
+(mpz-cmp-d (mpz 2) 1.0))        @result{} +1
+@end lisp
+@end deffn
+
+
+@deffn {Generic Function} mpz-cmp-si (@vari{op} @varii{op})
+@deffnx {Method} mpz-cmp-si ((@vari{op} mpz) (@varii{op} integer))
+Compare @vari{OP} and @varii{OP}.
+
+@lisp
+(mpz-cmp-si (mpz -2) -1))       @result{} -1
+(mpz-cmp-si (mpz  0)  0))       @result{} 0
+(mpz-cmp-si (mpz -1) -2))       @result{} +1
+@end lisp
+@end deffn
+
+
+@deffn {Generic Function} mpz-cmp-ui (@vari{op} @varii{op})
+@deffnx {Method} mpz-cmp-ui ((@vari{op} mpz) (@varii{op} integer))
+Compare @vari{OP} and @varii{OP}.
+
+@lisp
+(mpz-cmp-ui (mpz 1) 2))         @result{} -1
+(mpz-cmp-ui (mpz 0) 0))         @result{} 0
+(mpz-cmp-ui (mpz 2) 1))         @result{} +1
+@end lisp
+@end deffn
+
+@c ------------------------------------------------------------------------
+
+@deffn {Generic Function} mpz-cmpabs (@vari{op} @varii{op})
+@deffnx {Method} mpz-cmpabs ((@vari{op} mpz) (@varii{op} mpz))
+Compare the absolute values of OP1 and OP2.
+
+@lisp
+(mpz-cmpabs (mpz 1) (mpz -2))   @result{} -1
+(mpz-cmpabs (mpz 0) (mpz  0))   @result{} 0
+(mpz-cmpabs (mpz 2) (mpz  1))   @result{} +1
+@end lisp
+@end deffn
+
+
+@deffn {Generic Function} mpz-cmpabs-d (@vari{op} @varii{op})
+@deffnx {Method} mpz-cmpabs-d ((@vari{op} mpz) (@varii{op} float))
+Compare the absolute values of OP1 and OP2.
+
+@lisp
+(mpz-cmpabs-d (mpz 1) -2.0)     @result{} -1
+(mpz-cmpabs-d (mpz 0)  0.0)     @result{} 0
+(mpz-cmpabs-d (mpz 2)  1.0)     @result{} +1
+@end lisp
+@end deffn
+
+
+@deffn {Generic Function} mpz-cmpabs-ui (@vari{op} @varii{op})
+@deffnx {Method} mpz-cmpabs-ui ((@vari{op} mpz) (@varii{op} integer))
+Compare the absolute values of OP1 and OP2.
+
+@lisp
+(mpz-cmpabs-ui (mpz  1) 2)      @result{} -1
+(mpz-cmpabs-ui (mpz  0) 0)      @result{} 0
+(mpz-cmpabs-ui (mpz -2) 1)      @result{} +1
+@end lisp
+@end deffn
+
+@c page
 @node integers miscellaneous
 @section Miscellaneous functions
 
 
-@deffn {Generic Function} mpz-fits-ulong-p ((@var{OP} mpz))
+@deffn {Generic Function} mpz-fits-ulong-p (@var{OP})
+@deffnx {Method} mpz-fits-ulong-p ((@var{OP} mpz))
 Return true if the operand fits an @code{unsigned long int}; otherwise return false.
 @end deffn
 
 
-@deffn {Generic Function} mpz-fits-slong-p ((@var{OP} mpz))
+@deffn {Generic Function} mpz-fits-slong-p (@var{OP})
+@deffnx {Method} mpz-fits-slong-p ((@var{OP} mpz))
 Return true if the operand fits a `@code{igned long int}; otherwise return false.
 @end deffn
 
 
-@deffn {Generic Function} mpz-fits-uint-p ((@var{OP} mpz))
+@deffn {Generic Function} mpz-fits-uint-p (@var{OP})
+@deffnx {Method} mpz-fits-uint-p ((@var{OP} mpz))
 Return true if the operand fits an @code{unsigned int}; otherwise return false.
 @end deffn
 
 
-@deffn {Generic Function} mpz-fits-sint-p ((@var{OP} mpz))
+@deffn {Generic Function} mpz-fits-sint-p (@var{OP})
+@deffnx {Method} mpz-fits-sint-p ((@var{OP} mpz))
 Return true if the operand fits n `@code{igned int}; otherwise return false.
 @end deffn
 
 
-@deffn {Generic Function} mpz-fits-ushort-p ((@var{OP} mpz))
+@deffn {Generic Function} mpz-fits-ushort-p (@var{OP})
+@deffnx {Method} mpz-fits-ushort-p ((@var{OP} mpz))
 Return true if the operand fits an @code{unsigned short int}; otherwise return false.
 @end deffn
 
 
-@deffn {Generic Function} mpz-fits-sshort-p ((@var{OP} mpz))
+@deffn {Generic Function} mpz-fits-sshort-p (@var{OP})
+@deffnx {Method} mpz-fits-sshort-p ((@var{OP} mpz))
 Return true if the operand fits a @code{signed short int}; otherwise return false.
 @end deffn
 
 @c ------------------------------------------------------------------------
 
-@deffn {Generic Function} mpz-odd-p ((@var{OP} mpz))
+@deffn {Generic Function} mpz-odd-p (@var{OP})
+@deffnx {Method} mpz-odd-p ((@var{OP} mpz))
 Return true if the operand is odd; otherwise return false.
 @end deffn
 
 
-@deffn {Generic Function} mpz-even-p ((@var{OP} mpz))
+@deffn {Generic Function} mpz-even-p (@var{OP})
+@deffnx {Method} mpz-even-p ((@var{OP} mpz))
 Return true if the operand is even; otherwise return false.
 @end deffn
 
 @c ------------------------------------------------------------------------
 
-@deffn {Generic Function} mpz-sizeinbase ((@var{op} mpz) (@var{base} integer))
+@deffn {Generic Function} mpz-sizeinbase (@var{op} @var{base})
+@deffnx {Method} mpz-sizeinbase ((@var{op} mpz) (@var{base} integer))
 Return the size of @var{OP} measured in number of digits in the given @var{BASE}.
 
 The argument @var{BASE} can vary from @math{2} to @math{62}.

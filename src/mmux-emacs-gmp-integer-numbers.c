@@ -950,6 +950,90 @@ Fmmux_gmp_c_mpz_ui_pow_ui (emacs_env *env, ptrdiff_t nargs, emacs_value args[], 
 
 
 /** --------------------------------------------------------------------
+ ** Comparison functions.
+ ** ----------------------------------------------------------------- */
+
+/* int mpz_cmp (const mpz_t OP1, const mpz_t OP2) */
+static emacs_value
+Fmmux_gmp_c_mpz_cmp (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
+{
+  assert(2 == nargs);
+  mpz_ptr	op1	= mmux_get_mpz(env, args[0]);
+  mpz_ptr	op2	= mmux_get_mpz(env, args[1]);
+
+  return mmux_make_int(env, mpz_cmp(op1, op2));
+}
+
+/* int mpz_cmp_d (const mpz_t OP1, double OP2) */
+static emacs_value
+Fmmux_gmp_c_mpz_cmp_d (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
+{
+  assert(2 == nargs);
+  mpz_ptr	op1	= mmux_get_mpz(env, args[0]);
+  double	op2	= mmux_get_float(env, args[1]);
+
+  return mmux_make_int(env, mpz_cmp_d(op1, op2));
+}
+
+/* int mpz_cmp_si (const mpz_t OP1, signed long int OP2) */
+static emacs_value
+Fmmux_gmp_c_mpz_cmp_si (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
+{
+  assert(2 == nargs);
+  mpz_ptr	op1	= mmux_get_mpz(env, args[0]);
+  mmux_slint_t	op2	= mmux_get_slint(env, args[1]);
+
+  return mmux_make_int(env, mpz_cmp_si(op1, op2));
+}
+
+/* int mpz_cmp_ui (const mpz_t OP1, unsigned long int OP2) */
+static emacs_value
+Fmmux_gmp_c_mpz_cmp_ui (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
+{
+  assert(2 == nargs);
+  mpz_ptr	op1	= mmux_get_mpz(env, args[0]);
+  mmux_ulint_t	op2	= mmux_get_ulint(env, args[1]);
+
+  return mmux_make_int(env, mpz_cmp_ui(op1, op2));
+}
+
+/* ------------------------------------------------------------------ */
+
+/* int mpz_cmpabs (const mpz_t OP1, const mpz_t OP2) */
+static emacs_value
+Fmmux_gmp_c_mpz_cmpabs (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
+{
+  assert(2 == nargs);
+  mpz_ptr	op1	= mmux_get_mpz(env, args[0]);
+  mpz_ptr	op2	= mmux_get_mpz(env, args[1]);
+
+  return mmux_make_int(env, mpz_cmpabs(op1, op2));
+}
+
+/* int mpz_cmpabs_d (const mpz_t OP1, double OP2) */
+static emacs_value
+Fmmux_gmp_c_mpz_cmpabs_d (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
+{
+  assert(2 == nargs);
+  mpz_ptr	op1	= mmux_get_mpz(env, args[0]);
+  double	op2	= mmux_get_float(env, args[1]);
+
+  return mmux_make_int(env, mpz_cmpabs_d(op1, op2));
+}
+
+/* int mpz_cmpabs_ui (const mpz_t OP1, unsigned long int OP2) */
+static emacs_value
+Fmmux_gmp_c_mpz_cmpabs_ui (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
+{
+  assert(2 == nargs);
+  mpz_ptr	op1	= mmux_get_mpz(env, args[0]);
+  mmux_ulint_t	op2	= mmux_get_ulint(env, args[1]);
+
+  return mmux_make_int(env, mpz_cmpabs_ui(op1, op2));
+}
+
+
+/** --------------------------------------------------------------------
  ** Miscellaneous functions.
  ** ----------------------------------------------------------------- */
 
@@ -1053,7 +1137,7 @@ Fmmux_gmp_c_mpz_sizeinbase (emacs_env *env, ptrdiff_t nargs, emacs_value args[],
  ** Elisp functions table.
  ** ----------------------------------------------------------------- */
 
-#define NUMBER_OF_MODULE_FUNCTIONS	78
+#define NUMBER_OF_MODULE_FUNCTIONS	85
 static module_function_t const module_functions_table[NUMBER_OF_MODULE_FUNCTIONS] = {
   /* Assignment function. */
   {
@@ -1546,6 +1630,57 @@ static module_function_t const module_functions_table[NUMBER_OF_MODULE_FUNCTIONS
     .min_arity		= 3,
     .max_arity		= 3,
     .documentation	= "Set ROP to BASE raised to EXP.",
+  },
+
+  /* Comparison functions. */
+  { /* int mpz_cmp (const mpz_t OP1, const mpz_t OP2) */
+    .name		= "mmux-gmp-c-mpz-cmp",
+    .implementation	= Fmmux_gmp_c_mpz_cmp,
+    .min_arity		= 2,
+    .max_arity		= 2,
+    .documentation	= "Compare OP1 and OP2.",
+  },
+  { /* int mpz_cmp_d (const mpz_t OP1, double OP2) */
+    .name		= "mmux-gmp-c-mpz-cmp-d",
+    .implementation	= Fmmux_gmp_c_mpz_cmp_d,
+    .min_arity		= 2,
+    .max_arity		= 2,
+    .documentation	= "Compare OP1 and OP2.",
+  },
+  { /* int mpz_cmp_si (const mpz_t OP1, signed long int OP2) */
+    .name		= "mmux-gmp-c-mpz-cmp-si",
+    .implementation	= Fmmux_gmp_c_mpz_cmp_si,
+    .min_arity		= 2,
+    .max_arity		= 2,
+    .documentation	= "Compare OP1 and OP2.",
+  },
+  { /* int mpz_cmp_ui (const mpz_t OP1, unsigned long int OP2) */
+    .name		= "mmux-gmp-c-mpz-cmp-ui",
+    .implementation	= Fmmux_gmp_c_mpz_cmp_ui,
+    .min_arity		= 2,
+    .max_arity		= 2,
+    .documentation	= "Compare OP1 and OP2.",
+  },
+  { /* int mpz_cmpabs (const mpz_t OP1, const mpz_t OP2) */
+    .name		= "mmux-gmp-c-mpz-cmpabs",
+    .implementation	= Fmmux_gmp_c_mpz_cmpabs,
+    .min_arity		= 2,
+    .max_arity		= 2,
+    .documentation	= "Compare the absolute values of op1 and op2.",
+  },
+  { /* int mpz_cmpabs_d (const mpz_t OP1, double OP2) */
+    .name		= "mmux-gmp-c-mpz-cmpabs-d",
+    .implementation	= Fmmux_gmp_c_mpz_cmpabs_d,
+    .min_arity		= 2,
+    .max_arity		= 2,
+    .documentation	= "Compare the absolute values of op1 and op2.",
+  },
+  { /* int mpz_cmpabs_ui (const mpz_t OP1, unsigned long int OP2) */
+    .name		= "mmux-gmp-c-mpz-cmpabs-ui",
+    .implementation	= Fmmux_gmp_c_mpz_cmpabs_ui,
+    .min_arity		= 2,
+    .max_arity		= 2,
+    .documentation	= "Compare the absolute values of op1 and op2.",
   },
 
   /* Miscellaneous functions */
