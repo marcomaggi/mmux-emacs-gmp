@@ -826,6 +826,15 @@
   (should (equal  0 (mpz-cmpabs-ui (mpz  0) 0)))
   (should (equal +1 (mpz-cmpabs-ui (mpz -2) 1))))
 
+;;; --------------------------------------------------------------------
+
+;; int mpz_sgn (const mpz_t OP)
+(ert-deftest mpz-sgn ()
+  ""
+  (should (equal +1 (mpz-sgn (mpz +1))))
+  (should (equal  0 (mpz-sgn (mpz  0))))
+  (should (equal -1 (mpz-sgn (mpz -1)))))
+
 
 ;;;; miscellaneous functions
 

@@ -1032,6 +1032,18 @@ Fmmux_gmp_c_mpz_cmpabs_ui (emacs_env *env, ptrdiff_t nargs, emacs_value args[], 
   return mmux_make_int(env, mpz_cmpabs_ui(op1, op2));
 }
 
+/* ------------------------------------------------------------------ */
+
+/* int mpz_sgn (const mpz_t OP) */
+static emacs_value
+Fmmux_gmp_c_mpz_sgn (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
+{
+  assert(1 == nargs);
+  mpz_ptr	op	= mmux_get_mpz(env, args[0]);
+
+  return mmux_make_int(env, mpz_sgn(op));
+}
+
 
 /** --------------------------------------------------------------------
  ** Miscellaneous functions.
@@ -1137,7 +1149,7 @@ Fmmux_gmp_c_mpz_sizeinbase (emacs_env *env, ptrdiff_t nargs, emacs_value args[],
  ** Elisp functions table.
  ** ----------------------------------------------------------------- */
 
-#define NUMBER_OF_MODULE_FUNCTIONS	85
+#define NUMBER_OF_MODULE_FUNCTIONS	86
 static module_function_t const module_functions_table[NUMBER_OF_MODULE_FUNCTIONS] = {
   /* Assignment function. */
   {
@@ -1681,6 +1693,13 @@ static module_function_t const module_functions_table[NUMBER_OF_MODULE_FUNCTIONS
     .min_arity		= 2,
     .max_arity		= 2,
     .documentation	= "Compare the absolute values of op1 and op2.",
+  },
+  { /* int mpz_sgn (const mpz_t OP) */
+    .name		= "mmux-gmp-c-mpz-sgn",
+    .implementation	= Fmmux_gmp_c_mpz_sgn,
+    .min_arity		= 1,
+    .max_arity		= 1,
+    .documentation	= "Return an integer representing the sign of the operand.",
   },
 
   /* Miscellaneous functions */

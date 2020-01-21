@@ -4,7 +4,7 @@
 
 ;; Author: Marco Maggi <mrc.mgg@gmail.com>
 ;; Created: Jan 15, 2020
-;; Time-stamp: <2020-01-21 17:39:34 marco>
+;; Time-stamp: <2020-01-21 17:51:35 marco>
 ;; Keywords: extensions
 
 ;; This file is part of MMUX Emacs GMP.
@@ -757,6 +757,12 @@
 
 ;;; --------------------------------------------------------------------
 
+;; int mpz_sgn (const mpz_t OP)
+(cl-defgeneric mpz-sgn (op)
+  "Return an integer representing the sign of the operand.")
+(cl-defmethod mpz-sgn ((op mpz))
+  "Return an integer representing the sign of the operand."
+  (mmux-gmp-c-mpz-sgn (mpz-obj op)))
 
 
 ;;;; integer number functions: miscellaneous

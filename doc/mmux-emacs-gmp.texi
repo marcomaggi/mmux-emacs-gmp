@@ -1542,6 +1542,19 @@ Compare the absolute values of OP1 and OP2.
 @end lisp
 @end deffn
 
+@c ------------------------------------------------------------------------
+
+@deffn {Generic Function} mpz-sgn (@var{op})
+@deffnx {Method} mpz-sgn ((@var{op} mpz))
+Return an integer representing the sign of the operand.
+
+@lisp
+(mpz-sgn (mpz +1))      @result{} +1
+(mpz-sgn (mpz  0))      @result{} 0
+(mpz-sgn (mpz -1))      @result{} -1
+@end lisp
+@end deffn
+
 @c page
 @node integers miscellaneous
 @section Miscellaneous functions
