@@ -717,7 +717,7 @@
     (should (mpz-congruent-2exp-p N C B))))
 
 
-;;;; integer division functions: exponentiation
+;;;; exponentiation functions
 
 ;; void mpz_powm (mpz_t ROP, const mpz_t BASE, const mpz_t EXP, const mpz_t MOD)
 (ert-deftest mpz-powm ()
@@ -771,6 +771,67 @@
     (mpz-ui-pow-ui rop base exp)
     (should (equal (expt 5 3)
 		   (mpz-get-ui rop)))))
+
+
+;;;; miscellaneous functions
+
+;; int mpz_fits_ulong_p (const mpz_t OP)
+(ert-deftest mpz-fits-ulong-p ()
+  ""
+  (should (mpz-fits-ulong-p (mpz 123)))
+  (should (not (mpz-fits-ulong-p (let ((rop (mpz))) (mpz-ui-pow-ui rop 2 70) rop)))))
+
+;; int mpz_fits_slong_p (const mpz_t OP)
+(ert-deftest mpz-fits-slong-p ()
+  ""
+  (should (mpz-fits-slong-p (mpz 123)))
+  (should (not (mpz-fits-slong-p (let ((rop (mpz))) (mpz-ui-pow-ui rop 2 70) rop)))))
+
+;; int mpz_fits_uint_p (const mpz_t OP)
+(ert-deftest mpz-fits-uint-p ()
+  ""
+  (should (mpz-fits-uint-p (mpz 123)))
+  (should (not (mpz-fits-uint-p (let ((rop (mpz))) (mpz-ui-pow-ui rop 2 70) rop)))))
+
+;; int mpz_fits_sint_p (const mpz_t OP)
+(ert-deftest mpz-fits-sint-p ()
+  ""
+  (should (mpz-fits-sint-p (mpz 123)))
+  (should (not (mpz-fits-sint-p (let ((rop (mpz))) (mpz-ui-pow-ui rop 2 70) rop)))))
+
+;; int mpz_fits_ushort_p (const mpz_t OP)
+(ert-deftest mpz-fits-ushort-p ()
+  ""
+  (should (mpz-fits-ushort-p (mpz 123)))
+  (should (not (mpz-fits-ushort-p (let ((rop (mpz))) (mpz-ui-pow-ui rop 2 70) rop)))))
+
+;; int mpz_fits_sshort_p (const mpz_t OP)
+(ert-deftest mpz-fits-sshort-p ()
+  ""
+  (should (mpz-fits-sshort-p (mpz 123)))
+  (should (not (mpz-fits-sshort-p (let ((rop (mpz))) (mpz-ui-pow-ui rop 2 70) rop)))))
+
+;;; --------------------------------------------------------------------
+
+;; int mpz_odd_p (const mpz_t OP)
+(ert-deftest mpz-odd-p ()
+  "Return true if the operand is odd; otherwise return false."
+  (should (mpz-odd-p (mpz 1)))
+  (should (not (mpz-odd-p (mpz 2)))))
+
+;; int mpz_even_p (const mpz_t OP)
+(ert-deftest mpz-even-p ()
+  "Return true if the operand is even; otherwise return false."
+  (should (mpz-even-p (mpz 2)))
+  (should (not (mpz-even-p (mpz 1)))))
+
+;;; --------------------------------------------------------------------
+
+;; size_t mpz_sizeinbase (const mpz_t OP, int BASE)
+(ert-deftest mpz-sizeinbase ()
+  ""
+  (should (equal 1 (mpz-sizeinbase (mpz 1) 2))))
+
 
 
 ;;;; done

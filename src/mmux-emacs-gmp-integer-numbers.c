@@ -50,9 +50,9 @@ Fmmux_gmp_c_mpz_set_si (emacs_env *env, ptrdiff_t nargs, emacs_value args[], voi
 {
   assert(2 == nargs);
   mpz_ptr	rop = mmux_get_ptr(env, args[0]);
-  intmax_t	op  = mmux_get_int(env, args[1]);
+  mmux_slint_t	op  = mmux_get_slint(env, args[1]);
 
-  mpz_set_si(rop, (signed long int)op);
+  mpz_set_si(rop, op);
   return mmux_make_nil(env);
 }
 
@@ -61,9 +61,9 @@ Fmmux_gmp_c_mpz_set_ui (emacs_env *env, ptrdiff_t nargs, emacs_value args[], voi
 {
   assert(2 == nargs);
   mpz_ptr	rop = mmux_get_ptr(env, args[0]);
-  intmax_t	op  = mmux_get_int(env, args[1]);
+  mmux_slint_t	op  = mmux_get_slint(env, args[1]);
 
-  mpz_set_ui(rop, (unsigned long int)op);
+  mpz_set_ui(rop, op);
   return mmux_make_nil(env);
 }
 
@@ -953,6 +953,68 @@ Fmmux_gmp_c_mpz_ui_pow_ui (emacs_env *env, ptrdiff_t nargs, emacs_value args[], 
  ** Miscellaneous functions.
  ** ----------------------------------------------------------------- */
 
+/* int mpz_fits_ulong_p (const mpz_t OP) */
+static emacs_value
+Fmmux_gmp_c_mpz_fits_ulong_p (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
+{
+  assert(1 == nargs);
+  mpz_ptr	op	= mmux_get_mpz(env, args[0]);
+
+  return ((mpz_fits_ulong_p(op))? mmux_make_true(env) : mmux_make_nil(env));
+}
+
+/* int mpz_fits_slong_p (const mpz_t OP) */
+static emacs_value
+Fmmux_gmp_c_mpz_fits_slong_p (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
+{
+  assert(1 == nargs);
+  mpz_ptr	op	= mmux_get_mpz(env, args[0]);
+
+  return ((mpz_fits_slong_p(op))? mmux_make_true(env) : mmux_make_nil(env));
+}
+
+/* int mpz_fits_uint_p (const mpz_t OP) */
+static emacs_value
+Fmmux_gmp_c_mpz_fits_uint_p (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
+{
+  assert(1 == nargs);
+  mpz_ptr	op	= mmux_get_mpz(env, args[0]);
+
+  return ((mpz_fits_uint_p(op))? mmux_make_true(env) : mmux_make_nil(env));
+}
+
+/* int mpz_fits_sint_p (const mpz_t OP) */
+static emacs_value
+Fmmux_gmp_c_mpz_fits_sint_p (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
+{
+  assert(1 == nargs);
+  mpz_ptr	op	= mmux_get_mpz(env, args[0]);
+
+  return ((mpz_fits_sint_p(op))? mmux_make_true(env) : mmux_make_nil(env));
+}
+
+/* int mpz_fits_ushort_p (const mpz_t OP) */
+static emacs_value
+Fmmux_gmp_c_mpz_fits_ushort_p (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
+{
+  assert(1 == nargs);
+  mpz_ptr	op	= mmux_get_mpz(env, args[0]);
+
+  return ((mpz_fits_ushort_p(op))? mmux_make_true(env) : mmux_make_nil(env));
+}
+
+/* int mpz_fits_sshort_p (const mpz_t OP) */
+static emacs_value
+Fmmux_gmp_c_mpz_fits_sshort_p (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
+{
+  assert(1 == nargs);
+  mpz_ptr	op	= mmux_get_mpz(env, args[0]);
+
+  return ((mpz_fits_sshort_p(op))? mmux_make_true(env) : mmux_make_nil(env));
+}
+
+/* ------------------------------------------------------------------ */
+
 /* int mpz_odd_p (const mpz_t OP) */
 static emacs_value
 Fmmux_gmp_c_mpz_odd_p (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
@@ -973,12 +1035,25 @@ Fmmux_gmp_c_mpz_even_p (emacs_env *env, ptrdiff_t nargs, emacs_value args[], voi
   return ((mpz_even_p(op))? mmux_make_true(env) : mmux_make_nil(env));
 }
 
+/* ------------------------------------------------------------------ */
+
+/* size_t mpz_sizeinbase (const mpz_t OP, int BASE) */
+static emacs_value
+Fmmux_gmp_c_mpz_sizeinbase (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
+{
+  assert(2 == nargs);
+  mpz_ptr	op	= mmux_get_mpz(env, args[0]);
+  mmux_sint_t	base	= mmux_get_int(env, args[1]);
+
+  return mmux_make_ulint(env, mpz_sizeinbase(op, base));
+}
+
 
 /** --------------------------------------------------------------------
  ** Elisp functions table.
  ** ----------------------------------------------------------------- */
 
-#define NUMBER_OF_MODULE_FUNCTIONS	71
+#define NUMBER_OF_MODULE_FUNCTIONS	78
 static module_function_t const module_functions_table[NUMBER_OF_MODULE_FUNCTIONS] = {
   /* Assignment function. */
   {
@@ -1474,6 +1549,48 @@ static module_function_t const module_functions_table[NUMBER_OF_MODULE_FUNCTIONS
   },
 
   /* Miscellaneous functions */
+  { /* int mpz_fits_ulong_p (const mpz_t OP) */
+    .name		= "mmux-gmp-c-mpz-fits-ulong-p",
+    .implementation	= Fmmux_gmp_c_mpz_fits_ulong_p,
+    .min_arity		= 1,
+    .max_arity		= 1,
+    .documentation	= "",
+  },
+  { /* int mpz_fits_slong_p (const mpz_t OP) */
+    .name		= "mmux-gmp-c-mpz-fits-slong-p",
+    .implementation	= Fmmux_gmp_c_mpz_fits_slong_p,
+    .min_arity		= 1,
+    .max_arity		= 1,
+    .documentation	= "",
+  },
+  { /* int mpz_fits_uint_p (const mpz_t OP) */
+    .name		= "mmux-gmp-c-mpz-fits-uint-p",
+    .implementation	= Fmmux_gmp_c_mpz_fits_uint_p,
+    .min_arity		= 1,
+    .max_arity		= 1,
+    .documentation	= "",
+  },
+  { /* int mpz_fits_sint_p (const mpz_t OP) */
+    .name		= "mmux-gmp-c-mpz-fits-sint-p",
+    .implementation	= Fmmux_gmp_c_mpz_fits_sint_p,
+    .min_arity		= 1,
+    .max_arity		= 1,
+    .documentation	= "",
+  },
+  { /* int mpz_fits_ushort_p (const mpz_t OP) */
+    .name		= "mmux-gmp-c-mpz-fits-ushort-p",
+    .implementation	= Fmmux_gmp_c_mpz_fits_ushort_p,
+    .min_arity		= 1,
+    .max_arity		= 1,
+    .documentation	= "",
+  },
+  { /* int mpz_fits_sshort_p (const mpz_t OP) */
+    .name		= "mmux-gmp-c-mpz-fits-sshort-p",
+    .implementation	= Fmmux_gmp_c_mpz_fits_sshort_p,
+    .min_arity		= 1,
+    .max_arity		= 1,
+    .documentation	= "",
+  },
   { /* int mpz_odd_p (const mpz_t OP) */
     .name		= "mmux-gmp-c-mpz-odd-p",
     .implementation	= Fmmux_gmp_c_mpz_odd_p,
@@ -1487,6 +1604,13 @@ static module_function_t const module_functions_table[NUMBER_OF_MODULE_FUNCTIONS
     .min_arity		= 1,
     .max_arity		= 1,
     .documentation	= "Return true if the operand is even; otherwise return false.",
+  },
+  { /* size_t mpz_sizeinbase (const mpz_t OP, int BASE) */
+    .name		= "mmux-gmp-c-mpz-sizeinbase",
+    .implementation	= Fmmux_gmp_c_mpz_sizeinbase,
+    .min_arity		= 2,
+    .max_arity		= 2,
+    .documentation	= "Return the size of OP measured in number of digits in the given BASE.",
   },
 };
 

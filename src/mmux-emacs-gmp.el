@@ -4,7 +4,7 @@
 
 ;; Author: Marco Maggi <mrc.mgg@gmail.com>
 ;; Created: Jan 15, 2020
-;; Time-stamp: <2020-01-21 07:31:18 marco>
+;; Time-stamp: <2020-01-21 15:21:10 marco>
 ;; Keywords: extensions
 
 ;; This file is part of MMUX Emacs GMP.
@@ -702,17 +702,66 @@
 
 ;;;; integer number functions: miscellaneous
 
+;; int mpz_fits_ulong_p (const mpz_t OP)
+(cl-defgeneric mpz-fits-ulong-p (op))
+(cl-defmethod mpz-fits-ulong-p ((op mpz))
+  "Return true if the operand fits an `unsigned long int'; otherwise return false."
+  (mmux-gmp-c-mpz-fits-ulong-p (mpz-obj op)))
+
+;; int mpz_fits_slong_p (const mpz_t OP)
+(cl-defgeneric mpz-fits-slong-p (op))
+(cl-defmethod mpz-fits-slong-p ((op mpz))
+  "Return true if the operand fits a `signed long int'; otherwise return false."
+  (mmux-gmp-c-mpz-fits-slong-p (mpz-obj op)))
+
+;; int mpz_fits_uint_p (const mpz_t OP)
+(cl-defgeneric mpz-fits-uint-p (op))
+(cl-defmethod mpz-fits-uint-p ((op mpz))
+  "Return true if the operand fits an `unsigned int'; otherwise return false."
+  (mmux-gmp-c-mpz-fits-uint-p (mpz-obj op)))
+
+;; int mpz_fits_sint_p (const mpz_t OP)
+(cl-defgeneric mpz-fits-sint-p (op))
+(cl-defmethod mpz-fits-sint-p ((op mpz))
+  "Return true if the operand fits n `signed int'; otherwise return false."
+  (mmux-gmp-c-mpz-fits-sint-p (mpz-obj op)))
+
+;; int mpz_fits_ushort_p (const mpz_t OP)
+(cl-defgeneric mpz-fits-ushort-p (op))
+(cl-defmethod mpz-fits-ushort-p ((op mpz))
+  "Return true if the operand fits an `unsigned short int'; otherwise return false."
+  (mmux-gmp-c-mpz-fits-ushort-p (mpz-obj op)))
+
+;; int mpz_fits_sshort_p (const mpz_t OP)
+(cl-defgeneric mpz-fits-sshort-p (op))
+(cl-defmethod mpz-fits-sshort-p ((op mpz))
+  "Return true if the operand fits a `signed short int'; otherwise return false."
+  (mmux-gmp-c-mpz-fits-sshort-p (mpz-obj op)))
+
+;;; --------------------------------------------------------------------
+
 ;; int mpz_odd_p (const mpz_t OP)
-(defun mpz-odd-p (op)
+(cl-defgeneric mpz-odd-p (op))
+(cl-defmethod mpz-odd-p ((op mpz))
   "Return true if the operand is odd; otherwise return false."
-  (cl-assert (mpz-p op))
   (mmux-gmp-c-mpz-odd-p (mpz-obj op)))
 
 ;; int mpz_even_p (const mpz_t OP)
-(defun mpz-even-p (op)
+(cl-defgeneric mpz-even-p (op))
+(cl-defmethod mpz-even-p ((op mpz))
   "Return true if the operand is even; otherwise return false."
-  (cl-assert (mpz-p op))
   (mmux-gmp-c-mpz-even-p (mpz-obj op)))
+
+;;; --------------------------------------------------------------------
+
+;; size_t mpz_sizeinbase (const mpz_t OP, int BASE)
+(cl-defgeneric mpz-sizeinbase (op base))
+(cl-defmethod mpz-sizeinbase ((op mpz) (base integer))
+  "Return the size of OP measured in number of digits in the given BASE.
+
+The argument BASE can vary from 2 to 62."
+  (cl-assert (<= 2 base 62))
+  (mmux-gmp-c-mpz-sizeinbase (mpz-obj op) base))
 
 
 ;;;; rational number functions: assignment

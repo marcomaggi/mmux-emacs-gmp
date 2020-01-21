@@ -303,6 +303,7 @@ garbage collected.
 * integers arithmetic::         Arithmetic operations.
 * integers division::           Division operations.
 * integers exponentiation::     Exponentiation operations.
+* integers miscellaneous::      Miscellaneous functions.
 @end menu
 
 @c page
@@ -1426,7 +1427,7 @@ Set @var{ROP} to (@var{BASE} raised to @var{EXP}) modulo @var{MOD}.
 Set @var{ROP} to @var{BASE} raised to @var{EXP}.
 
 @lisp
-(let ((rop     (mpz))
+(let ((rop    (mpz))
       (base   (mpz 5))
       (exp    3))
   (mpz-pow-ui rop base exp)
@@ -1450,6 +1451,59 @@ Set @var{ROP} to @var{BASE} raised to @var{EXP}.
 @result{} t
 @end lisp
 @end defun
+
+@c page
+@node integers miscellaneous
+@section Miscellaneous functions
+
+
+@deffn {Generic Function} mpz-fits-ulong-p ((@var{OP} mpz))
+Return true if the operand fits an @code{unsigned long int}; otherwise return false.
+@end deffn
+
+
+@deffn {Generic Function} mpz-fits-slong-p ((@var{OP} mpz))
+Return true if the operand fits a `@code{igned long int}; otherwise return false.
+@end deffn
+
+
+@deffn {Generic Function} mpz-fits-uint-p ((@var{OP} mpz))
+Return true if the operand fits an @code{unsigned int}; otherwise return false.
+@end deffn
+
+
+@deffn {Generic Function} mpz-fits-sint-p ((@var{OP} mpz))
+Return true if the operand fits n `@code{igned int}; otherwise return false.
+@end deffn
+
+
+@deffn {Generic Function} mpz-fits-ushort-p ((@var{OP} mpz))
+Return true if the operand fits an @code{unsigned short int}; otherwise return false.
+@end deffn
+
+
+@deffn {Generic Function} mpz-fits-sshort-p ((@var{OP} mpz))
+Return true if the operand fits a @code{signed short int}; otherwise return false.
+@end deffn
+
+@c ------------------------------------------------------------------------
+
+@deffn {Generic Function} mpz-odd-p ((@var{OP} mpz))
+Return true if the operand is odd; otherwise return false.
+@end deffn
+
+
+@deffn {Generic Function} mpz-even-p ((@var{OP} mpz))
+Return true if the operand is even; otherwise return false.
+@end deffn
+
+@c ------------------------------------------------------------------------
+
+@deffn {Generic Function} mpz-sizeinbase ((@var{op} mpz) (@var{base} integer))
+Return the size of @var{OP} measured in number of digits in the given @var{BASE}.
+
+The argument @var{BASE} can vary from @math{2} to @math{62}.
+@end deffn
 
 @c page
 @node rationals

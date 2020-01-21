@@ -70,6 +70,12 @@
 #undef  mmux_get_slint
 #define mmux_get_slint(ENV, ARG)	((mmux_slint_t)(mmux_get_int((ENV), (ARG))))
 
+#undef  mmux_get_uint
+#define mmux_get_uint(ENV, ARG)		((mmux_uint_t)(mmux_get_int((ENV), (ARG))))
+
+#undef  mmux_get_sint
+#define mmux_get_sint(ENV, ARG)		((mmux_sint_t)(mmux_get_int((ENV), (ARG))))
+
 /* ------------------------------------------------------------------ */
 
 #undef  mmux_make_nil
@@ -126,6 +132,8 @@ struct module_function_t {
 
 /* ------------------------------------------------------------------ */
 
+typedef signed   int		mmux_sint_t;
+typedef unsigned int		mmux_uint_t;
 typedef signed   long int	mmux_slint_t;
 typedef unsigned long int	mmux_ulint_t;
 
