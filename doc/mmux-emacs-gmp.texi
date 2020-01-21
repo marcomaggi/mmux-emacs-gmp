@@ -302,6 +302,7 @@ garbage collected.
                                 other objects.
 * integers arithmetic::         Arithmetic operations.
 * integers division::           Division operations.
+* integers exponentiation::     Exponentiation operations.
 @end menu
 
 @c page
@@ -1364,6 +1365,88 @@ Return non-zero if @var{N} is congruent to @var{C} modulo 2^@var{B}.
       (C      (mpz 1))
       (B      3))
   (mpz-congruent-2exp-p N C B))
+@result{} t
+@end lisp
+@end defun
+
+@c page
+@node integers exponentiation
+@section Exponentiation operations
+
+
+@defun mpz-powm @var{ROP} @var{BASE} @var{EXP} @var{MOD}
+Set @var{ROP} to (@var{BASE} raised to @var{EXP}) modulo @var{MOD}.
+
+@lisp
+(let ((rop    (mpz))
+      (base   (mpz 5))
+      (exp    (mpz 3))
+      (mod    (mpz 2)))
+  (mpz-powm rop base exp mod)
+  (equal (mod (expt 5 3) 2)
+         (mpz-get-ui rop)))
+@result{} t
+@end lisp
+@end defun
+
+
+@defun mpz-powm-ui @var{ROP} @var{BASE} @var{EXP} @var{MOD}
+Set @var{ROP} to (@var{BASE} raised to @var{EXP}) modulo @var{MOD}.
+
+@lisp
+(let ((rop    (mpz))
+      (base   (mpz 5))
+      (exp    3)
+      (mod    (mpz 2)))
+  (mpz-powm-ui rop base exp mod)
+  (equal (mod (expt 5 3) 2)
+         (mpz-get-ui rop)))
+@result{} t
+@end lisp
+@end defun
+
+
+@defun mpz-powm-sec @var{ROP} @var{BASE} @var{EXP} @var{MOD}
+Set @var{ROP} to (@var{BASE} raised to @var{EXP}) modulo @var{MOD}.
+
+@lisp
+(let ((rop    (mpz))
+      (base   (mpz 5))
+      (exp    (mpz 3))
+      (mod    (mpz 7)))
+  (mpz-powm-sec rop base exp mod)
+  (equal (mod (expt 5 3) 2)
+         (mpz-get-ui rop)))
+@result{} t
+@end lisp
+@end defun
+
+
+@defun mpz-pow-ui @var{ROP} @var{BASE} @var{EXP}
+Set @var{ROP} to @var{BASE} raised to @var{EXP}.
+
+@lisp
+(let ((rop     (mpz))
+      (base   (mpz 5))
+      (exp    3))
+  (mpz-pow-ui rop base exp)
+  (equal (expt 5 3)
+         (mpz-get-ui rop)))
+@result{} t
+@end lisp
+@end defun
+
+
+@defun mpz-ui-pow-ui @var{ROP} @var{BASE} @var{EXP}
+Set @var{ROP} to @var{BASE} raised to @var{EXP}.
+
+@lisp
+(let ((rop    (mpz))
+      (base   5)
+      (exp    3))
+  (mpz-ui-pow-ui rop base exp)
+  (equal (expt 5 3)
+         (mpz-get-ui rop)))
 @result{} t
 @end lisp
 @end defun

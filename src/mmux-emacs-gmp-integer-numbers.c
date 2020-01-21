@@ -877,10 +877,108 @@ Fmmux_gmp_c_congruent_2exp_p (emacs_env *env, ptrdiff_t nargs, emacs_value args[
 
 
 /** --------------------------------------------------------------------
+ ** Exponentiation functions.
+ ** ----------------------------------------------------------------- */
+
+/* void mpz_powm (mpz_t ROP, const mpz_t BASE, const mpz_t EXP, const mpz_t MOD) */
+static emacs_value
+Fmmux_gmp_c_mpz_powm (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
+{
+  assert(4 == nargs);
+  mpz_ptr	rop	= mmux_get_mpz(env, args[0]);
+  mpz_ptr	base	= mmux_get_mpz(env, args[1]);
+  mpz_ptr	exp	= mmux_get_mpz(env, args[2]);
+  mpz_ptr	mod	= mmux_get_mpz(env, args[3]);
+
+  mpz_powm(rop, base, exp, mod);
+  return mmux_make_nil(env);
+}
+
+/* void mpz_powm_ui (mpz_t ROP, const mpz_t BASE, unsigned long int EXP, const mpz_t MOD) */
+static emacs_value
+Fmmux_gmp_c_mpz_powm_ui (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
+{
+  assert(4 == nargs);
+  mpz_ptr	rop	= mmux_get_mpz(env, args[0]);
+  mpz_ptr	base	= mmux_get_mpz(env, args[1]);
+  mmux_ulint_t	exp	= mmux_get_ulint(env, args[2]);
+  mpz_ptr	mod	= mmux_get_mpz(env, args[3]);
+
+  mpz_powm_ui(rop, base, exp, mod);
+  return mmux_make_nil(env);
+}
+
+/* void mpz_powm_sec (mpz_t ROP, const mpz_t BASE, const mpz_t EXP, const mpz_t MOD) */
+static emacs_value
+Fmmux_gmp_c_mpz_powm_sec (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
+{
+  assert(4 == nargs);
+  mpz_ptr	rop	= mmux_get_mpz(env, args[0]);
+  mpz_ptr	base	= mmux_get_mpz(env, args[1]);
+  mpz_ptr	exp	= mmux_get_mpz(env, args[2]);
+  mpz_ptr	mod	= mmux_get_mpz(env, args[3]);
+
+  mpz_powm_sec(rop, base, exp, mod);
+  return mmux_make_nil(env);
+}
+
+/* void mpz_pow_ui (mpz_t ROP, const mpz_t BASE, unsigned long int EXP) */
+static emacs_value
+Fmmux_gmp_c_mpz_pow_ui (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
+{
+  assert(3 == nargs);
+  mpz_ptr	rop	= mmux_get_mpz(env, args[0]);
+  mpz_ptr	base	= mmux_get_mpz(env, args[1]);
+  mmux_ulint_t	exp	= mmux_get_ulint(env, args[2]);
+
+  mpz_pow_ui(rop, base, exp);
+  return mmux_make_nil(env);
+}
+
+/* void mpz_ui_pow_ui (mpz_t ROP, unsigned long int BASE, unsigned long int EXP) */
+static emacs_value
+Fmmux_gmp_c_mpz_ui_pow_ui (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
+{
+  assert(3 == nargs);
+  mpz_ptr	rop	= mmux_get_mpz(env, args[0]);
+  mmux_ulint_t	base	= mmux_get_ulint(env, args[1]);
+  mmux_ulint_t	exp	= mmux_get_ulint(env, args[2]);
+
+  mpz_ui_pow_ui(rop, base, exp);
+  return mmux_make_nil(env);
+}
+
+
+/** --------------------------------------------------------------------
+ ** Miscellaneous functions.
+ ** ----------------------------------------------------------------- */
+
+/* int mpz_odd_p (const mpz_t OP) */
+static emacs_value
+Fmmux_gmp_c_mpz_odd_p (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
+{
+  assert(1 == nargs);
+  mpz_ptr	op	= mmux_get_mpz(env, args[0]);
+
+  return ((mpz_odd_p(op))? mmux_make_true(env) : mmux_make_nil(env));
+}
+
+/* int mpz_even_p (const mpz_t OP) */
+static emacs_value
+Fmmux_gmp_c_mpz_even_p (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
+{
+  assert(1 == nargs);
+  mpz_ptr	op	= mmux_get_mpz(env, args[0]);
+
+  return ((mpz_even_p(op))? mmux_make_true(env) : mmux_make_nil(env));
+}
+
+
+/** --------------------------------------------------------------------
  ** Elisp functions table.
  ** ----------------------------------------------------------------- */
 
-#define NUMBER_OF_MODULE_FUNCTIONS	64
+#define NUMBER_OF_MODULE_FUNCTIONS	71
 static module_function_t const module_functions_table[NUMBER_OF_MODULE_FUNCTIONS] = {
   /* Assignment function. */
   {
@@ -1336,6 +1434,59 @@ static module_function_t const module_functions_table[NUMBER_OF_MODULE_FUNCTIONS
     .min_arity		= 3,
     .max_arity		= 3,
     .documentation	= "Return non-zero if N is congruent to C modulo 2^B.",
+  },
+
+  /* Exponentiation functions. */
+  { /* void mpz_powm (mpz_t ROP, const mpz_t BASE, const mpz_t EXP, const mpz_t MOD) */
+    .name		= "mmux-gmp-c-mpz-powm",
+    .implementation	= Fmmux_gmp_c_mpz_powm,
+    .min_arity		= 4,
+    .max_arity		= 4,
+    .documentation	= "Set ROP to (BASE raised to EXP) modulo MOD."
+  },
+  { /* void mpz_powm_ui (mpz_t ROP, const mpz_t BASE, unsigned long int EXP, const mpz_t MOD) */
+    .name		= "mmux-gmp-c-mpz-powm-ui",
+    .implementation	= Fmmux_gmp_c_mpz_powm_ui,
+    .min_arity		= 4,
+    .max_arity		= 4,
+    .documentation	= "Set ROP to (BASE raised to EXP) modulo MOD."
+  },
+  { /* void mpz_powm_sec (mpz_t ROP, const mpz_t BASE, const mpz_t EXP, const mpz_t MOD) */
+    .name		= "mmux-gmp-c-mpz-powm-sec",
+    .implementation	= Fmmux_gmp_c_mpz_powm_sec,
+    .min_arity		= 4,
+    .max_arity		= 4,
+    .documentation	= "Set ROP to (BASE raised to EXP) modulo MOD.  MOD must be odd."
+  },
+  { /* void mpz_pow_ui (mpz_t ROP, const mpz_t BASE, unsigned long int EXP) */
+    .name		= "mmux-gmp-c-mpz-pow-ui",
+    .implementation	= Fmmux_gmp_c_mpz_pow_ui,
+    .min_arity		= 3,
+    .max_arity		= 3,
+    .documentation	= "Set ROP to BASE raised to EXP.",
+  },
+  { /* void mpz_ui_pow_ui (mpz_t ROP, unsigned long int BASE, unsigned long int EXP) */
+    .name		= "mmux-gmp-c-mpz-ui-pow-ui",
+    .implementation	= Fmmux_gmp_c_mpz_ui_pow_ui,
+    .min_arity		= 3,
+    .max_arity		= 3,
+    .documentation	= "Set ROP to BASE raised to EXP.",
+  },
+
+  /* Miscellaneous functions */
+  { /* int mpz_odd_p (const mpz_t OP) */
+    .name		= "mmux-gmp-c-mpz-odd-p",
+    .implementation	= Fmmux_gmp_c_mpz_odd_p,
+    .min_arity		= 1,
+    .max_arity		= 1,
+    .documentation	= "Return true if the operand is odd; otherwise return false.",
+  },
+  { /* int mpz_even_p (const mpz_t OP) */
+    .name		= "mmux-gmp-c-mpz-even-p",
+    .implementation	= Fmmux_gmp_c_mpz_even_p,
+    .min_arity		= 1,
+    .max_arity		= 1,
+    .documentation	= "Return true if the operand is even; otherwise return false.",
   },
 };
 

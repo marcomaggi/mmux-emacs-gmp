@@ -717,6 +717,62 @@
     (should (mpz-congruent-2exp-p N C B))))
 
 
+;;;; integer division functions: exponentiation
+
+;; void mpz_powm (mpz_t ROP, const mpz_t BASE, const mpz_t EXP, const mpz_t MOD)
+(ert-deftest mpz-powm ()
+  "Set ROP to (BASE raised to EXP) modulo MOD."
+  (let ((rop	(mpz))
+	(base	(mpz 5))
+	(exp	(mpz 3))
+	(mod	(mpz 2)))
+    (mpz-powm rop base exp mod)
+    (should (equal (mod (expt 5 3) 2)
+		   (mpz-get-ui rop)))))
+
+;; void mpz_powm_ui (mpz_t ROP, const mpz_t BASE, unsigned long int EXP, const mpz_t MOD)
+(ert-deftest mpz-powm-ui ()
+  "Set ROP to (BASE raised to EXP) modulo MOD."
+  (let ((rop	(mpz))
+	(base	(mpz 5))
+	(exp	3)
+	(mod	(mpz 2)))
+    (mpz-powm-ui rop base exp mod)
+    (should (equal (mod (expt 5 3) 2)
+		   (mpz-get-ui rop)))))
+
+;; void mpz_powm_sec (mpz_t ROP, const mpz_t BASE, const mpz_t EXP, const mpz_t MOD)
+(ert-deftest mpz-powm-sec ()
+  "Set ROP to (BASE raised to EXP) modulo MOD.  MOD must be odd."
+  (let ((rop	(mpz))
+	(base	(mpz 5))
+	(exp	(mpz 3))
+	(mod	(mpz 7)))
+    (mpz-powm-sec rop base exp mod)
+    (should (equal (mod (expt 5 3) 7)
+		   (mpz-get-ui rop)))))
+
+;; void mpz_pow_ui (mpz_t ROP, const mpz_t BASE, unsigned long int EXP)
+(ert-deftest mpz-pow-ui ()
+  "Set ROP to BASE raised to EXP."
+  (let ((rop	(mpz))
+	(base	(mpz 5))
+	(exp	3))
+    (mpz-pow-ui rop base exp)
+    (should (equal (expt 5 3)
+		   (mpz-get-ui rop)))))
+
+;; void mpz_ui_pow_ui (mpz_t ROP, unsigned long int BASE, unsigned long int EXP)
+(ert-deftest mpz-ui-pow-ui ()
+  "Set ROP to BASE raised to EXP."
+  (let ((rop	(mpz))
+	(base	5)
+	(exp	3))
+    (mpz-ui-pow-ui rop base exp)
+    (should (equal (expt 5 3)
+		   (mpz-get-ui rop)))))
+
+
 ;;;; done
 
 (garbage-collect)

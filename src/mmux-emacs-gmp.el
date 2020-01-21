@@ -4,7 +4,7 @@
 
 ;; Author: Marco Maggi <mrc.mgg@gmail.com>
 ;; Created: Jan 15, 2020
-;; Time-stamp: <2020-01-20 10:55:39 marco>
+;; Time-stamp: <2020-01-21 07:31:18 marco>
 ;; Keywords: extensions
 
 ;; This file is part of MMUX Emacs GMP.
@@ -649,6 +649,70 @@
   (cl-assert (mpz-p C))
   (cl-assert (mmux-gmp-bitcnt-p B))
   (mmux-gmp-c-congruent-2exp-p (mpz-obj N) (mpz-obj C) B))
+
+
+;;;; integer number functions: exponentiation
+
+;; void mpz_powm (mpz_t ROP, const mpz_t BASE, const mpz_t EXP, const mpz_t MOD)
+(defun mpz-powm (rop base exp mod)
+  "Set ROP to (BASE raised to EXP) modulo MOD."
+  (cl-assert (mpz-p rop))
+  (cl-assert (mpz-p base))
+  (cl-assert (mpz-p exp))
+  (cl-assert (mpz-p mod))
+  (mmux-gmp-c-mpz-powm (mpz-obj rop) (mpz-obj base) (mpz-obj exp) (mpz-obj mod)))
+
+;; void mpz_powm_ui (mpz_t ROP, const mpz_t BASE, unsigned long int EXP, const mpz_t MOD)
+(defun mpz-powm-ui (rop base exp mod)
+  "Set ROP to (BASE raised to EXP) modulo MOD."
+  (cl-assert (mpz-p rop))
+  (cl-assert (mpz-p base))
+  (cl-assert (mmux-gmp-ulint-p exp))
+  (cl-assert (mpz-p mod))
+  (mmux-gmp-c-mpz-powm-ui (mpz-obj rop) (mpz-obj base) exp (mpz-obj mod)))
+
+;; void mpz_powm_sec (mpz_t ROP, const mpz_t BASE, const mpz_t EXP, const mpz_t MOD)
+(defun mpz-powm-sec (rop base exp mod)
+  "Set ROP to (BASE raised to EXP) modulo MOD.  MOD must be odd."
+  (cl-assert (mpz-p rop))
+  (cl-assert (mpz-p base))
+  (cl-assert (and (mpz-p exp)
+		  ;;FIXME (< 0 (mmux-gmp-c-mpz-cmp-si (mpz-obj exp) 0))
+		  t))
+  (cl-assert (and (mpz-p mod)
+		  (mmux-gmp-c-mpz-odd-p (mpz-obj mod))))
+  (mmux-gmp-c-mpz-powm-sec (mpz-obj rop) (mpz-obj base) (mpz-obj exp) (mpz-obj mod)))
+
+;; void mpz_pow_ui (mpz_t ROP, const mpz_t BASE, unsigned long int EXP)
+(defun mpz-pow-ui (rop base exp)
+  "Set ROP to BASE raised to EXP."
+  (cl-assert (mpz-p rop))
+  (cl-assert (mpz-p base))
+  (cl-assert (mmux-gmp-ulint-p exp))
+  (mmux-gmp-c-mpz-pow-ui (mpz-obj rop) (mpz-obj base) exp))
+
+;; void mpz_ui_pow_ui (mpz_t ROP, unsigned long int BASE, unsigned long int EXP)
+(defun mpz-ui-pow-ui (rop base exp)
+  "Set ROP to BASE raised to EXP."
+  (cl-assert (mpz-p rop))
+  (cl-assert (mmux-gmp-ulint-p base))
+  (cl-assert (mmux-gmp-ulint-p exp))
+  (mmux-gmp-c-mpz-ui-pow-ui (mpz-obj rop) base exp))
+
+
+;;;; integer number functions: miscellaneous
+
+;; int mpz_odd_p (const mpz_t OP)
+(defun mpz-odd-p (op)
+  "Return true if the operand is odd; otherwise return false."
+  (cl-assert (mpz-p op))
+  (mmux-gmp-c-mpz-odd-p (mpz-obj op)))
+
+;; int mpz_even_p (const mpz_t OP)
+(defun mpz-even-p (op)
+  "Return true if the operand is even; otherwise return false."
+  (cl-assert (mpz-p op))
+  (mmux-gmp-c-mpz-even-p (mpz-obj op)))
 
 
 ;;;; rational number functions: assignment
