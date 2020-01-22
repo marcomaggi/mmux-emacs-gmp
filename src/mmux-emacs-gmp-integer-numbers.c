@@ -812,7 +812,7 @@ Fmmux_gmp_c_divisible_p (emacs_env *env, ptrdiff_t nargs, emacs_value args[], vo
   mpz_ptr	N = mmux_get_mpz(env, args[0]);
   mpz_ptr	D = mmux_get_mpz(env, args[1]);
 
-  return ((mpz_divisible_p(N, D))? mmux_make_true(env) : mmux_make_nil(env));
+  return mmux_make_boolean(env, mpz_divisible_p(N, D));
 }
 
 /* int mpz_divisible_ui_p (const mpz_t N, unsigned long int D) */
@@ -823,7 +823,7 @@ Fmmux_gmp_c_divisible_ui_p (emacs_env *env, ptrdiff_t nargs, emacs_value args[],
   mpz_ptr	N = mmux_get_mpz(env, args[0]);
   mmux_ulint_t	D = mmux_get_ulint(env, args[1]);
 
-  return ((mpz_divisible_ui_p(N, D))? mmux_make_true(env) : mmux_make_nil(env));
+  return mmux_make_boolean(env, mpz_divisible_ui_p(N, D));
 }
 
 /* int mpz_divisible_2exp_p (const mpz_t N, mp_bitcnt_t B) */
@@ -834,7 +834,7 @@ Fmmux_gmp_c_divisible_2exp_p (emacs_env *env, ptrdiff_t nargs, emacs_value args[
   mpz_ptr	N = mmux_get_mpz(env, args[0]);
   mp_bitcnt_t	B = mmux_get_bitcnt(env, args[1]);
 
-  return ((mpz_divisible_2exp_p(N, B))? mmux_make_true(env) : mmux_make_nil(env));
+  return mmux_make_boolean(env, mpz_divisible_2exp_p(N, B));
 }
 
 /* ------------------------------------------------------------------ */
@@ -848,7 +848,7 @@ Fmmux_gmp_c_congruent_p (emacs_env *env, ptrdiff_t nargs, emacs_value args[], vo
   mpz_ptr	C = mmux_get_mpz(env, args[1]);
   mpz_ptr	D = mmux_get_mpz(env, args[2]);
 
-  return ((mpz_congruent_p(N, C, D))? mmux_make_true(env) : mmux_make_nil(env));
+  return mmux_make_boolean(env, mpz_congruent_p(N, C, D));
 }
 
 /* int mpz_congruent_ui_p (const mpz_t N, unsigned long int C, unsigned long int D) */
@@ -860,7 +860,7 @@ Fmmux_gmp_c_congruent_ui_p (emacs_env *env, ptrdiff_t nargs, emacs_value args[],
   mmux_ulint_t	C = mmux_get_ulint(env, args[1]);
   mmux_ulint_t	D = mmux_get_ulint(env, args[2]);
 
-  return ((mpz_congruent_ui_p(N, C, D))? mmux_make_true(env) : mmux_make_nil(env));
+  return mmux_make_boolean(env, mpz_congruent_ui_p(N, C, D));
 }
 
 /* int mpz_congruent_2exp_p (const mpz_t N, const mpz_t C, mp_bitcnt_t B) */
@@ -872,7 +872,7 @@ Fmmux_gmp_c_congruent_2exp_p (emacs_env *env, ptrdiff_t nargs, emacs_value args[
   mpz_ptr	C = mmux_get_mpz(env, args[1]);
   mp_bitcnt_t	B = mmux_get_bitcnt(env, args[2]);
 
-  return ((mpz_congruent_2exp_p(N, C, B))? mmux_make_true(env) : mmux_make_nil(env));
+  return mmux_make_boolean(env, mpz_congruent_2exp_p(N, C, B));
 }
 
 
@@ -1132,7 +1132,7 @@ Fmmux_gmp_c_mpz_fits_ulong_p (emacs_env *env, ptrdiff_t nargs, emacs_value args[
   assert(1 == nargs);
   mpz_ptr	op	= mmux_get_mpz(env, args[0]);
 
-  return ((mpz_fits_ulong_p(op))? mmux_make_true(env) : mmux_make_nil(env));
+  return mmux_make_boolean(env, mpz_fits_ulong_p(op));
 }
 
 /* int mpz_fits_slong_p (const mpz_t OP) */
@@ -1142,7 +1142,7 @@ Fmmux_gmp_c_mpz_fits_slong_p (emacs_env *env, ptrdiff_t nargs, emacs_value args[
   assert(1 == nargs);
   mpz_ptr	op	= mmux_get_mpz(env, args[0]);
 
-  return ((mpz_fits_slong_p(op))? mmux_make_true(env) : mmux_make_nil(env));
+  return mmux_make_boolean(env, mpz_fits_slong_p(op));
 }
 
 /* int mpz_fits_uint_p (const mpz_t OP) */
@@ -1152,7 +1152,7 @@ Fmmux_gmp_c_mpz_fits_uint_p (emacs_env *env, ptrdiff_t nargs, emacs_value args[]
   assert(1 == nargs);
   mpz_ptr	op	= mmux_get_mpz(env, args[0]);
 
-  return ((mpz_fits_uint_p(op))? mmux_make_true(env) : mmux_make_nil(env));
+  return mmux_make_boolean(env, mpz_fits_uint_p(op));
 }
 
 /* int mpz_fits_sint_p (const mpz_t OP) */
@@ -1162,7 +1162,7 @@ Fmmux_gmp_c_mpz_fits_sint_p (emacs_env *env, ptrdiff_t nargs, emacs_value args[]
   assert(1 == nargs);
   mpz_ptr	op	= mmux_get_mpz(env, args[0]);
 
-  return ((mpz_fits_sint_p(op))? mmux_make_true(env) : mmux_make_nil(env));
+  return mmux_make_boolean(env, mpz_fits_sint_p(op));
 }
 
 /* int mpz_fits_ushort_p (const mpz_t OP) */
@@ -1172,7 +1172,7 @@ Fmmux_gmp_c_mpz_fits_ushort_p (emacs_env *env, ptrdiff_t nargs, emacs_value args
   assert(1 == nargs);
   mpz_ptr	op	= mmux_get_mpz(env, args[0]);
 
-  return ((mpz_fits_ushort_p(op))? mmux_make_true(env) : mmux_make_nil(env));
+  return mmux_make_boolean(env, mpz_fits_ushort_p(op));
 }
 
 /* int mpz_fits_sshort_p (const mpz_t OP) */
@@ -1182,7 +1182,7 @@ Fmmux_gmp_c_mpz_fits_sshort_p (emacs_env *env, ptrdiff_t nargs, emacs_value args
   assert(1 == nargs);
   mpz_ptr	op	= mmux_get_mpz(env, args[0]);
 
-  return ((mpz_fits_sshort_p(op))? mmux_make_true(env) : mmux_make_nil(env));
+  return mmux_make_boolean(env, mpz_fits_sshort_p(op));
 }
 
 /* ------------------------------------------------------------------ */
@@ -1194,7 +1194,7 @@ Fmmux_gmp_c_mpz_odd_p (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void
   assert(1 == nargs);
   mpz_ptr	op	= mmux_get_mpz(env, args[0]);
 
-  return ((mpz_odd_p(op))? mmux_make_true(env) : mmux_make_nil(env));
+  return mmux_make_boolean(env, mpz_odd_p(op));
 }
 
 /* int mpz_even_p (const mpz_t OP) */
@@ -1204,7 +1204,7 @@ Fmmux_gmp_c_mpz_even_p (emacs_env *env, ptrdiff_t nargs, emacs_value args[], voi
   assert(1 == nargs);
   mpz_ptr	op	= mmux_get_mpz(env, args[0]);
 
-  return ((mpz_even_p(op))? mmux_make_true(env) : mmux_make_nil(env));
+  return mmux_make_boolean(env, mpz_even_p(op));
 }
 
 /* ------------------------------------------------------------------ */
