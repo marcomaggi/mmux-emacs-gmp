@@ -303,6 +303,7 @@ garbage collected.
 * integers arithmetic::         Arithmetic operations.
 * integers division::           Division operations.
 * integers exponentiation::     Exponentiation operations.
+* integers roots::              Root extraction functions.
 * integers comparison::         Commparison functions.
 * integers miscellaneous::      Miscellaneous functions.
 @end menu
@@ -1452,6 +1453,48 @@ Set @var{ROP} to @var{BASE} raised to @var{EXP}.
 @result{} t
 @end lisp
 @end defun
+
+@c page
+@node integers roots
+@section Root extraction functions
+
+
+@deffn {Generic Function} mpz-root (@var{rop} @var{op} @var{N})
+@deffnx {Method} mpz-root ((@var{rop} mpz) (@var{op} mpz) (@var{N} integer))
+Set @var{ROP} to the truncated integer part of the @var{N}th root of @var{OP}.
+@end deffn
+
+
+@deffn {Generic Function} mpz-rootrem (@var{root} @var{rem} @var{U} @var{N})
+@deffnx {Method} mpz-rootrem ((@var{root} mpz) (@var{rem} mpz) (@var{U} mpz) (@var{N} integer))
+Set @var{ROOT} to the truncated integer part of the @var{N}th root of @var{U}.  Set @var{REM}to the
+remainder, @var{U}-@var{ROOT}^@var{N}.
+@end deffn
+
+
+@deffn {Generic Function} mpz-sqrt (@var{rop} @var{op})
+@deffnx {Method} mpz-sqrt ((@var{rop} mpz) (@var{op} mpz))
+Set @var{ROP} to the truncated integer part of the square root of @var{OP}.
+@end deffn
+
+
+@deffn {Generic Function} mpz-sqrtrem (@vari{rop} @varii{rop} @var{op})
+@deffnx {Method} mpz-sqrtrem ((@vari{rop} mpz) (@var{rop} mpz) (@var{op} mpz))
+Set @vari{ROP} to the truncated integer part of the square root of @var{OP}.  Set @varii{ROP} to the
+remainder @var{OP}-@vari{ROP}*@vari{ROP}.
+@end deffn
+
+
+@deffn {Generic Function} mpz-perfect-power-p (@var{op})
+@deffnx {Method} mpz-perfect-power-p ((@var{op} mpz))
+Return true if @var{OP} is a perfect power; otherwise return false.
+@end deffn
+
+
+@deffn {Generic Function} mpz-perfect-square-p (@var{op})
+@deffnx {Method} mpz-perfect-square-p ((@var{op} mpz))
+Return true if @var{OP} is a perfect square; otherwise return false.
+@end deffn
 
 @c page
 @node integers comparison

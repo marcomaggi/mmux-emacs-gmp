@@ -4,7 +4,7 @@
 
 ;; Author: Marco Maggi <mrc.mgg@gmail.com>
 ;; Created: Jan 15, 2020
-;; Time-stamp: <2020-01-21 17:54:04 marco>
+;; Time-stamp: <2020-01-22 07:45:34 marco>
 ;; Keywords: extensions
 
 ;; This file is part of MMUX Emacs GMP.
@@ -71,6 +71,20 @@
 (defun mmux-gmp-slint-p (N)
   "Return true if N is compatible with `signed long int'."
   (integerp N))
+
+;;; --------------------------------------------------------------------
+
+(defmacro mmux-gmp-positive-p (obj)
+  `(< 0 ,obj))
+
+(defmacro mmux-gmp-negative-p (obj)
+  `(> 0 ,obj))
+
+(defmacro mmux-gmp-non-negative-p (obj)
+  `(<= 0 ,obj))
+
+(defmacro mmux-gmp-non-positive-p (obj)
+  `(>= 0 ,obj))
 
 
 ;;;; user-ptr object wrappers
@@ -697,6 +711,53 @@
   (cl-assert (mmux-gmp-ulint-p base))
   (cl-assert (mmux-gmp-ulint-p exp))
   (mmux-gmp-c-mpz-ui-pow-ui (mpz-obj rop) base exp))
+
+
+;;;; root extraction functions
+
+;; int mpz_root (mpz_t ROP, const mpz_t OP, unsigned long int N)
+(cl-defgeneric mpz-root (rop op N)
+  "Set ROP to the truncated integer part of the Nth root of OP.")
+(cl-defmethod mpz-root ((rop mpz) (op mpz) (N integer))
+  "Set ROP to the truncated integer part of the Nth root of OP."
+  (cl-assert (mmux-gmp-positive-p N))
+  (mmux-gmp-c-mpz-root (mpz-obj rop) (mpz-obj op) N))
+
+;; void mpz_rootrem (mpz_t ROOT, mpz_t REM, const mpz_t U, unsigned long int N)
+(cl-defgeneric mpz-rootrem (root rem U N)
+  "Set ROOT to the truncated integer part of the Nth root of U.  Set REM to the remainder, U-ROOT^N.")
+(cl-defmethod mpz-rootrem ((root mpz) (rem mpz) (U mpz) (N integer))
+  "Set ROOT to the truncated integer part of the Nth root of U.  Set REM to the remainder, U-ROOT^N."
+  (cl-assert (mmux-gmp-positive-p N))
+  (mmux-gmp-c-mpz-rootrem (mpz-obj root) (mpz-obj rem) (mpz-obj U) N))
+
+;; void mpz_sqrt (mpz_t ROP, const mpz_t OP)
+(cl-defgeneric mpz-sqrt (rop op)
+  "Set ROP to the truncated integer part of the square root of OP.")
+(cl-defmethod mpz-sqrt ((rop mpz) (op mpz))
+  "Set ROP to the truncated integer part of the square root of OP."
+  (mmux-gmp-c-mpz-sqrt (mpz-obj rop) (mpz-obj op)))
+
+;; void mpz_sqrtrem (mpz_t ROP1, mpz_t ROP2, const mpz_t OP)
+(cl-defgeneric mpz-sqrtrem (rop1 rop2 op)
+  "Set ROP1 to the truncated integer part of the square root of OP.  Set ROP2 to the remainder OP-ROP1*ROP1.")
+(cl-defmethod mpz-sqrtrem ((rop1 mpz) (rop2 mpz) (op mpz))
+  "Set ROP1 to the truncated integer part of the square root of OP.  Set ROP2 to the remainder OP-ROP1*ROP1."
+  (mmux-gmp-c-mpz-sqrtrem (mpz-obj rop1) (mpz-obj rop2) (mpz-obj op)))
+
+;; int mpz_perfect_power_p (const mpz_t OP)
+(cl-defgeneric mpz-perfect-power-p (op)
+  "Return true if OP is a perfect power.")
+(cl-defmethod mpz-perfect-power-p ((op mpz))
+  "Return true if OP is a perfect power."
+  (mmux-gmp-c-mpz-perfect-power-p (mpz-obj op)))
+
+;; int mpz_perfect_square_p (const mpz_t OP)
+(cl-defgeneric mpz-perfect-square-p (op)
+  "Return true if OP is a perfect square.")
+(cl-defmethod mpz-perfect-square-p ((op mpz))
+  "Return true if OP is a perfect square."
+  (mmux-gmp-c-mpz-perfect-square-p (mpz-obj op)))
 
 
 ;;;; comparison functions

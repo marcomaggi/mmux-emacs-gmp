@@ -88,11 +88,20 @@
 #undef  mmux_make_true
 #define mmux_make_true(ENV)		((env)->intern((env), "t"))
 
+#undef  mmux_make_boolean
+#define mmux_make_boolean(ENV, BOOL)	((BOOL)? mmux_make_true(ENV) : mmux_make_nil(ENV));
+
 #undef  mmux_make_int
 #define mmux_make_int(ENV, ARG)		((ENV)->make_integer((ENV), (intmax_t)(ARG)))
 
 #undef  mmux_make_float
 #define mmux_make_float(ENV, ARG)	((ENV)->make_integer((ENV), (ARG)))
+
+#undef  mmux_make_uint
+#define mmux_make_uint(ENV, ARG)	(mmux_make_int((ENV), (ARG)))
+
+#undef  mmux_make_sint
+#define mmux_make_sint(ENV, ARG)	(mmux_make_int((ENV), (ARG)))
 
 #undef  mmux_make_ulint
 #define mmux_make_ulint(ENV, ARG)	(mmux_make_int((ENV), (ARG)))

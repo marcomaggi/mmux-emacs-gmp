@@ -950,6 +950,82 @@ Fmmux_gmp_c_mpz_ui_pow_ui (emacs_env *env, ptrdiff_t nargs, emacs_value args[], 
 
 
 /** --------------------------------------------------------------------
+ ** Root extraction functions.
+ ** ----------------------------------------------------------------- */
+
+/* int mpz_root (mpz_t ROP, const mpz_t OP, unsigned long int N) */
+static emacs_value
+Fmmux_gmp_c_mpz_root (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
+{
+  assert(3 == nargs);
+  mpz_ptr	rop	= mmux_get_mpz(env, args[0]);
+  mpz_ptr	op	= mmux_get_mpz(env, args[1]);
+  mmux_ulint_t	N	= mmux_get_ulint(env, args[2]);
+
+  return mmux_make_sint(env, mpz_root(rop, op, N));
+}
+
+/* void mpz_rootrem (mpz_t ROOT, mpz_t REM, const mpz_t U, unsigned long int N) */
+static emacs_value
+Fmmux_gmp_c_mpz_rootrem (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
+{
+  assert(4 == nargs);
+  mpz_ptr	root	= mmux_get_mpz(env, args[0]);
+  mpz_ptr	rem	= mmux_get_mpz(env, args[1]);
+  mpz_ptr	U	= mmux_get_mpz(env, args[2]);
+  mmux_ulint_t	N	= mmux_get_ulint(env, args[3]);
+
+  mpz_rootrem(root, rem, U, N);
+  return mmux_make_nil(env);
+}
+
+/* void mpz_sqrt (mpz_t ROP, const mpz_t OP) */
+static emacs_value
+Fmmux_gmp_c_mpz_sqrt (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
+{
+  assert(2 == nargs);
+  mpz_ptr	rop	= mmux_get_mpz(env, args[0]);
+  mpz_ptr	op	= mmux_get_mpz(env, args[1]);
+
+  mpz_sqrt(rop, op);
+  return mmux_make_nil(env);
+}
+
+/* void mpz_sqrtrem (mpz_t ROP1, mpz_t ROP2, const mpz_t OP) */
+static emacs_value
+Fmmux_gmp_c_mpz_sqrtrem (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
+{
+  assert(3 == nargs);
+  mpz_ptr	rop1	= mmux_get_mpz(env, args[0]);
+  mpz_ptr	rop2	= mmux_get_mpz(env, args[1]);
+  mpz_ptr	op	= mmux_get_mpz(env, args[2]);
+
+  mpz_sqrtrem(rop1, rop2, op);
+  return mmux_make_nil(env);
+}
+
+/* int mpz_perfect_power_p (const mpz_t OP) */
+static emacs_value
+Fmmux_gmp_c_mpz_perfect_power_p (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
+{
+  assert(1 == nargs);
+  mpz_ptr	op	= mmux_get_mpz(env, args[0]);
+
+  return mmux_make_boolean(env, mpz_perfect_power_p(op));
+}
+
+/* int mpz_perfect_square_p (const mpz_t OP) */
+static emacs_value
+Fmmux_gmp_c_mpz_perfect_square_p (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
+{
+  assert(1 == nargs);
+  mpz_ptr	op	= mmux_get_mpz(env, args[0]);
+
+  return mmux_make_boolean(env, mpz_perfect_square_p(op));
+}
+
+
+/** --------------------------------------------------------------------
  ** Comparison functions.
  ** ----------------------------------------------------------------- */
 
@@ -1149,7 +1225,7 @@ Fmmux_gmp_c_mpz_sizeinbase (emacs_env *env, ptrdiff_t nargs, emacs_value args[],
  ** Elisp functions table.
  ** ----------------------------------------------------------------- */
 
-#define NUMBER_OF_MODULE_FUNCTIONS	86
+#define NUMBER_OF_MODULE_FUNCTIONS	92
 static module_function_t const module_functions_table[NUMBER_OF_MODULE_FUNCTIONS] = {
   /* Assignment function. */
   {
@@ -1590,21 +1666,21 @@ static module_function_t const module_functions_table[NUMBER_OF_MODULE_FUNCTIONS
     .implementation	= Fmmux_gmp_c_congruent_p,
     .min_arity		= 3,
     .max_arity		= 3,
-    .documentation	= "Return non-zero if N is congruent to C modulo D.",
+    .documentation	= "Return true if N is congruent to C modulo D.",
   },
   { /* int mpz_congruent_ui_p (const mpz_t N, unsigned long int C, unsigned long int D) */
     .name		= "mmux-gmp-c-congruent-ui-p",
     .implementation	= Fmmux_gmp_c_congruent_ui_p,
     .min_arity		= 3,
     .max_arity		= 3,
-    .documentation	= "Return non-zero if N is congruent to C modulo D.",
+    .documentation	= "Return true if N is congruent to C modulo D.",
   },
   { /* int mpz_congruent_2exp_p (const mpz_t N, const mpz_t C, mp_bitcnt_t B) */
     .name		= "mmux-gmp-c-congruent-2exp-p",
     .implementation	= Fmmux_gmp_c_congruent_2exp_p,
     .min_arity		= 3,
     .max_arity		= 3,
-    .documentation	= "Return non-zero if N is congruent to C modulo 2^B.",
+    .documentation	= "Return true if N is congruent to C modulo 2^B.",
   },
 
   /* Exponentiation functions. */
@@ -1642,6 +1718,50 @@ static module_function_t const module_functions_table[NUMBER_OF_MODULE_FUNCTIONS
     .min_arity		= 3,
     .max_arity		= 3,
     .documentation	= "Set ROP to BASE raised to EXP.",
+  },
+
+  /* Root functions. */
+  { /* int mpz_root (mpz_t ROP, const mpz_t OP, unsigned long int N) */
+    .name		= "mmux-gmp-c-mpz-root",
+    .implementation	= Fmmux_gmp_c_mpz_root,
+    .min_arity		= 3,
+    .max_arity		= 3,
+    .documentation	= "Set ROP to the truncated integer part of the Nth root of OP.",
+  },
+  { /* void mpz_rootrem (mpz_t ROOT, mpz_t REM, const mpz_t U, unsigned long int N) */
+    .name		= "mmux-gmp-c-mpz-rootrem",
+    .implementation	= Fmmux_gmp_c_mpz_rootrem,
+    .min_arity		= 4,
+    .max_arity		= 4,
+    .documentation	= "Set ROOT to the truncated integer part of the Nth root of U.  Set REM to the remainder, U-ROOT^N.",
+  },
+  { /* void mpz_sqrt (mpz_t ROP, const mpz_t OP) */
+    .name		= "mmux-gmp-c-mpz-sqrt",
+    .implementation	= Fmmux_gmp_c_mpz_sqrt,
+    .min_arity		= 2,
+    .max_arity		= 2,
+    .documentation	= "Set ROP to the truncated integer part of the square root of OP.",
+  },
+  { /* void mpz_sqrtrem (mpz_t ROP1, mpz_t ROP2, const mpz_t OP) */
+    .name		= "mmux-gmp-c-mpz-sqrtrem",
+    .implementation	= Fmmux_gmp_c_mpz_sqrtrem,
+    .min_arity		= 3,
+    .max_arity		= 3,
+    .documentation	= "Set ROP1 to the truncated integer part of the square root of OP.  Set ROP2 to the remainder OP-ROP1*ROP1.",
+  },
+  { /* int mpz_perfect_power_p (const mpz_t OP) */
+    .name		= "mmux-gmp-c-mpz-perfect-power-p",
+    .implementation	= Fmmux_gmp_c_mpz_perfect_power_p,
+    .min_arity		= 1,
+    .max_arity		= 1,
+    .documentation	= "Return true if OP is a perfect power.",
+  },
+  { /* int mpz_perfect_square_p (const mpz_t OP) */
+    .name		= "mmux-gmp-c-mpz-perfect-square-p",
+    .implementation	= Fmmux_gmp_c_mpz_perfect_square_p,
+    .min_arity		= 1,
+    .max_arity		= 1,
+    .documentation	= "Return true if OP is a perfect square.",
   },
 
   /* Comparison functions. */

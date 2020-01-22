@@ -773,6 +773,61 @@
 		   (mpz-get-ui rop)))))
 
 
+;;;; root extraction functions
+
+;; int mpz_root (mpz_t ROP, const mpz_t OP, unsigned long int N)
+(ert-deftest mpz-root ()
+  "Set ROP to the truncated integer part of the Nth root of OP."
+  (let ((rop	(mpz))
+	(op	(mpz 8))
+	(N	3))
+    (mpz-root rop op N)
+    (should (equal 2 (mpz-get-si rop)))))
+
+;; void mpz_rootrem (mpz_t ROOT, mpz_t REM, const mpz_t U, unsigned long int N)
+(ert-deftest mpz-rootrem ()
+  "Set ROOT to the truncated integer part of the Nth root of U.  Set REM to the remainder, U-ROOT^N."
+  ;; 9 = 2^3 + 1
+  (let ((rop	(mpz))
+	(rem	(mpz))
+	(op	(mpz 9))
+	(N	3))
+    (mpz-rootrem rop rem op N)
+    (should (equal 2 (mpz-get-si rop)))
+    (should (equal 1 (mpz-get-si rem)))))
+
+;; void mpz_sqrt (mpz_t ROP, const mpz_t OP)
+(ert-deftest mpz-sqrt ()
+  "Set ROP to the truncated integer part of the square root of OP."
+  (let ((rop	(mpz))
+	(op	(mpz 16)))
+    (mpz-sqrt rop op)
+    (should (equal 4 (mpz-get-si rop)))))
+
+;; void mpz_sqrtrem (mpz_t ROP1, mpz_t ROP2, const mpz_t OP)
+(ert-deftest mpz-sqrtrem ()
+  "Set ROP1 to the truncated integer part of the square root of OP.  Set ROP2 to the remainder OP-ROP1*ROP1."
+  ;; 17 = 4^2 + 1
+  (let ((rop	(mpz))
+	(rem	(mpz))
+	(op	(mpz 17)))
+    (mpz-sqrtrem rop rem op)
+    (should (equal 4 (mpz-get-si rop)))
+    (should (equal 1 (mpz-get-si rem)))))
+
+;; int mpz_perfect_power_p (const mpz_t OP)
+(ert-deftest mpz-perfect-power-p ()
+  "Return true if OP is a perfect power."
+  (should (mpz-perfect-power-p (mpz 8)))
+  (should (not (mpz-perfect-power-p (mpz 7)))))
+
+;; int mpz_perfect_square_p (const mpz_t OP)
+(ert-deftest mpz-perfect-square-p ()
+  "Return non-zero if OP is a perfect square."
+  (should (mpz-perfect-square-p (mpz 16)))
+  (should (not (mpz-perfect-square-p (mpz 7)))))
+
+
 ;;;; comparison
 
 ;; int mpz_cmp (const mpz_t OP1, const mpz_t OP2)
