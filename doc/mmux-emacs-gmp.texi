@@ -1462,19 +1462,47 @@ Set @var{ROP} to @var{BASE} raised to @var{EXP}.
 @deffn {Generic Function} mpz-root (@var{rop} @var{op} @var{N})
 @deffnx {Method} mpz-root ((@var{rop} mpz) (@var{op} mpz) (@var{N} integer))
 Set @var{ROP} to the truncated integer part of the @var{N}th root of @var{OP}.
+
+@lisp
+(let ((rop    (mpz))
+      (op     (mpz 8))
+      (N      3))
+  (mpz-root rop op N)
+  (mpz-get-si rop))
+@result{} 2
+@end lisp
 @end deffn
 
 
 @deffn {Generic Function} mpz-rootrem (@var{root} @var{rem} @var{U} @var{N})
 @deffnx {Method} mpz-rootrem ((@var{root} mpz) (@var{rem} mpz) (@var{U} mpz) (@var{N} integer))
-Set @var{ROOT} to the truncated integer part of the @var{N}th root of @var{U}.  Set @var{REM}to the
+Set @var{ROOT} to the truncated integer part of the @var{N}th root of @var{U}.  Set @var{REM} to the
 remainder, @var{U}-@var{ROOT}^@var{N}.
+
+@lisp
+;; 9 = 2^3 + 1
+(let ((rop    (mpz))
+      (rem    (mpz))
+      (op     (mpz 9))
+      (N      3))
+  (mpz-rootrem rop rem op N)
+  (mpz-get-si rop)      @result{} 2
+  (mpz-get-si rem))     @result{} 1
+@end lisp
 @end deffn
 
 
 @deffn {Generic Function} mpz-sqrt (@var{rop} @var{op})
 @deffnx {Method} mpz-sqrt ((@var{rop} mpz) (@var{op} mpz))
 Set @var{ROP} to the truncated integer part of the square root of @var{OP}.
+
+@lisp
+(let ((rop    (mpz))
+      (op     (mpz 16)))
+  (mpz-sqrt rop op)
+  (mpz-get-si rop))
+@result{} 4
+@end lisp
 @end deffn
 
 
@@ -1482,18 +1510,38 @@ Set @var{ROP} to the truncated integer part of the square root of @var{OP}.
 @deffnx {Method} mpz-sqrtrem ((@vari{rop} mpz) (@var{rop} mpz) (@var{op} mpz))
 Set @vari{ROP} to the truncated integer part of the square root of @var{OP}.  Set @varii{ROP} to the
 remainder @var{OP}-@vari{ROP}*@vari{ROP}.
+
+@lisp
+;; 17 = 4^2 + 1
+(let ((rop    (mpz))
+      (rem    (mpz))
+      (op     (mpz 17)))
+  (mpz-sqrtrem rop rem op)
+  (mpz-get-si rop)      @result{} 4
+  (mpz-get-si rem))     @result{} 1
+@end lisp
 @end deffn
 
 
 @deffn {Generic Function} mpz-perfect-power-p (@var{op})
 @deffnx {Method} mpz-perfect-power-p ((@var{op} mpz))
 Return true if @var{OP} is a perfect power; otherwise return false.
+
+@lisp
+(mpz-perfect-power-p (mpz 8))           @result{} t
+(mpz-perfect-power-p (mpz 7))           @result{} nil
+@end lisp
 @end deffn
 
 
 @deffn {Generic Function} mpz-perfect-square-p (@var{op})
 @deffnx {Method} mpz-perfect-square-p ((@var{op} mpz))
 Return true if @var{OP} is a perfect square; otherwise return false.
+
+@lisp
+(mpz-perfect-square-p (mpz 16))         @result{} t
+(mpz-perfect-square-p (mpz 7))          @result{} nil
+@end lisp
 @end deffn
 
 @c page
