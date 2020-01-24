@@ -4,7 +4,7 @@
 
 ;; Author: Marco Maggi <mrc.mgg@gmail.com>
 ;; Created: Jan 15, 2020
-;; Time-stamp: <2020-01-22 07:45:34 marco>
+;; Time-stamp: <2020-01-24 15:53:36 marco>
 ;; Keywords: extensions
 
 ;; This file is part of MMUX Emacs GMP.
@@ -760,33 +760,234 @@
   (mmux-gmp-c-mpz-perfect-square-p (mpz-obj op)))
 
 
+;;;; number theoretic functions
+
+;; int mpz_probab_prime_p (const mpz_t N, int REPS)
+(cl-defgeneric mpz-probab-prime-p (N reps)
+  "Determine whether N is prime.")
+(cl-defmethod  mpz-probab-prime-p ((N mpz) (reps integer))
+  "Determine whether N is prime."
+  (mmux-gmp-c-mpz-probab-prime-p (mpz-obj N) reps))
+
+;; void mpz_nextprime (mpz_t ROP, const mpz_t OP)
+(cl-defgeneric mpz-nextprime (rop op)
+  "Set ROP to the next prime greater than OP.")
+(cl-defmethod  mpz-nextprime ((rop mpz) (op mpz))
+  "Set ROP to the next prime greater than OP."
+  (mmux-gmp-c-mpz-nextprime (mpz-obj rop) (mpz-obj op)))
+
+;; void mpz_gcd (mpz_t ROP, const mpz_t OP1, const mpz_t OP2)
+(cl-defgeneric mpz-gcd (rop op1 op2)
+  "Set ROP to the greatest common divisor of OP1 and OP2.")
+(cl-defmethod  mpz-gcd ((rop mpz) (op1 mpz) (op2 mpz))
+  "Set ROP to the greatest common divisor of OP1 and OP2."
+  (mmux-gmp-c-mpz-gcd (mpz-obj rop) (mpz-obj op1) (mpz-obj op2)))
+
+;; unsigned long int mpz_gcd_ui (mpz_t ROP, const mpz_t OP1, unsigned long int OP2)
+(cl-defgeneric mpz-gcd-ui (rop op1 op2)
+  "Set ROP to the greatest common divisor of OP1 and OP2.")
+(cl-defmethod  mpz-gcd-ui ((rop mpz) (op1 mpz) (op2 integer))
+  "Set ROP to the greatest common divisor of OP1 and OP2."
+  (cl-assert (mmux-gmp-non-negative-p op2))
+  (mmux-gmp-c-mpz-gcd-ui (mpz-obj rop) (mpz-obj op1) op2))
+
+;; void mpz_gcdext (mpz_t G, mpz_t S, mpz_t T, const mpz_t A, const mpz_t B)
+(cl-defgeneric mpz-gcdext (G S T A B)
+  "Set G to the greatest common divisor of A and B, and in addition set S and T to coefficients satisfying A*S + B*T = G.")
+(cl-defmethod  mpz-gcdext ((G mpz) (S mpz) (T mpz) (A mpz) (B mpz))
+  "Set G to the greatest common divisor of A and B, and in addition set S and T to coefficients satisfying A*S + B*T = G."
+  (mmux-gmp-c-mpz-gcdext (mpz-obj G) (mpz-obj S) (mpz-obj T) (mpz-obj A) (mpz-obj B)))
+
+;; void mpz_lcm (mpz_t ROP, const mpz_t OP1, const mpz_t OP2)
+(cl-defgeneric mpz-lcm (rop op1 op2)
+  "Set ROP to the least common multiple of OP1 and OP2.")
+(cl-defmethod  mpz-lcm ((rop mpz) (op1 mpz) (op2 mpz))
+  "Set ROP to the least common multiple of OP1 and OP2."
+  (mmux-gmp-c-mpz-lcm (mpz-obj rop) (mpz-obj op1) (mpz-obj op2)))
+
+;; void mpz_lcm_ui (mpz_t ROP, const mpz_t OP1, unsigned long OP2)
+(cl-defgeneric mpz-lcm-ui (rop op1 op2)
+  "Set ROP to the least common multiple of OP1 and OP2.")
+(cl-defmethod  mpz-lcm-ui ((rop mpz) (op1 mpz) (op2 integer))
+  "Set ROP to the least common multiple of OP1 and OP2."
+  (cl-assert (mmux-gmp-non-negative-p op2))
+  (mmux-gmp-c-mpz-lcm-ui (mpz-obj rop) (mpz-obj op1) op2))
+
+;; int mpz_invert (mpz_t ROP, const mpz_t OP1, const mpz_t OP2)
+(cl-defgeneric mpz-invert (rop op1 op2)
+  "Compute the inverse of OP1 modulo OP2 and put the result in ROP.")
+(cl-defmethod  mpz-invert ((rop mpz) (op1 mpz) (op2 mpz))
+  "Compute the inverse of OP1 modulo OP2 and put the result in ROP."
+  (cl-assert (mpz-non-zero-p op2))
+  (mmux-gmp-c-mpz-invert (mpz-obj rop) (mpz-obj op1) (mpz-obj op2)))
+
+;; int mpz_jacobi (const mpz_t A, const mpz_t B)
+(cl-defgeneric mpz-jacobi (A B)
+  "Calculate the Jacobi symbol (A/B).  This is defined only for B odd.")
+(cl-defmethod  mpz-jacobi ((A mpz) (B mpz))
+  "Calculate the Jacobi symbol (A/B).  This is defined only for B odd."
+  (cl-assert (mpz-odd-p B))
+  (mmux-gmp-c-mpz-jacobi (mpz-obj A) (mpz-obj B)))
+
+;; int mpz_legendre (const mpz_t A, const mpz_t P)
+(cl-defgeneric mpz-legendre (A B)
+  "Calculate the Legendre symbol (A/P).")
+(cl-defmethod  mpz-legendre ((A mpz) (B mpz))
+  "Calculate the Legendre symbol (A/P)."
+  (mmux-gmp-c-mpz-legendre (mpz-obj A) (mpz-obj B)))
+
+;; int mpz_kronecker (const mpz_t A, const mpz_t B)
+(cl-defgeneric mpz-kronecker (A B)
+  "Calculate the Jacobi symbol (A/B) with the Kronecker extension (a/2)=(2/a) when a odd, or (a/2)=0 when a even.")
+(cl-defmethod  mpz-kronecker ((A mpz) (B mpz))
+  "Calculate the Jacobi symbol (A/B) with the Kronecker extension (a/2)=(2/a) when a odd, or (a/2)=0 when a even."
+  (mmux-gmp-c-mpz-kronecker (mpz-obj A) (mpz-obj B)))
+
+;; int mpz_kronecker_si (const mpz_t A, long B)
+(cl-defgeneric mpz-kronecker-si (A B)
+  "Calculate the Jacobi symbol (A/B) with the Kronecker extension (a/2)=(2/a) when a odd, or (a/2)=0 when a even.")
+(cl-defmethod  mpz-kronecker-si ((A mpz) (B integer))
+  "Calculate the Jacobi symbol (A/B) with the Kronecker extension (a/2)=(2/a) when a odd, or (a/2)=0 when a even."
+  (mmux-gmp-c-mpz-kronecker-si (mpz-obj A) B))
+
+;; int mpz_kronecker_ui (const mpz_t A, unsigned long B)
+(cl-defgeneric mpz-kronecker-ui (A B)
+  "Calculate the Jacobi symbol (A/B) with the Kronecker extension (a/2)=(2/a) when a odd, or (a/2)=0 when a even.")
+(cl-defmethod  mpz-kronecker-ui ((A mpz) (B integer))
+  "Calculate the Jacobi symbol (A/B) with the Kronecker extension (a/2)=(2/a) when a odd, or (a/2)=0 when a even."
+  (cl-assert (mmux-gmp-non-negative-p B))
+  (mmux-gmp-c-mpz-kronecker-ui (mpz-obj A) B))
+
+;; int mpz_si_kronecker (long A, const mpz_t B)
+(cl-defgeneric mpz-si-kronecker (A B)
+  "Calculate the Jacobi symbol (A/B) with the Kronecker extension (a/2)=(2/a) when a odd, or (a/2)=0 when a even.")
+(cl-defmethod  mpz-si-kronecker ((A integer) (B mpz))
+  "Calculate the Jacobi symbol (A/B) with the Kronecker extension (a/2)=(2/a) when a odd, or (a/2)=0 when a even."
+  (mmux-gmp-c-mpz-si-kronecker A (mpz-obj B)))
+
+;; int mpz_ui_kronecker (unsigned long A, const mpz_t B)
+(cl-defgeneric mpz-ui-kronecker (A B)
+  "Calculate the Jacobi symbol (A/B) with the Kronecker extension (a/2)=(2/a) when a odd, or (a/2)=0 when a even.")
+(cl-defmethod  mpz-ui-kronecker ((A integer) (B mpz))
+  "Calculate the Jacobi symbol (A/B) with the Kronecker extension (a/2)=(2/a) when a odd, or (a/2)=0 when a even."
+  (mmux-gmp-c-mpz-ui-kronecker A (mpz-obj B)))
+
+;; mp_bitcnt_t mpz_remove (mpz_t ROP, const mpz_t OP, const mpz_t F)
+(cl-defgeneric mpz-remove (rop op F)
+  "Remove all occurrences of the factor F from OP and store the result in ROP.")
+(cl-defmethod  mpz-remove ((rop mpz) (op mpz) (F mpz))
+  "Remove all occurrences of the factor F from OP and store the result in ROP."
+  (mmux-gmp-c-mpz-remove (mpz-obj rop) (mpz-obj op) (mpz-obj F)))
+
+;; void mpz_fac_ui (mpz_t ROP, unsigned long int N)
+(cl-defgeneric mpz-fac-ui (rop N)
+  "Set ROP to the factorial of N.")
+(cl-defmethod  mpz-fac-ui ((rop mpz) (N integer))
+  "Set ROP to the factorial of N."
+  (cl-assert (mmux-gmp-non-negative-p N))
+  (mmux-gmp-c-mpz-fac-ui (mpz-obj rop) N))
+
+;; void mpz_2fac_ui (mpz_t ROP, unsigned long int N)
+(cl-defgeneric mpz-2fac-ui (rop N)
+  "Set ROP to the double factorial of N: N!!.")
+(cl-defmethod  mpz-2fac-ui ((rop mpz) (N integer))
+  "Set ROP to the double factorial of N: N!!."
+  (cl-assert (mmux-gmp-non-negative-p N))
+  (mmux-gmp-c-mpz-2fac-ui (mpz-obj rop) N))
+
+;; void mpz_mfac_uiui (mpz_t ROP, unsigned long int N, unsigned long int M)
+(cl-defgeneric mpz-mfac-uiui (rop N M)
+  "Set ROP to the M-multi-factorial of N: N!^(M).")
+(cl-defmethod  mpz-mfac-uiui ((rop mpz) (N integer) (M integer))
+  "Set ROP to the M-multi-factorial of N: N!^(M)."
+  (cl-assert (mmux-gmp-non-negative-p N))
+  (cl-assert (mmux-gmp-non-negative-p M))
+  (mmux-gmp-c-mpz-mfac-uiui (mpz-obj rop) N M))
+
+;; void mpz_primorial_ui (mpz_t ROP, unsigned long int N)
+(cl-defgeneric mpz-primorial-ui (rop N)
+  "Set ROP to the primorial of N: the product of all positive prime numbers <=N.")
+(cl-defmethod  mpz-primorial-ui ((rop mpz) (N integer))
+  "Set ROP to the primorial of N: the product of all positive prime numbers <=N."
+  (cl-assert (mmux-gmp-non-negative-p N))
+  (mmux-gmp-c-mpz-primorial-ui (mpz-obj rop) N))
+
+;; void mpz_bin_ui (mpz_t ROP, const mpz_t N, unsigned long int K)
+(cl-defgeneric mpz-bin-ui (rop N K)
+  "Compute the binomial coefficient N over K and store the result in ROP.")
+(cl-defmethod  mpz-bin-ui ((rop mpz) (N mpz) (K integer))
+  "Compute the binomial coefficient N over K and store the result in ROP."
+  (cl-assert (mmux-gmp-non-negative-p K))
+  (mmux-gmp-c-mpz-bin-ui (mpz-obj rop) (mpz-obj N) K))
+
+;; void mpz_bin_uiui (mpz_t ROP, unsigned long int N, unsigned long int K)
+(cl-defgeneric mpz-bin-uiui (rop N K)
+  "Compute the binomial coefficient N over K and store the result in ROP.")
+(cl-defmethod  mpz-bin-uiui ((rop mpz) (N integer) (K integer))
+  "Compute the binomial coefficient N over K and store the result in ROP."
+  (cl-assert (mmux-gmp-non-negative-p K))
+  (mmux-gmp-c-mpz-bin-uiui (mpz-obj rop) N K))
+
+;; void mpz_fib_ui (mpz_t FN, unsigned long int N)
+(cl-defgeneric mpz-fib-ui (FN N)
+  "Set FN to to F[N]: the N'th Fibonacci number.")
+(cl-defmethod  mpz-fib-ui ((FN mpz) (N integer))
+  "Set FN to to F[N]: the N'th Fibonacci number."
+  (cl-assert (mmux-gmp-non-negative-p N))
+  (mmux-gmp-c-mpz-fib-ui (mpz-obj FN) N))
+
+;; void mpz_fib2_ui (mpz_t FN, mpz_t FNSUB1, unsigned long int N)
+(cl-defgeneric mpz-fib2-ui (FN FNSUB1 N)
+  "Set FN to to F[N]: the N'th Fibonacci number.  Set FNSUB1 to to F[N-1].")
+(cl-defmethod  mpz-fib2-ui ((FN mpz) (FNSUB1 mpz) (N integer))
+  "Set FN to to F[N]: the N'th Fibonacci number.  Set FNSUB1 to to F[N-1]."
+  (cl-assert (mmux-gmp-non-negative-p N))
+  (mmux-gmp-c-mpz-fib2-ui (mpz-obj FN) (mpz-obj FNSUB1) N))
+
+;; void mpz_lucnum_ui (mpz_t LN, unsigned long int N)
+(cl-defgeneric mpz-lucnum-ui (LN N)
+  "Set LN to to L[N]: the N'th Lucas number.")
+(cl-defmethod  mpz-lucnum-ui ((LN mpz) (N integer))
+  "Set LN to to L[N]: the N'th Lucas number."
+  (cl-assert (mmux-gmp-non-negative-p N))
+  (mmux-gmp-c-mpz-lucnum-ui (mpz-obj LN) N))
+
+;; void mpz_lucnum2_ui (mpz_t LN, mpz_t LNSUB1, unsigned long int N)
+(cl-defgeneric mpz-lucnum2-ui (LN LNSUB1 N)
+  "Set LN to to L[N]: the N'th Lucas number.  Set LNSUB1 to to L[N-1].")
+(cl-defmethod  mpz-lucnum2-ui ((LN mpz) (LNSUB1 mpz) (N integer))
+  "Set LN to to L[N]: the N'th Lucas number.  Set LNSUB1 to to L[N-1]."
+  (cl-assert (mmux-gmp-non-negative-p N))
+  (mmux-gmp-c-mpz-lucnum2-ui (mpz-obj LN) (mpz-obj LNSUB1) N))
+
+
 ;;;; comparison functions
 
 ;; int mpz_cmp (const mpz_t OP1, const mpz_t OP2)
 (cl-defgeneric mpz-cmp (op1 op2)
   "Compare OP1 and OP2.")
-(cl-defmethod mpz-cmp ((op1 mpz) (op2 mpz))
+(cl-defmethod  mpz-cmp ((op1 mpz) (op2 mpz))
   "Compare OP1 and OP2."
   (mmux-gmp-c-mpz-cmp (mpz-obj op1) (mpz-obj op2)))
 
 ;; int mpz_cmp_d (const mpz_t OP1, double OP2)
 (cl-defgeneric mpz-cmp-d (op1 op2)
   "Compare OP1 and OP2.")
-(cl-defmethod mpz-cmp-d ((op1 mpz) (op2 float))
+(cl-defmethod  mpz-cmp-d ((op1 mpz) (op2 float))
   "Compare OP1 and OP2."
   (mmux-gmp-c-mpz-cmp-d (mpz-obj op1) op2))
 
 ;; int mpz_cmp_si (const mpz_t OP1, signed long int OP2)
 (cl-defgeneric mpz-cmp-si (op1 op2)
   "Compare OP1 and OP2.")
-(cl-defmethod mpz-cmp-si ((op1 mpz) (op2 integer))
+(cl-defmethod  mpz-cmp-si ((op1 mpz) (op2 integer))
   "Compare OP1 and OP2."
   (mmux-gmp-c-mpz-cmp-si (mpz-obj op1) op2))
 
 ;; int mpz_cmp_ui (const mpz_t OP1, unsigned long int OP2)
 (cl-defgeneric mpz-cmp-ui (op1 op2)
   "Compare OP1 and OP2.")
-(cl-defmethod mpz-cmp-ui ((op1 mpz) (op2 integer))
+(cl-defmethod  mpz-cmp-ui ((op1 mpz) (op2 integer))
   "Compare OP1 and OP2."
   (cl-assert (<= 0 op2))
   (mmux-gmp-c-mpz-cmp-ui (mpz-obj op1) op2))
@@ -796,21 +997,21 @@
 ;; int mpz_cmpabs (const mpz_t OP1, const mpz_t OP2)
 (cl-defgeneric mpz-cmpabs (op1 op2)
   "Compare the absolute values of OP1 and OP2.")
-(cl-defmethod mpz-cmpabs ((op1 mpz) (op2 mpz))
+(cl-defmethod  mpz-cmpabs ((op1 mpz) (op2 mpz))
   "Compare the absolute values of OP1 and OP2."
   (mmux-gmp-c-mpz-cmpabs (mpz-obj op1) (mpz-obj op2)))
 
 ;; int mpz_cmpabs_d (const mpz_t OP1, double OP2)
 (cl-defgeneric mpz-cmpabs-d (op1 op2)
   "Compare the absolute values of OP1 and OP2.")
-(cl-defmethod mpz-cmpabs-d ((op1 mpz) (op2 float))
+(cl-defmethod  mpz-cmpabs-d ((op1 mpz) (op2 float))
   "Compare the absolute values of OP1 and OP2."
   (mmux-gmp-c-mpz-cmpabs-d (mpz-obj op1) op2))
 
 ;; int mpz_cmpabs_ui (const mpz_t OP1, unsigned long int OP2)
 (cl-defgeneric mpz-cmpabs-ui (op1 op2)
   "Compare the absolute values of OP1 and OP2.")
-(cl-defmethod mpz-cmpabs-ui ((op1 mpz) (op2 integer))
+(cl-defmethod  mpz-cmpabs-ui ((op1 mpz) (op2 integer))
   "Compare the absolute values of OP1 and OP2."
   (cl-assert (<= 0 op2))
   (mmux-gmp-c-mpz-cmpabs-ui (mpz-obj op1) op2))
@@ -820,9 +1021,51 @@
 ;; int mpz_sgn (const mpz_t OP)
 (cl-defgeneric mpz-sgn (op)
   "Return an integer representing the sign of the operand.")
-(cl-defmethod mpz-sgn ((op mpz))
+(cl-defmethod  mpz-sgn ((op mpz))
   "Return an integer representing the sign of the operand."
   (mmux-gmp-c-mpz-sgn (mpz-obj op)))
+
+;;; --------------------------------------------------------------------
+
+(cl-defgeneric mpz-zero-p (op)
+  "Return true if OP is zero; otherwise return false.")
+(cl-defmethod  mpz-zero-p ((op mpz))
+  "Return true if OP is zero; otherwise return false."
+  (= 0 (mpz-cmp-si op 0)))
+
+(cl-defgeneric mpz-non-zero-p (op)
+  "Return true if OP is non-zero; otherwise return false.")
+(cl-defmethod  mpz-non-zero-p ((op mpz))
+  "Return true if OP is non-zero; otherwise return false."
+  (not (= 0 (mpz-cmp-si op 0))))
+
+;;; --------------------------------------------------------------------
+
+(cl-defgeneric mpz-positive-p (op)
+  "Return true if OP is strictly positive; otherwise return false.")
+(cl-defmethod  mpz-positive-p ((op mpz))
+  "Return true if OP is strictly positive; otherwise return false."
+  (= +1 (mpz-cmp-si op 0)))
+
+(cl-defgeneric mpz-negative-p (op)
+  "Return true if OP is strictly negative; otherwise return false.")
+(cl-defmethod  mpz-negative-p ((op mpz))
+  "Return true if OP is strictly negative; otherwise return false."
+  (= -1 (mpz-cmp-si op 0)))
+
+;;; --------------------------------------------------------------------
+
+(cl-defgeneric mpz-non-positive-p (op)
+  "Return true if OP is non-positive; otherwise return false.")
+(cl-defmethod  mpz-non-positive-p ((op mpz))
+  "Return true if OP is non-positive; otherwise return false."
+  (>= 0 (mpz-cmp-si op 0)))
+
+(cl-defgeneric mpz-non-negative-p (op)
+  "Return true if OP is non-negative; otherwise return false.")
+(cl-defmethod  mpz-non-negative-p ((op mpz))
+  "Return true if OP is non-negative; otherwise return false."
+  (<= 0 (mpz-cmp-si op 0)))
 
 
 ;;;; integer number functions: miscellaneous

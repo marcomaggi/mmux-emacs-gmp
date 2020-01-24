@@ -1026,6 +1026,326 @@ Fmmux_gmp_c_mpz_perfect_square_p (emacs_env *env, ptrdiff_t nargs, emacs_value a
 
 
 /** --------------------------------------------------------------------
+ ** Number theoretic functions.
+ ** ----------------------------------------------------------------- */
+
+/* int mpz_probab_prime_p (const mpz_t N, int REPS) */
+static emacs_value
+Fmmux_gmp_c_mpz_probab_prime_p (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
+{
+  assert(2 == nargs);
+  mpz_ptr	N	= mmux_get_mpz(env, args[0]);
+  mmux_sint_t	reps	= mmux_get_sint(env, args[1]);
+
+  return mmux_make_sint(env, mpz_probab_prime_p(N, reps));
+}
+
+/* void mpz_nextprime (mpz_t ROP, const mpz_t OP) */
+static emacs_value
+Fmmux_gmp_c_mpz_nextprime (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
+{
+  assert(2 == nargs);
+  mpz_ptr	rop	= mmux_get_mpz(env, args[0]);
+  mpz_ptr	op	= mmux_get_mpz(env, args[1]);
+
+  mpz_nextprime(rop, op);
+  return mmux_make_nil(env);
+}
+
+/* void mpz_gcd (mpz_t ROP, const mpz_t OP1, const mpz_t OP2) */
+static emacs_value
+Fmmux_gmp_c_mpz_gcd (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
+{
+  assert(3 == nargs);
+  mpz_ptr	rop	= mmux_get_mpz(env, args[0]);
+  mpz_ptr	op1	= mmux_get_mpz(env, args[1]);
+  mpz_ptr	op2	= mmux_get_mpz(env, args[2]);
+
+  mpz_gcd(rop, op1, op2);
+  return mmux_make_nil(env);
+}
+
+/* unsigned long int mpz_gcd_ui (mpz_t ROP, const mpz_t OP1, unsigned long int OP2) */
+static emacs_value
+Fmmux_gmp_c_mpz_gcd_ui (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
+{
+  assert(3 == nargs);
+  mpz_ptr	rop	= mmux_get_mpz(env, args[0]);
+  mpz_ptr	op1	= mmux_get_mpz(env, args[1]);
+  mmux_ulint_t	op2	= mmux_get_ulint(env, args[2]);
+
+  return mmux_make_ulint(env, mpz_gcd_ui(rop, op1, op2));
+}
+
+/* void mpz_gcdext (mpz_t G, mpz_t S, mpz_t T, const mpz_t A, const mpz_t B) */
+static emacs_value
+Fmmux_gmp_c_mpz_gcdext (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
+{
+  assert(5 == nargs);
+  mpz_ptr	G	= mmux_get_mpz(env, args[0]);
+  mpz_ptr	S	= mmux_get_mpz(env, args[1]);
+  mpz_ptr	T	= mmux_get_mpz(env, args[2]);
+  mpz_ptr	A	= mmux_get_mpz(env, args[3]);
+  mpz_ptr	B	= mmux_get_mpz(env, args[4]);
+
+  mpz_gcdext(G, S, T, A, B);
+  return mmux_make_nil(env);
+}
+
+/* void mpz_lcm (mpz_t ROP, const mpz_t OP1, const mpz_t OP2) */
+static emacs_value
+Fmmux_gmp_c_mpz_lcm (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
+{
+  assert(3 == nargs);
+  mpz_ptr	rop	= mmux_get_mpz(env, args[0]);
+  mpz_ptr	op1	= mmux_get_mpz(env, args[1]);
+  mpz_ptr	op2	= mmux_get_mpz(env, args[2]);
+
+  mpz_lcm(rop, op1, op2);
+  return mmux_make_nil(env);
+}
+
+/* void mpz_lcm_ui (mpz_t ROP, const mpz_t OP1, unsigned long OP2) */
+static emacs_value
+Fmmux_gmp_c_mpz_lcm_ui (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
+{
+  assert(3 == nargs);
+  mpz_ptr	rop	= mmux_get_mpz(env, args[0]);
+  mpz_ptr	op1	= mmux_get_mpz(env, args[1]);
+  mmux_ulint_t	op2	= mmux_get_ulint(env, args[2]);
+
+  mpz_lcm_ui(rop, op1, op2);
+  return mmux_make_nil(env);
+}
+
+/* int mpz_invert (mpz_t ROP, const mpz_t OP1, const mpz_t OP2) */
+static emacs_value
+Fmmux_gmp_c_mpz_invert (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
+{
+  assert(3 == nargs);
+  mpz_ptr	rop	= mmux_get_mpz(env, args[0]);
+  mpz_ptr	op1	= mmux_get_mpz(env, args[1]);
+  mpz_ptr	op2	= mmux_get_mpz(env, args[2]);
+
+  return mmux_make_boolean(env, mpz_invert(rop, op1, op2));
+}
+
+/* int mpz_jacobi (const mpz_t A, const mpz_t B) */
+static emacs_value
+Fmmux_gmp_c_mpz_jacobi (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
+{
+  assert(2 == nargs);
+  mpz_ptr	A	= mmux_get_mpz(env, args[0]);
+  mpz_ptr	B	= mmux_get_mpz(env, args[1]);
+
+  return mmux_make_sint(env, mpz_jacobi(A, B));
+}
+
+/* int mpz_legendre (const mpz_t A, const mpz_t P) */
+static emacs_value
+Fmmux_gmp_c_mpz_legendre (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
+{
+  assert(2 == nargs);
+  mpz_ptr	A	= mmux_get_mpz(env, args[0]);
+  mpz_ptr	P	= mmux_get_mpz(env, args[1]);
+
+  return mmux_make_sint(env, mpz_legendre(A, P));
+}
+
+/* int mpz_kronecker (const mpz_t A, const mpz_t B) */
+static emacs_value
+Fmmux_gmp_c_mpz_kronecker (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
+{
+  assert(2 == nargs);
+  mpz_ptr	A	= mmux_get_mpz(env, args[0]);
+  mpz_ptr	B	= mmux_get_mpz(env, args[1]);
+
+  return mmux_make_sint(env, mpz_kronecker(A, B));
+}
+
+/* int mpz_kronecker_si (const mpz_t A, long B) */
+static emacs_value
+Fmmux_gmp_c_mpz_kronecker_si (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
+{
+  assert(2 == nargs);
+  mpz_ptr	A	= mmux_get_mpz(env, args[0]);
+  mmux_slint_t	B	= mmux_get_slint(env, args[1]);
+
+  return mmux_make_sint(env, mpz_kronecker_si(A, B));
+}
+
+/* int mpz_kronecker_ui (const mpz_t A, unsigned long B) */
+static emacs_value
+Fmmux_gmp_c_mpz_kronecker_ui (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
+{
+  assert(2 == nargs);
+  mpz_ptr	A	= mmux_get_mpz(env, args[0]);
+  mmux_ulint_t	B	= mmux_get_ulint(env, args[1]);
+
+  return mmux_make_sint(env, mpz_kronecker_ui(A, B));
+}
+
+/* int mpz_si_kronecker (long A, const mpz_t B) */
+static emacs_value
+Fmmux_gmp_c_mpz_si_kronecker (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
+{
+  assert(2 == nargs);
+  mmux_slint_t	A	= mmux_get_slint(env, args[0]);
+  mpz_ptr	B	= mmux_get_mpz(env, args[1]);
+
+  return mmux_make_sint(env, mpz_si_kronecker(A, B));
+}
+
+/* int mpz_ui_kronecker (unsigned long A, const mpz_t B) */
+static emacs_value
+Fmmux_gmp_c_mpz_ui_kronecker (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
+{
+  assert(2 == nargs);
+  mmux_ulint_t	A	= mmux_get_ulint(env, args[0]);
+  mpz_ptr	B	= mmux_get_mpz(env, args[1]);
+
+  return mmux_make_sint(env, mpz_ui_kronecker(A, B));
+}
+
+/* mp_bitcnt_t mpz_remove (mpz_t ROP, const mpz_t OP, const mpz_t F) */
+static emacs_value
+Fmmux_gmp_c_mpz_remove (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
+{
+  assert(3 == nargs);
+  mpz_ptr	rop	= mmux_get_mpz(env, args[0]);
+  mpz_ptr	op	= mmux_get_mpz(env, args[1]);
+  mpz_ptr	F	= mmux_get_mpz(env, args[2]);
+
+  return mmux_make_bitcnt(env, mpz_remove(rop, op, F));
+}
+
+/* void mpz_fac_ui (mpz_t ROP, unsigned long int N) */
+static emacs_value
+Fmmux_gmp_c_mpz_fac_ui (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
+{
+  assert(2 == nargs);
+  mpz_ptr	rop	= mmux_get_mpz(env, args[0]);
+  mmux_ulint_t	N	= mmux_get_ulint(env, args[1]);
+
+  mpz_fac_ui(rop, N);
+  return mmux_make_nil(env);
+}
+
+/* void mpz_2fac_ui (mpz_t ROP, unsigned long int N) */
+static emacs_value
+Fmmux_gmp_c_mpz_2fac_ui (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
+{
+  assert(2 == nargs);
+  mpz_ptr	rop	= mmux_get_mpz(env, args[0]);
+  mmux_ulint_t	N	= mmux_get_ulint(env, args[1]);
+
+  mpz_2fac_ui(rop, N);
+  return mmux_make_nil(env);
+}
+
+/* void mpz_mfac_uiui (mpz_t ROP, unsigned long int N, unsigned long int M) */
+static emacs_value
+Fmmux_gmp_c_mpz_mfac_uiui (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
+{
+  assert(3 == nargs);
+  mpz_ptr	rop	= mmux_get_mpz(env, args[0]);
+  mmux_ulint_t	N	= mmux_get_ulint(env, args[1]);
+  mmux_ulint_t	M	= mmux_get_ulint(env, args[2]);
+
+  mpz_mfac_uiui(rop, N, M);
+  return mmux_make_nil(env);
+}
+
+/* void mpz_primorial_ui (mpz_t ROP, unsigned long int N) */
+static emacs_value
+Fmmux_gmp_c_mpz_primorial_ui (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
+{
+  assert(2 == nargs);
+  mpz_ptr	rop	= mmux_get_mpz(env, args[0]);
+  mmux_ulint_t	N	= mmux_get_ulint(env, args[1]);
+
+  mpz_primorial_ui(rop, N);
+  return mmux_make_nil(env);
+}
+
+/* void mpz_bin_ui (mpz_t ROP, const mpz_t N, unsigned long int K) */
+static emacs_value
+Fmmux_gmp_c_mpz_bin_ui (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
+{
+  assert(3 == nargs);
+  mpz_ptr	rop	= mmux_get_mpz(env, args[0]);
+  mpz_ptr	N	= mmux_get_mpz(env, args[1]);
+  mmux_ulint_t	K	= mmux_get_ulint(env, args[2]);
+
+  mpz_bin_ui(rop, N, K);
+  return mmux_make_nil(env);
+}
+
+/* void mpz_bin_uiui (mpz_t ROP, unsigned long int N, unsigned long int K) */
+static emacs_value
+Fmmux_gmp_c_mpz_bin_uiui (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
+{
+  assert(3 == nargs);
+  mpz_ptr	rop	= mmux_get_mpz(env, args[0]);
+  mmux_ulint_t	N	= mmux_get_ulint(env, args[1]);
+  mmux_ulint_t	K	= mmux_get_ulint(env, args[2]);
+
+  mpz_bin_uiui(rop, N, K);
+  return mmux_make_nil(env);
+}
+
+/* void mpz_fib_ui (mpz_t FN, unsigned long int N) */
+static emacs_value
+Fmmux_gmp_c_mpz_fib_ui (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
+{
+  assert(2 == nargs);
+  mpz_ptr	FN	= mmux_get_mpz(env, args[0]);
+  mmux_ulint_t	N	= mmux_get_ulint(env, args[1]);
+
+  mpz_fib_ui(FN, N);
+  return mmux_make_nil(env);
+}
+
+/* void mpz_fib2_ui (mpz_t FN, mpz_t FNSUB1, unsigned long int N) */
+static emacs_value
+Fmmux_gmp_c_mpz_fib2_ui (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
+{
+  assert(3 == nargs);
+  mpz_ptr	FN	= mmux_get_mpz(env, args[0]);
+  mpz_ptr	FNSUB1	= mmux_get_mpz(env, args[1]);
+  mmux_ulint_t	N	= mmux_get_ulint(env, args[2]);
+
+  mpz_fib2_ui(FN, FNSUB1, N);
+  return mmux_make_nil(env);
+}
+
+/* void mpz_lucnum_ui (mpz_t LN, unsigned long int N) */
+static emacs_value
+Fmmux_gmp_c_mpz_lucnum_ui (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
+{
+  assert(2 == nargs);
+  mpz_ptr	LN	= mmux_get_mpz(env, args[0]);
+  mmux_ulint_t	N	= mmux_get_ulint(env, args[1]);
+
+  mpz_lucnum_ui(LN, N);
+  return mmux_make_nil(env);
+}
+
+/* void mpz_lucnum2_ui (mpz_t LN, mpz_t LNSUB1, unsigned long int N) */
+static emacs_value
+Fmmux_gmp_c_mpz_lucnum2_ui (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
+{
+  assert(3 == nargs);
+  mpz_ptr	LN	= mmux_get_mpz(env, args[0]);
+  mpz_ptr	LNSUB1	= mmux_get_mpz(env, args[1]);
+  mmux_ulint_t	N	= mmux_get_ulint(env, args[2]);
+
+  mpz_lucnum2_ui(LN, LNSUB1, N);
+  return mmux_make_nil(env);
+}
+
+
+/** --------------------------------------------------------------------
  ** Comparison functions.
  ** ----------------------------------------------------------------- */
 
@@ -1225,7 +1545,7 @@ Fmmux_gmp_c_mpz_sizeinbase (emacs_env *env, ptrdiff_t nargs, emacs_value args[],
  ** Elisp functions table.
  ** ----------------------------------------------------------------- */
 
-#define NUMBER_OF_MODULE_FUNCTIONS	92
+#define NUMBER_OF_MODULE_FUNCTIONS	118
 static module_function_t const module_functions_table[NUMBER_OF_MODULE_FUNCTIONS] = {
   /* Assignment function. */
   {
@@ -1762,6 +2082,190 @@ static module_function_t const module_functions_table[NUMBER_OF_MODULE_FUNCTIONS
     .min_arity		= 1,
     .max_arity		= 1,
     .documentation	= "Return true if OP is a perfect square.",
+  },
+
+  /* Number theoretic functions. */
+  { /* int mpz_probab_prime_p (const mpz_t N, int REPS) */
+    .name		= "mmux-gmp-c-mpz-probab-prime-p",
+    .implementation	= Fmmux_gmp_c_mpz_probab_prime_p,
+    .min_arity		= 2,
+    .max_arity		= 2,
+    .documentation	= "Determine whether N is prime.",
+  },
+  { /* void mpz_nextprime (mpz_t ROP, const mpz_t OP) */
+    .name		= "mmux-gmp-c-mpz-nextprime",
+    .implementation	= Fmmux_gmp_c_mpz_nextprime,
+    .min_arity		= 2,
+    .max_arity		= 2,
+    .documentation	= "Set ROP to the next prime greater than OP.",
+  },
+  { /* void mpz_gcd (mpz_t ROP, const mpz_t OP1, const mpz_t OP2) */
+    .name		= "mmux-gmp-c-mpz-gcd",
+    .implementation	= Fmmux_gmp_c_mpz_gcd,
+    .min_arity		= 3,
+    .max_arity		= 3,
+    .documentation	= "Set ROP to the greatest common divisor of OP1 and OP2.",
+  },
+  { /* unsigned long int mpz_gcd_ui (mpz_t ROP, const mpz_t OP1, unsigned long int OP2) */
+    .name		= "mmux-gmp-c-mpz-gcd-ui",
+    .implementation	= Fmmux_gmp_c_mpz_gcd_ui,
+    .min_arity		= 3,
+    .max_arity		= 3,
+    .documentation	= "Set ROP to the greatest common divisor of OP1 and OP2.",
+  },
+  { /* void mpz_gcdext (mpz_t G, mpz_t S, mpz_t T, const mpz_t A, const mpz_t B) */
+    .name		= "mmux-gmp-c-mpz-gcdext",
+    .implementation	= Fmmux_gmp_c_mpz_gcdext,
+    .min_arity		= 5,
+    .max_arity		= 5,
+    .documentation	= "Set G to the greatest common divisor of A and B, and in addition set S and T to coefficients satisfying A*S + B*T = G.",
+  },
+  { /* void mpz_lcm (mpz_t ROP, const mpz_t OP1, const mpz_t OP2) */
+    .name		= "mmux-gmp-c-mpz-lcm",
+    .implementation	= Fmmux_gmp_c_mpz_lcm,
+    .min_arity		= 3,
+    .max_arity		= 3,
+    .documentation	= "Set ROP to the least common multiple of OP1 and OP2.",
+  },
+  { /* void mpz_lcm_ui (mpz_t ROP, const mpz_t OP1, unsigned long OP2) */
+    .name		= "mmux-gmp-c-mpz-lcm-ui",
+    .implementation	= Fmmux_gmp_c_mpz_lcm_ui,
+    .min_arity		= 3,
+    .max_arity		= 3,
+    .documentation	= "Set ROP to the least common multiple of OP1 and OP2.",
+  },
+  { /* int mpz_invert (mpz_t ROP, const mpz_t OP1, const mpz_t OP2) */
+    .name		= "mmux-gmp-c-mpz-invert",
+    .implementation	= Fmmux_gmp_c_mpz_invert,
+    .min_arity		= 3,
+    .max_arity		= 3,
+    .documentation	= "Compute the inverse of OP1 modulo OP2 and put the result in ROP.",
+  },
+  { /* int mpz_jacobi (const mpz_t A, const mpz_t B) */
+    .name		= "mmux-gmp-c-mpz-jacobi",
+    .implementation	= Fmmux_gmp_c_mpz_jacobi,
+    .min_arity		= 2,
+    .max_arity		= 2,
+    .documentation	= "Calculate the Jacobi symbol (A/B).  This is defined only for B odd.",
+  },
+  { /* int mpz_legendre (const mpz_t A, const mpz_t P) */
+    .name		= "mmux-gmp-c-mpz-legendre",
+    .implementation	= Fmmux_gmp_c_mpz_legendre,
+    .min_arity		= 2,
+    .max_arity		= 2,
+    .documentation	= "Calculate the Legendre symbol (A/P).",
+  },
+  { /* int mpz_kronecker (const mpz_t A, const mpz_t B) */
+    .name		= "mmux-gmp-c-mpz-kronecker",
+    .implementation	= Fmmux_gmp_c_mpz_kronecker,
+    .min_arity		= 2,
+    .max_arity		= 2,
+    .documentation	= "Calculate the Jacobi symbol (A/B) with the Kronecker extension (a/2)=(2/a) when a odd, or (a/2)=0 when a even.",
+  },
+  { /* int mpz_kronecker_si (const mpz_t A, long B) */
+    .name		= "mmux-gmp-c-mpz-kronecker-si",
+    .implementation	= Fmmux_gmp_c_mpz_kronecker_si,
+    .min_arity		= 2,
+    .max_arity		= 2,
+    .documentation	= "Calculate the Jacobi symbol (A/B) with the Kronecker extension (a/2)=(2/a) when a odd, or (a/2)=0 when a even.",
+  },
+  { /* int mpz_kronecker_ui (const mpz_t A, unsigned long B) */
+    .name		= "mmux-gmp-c-mpz-kronecker-ui",
+    .implementation	= Fmmux_gmp_c_mpz_kronecker_ui,
+    .min_arity		= 2,
+    .max_arity		= 2,
+    .documentation	= "Calculate the Jacobi symbol (A/B) with the Kronecker extension (a/2)=(2/a) when a odd, or (a/2)=0 when a even.",
+  },
+  { /* int mpz_si_kronecker (long A, const mpz_t B) */
+    .name		= "mmux-gmp-c-mpz-si-kronecker",
+    .implementation	= Fmmux_gmp_c_mpz_si_kronecker,
+    .min_arity		= 2,
+    .max_arity		= 2,
+    .documentation	= "Calculate the Jacobi symbol (A/B) with the Kronecker extension (a/2)=(2/a) when a odd, or (a/2)=0 when a even.",
+  },
+  { /* int mpz_ui_kronecker (unsigned long A, const mpz_t B) */
+    .name		= "mmux-gmp-c-mpz-ui-kronecker",
+    .implementation	= Fmmux_gmp_c_mpz_ui_kronecker,
+    .min_arity		= 2,
+    .max_arity		= 2,
+    .documentation	= "Calculate the Jacobi symbol (A/B) with the Kronecker extension (a/2)=(2/a) when a odd, or (a/2)=0 when a even.",
+  },
+  { /* mp_bitcnt_t mpz_remove (mpz_t ROP, const mpz_t OP, const mpz_t F) */
+    .name		= "mmux-gmp-c-mpz-remove",
+    .implementation	= Fmmux_gmp_c_mpz_remove,
+    .min_arity		= 3,
+    .max_arity		= 3,
+    .documentation	= "Remove all occurrences of the factor F from OP and store the result in ROP.",
+  },
+  { /* void mpz_fac_ui (mpz_t ROP, unsigned long int N) */
+    .name		= "mmux-gmp-c-mpz-fac-ui",
+    .implementation	= Fmmux_gmp_c_mpz_fac_ui,
+    .min_arity		= 2,
+    .max_arity		= 2,
+    .documentation	= "Set ROP to the factorial of N.",
+  },
+  { /* void mpz_2fac_ui (mpz_t ROP, unsigned long int N) */
+    .name		= "mmux-gmp-c-mpz-2fac-ui",
+    .implementation	= Fmmux_gmp_c_mpz_2fac_ui,
+    .min_arity		= 2,
+    .max_arity		= 2,
+    .documentation	= "Set ROP to the double factorial of N: N!!.",
+  },
+  { /* void mpz_mfac_uiui (mpz_t ROP, unsigned long int N, unsigned long int M) */
+    .name		= "mmux-gmp-c-mpz-mfac-uiui",
+    .implementation	= Fmmux_gmp_c_mpz_mfac_uiui,
+    .min_arity		= 3,
+    .max_arity		= 3,
+    .documentation	= "Set ROP to the M-multi-factorial of N: N!^(M).",
+  },
+  { /* void mpz_primorial_ui (mpz_t ROP, unsigned long int N) */
+    .name		= "mmux-gmp-c-mpz-primorial-ui",
+    .implementation	= Fmmux_gmp_c_mpz_primorial_ui,
+    .min_arity		= 2,
+    .max_arity		= 2,
+    .documentation	= "Set ROP to the primorial of N: the product of all positive prime numbers <=N.",
+  },
+  { /* void mpz_bin_ui (mpz_t ROP, const mpz_t N, unsigned long int K) */
+    .name		= "mmux-gmp-c-mpz-bin-ui",
+    .implementation	= Fmmux_gmp_c_mpz_bin_ui,
+    .min_arity		= 3,
+    .max_arity		= 3,
+    .documentation	= "Compute the binomial coefficient N over K and store the result in ROP.",
+  },
+  { /* void mpz_bin_uiui (mpz_t ROP, unsigned long int N, unsigned long int K) */
+    .name		= "mmux-gmp-c-mpz-bin-uiui",
+    .implementation	= Fmmux_gmp_c_mpz_bin_uiui,
+    .min_arity		= 3,
+    .max_arity		= 3,
+    .documentation	= "Compute the binomial coefficient N over K and store the result in ROP.",
+  },
+  { /* void mpz_fib_ui (mpz_t FN, unsigned long int N) */
+    .name		= "mmux-gmp-c-mpz-fib-ui",
+    .implementation	= Fmmux_gmp_c_mpz_fib_ui,
+    .min_arity		= 2,
+    .max_arity		= 2,
+    .documentation	= "Set FN to to F[N]: the N'th Fibonacci number.",
+  },
+  { /* void mpz_fib2_ui (mpz_t FN, mpz_t FNSUB1, unsigned long int N) */
+    .name		= "mmux-gmp-c-mpz-fib2-ui",
+    .implementation	= Fmmux_gmp_c_mpz_fib2_ui,
+    .min_arity		= 3,
+    .max_arity		= 3,
+    .documentation	= "Set FN to to F[N]: the N'th Fibonacci number.  Set FNSUB1 to to F[N-1].",
+  },
+  { /* void mpz_lucnum_ui (mpz_t LN, unsigned long int N) */
+    .name		= "mmux-gmp-c-mpz-lucnum-ui",
+    .implementation	= Fmmux_gmp_c_mpz_lucnum_ui,
+    .min_arity		= 2,
+    .max_arity		= 2,
+    .documentation	= "Set LN to to L[N]: the N'th Lucas number.",
+  },
+  { /* void mpz_lucnum2_ui (mpz_t LN, mpz_t LNSUB1, unsigned long int N) */
+    .name		= "mmux-gmp-c-mpz-lucnum2-ui",
+    .implementation	= Fmmux_gmp_c_mpz_lucnum2_ui,
+    .min_arity		= 3,
+    .max_arity		= 3,
+    .documentation	= "Set LN to to L[N]: the N'th Lucas number.  Set LNSUB1 to to L[N-1].",
   },
 
   /* Comparison functions. */

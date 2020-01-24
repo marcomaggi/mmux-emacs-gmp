@@ -17,6 +17,11 @@
 
 ;;; Commentary:
 
+;;For numeric examples, look at the site:
+;;
+;; https://documentation.help/Math.Gmp.Native.NET/38be0c24-42ac-e0ea-9e18-e75e3bda2a1e.htm
+;;
+
 ;;; Code:
 
 (require 'ert)
@@ -27,6 +32,9 @@
 
 (defmacro check (EXPR => RESULT)
   `(should (equal ,RESULT ,EXPR)))
+
+(defun mmux-gmp-print-stderr (obj)
+  (print obj #'external-debugging-output))
 
 
 ;;;; allocation functions
@@ -828,6 +836,254 @@
   (should (not (mpz-perfect-square-p (mpz 7)))))
 
 
+;;;; number theoretic functions
+
+;; int mpz_probab_prime_p (const mpz_t N, int REPS)
+(ert-deftest mpz-probab-prime-p ()
+  "Determine whether N is prime."
+  (should (equal 2 (mpz-probab-prime-p (mpz 3) 2))))
+
+;; void mpz_nextprime (mpz_t ROP, const mpz_t OP)
+(ert-deftest mpz-nextprime ()
+  "Set ROP to the next prime greater than OP."
+  (let ((rop	(mpz))
+	(op	(mpz 5)))
+    (mpz-nextprime rop op)
+    (should (equal 7 (mpz-get-si rop)))))
+
+;; void mpz_gcd (mpz_t ROP, const mpz_t OP1, const mpz_t OP2)
+(ert-deftest mpz-gcd ()
+  "Set ROP to the greatest common divisor of OP1 and OP2."
+  (let ((rop	(mpz))
+	(op1	(mpz 10))
+	(op2	(mpz 12)))
+    (mpz-gcd rop op1 op2)
+    (should (equal 2 (mpz-get-si rop)))))
+
+;; unsigned long int mpz_gcd_ui (mpz_t ROP, const mpz_t OP1, unsigned long int OP2)
+(ert-deftest mpz-gcd-ui ()
+  "Set ROP to the greatest common divisor of OP1 and OP2."
+  (let ((rop	(mpz))
+	(op1	(mpz 10))
+	(op2	12))
+    (let ((rop1 (mpz-gcd-ui rop op1 op2)))
+      (should (equal 2 (mpz-get-si rop)))
+      (should (equal 2 rop1)))))
+
+;; void mpz_gcdext (mpz_t G, mpz_t S, mpz_t T, const mpz_t A, const mpz_t B)
+(ert-deftest mpz-gcdext ()
+  "Set G to the greatest common divisor of A and B, and in addition set S and T to coefficients satisfying A*S + B*T = G."
+  (let ((G	(mpz))
+	(S	(mpz))
+	(T	(mpz))
+	(A	(mpz 110))
+	(B	(mpz 82)))
+    (mpz-gcdext G S T A B)
+    ;;(mmux-gmp-print-stderr (list (mpz-get-si G) (mpz-get-si S) (mpz-get-si T) (mpz-get-si A) (mpz-get-si B)) )
+    (should (equal +2 (mpz-get-si G)))
+    (should (equal +3 (mpz-get-si S)))
+    (should (equal -4 (mpz-get-si T)))
+    ;; A * S + B * T = G -> 110 * 3 + 82 * (-4) = 2
+    (should (equal (mpz-get-si G) (+ (* (mpz-get-si A) (mpz-get-si S))
+				     (* (mpz-get-si B) (mpz-get-si T)))))))
+
+;; void mpz_lcm (mpz_t ROP, const mpz_t OP1, const mpz_t OP2)
+(ert-deftest mpz-lcm ()
+  "Set ROP to the least common multiple of OP1 and OP2."
+  (let ((rop	(mpz))
+	(op1	(mpz (* 2 5)))
+	(op2	(mpz (* 2 7))))
+    (mpz-lcm rop op1 op2)
+    (should (equal (* 2 7 5) (mpz-get-si rop)))))
+
+;; void mpz_lcm_ui (mpz_t ROP, const mpz_t OP1, unsigned long OP2)
+(ert-deftest mpz-lcm-ui ()
+  "Set ROP to the least common multiple of OP1 and OP2."
+  (let ((rop	(mpz))
+	(op1	(mpz (* 2 5)))
+	(op2	(* 2 7)))
+    (mpz-lcm-ui rop op1 op2)
+    (should (equal (* 2 7 5) (mpz-get-si rop)))))
+
+;; int mpz_invert (mpz_t ROP, const mpz_t OP1, const mpz_t OP2)
+(ert-deftest mpz-invert ()
+  "Compute the inverse of OP1 modulo OP2 and put the result in ROP."
+  ;;OP2 divides (evenly) the quantity ROP * OP1 − 1
+  ;;
+  ;; ROP * OP1 = X * OP2 + 1
+  ;; 4 * 3 = 1 * 11 + 1
+  (let ((rop	(mpz))
+	(op1	(mpz 3))
+	(op2	(mpz 11)))
+    (let ((rv (mpz-invert rop op1 op2)))
+      (should rv)
+      (should (equal 4 (mpz-get-si rop))))))
+
+;; int mpz_jacobi (const mpz_t A, const mpz_t B)
+(ert-deftest mpz-jacobi ()
+  "Calculate the Jacobi symbol (A/B).  This is defined only for B odd."
+  (let ((A	(mpz 11))
+	(B	(mpz 9)))
+    (should (equal 1 (mpz-jacobi A B)))))
+
+;; int mpz_legendre (const mpz_t A, const mpz_t P)
+(ert-deftest mpz-legendre ()
+  "Calculate the Legendre symbol (A/P)."
+  (let ((A	(mpz 20))
+	(P	(mpz 11)))
+    (should (equal 1 (mpz-legendre A P)))))
+
+;; int mpz_kronecker (const mpz_t A, const mpz_t B)
+(ert-deftest mpz-kronecker ()
+  "Calculate the Jacobi symbol (A/B) with the Kronecker extension (a/2)=(2/a) when a odd, or (a/2)=0 when a even."
+  (let ((A	(mpz 15))
+	(B	(mpz 4)))
+    (should (equal 1 (mpz-kronecker A B)))))
+
+;; int mpz_kronecker_si (const mpz_t A, long B)
+(ert-deftest mpz-kronecker-si ()
+  "Calculate the Jacobi symbol (A/B) with the Kronecker extension (a/2)=(2/a) when a odd, or (a/2)=0 when a even."
+  (let ((A	(mpz 15))
+	(B	4))
+    (should (equal 1 (mpz-kronecker-si A B)))))
+
+;; int mpz_kronecker_ui (const mpz_t A, unsigned long B)
+(ert-deftest mpz-kronecker-ui ()
+  "Calculate the Jacobi symbol (A/B) with the Kronecker extension (a/2)=(2/a) when a odd, or (a/2)=0 when a even."
+  (let ((A	(mpz 15))
+	(B	4))
+    (should (equal 1 (mpz-kronecker-ui A B)))))
+
+;; int mpz_si_kronecker (long A, const mpz_t B)
+(ert-deftest mpz-si-kronecker ()
+  "Calculate the Jacobi symbol (A/B) with the Kronecker extension (a/2)=(2/a) when a odd, or (a/2)=0 when a even."
+  (let ((A	15)
+	(B	(mpz 4)))
+    (should (equal 1 (mpz-si-kronecker A B)))))
+
+;; int mpz_ui_kronecker (unsigned long A, const mpz_t B)
+(ert-deftest mpz-ui-kronecker ()
+  "Calculate the Jacobi symbol (A/B) with the Kronecker extension (a/2)=(2/a) when a odd, or (a/2)=0 when a even."
+  (let ((A	15)
+	(B	(mpz 4)))
+    (should (equal 1 (mpz-ui-kronecker A B)))))
+
+;; mp_bitcnt_t mpz_remove (mpz_t ROP, const mpz_t OP, const mpz_t F)
+(ert-deftest mpz-remove ()
+  "Remove all occurrences of the factor F from OP and store the result in ROP."
+  (let ((rop	(mpz))
+	(op	(mpz 45))
+	(F	(mpz 3)))
+    (let ((rv (mpz-remove rop op F)))
+      (should (equal 2 rv))
+      (should (equal 5 (mpz-get-si rop))))))
+
+;; void mpz_fac_ui (mpz_t ROP, unsigned long int N)
+(ert-deftest mpz-fac-ui ()
+  "Set ROP to the factorial of N."
+  (let ((rop	(mpz))
+	(N	4))
+    (mpz-fac-ui rop N)
+    (should (equal (* 4 3 2 1) (mpz-get-si rop)))))
+
+;; void mpz_2fac_ui (mpz_t ROP, unsigned long int N)
+(ert-deftest mpz-2fac-ui ()
+  "Set ROP to the double factorial of N: N!!."
+  (let ((rop	(mpz))
+	(N	9))
+    (mpz-2fac-ui rop N)
+    ;;See:
+    ;;
+    ;;  https://en.wikipedia.org/wiki/Factorial#Multifactorials
+    ;;
+    ;;from the full factorial select the first number every 2:
+    ;;
+    ;; (* 9 8 7 6 5 4 3 2 1) -> (* 9 7 5 3 1) => 945
+    ;;    ^   ^   ^   ^   ^
+    ;;
+    (should (equal (* 9 7 5 3 1) (mpz-get-si rop)))))
+
+;; void mpz_mfac_uiui (mpz_t ROP, unsigned long int N, unsigned long int M)
+(ert-deftest mpz-mfac-uiui ()
+  "Set ROP to the M-multi-factorial of N: N!^(M)."
+  (let ((rop	(mpz))
+	(N	10)
+	(M	4))
+    (mpz-mfac-uiui rop N M)
+    ;;See:
+    ;;
+    ;;  https://en.wikipedia.org/wiki/Factorial#Multifactorials
+    ;;
+    ;;from the full factorial select the first number every 4:
+    ;;
+    ;;(* 10 9 8 7 6 5 4 3 2 1) -> (* 10 6 2) => 120
+    ;;   ^        ^       ^
+    (should (equal (* 10 6 2) (mpz-get-si rop)))))
+
+;; void mpz_primorial_ui (mpz_t ROP, unsigned long int N)
+(ert-deftest mpz-primorial-ui ()
+  "Set ROP to the primorial of N: the product of all positive prime numbers <=N."
+  ;; (* 7 5 3 2 1) => 210
+  (let ((rop	(mpz))
+	(op	7))
+    (mpz-primorial-ui rop op)
+    (should (equal 210 (mpz-get-si rop)))))
+
+;; void mpz_bin_ui (mpz_t ROP, const mpz_t N, unsigned long int K)
+(ert-deftest mpz-bin-ui ()
+  "Compute the binomial coefficient N over K and store the result in ROP."
+  (let ((rop	(mpz))
+	(N	(mpz 4))
+	(K	2))
+    (mpz-bin-ui rop N K)
+    (should (equal 6 (mpz-get-si rop)))))
+
+;; void mpz_bin_uiui (mpz_t ROP, unsigned long int N, unsigned long int K)
+(ert-deftest mpz-bin-uiui ()
+  "Compute the binomial coefficient N over K and store the result in ROP."
+  (let ((rop	(mpz))
+	(N	4)
+	(K	2))
+    (mpz-bin-uiui rop N K)
+    (should (equal 6 (mpz-get-si rop)))))
+
+;; void mpz_fib_ui (mpz_t FN, unsigned long int N)
+(ert-deftest mpz-fib-ui ()
+  "Set FN to to F[N]: the N'th Fibonacci number."
+  (let ((FN	(mpz))
+	(N	20))
+    (mpz-fib-ui FN N)
+    (should (equal 6765 (mpz-get-si FN)))))
+
+;; void mpz_fib2_ui (mpz_t FN, mpz_t FNSUB1, unsigned long int N)
+(ert-deftest mpz-fib2-ui ()
+  "Set FN to to F[N]: the N'th Fibonacci number.  Set FNSUB1 to to F[N-1]."
+  (let ((FN	(mpz))
+	(FNSUB1	(mpz))
+	(N	20))
+    (mpz-fib2-ui FN FNSUB1 N)
+    (should (equal 6765 (mpz-get-si FN)))
+    (should (equal 4181 (mpz-get-si FNSUB1)))))
+
+;; void mpz_lucnum_ui (mpz_t LN, unsigned long int N)
+(ert-deftest mpz-lucnum-ui ()
+  "Set LN to to L[N]: the N'th Lucas number."
+  (let ((LN	(mpz))
+	(N	9))
+    (mpz-lucnum-ui LN N)
+    (should (equal 76 (mpz-get-si LN)))))
+
+;; void mpz_lucnum2_ui (mpz_t LN, mpz_t LNSUB1, unsigned long int N)
+(ert-deftest mpz-lucnum2-ui ()
+  "Set LN to to L[N]: the N'th Lucas number.  Set LNSUB1 to to L[N-1]."
+  (let ((LN	(mpz))
+	(LNSUB1	(mpz))
+	(N	9))
+    (mpz-lucnum2-ui LN LNSUB1 N)
+    (should (equal 76 (mpz-get-si LN)))
+    (should (equal 47 (mpz-get-si LNSUB1)))))
+
+
 ;;;; comparison
 
 ;; int mpz_cmp (const mpz_t OP1, const mpz_t OP2)
@@ -889,6 +1145,48 @@
   (should (equal +1 (mpz-sgn (mpz +1))))
   (should (equal  0 (mpz-sgn (mpz  0))))
   (should (equal -1 (mpz-sgn (mpz -1)))))
+
+;;; --------------------------------------------------------------------
+
+(ert-deftest mpz-zero-p ()
+  "Return true if OP is zero; otherwise return false."
+  (should (not (mpz-zero-p (mpz -1))))
+  (should      (mpz-zero-p (mpz  0)))
+  (should (not (mpz-zero-p (mpz +1)))))
+
+(ert-deftest mpz-non-zero-p ()
+  "Return true if OP is non-zero; otherwise return false."
+  (should      (mpz-non-zero-p (mpz -1)))
+  (should (not (mpz-non-zero-p (mpz  0))))
+  (should      (mpz-non-zero-p (mpz +1))))
+
+;;; --------------------------------------------------------------------
+
+(ert-deftest mpz-positive-p ()
+  "Return true if OP is strictly positive; otherwise return false."
+  (should (not (mpz-positive-p (mpz -1))))
+  (should (not (mpz-positive-p (mpz  0))))
+  (should      (mpz-positive-p (mpz +1))))
+
+(ert-deftest mpz-negative-p ()
+  "Return true if OP is strictly negative; otherwise return false."
+  (should      (mpz-negative-p (mpz -1)))
+  (should (not (mpz-negative-p (mpz  0))))
+  (should (not (mpz-negative-p (mpz +1)))))
+
+;;; --------------------------------------------------------------------
+
+(ert-deftest mpz-non-positive-p ()
+  "Return true if OP is non-positive; otherwise return false."
+  (should      (mpz-non-positive-p (mpz -1)))
+  (should      (mpz-non-positive-p (mpz  0)))
+  (should (not (mpz-non-positive-p (mpz +1)))))
+
+(ert-deftest mpz-non-negative-p ()
+  "Return true if OP is non-negative; otherwise return false."
+  (should (not (mpz-non-negative-p (mpz -1))))
+  (should      (mpz-non-negative-p (mpz  0)))
+  (should      (mpz-non-negative-p (mpz +1))))
 
 
 ;;;; miscellaneous functions

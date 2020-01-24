@@ -126,6 +126,11 @@
 #undef  mmux_get_prec
 #define mmux_get_prec(ENV, ARG)		((mp_prec_t)((ENV)->extract_integer((ENV), (ARG))))
 
+/* ------------------------------------------------------------------ */
+
+#undef  mmux_make_bitcnt
+#define mmux_make_bitcnt(ENV, ARG)	(mmux_make_int((ENV), (ARG)))
+
 
 /** --------------------------------------------------------------------
  ** Type definitions.

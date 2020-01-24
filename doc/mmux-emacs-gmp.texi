@@ -305,6 +305,7 @@ garbage collected.
 * integers exponentiation::     Exponentiation operations.
 * integers roots::              Root extraction functions.
 * integers comparison::         Commparison functions.
+* integers theoretic::          Number theoretic functions.
 * integers miscellaneous::      Miscellaneous functions.
 @end menu
 
@@ -1643,6 +1644,447 @@ Return an integer representing the sign of the operand.
 (mpz-sgn (mpz +1))      @result{} +1
 (mpz-sgn (mpz  0))      @result{} 0
 (mpz-sgn (mpz -1))      @result{} -1
+@end lisp
+@end deffn
+
+@c ------------------------------------------------------------------------
+
+@deffn {Generic Function} mpz-zero-p (@var{OP})
+@deffnx {Method} mpz-zero-p ((@var{OP} mpz))
+Return true if @var{OP} is zero; otherwise return false.
+@end deffn
+
+
+@deffn {Generic Function} mpz-non-zero-p (@var{OP})
+@deffnx {Method} mpz-non-zero-p ((@var{OP} mpz))
+Return true if @var{OP} is non-zero; otherwise return false.
+@end deffn
+
+
+@deffn {Generic Function} mpz-positive-p (@var{OP})
+@deffnx {Method} mpz-positive-p ((@var{OP} mpz))
+Return true if @var{OP} is strictly positive; otherwise return false.
+@end deffn
+
+@deffn {Generic Function} mpz-negative-p (@var{OP})
+@deffnx {Method} mpz-negative-p ((@var{OP} mpz))
+Return true if @var{OP} is strictly negative; otherwise return false.
+@end deffn
+
+
+@deffn {Generic Function} mpz-non-positive-p (@var{OP})
+@deffnx {Method} mpz-non-positive-p ((@var{OP} mpz))
+Return true if @var{OP} is non-positive; otherwise return false.
+@end deffn
+
+
+@deffn {Generic Function} mpz-non-negative-p (@var{OP})
+@deffnx {Method} mpz-non-negative-p ((@var{OP} mpz))
+Return true if @var{OP} is non-negative; otherwise return false.
+@end deffn
+
+@c page
+@node integers theoretic
+@section Number theoretic functions
+
+
+@deffn {Generic Function} mpz-probab-prime-p (@var{N} @var{REPS})
+@deffnx {Method} mpz-probab-prime-p ((@var{N} mpz) (@var{REPS} integer))
+Determine whether @var{N} is prime.
+
+@lisp
+(mpz-probab-prime-p (mpz 3) 2)
+@result{} 2
+@end lisp
+@end deffn
+
+
+@deffn {Generic Function} mpz-nextprime (@var{ROP} @var{OP})
+@deffnx {Method} mpz-nextprime ((@var{ROP} mpz) (@var{OP} mpz))
+Set @var{ROP} to the next prime greater than @var{OP}.
+
+@lisp
+(let ((rop    (mpz))
+      (op     (mpz 5)))
+  (mpz-nextprime rop op)
+  (mpz-get-si rop))
+@result{} 7a
+@end lisp
+@end deffn
+
+
+@deffn {Generic Function} mpz-gcd (@var{ROP} @var{OP1} @var{OP2})
+@deffnx {Method} mpz-gcd ((@var{ROP} mpz) (@var{OP1} mpz) (@var{OP2} mpz))
+Set @var{ROP} to the greatest common divisor of @var{OP1} and @var{OP2}.
+
+@lisp
+(let ((rop    (mpz))
+      (op1    (mpz 10))
+      (op2    (mpz 12)))
+  (mpz-gcd rop op1 op2)
+  (mpz-get-si rop))
+@result{} 2
+@end lisp
+@end deffn
+
+
+@deffn {Generic Function} mpz-gcd-ui (@var{ROP} @var{OP1} @var{OP2})
+@deffnx {Method} mpz-gcd-ui ((@var{ROP} mpz) (@var{OP1} mpz) (@var{OP2} integer))
+Set @var{ROP} to the greatest common divisor of @var{OP1} and @var{OP2}.
+
+@lisp
+(let ((rop    (mpz))
+      (op1    (mpz 10))
+      (op2    12))
+  (let ((rop1 (mpz-gcd-ui rop op1 op2)))
+    (mpz-get-si rop)    @result{} 2
+    rop1))              @result{} 2
+@end lisp
+@end deffn
+
+
+@deffn {Generic Function} mpz-gcdext (@var{G} @var{S} @var{T} @var{A} @var{B})
+@deffnx {Method} mpz-gcdext ((G mpz) (S mpz) (T mpz) (A mpz) (B mpz))
+Set @var{G} to the greatest common divisor of @var{A} and @var{B}, and in addition set @var{S} and
+@var{T} to coefficients satisfying @var{A}*@var{S} + @var{B}*@var{T} = @var{G}.
+
+@lisp
+;; A * S + B * T = G -> 110 * 3 + 82 * (-4) = 2
+(let ((G      (mpz))
+      (S      (mpz))
+      (T      (mpz))
+      (A      (mpz 110))
+      (B      (mpz 82)))
+  (mpz-gcdext G S T A B)
+  (mpz-get-si G)        @result{} +2
+  (mpz-get-si S)        @result{} +3
+  (mpz-get-si T))       @result{} -4
+@end lisp
+@end deffn
+
+
+@deffn {Generic Function} mpz-lcm (@var{ROP} @var{OP1} @var{OP2})
+@deffnx {Method} mpz-@var{LCM} ((rop mpz) (@var{OP1} mpz) (@var{OP2} mpz))
+Set @var{ROP} to the least common multiple of @var{OP1} and @var{OP2}.
+
+@lisp
+;;(* 2 7 5) => 70
+(let ((rop    (mpz))
+      (op1    (mpz (* 2 5)))
+      (op2    (mpz (* 2 7))))
+  (mpz-lcm rop op1 op2)
+  (mpz-get-si rop))
+@result{} 70
+@end lisp
+@end deffn
+
+
+@deffn {Generic Function} mpz-lcm-ui (@var{ROP} @var{OP1} @var{OP2})
+@deffnx {Method} mpz-lcm-ui ((@var{ROP} mpz) (@var{OP1} mpz) (@var{OP2} integer))
+Set @var{ROP} to the least common multiple of @var{OP1} and @var{OP2}.
+
+@lisp
+;;(* 2 7 5) => 70
+(let ((rop    (mpz))
+      (op1    (mpz (* 2 5)))
+      (op2    (* 2 7)))
+  (mpz-lcm-ui rop op1 op2)
+  (mpz-get-si rop))
+@result{} 70
+@end lisp
+@end deffn
+
+
+@deffn {Generic Function} mpz-invert (@var{ROP} @var{OP1} @var{OP2})
+@deffnx {Method} mpz-invert ((@var{ROP} mpz) (@var{OP1} mpz) (@var{OP2} mpz))
+Compute the inverse of @var{OP1} modulo @var{OP2} and put the result in @var{ROP}.  See:
+
+@center @url{https://en.wikipedia.org/wiki/Modular_multiplicative_inverse}
+
+@lisp
+;;OP2 divides (evenly) the quantity ROP * OP1 - 1
+;;
+;; ROP * OP1 = X * OP2 + 1
+;; 4 * 3 = 1 * 11 + 1
+;;
+(let ((rop    (mpz))
+      (op1    (mpz 3))
+      (op2    (mpz 11)))
+  (let ((rv (mpz-invert rop op1 op2)))
+    rv                  @result{} t
+    (mpz-get-si rop)))  @result{} 4
+@end lisp
+@end deffn
+
+
+@deffn {Generic Function} mpz-jacobi (@var{A} @var{B})
+@deffnx {Method} mpz-jacobi ((@var{A} mpz) (@var{B} mpz))
+Calculate the Jacobi symbol (@var{A}/@var{B}).  This is defined only for @var{B} odd.
+
+@lisp
+(let ((A      (mpz 11))
+      (B      (mpz 9)))
+  (mpz-jacobi A B))
+@result{} 1
+@end lisp
+@end deffn
+
+
+@deffn {Generic Function} mpz-legendre (@var{A} @var{B})
+@deffnx {Method} mpz-legendre ((@var{A} mpz) (@var{B} mpz))
+Calculate the Legendre symbol (@var{A}/@var{P}).
+
+@lisp
+(let ((A      (mpz 20))
+      (P      (mpz 11)))
+  (mpz-legendre A P))
+@result{} 1
+@end lisp
+@end deffn
+
+
+@deffn {Generic Function} mpz-kronecker (@var{A} @var{B})
+@deffnx {Method} mpz-kronecker ((@var{A} mpz) (@var{B} mpz))
+Calculate the Jacobi symbol (@var{A}/@var{B}) with the Kronecker extension (@var{A}/2)=(@var{2}/A)
+when a odd, or (@var{A}/2)=0 @var{WHEN} a even.
+
+@lisp
+(let ((A      (mpz 15))
+      (B      (mpz 4)))
+  (mpz-kronecker A B))
+@result{} 1
+@end lisp
+@end deffn
+
+
+@deffn {Generic Function} mpz-kronecker-si (@var{A} @var{B})
+@deffnx {Method} mpz-kronecker-si ((@var{A} mpz) (@var{B} integer))
+Calculate the Jacobi symbol (@var{A}/@var{B}) with the Kronecker extension (@var{A}/2)=(2/@var{A})
+when @var{A} odd, or (@var{A}/2)=0 when a even.
+
+@lisp
+(let ((A      (mpz 15))
+      (B      4))
+  (mpz-kronecker-si A B))
+@result{} 1
+@end lisp
+@end deffn
+
+
+@deffn {Generic Function} mpz-kronecker-ui (@var{A} @var{B})
+@deffnx {Method} mpz-kronecker-ui ((@var{A} mpz) (@var{B} integer))
+Calculate the Jacobi symbol (@var{A}/@var{B}) with the Kronecker extension (@var{A}/2)=(2/@var{A})
+when @var{A} odd, or (@var{A}/2)=0 when a even.
+
+@lisp
+(let ((A      (mpz 15))
+      (B      4))
+  (mpz-kronecker-ui A B))
+@result{} 1
+@end lisp
+@end deffn
+
+
+@deffn {Generic Function} mpz-si-kronecker (A B)
+@deffnx {Method} mpz-si-kronecker ((A integer) (B mpz))
+Calculate the Jacobi symbol (@var{A}/@var{B}) with the Kronecker extension (@var{A}/2)=(2/@var{A})
+when @var{A} odd, or (@var{A}/2)=0 when a even.
+
+@lisp
+(let ((A      15)
+      (B      (mpz 4)))
+  (mpz-si-kronecker A B))
+@result{} 1
+@end lisp
+@end deffn
+
+
+@deffn {Generic Function} mpz-ui-kronecker (A B)
+@deffnx {Method} mpz-ui-kronecker ((A integer) (B mpz))
+Calculate the Jacobi symbol (@var{A}/@var{B}) with the Kronecker extension (@var{A}/2)=(2/@var{A})
+when @var{A} odd, or (@var{A}/2)=0 when a even.
+
+@lisp
+(let ((A      15)
+      (B      (mpz 4)))
+  (mpz-ui-kronecker A B))
+@result{} 1
+@end lisp
+@end deffn
+
+
+@deffn {Generic Function} mpz-remove (@var{ROP} @var{OP} @var{F})
+@deffnx {Method} mpz-remove ((@var{ROP} mpz) (@var{OP} mpz) (@var{F} mpz))
+Remove all occurrences of the factor @var{F} from @var{OP} and store the result in @var{ROP}.
+
+@lisp
+(let ((rop    (mpz))
+      (op     (mpz 45))
+      (F      (mpz 3)))
+  (let ((rv (mpz-remove rop op F)))
+    rv                  @result{} 2
+    (mpz-get-si rop)))  @result{} 5
+@end lisp
+@end deffn
+
+
+@deffn {Generic Function} mpz-fac-ui (@var{ROP} @var{N})
+@deffnx {Method} mpz-fac-ui ((@var{ROP} mpz) (@var{N} integer))
+Set @var{ROP} to the factorial of @var{N}.
+
+@lisp
+;; (* 4 3 2 1) => 24
+(let ((rop    (mpz))
+      (N      4))
+  (mpz-fac-ui rop N)
+  (mpz-get-si rop))
+@result{} 24
+@end lisp
+@end deffn
+
+
+@deffn {Generic Function} mpz-2fac-ui (@var{ROP} @var{N})
+@deffnx {Method} mpz-2fac-ui ((@var{ROP} mpz) (@var{N} integer))
+Set @var{ROP} to the double factorial of @var{N}: @var{N}!!.  See:
+
+@center @url{https://en.wikipedia.org/wiki/Factorial#Multifactorials}
+
+@lisp
+;;from the full factorial select the first number every 2:
+;;
+;; (* 9 8 7 6 5 4 3 2 1) -> (* 9 7 5 3 1) => 945
+;;    ^   ^   ^   ^   ^
+;;
+(let ((rop    (mpz))
+      (N      9))
+  (mpz-2fac-ui rop N)
+  (mpz-get-si rop))
+@result{} 945
+@end lisp
+@end deffn
+
+
+@deffn {Generic Function} mpz-mfac-uiui (@var{ROP} @var{N} @var{M})
+@deffnx {Method} mpz-mfac-uiui ((@var{ROP} mpz) (@var{N} integer) (@var{M} integer))
+Set @var{ROP} to the @var{M}--multi--factorial of @var{N}: @var{N}!^(@var{M}).  See:
+
+@center @url{https://en.wikipedia.org/wiki/Factorial#Multifactorials}
+
+@lisp
+;;from the full factorial select the first number every 4:
+;;
+;;(* 10 9 8 7 6 5 4 3 2 1) -> (* 10 6 2) => 120
+;;   ^        ^       ^
+(let ((rop    (mpz))
+      (N      10)
+      (M      4))
+  (mpz-mfac-uiui rop N M)
+  (mpz-get-si rop))
+@result{} 120
+@end lisp
+@end deffn
+
+
+@deffn {Generic Function} mpz-primorial-ui (@var{ROP} @var{N})
+@deffnx {Method} mpz-primorial-ui ((@var{ROP} mpz) (@var{N} integer))
+Set @var{ROP} to the primorial of @var{N}: the product of all positive prime numbers <=@var{N}.
+
+@lisp
+;; (* 7 5 3 2 1) => 210
+(let ((rop    (mpz))
+      (op     7))
+  (mpz-primorial-ui rop op)
+  (mpz-get-si rop))
+@result{} 210
+@end lisp
+@end deffn
+
+
+@deffn {Generic Function} mpz-bin-ui (@var{ROP} @var{N} @var{K})
+@deffnx {Method} mpz-bin-ui ((@var{ROP} mpz) (@var{N} mpz) (@var{K} integer))
+Compute the binomial coefficient @var{N} over @var{K} and store the result in @var{ROP}.
+
+@lisp
+(let ((rop    (mpz))
+      (N      (mpz 4))
+      (K      2))
+  (mpz-bin-ui rop N K)
+  (mpz-get-si rop))
+@result{} 6
+@end lisp
+@end deffn
+
+
+@deffn {Generic Function} mpz-bin-uiui (@var{ROP} @var{N} @var{K})
+@deffnx {Method} mpz-bin-uiui ((@var{ROP} mpz) (@var{N} integer) (@var{K} integer))
+Compute the binomial coefficient @var{N} over @var{K} and store the result in @var{ROP}.
+
+@lisp
+(let ((rop    (mpz))
+      (N      4)
+      (K      2))
+  (mpz-bin-uiui rop N K)
+  (mpz-get-si rop))
+@result{} 6
+@end lisp
+@end deffn
+
+
+@deffn {Generic Function} mpz-fib-ui (@var{FN} @var{N})
+@deffnx {Method} mpz-fib-ui ((@var{FN} mpz) (@var{N} integer))
+Set @var{FN} to to F[@var{N}]: the @var{N}'th Fibonacci number.
+
+@lisp
+(let ((FN     (mpz))
+      (N      20))
+  (mpz-fib-ui FN N)
+  (mpz-get-si FN))
+@result{} 6765
+@end lisp
+@end deffn
+
+
+@deffn {Generic Function} mpz-fib2-ui (FN FNSUB1 N)
+@deffnx {Method} mpz-fib2-ui ((FN mpz) (FNSUB1 mpz) (N integer))
+Set @var{FN} to to F[@var{N}]: the @var{N}'th Fibonacci number.  Set @var{FNSUB1} to to
+F[@var{N}-1].
+
+@lisp
+(let ((FN     (mpz))
+      (FNSUB1 (mpz))
+      (N      20))
+  (mpz-fib2-ui FN FNSUB1 N)
+  (mpz-get-si FN)               @result{} 6765
+  (mpz-get-si FNSUB1))          @result{} 4181
+@end lisp
+@end deffn
+
+
+@deffn {Generic Function} mpz-lucnum-ui (@var{LN} @var{N})
+@deffnx {Method} mpz-lucnum-ui ((@var{LN} mpz) (@var{N} mpz))
+Set @var{LN} to to L[@var{N}]: the @var{N}'th Lucas number.
+
+@lisp
+(let ((LN     (mpz))
+      (N      9))
+  (mpz-lucnum-ui LN N)
+  (mpz-get-si LN))
+@result{} 76
+@end lisp
+@end deffn
+
+
+@deffn {Generic Function} mpz-lucnum2-ui (@var{LN} @var{LNSUB1} @var{N})
+@deffnx {Method} mpz-lucnum2-ui ((@var{LN} mpz) (@var{LNSUB1} mpz) (@var{N} integer))
+Set @var{LN} to to L[@var{N}]: the @var{N}'th Lucas number.  Set @var{LNSUB1} to to L[@var{N}-1].
+
+@lisp
+(let ((LN     (mpz))
+      (LNSUB1 (mpz))
+      (N      9))
+  (mpz-lucnum2-ui LN LNSUB1 N)
+  (mpz-get-si LN)       @result{} 76
+  (mpz-get-si LNSUB1))  @result{} 47
 @end lisp
 @end deffn
 
