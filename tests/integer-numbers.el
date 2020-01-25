@@ -1189,6 +1189,111 @@
   (should      (mpz-non-negative-p (mpz +1))))
 
 
+;;;; logical and bit manipulation functions
+
+;; void mpz_and (mpz_t ROP, const mpz_t OP1, const mpz_t OP2)
+(ert-deftest mpz-and ()
+  "Set ROP to OP1 bitwise-and OP2."
+  (let ((rop	(mpz))
+	(op1	(mpz #b1010101))
+	(op2	(mpz #b1101011)))
+    (mpz-and rop op1 op2)
+    (should (equal #b1000001 (mpz-get-si rop)))))
+
+;; void mpz_ior (mpz_t ROP, const mpz_t OP1, const mpz_t OP2)
+(ert-deftest mpz-ior ()
+  "Set ROP to OP1 bitwise inclusive-or OP2."
+  (let ((rop	(mpz))
+	(op1	(mpz #b1010101))
+	(op2	(mpz #b1110101)))
+    (mpz-ior rop op1 op2)
+    (should (equal #b1110101 (mpz-get-si rop)))))
+
+;; void mpz_xor (mpz_t ROP, const mpz_t OP1, const mpz_t OP2)
+(ert-deftest mpz-xor ()
+  "Set ROP to OP1 bitwise exclusive-or OP2."
+  (let ((rop	(mpz))
+	(op1	(mpz #b1110101))
+	(op2	(mpz #b1011101)))
+    (mpz-xor rop op1 op2)
+    (should (equal #b0101000 (mpz-get-si rop)))))
+
+;; void mpz_com (mpz_t ROP, const mpz_t OP)
+(ert-deftest mpz-com ()
+  "Set ROP to the one's complement of OP."
+  (let ((rop	(mpz))
+	(op	(mpz #b10)))
+    (mpz-com rop op)
+    (should (equal -3 (mpz-get-si rop)))))
+
+;; mp_bitcnt_t mpz_popcount (const mpz_t OP)
+(ert-deftest mpz-popcount ()
+  "Return the population count of OP."
+  (let ((op	(mpz #b1010101)))
+    (should (equal 4 (mpz-popcount op)))))
+
+;; mp_bitcnt_t mpz_hamdist (const mpz_t OP1, const mpz_t OP2)
+(ert-deftest mpz-hamdist ()
+  "Return the hamming distance between the two operands."
+  (let ((op1	(mpz 63))
+	(op2	(mpz 70)))
+    (should (equal 5 (mpz-hamdist op1 op2)))))
+
+;; mp_bitcnt_t mpz_scan0 (const mpz_t OP, mp_bitcnt_t STARTING_BIT)
+(ert-deftest mpz-scan0 ()
+  "Scan OP for the first 0 bit."
+  (let ((op		(mpz #b1000110))
+	(starting-bit	1))
+    (should (equal 3 (mpz-scan0 op starting-bit))))
+  (let ((op		(mpz #b1011111))
+	(starting-bit	2))
+    (should (equal 5 (mpz-scan0 op starting-bit)))))
+
+;; mp_bitcnt_t mpz_scan1 (const mpz_t OP, mp_bitcnt_t STARTING_BIT)
+(ert-deftest mpz-scan1 ()
+  "Scan OP for the first 1 bit."
+  (let ((op		(mpz #b1000110))
+	(starting-bit	3))
+    (should (equal 6 (mpz-scan1 op starting-bit))))
+  (let ((op		(mpz #b010000))
+  	(starting-bit	2))
+    (should (equal 4 (mpz-scan1 op starting-bit)))))
+
+;; void mpz_setbit (mpz_t ROP, mp_bitcnt_t BIT_INDEX)
+(ert-deftest mpz-setbit ()
+  "Set bit BIT_INDEX in ROP."
+  (let ((rop		(mpz))
+	(bit-index	3))
+    (mpz-setbit rop bit-index)
+    (should (equal 8 (mpz-get-si rop)))))
+
+;; void mpz_clrbit (mpz_t ROP, mp_bitcnt_t BIT_INDEX)
+(ert-deftest mpz-clrbit ()
+  "Clear bit BIT_INDEX in ROP."
+  (let ((rop		(mpz #b00100))
+	(bit-index	2))
+    (mpz-clrbit rop bit-index)
+    (should (equal 0 (mpz-get-si rop)))))
+
+;; void mpz_combit (mpz_t ROP, mp_bitcnt_t BIT_INDEX)
+(ert-deftest mpz-combit ()
+  "Complement bit BIT_INDEX in ROP."
+  (let ((rop		(mpz #b00100))
+	(bit-index	2))
+    (mpz-combit rop bit-index)
+    (should (equal 0 (mpz-get-si rop)))))
+
+;; int mpz_tstbit (const mpz_t OP, mp_bitcnt_t BIT_INDEX)
+(ert-deftest mpz-tstbit ()
+  "Test bit BIT_INDEX in OP and return 0 or 1 accordingly."
+  (let ((op		(mpz #b01000))
+	(bit-index	3))
+    (should (equal t (mpz-tstbit op bit-index))))
+  (let ((op		(mpz #b10111))
+	(bit-index	3))
+    (should (equal nil (mpz-tstbit op bit-index)))))
+
+
 ;;;; miscellaneous functions
 
 ;; int mpz_fits_ulong_p (const mpz_t OP)

@@ -1442,6 +1442,152 @@ Fmmux_gmp_c_mpz_sgn (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void *
 
 
 /** --------------------------------------------------------------------
+ ** Logical and bit manipulation functions.
+ ** ----------------------------------------------------------------- */
+
+/* void mpz_and (mpz_t ROP, const mpz_t OP1, const mpz_t OP2) */
+static emacs_value
+Fmmux_gmp_c_mpz_and (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
+{
+  assert(3 == nargs);
+  mpz_ptr	rop	= mmux_get_mpz(env, args[0]);
+  mpz_ptr	op1	= mmux_get_mpz(env, args[1]);
+  mpz_ptr	op2	= mmux_get_mpz(env, args[2]);
+
+  mpz_and(rop, op1, op2);
+  return mmux_make_nil(env);
+}
+
+/* void mpz_ior (mpz_t ROP, const mpz_t OP1, const mpz_t OP2) */
+static emacs_value
+Fmmux_gmp_c_mpz_ior (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
+{
+  assert(3 == nargs);
+  mpz_ptr	rop	= mmux_get_mpz(env, args[0]);
+  mpz_ptr	op1	= mmux_get_mpz(env, args[1]);
+  mpz_ptr	op2	= mmux_get_mpz(env, args[2]);
+
+  mpz_ior(rop, op1, op2);
+  return mmux_make_nil(env);
+}
+
+/* void mpz_xor (mpz_t ROP, const mpz_t OP1, const mpz_t OP2) */
+static emacs_value
+Fmmux_gmp_c_mpz_xor (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
+{
+  assert(3 == nargs);
+  mpz_ptr	rop	= mmux_get_mpz(env, args[0]);
+  mpz_ptr	op1	= mmux_get_mpz(env, args[1]);
+  mpz_ptr	op2	= mmux_get_mpz(env, args[2]);
+
+  mpz_xor(rop, op1, op2);
+  return mmux_make_nil(env);
+}
+
+/* void mpz_com (mpz_t ROP, const mpz_t OP) */
+static emacs_value
+Fmmux_gmp_c_mpz_com (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
+{
+  assert(2 == nargs);
+  mpz_ptr	rop	= mmux_get_mpz(env, args[0]);
+  mpz_ptr	op	= mmux_get_mpz(env, args[1]);
+
+  mpz_com(rop, op);
+  return mmux_make_nil(env);
+}
+
+/* mp_bitcnt_t mpz_popcount (const mpz_t OP) */
+static emacs_value
+Fmmux_gmp_c_mpz_popcount (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
+{
+  assert(1 == nargs);
+  mpz_ptr	op	= mmux_get_mpz(env, args[0]);
+
+  return mmux_make_bitcnt(env, mpz_popcount(op));
+}
+
+/* mp_bitcnt_t mpz_hamdist (const mpz_t OP1, const mpz_t OP2) */
+static emacs_value
+Fmmux_gmp_c_mpz_hamdist (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
+{
+  assert(2 == nargs);
+  mpz_ptr	op1	= mmux_get_mpz(env, args[0]);
+  mpz_ptr	op2	= mmux_get_mpz(env, args[1]);
+
+  return mmux_make_bitcnt(env, mpz_hamdist(op1, op2));
+}
+
+/* mp_bitcnt_t mpz_scan0 (const mpz_t OP, mp_bitcnt_t STARTING_BIT) */
+static emacs_value
+Fmmux_gmp_c_mpz_scan0 (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
+{
+  assert(2 == nargs);
+  mpz_ptr	op		= mmux_get_mpz(env, args[0]);
+  mp_bitcnt_t	starting_bit	= mmux_get_bitcnt(env, args[1]);
+
+  return mmux_make_bitcnt(env, mpz_scan0(op, starting_bit));
+}
+
+/* mp_bitcnt_t mpz_scan1 (const mpz_t OP, mp_bitcnt_t STARTING_BIT) */
+static emacs_value
+Fmmux_gmp_c_mpz_scan1 (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
+{
+  assert(2 == nargs);
+  mpz_ptr	op		= mmux_get_mpz(env, args[0]);
+  mp_bitcnt_t	starting_bit	= mmux_get_bitcnt(env, args[1]);
+
+  return mmux_make_bitcnt(env, mpz_scan1(op, starting_bit));
+}
+
+/* void mpz_setbit (mpz_t ROP, mp_bitcnt_t BIT_INDEX) */
+static emacs_value
+Fmmux_gmp_c_mpz_setbit (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
+{
+  assert(2 == nargs);
+  mpz_ptr	rop		= mmux_get_mpz(env, args[0]);
+  mp_bitcnt_t	bit_index	= mmux_get_bitcnt(env, args[1]);
+
+  mpz_setbit(rop, bit_index);
+  return mmux_make_nil(env);
+}
+
+/* void mpz_clrbit (mpz_t ROP, mp_bitcnt_t BIT_INDEX) */
+static emacs_value
+Fmmux_gmp_c_mpz_clrbit (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
+{
+  assert(2 == nargs);
+  mpz_ptr	rop		= mmux_get_mpz(env, args[0]);
+  mp_bitcnt_t	bit_index	= mmux_get_bitcnt(env, args[1]);
+
+  mpz_clrbit(rop, bit_index);
+  return mmux_make_nil(env);
+}
+
+/* void mpz_combit (mpz_t ROP, mp_bitcnt_t BIT_INDEX) */
+static emacs_value
+Fmmux_gmp_c_mpz_combit (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
+{
+  assert(2 == nargs);
+  mpz_ptr	rop		= mmux_get_mpz(env, args[0]);
+  mp_bitcnt_t	bit_index	= mmux_get_bitcnt(env, args[1]);
+
+  mpz_combit(rop, bit_index);
+  return mmux_make_nil(env);
+}
+
+/* int mpz_tstbit (const mpz_t OP, mp_bitcnt_t BIT_INDEX) */
+static emacs_value
+Fmmux_gmp_c_mpz_tstbit (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
+{
+  assert(2 == nargs);
+  mpz_ptr	op		= mmux_get_mpz(env, args[0]);
+  mp_bitcnt_t	bit_index	= mmux_get_bitcnt(env, args[1]);
+
+  return mmux_make_boolean(env, mpz_tstbit(op, bit_index));
+}
+
+
+/** --------------------------------------------------------------------
  ** Miscellaneous functions.
  ** ----------------------------------------------------------------- */
 
@@ -1545,7 +1691,7 @@ Fmmux_gmp_c_mpz_sizeinbase (emacs_env *env, ptrdiff_t nargs, emacs_value args[],
  ** Elisp functions table.
  ** ----------------------------------------------------------------- */
 
-#define NUMBER_OF_MODULE_FUNCTIONS	118
+#define NUMBER_OF_MODULE_FUNCTIONS	130
 static module_function_t const module_functions_table[NUMBER_OF_MODULE_FUNCTIONS] = {
   /* Assignment function. */
   {
@@ -2324,6 +2470,92 @@ static module_function_t const module_functions_table[NUMBER_OF_MODULE_FUNCTIONS
     .min_arity		= 1,
     .max_arity		= 1,
     .documentation	= "Return an integer representing the sign of the operand.",
+  },
+
+  /* Logical and bit manipulation functions. */
+  { /* void mpz_and (mpz_t ROP, const mpz_t OP1, const mpz_t OP2) */
+    .name		= "mmux-gmp-c-mpz-and",
+    .implementation	= Fmmux_gmp_c_mpz_and,
+    .min_arity		= 3,
+    .max_arity		= 3,
+    .documentation	= "Set ROP to OP1 bitwise-and OP2.",
+  },
+  { /* void mpz_ior (mpz_t ROP, const mpz_t OP1, const mpz_t OP2) */
+    .name		= "mmux-gmp-c-mpz-ior",
+    .implementation	= Fmmux_gmp_c_mpz_ior,
+    .min_arity		= 3,
+    .max_arity		= 3,
+    .documentation	= "Set ROP to OP1 bitwise inclusive-or OP2.",
+  },
+  { /* void mpz_xor (mpz_t ROP, const mpz_t OP1, const mpz_t OP2) */
+    .name		= "mmux-gmp-c-mpz-xor",
+    .implementation	= Fmmux_gmp_c_mpz_xor,
+    .min_arity		= 3,
+    .max_arity		= 3,
+    .documentation	= "Set ROP to OP1 bitwise exclusive-or OP2.",
+  },
+  { /* void mpz_com (mpz_t ROP, const mpz_t OP) */
+    .name		= "mmux-gmp-c-mpz-com",
+    .implementation	= Fmmux_gmp_c_mpz_com,
+    .min_arity		= 2,
+    .max_arity		= 2,
+    .documentation	= "Set ROP to the one's complement of OP.",
+  },
+  { /* mp_bitcnt_t mpz_popcount (const mpz_t OP) */
+    .name		= "mmux-gmp-c-mpz-popcount",
+    .implementation	= Fmmux_gmp_c_mpz_popcount,
+    .min_arity		= 1,
+    .max_arity		= 1,
+    .documentation	= "Return the population count of OP.",
+  },
+  { /* mp_bitcnt_t mpz_hamdist (const mpz_t OP1, const mpz_t OP2) */
+    .name		= "mmux-gmp-c-mpz-hamdist",
+    .implementation	= Fmmux_gmp_c_mpz_hamdist,
+    .min_arity		= 2,
+    .max_arity		= 2,
+    .documentation	= "Return the hamming distance between the two operands.",
+  },
+  { /* mp_bitcnt_t mpz_scan0 (const mpz_t OP, mp_bitcnt_t STARTING_BIT) */
+    .name		= "mmux-gmp-c-mpz-scan0",
+    .implementation	= Fmmux_gmp_c_mpz_scan0,
+    .min_arity		= 2,
+    .max_arity		= 2,
+    .documentation	= "Scan OP for the first 0 bit.",
+  },
+  { /* mp_bitcnt_t mpz_scan1 (const mpz_t OP, mp_bitcnt_t STARTING_BIT) */
+    .name		= "mmux-gmp-c-mpz-scan1",
+    .implementation	= Fmmux_gmp_c_mpz_scan1,
+    .min_arity		= 2,
+    .max_arity		= 2,
+    .documentation	= "Scan OP for the first 1 bit.",
+  },
+  { /* void mpz_setbit (mpz_t ROP, mp_bitcnt_t BIT_INDEX) */
+    .name		= "mmux-gmp-c-mpz-setbit",
+    .implementation	= Fmmux_gmp_c_mpz_setbit,
+    .min_arity		= 2,
+    .max_arity		= 2,
+    .documentation	= "Set bit BIT_INDEX in ROP.",
+  },
+  { /* void mpz_clrbit (mpz_t ROP, mp_bitcnt_t BIT_INDEX) */
+    .name		= "mmux-gmp-c-mpz-clrbit",
+    .implementation	= Fmmux_gmp_c_mpz_clrbit,
+    .min_arity		= 2,
+    .max_arity		= 2,
+    .documentation	= "Clear bit BIT_INDEX in ROP.",
+  },
+  { /* void mpz_combit (mpz_t ROP, mp_bitcnt_t BIT_INDEX) */
+    .name		= "mmux-gmp-c-mpz-combit",
+    .implementation	= Fmmux_gmp_c_mpz_combit,
+    .min_arity		= 2,
+    .max_arity		= 2,
+    .documentation	= "Complement bit BIT_INDEX in ROP.",
+  },
+  { /* int mpz_tstbit (const mpz_t OP, mp_bitcnt_t BIT_INDEX) */
+    .name		= "mmux-gmp-c-mpz-tstbit",
+    .implementation	= Fmmux_gmp_c_mpz_tstbit,
+    .min_arity		= 2,
+    .max_arity		= 2,
+    .documentation	= "Test bit BIT_INDEX in OP and return 0 or 1 accordingly.",
   },
 
   /* Miscellaneous functions */

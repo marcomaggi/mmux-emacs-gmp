@@ -4,7 +4,7 @@
 
 ;; Author: Marco Maggi <mrc.mgg@gmail.com>
 ;; Created: Jan 15, 2020
-;; Time-stamp: <2020-01-24 15:53:36 marco>
+;; Time-stamp: <2020-01-24 19:14:38 marco>
 ;; Keywords: extensions
 
 ;; This file is part of MMUX Emacs GMP.
@@ -1066,6 +1066,93 @@
 (cl-defmethod  mpz-non-negative-p ((op mpz))
   "Return true if OP is non-negative; otherwise return false."
   (<= 0 (mpz-cmp-si op 0)))
+
+
+;;;; logical and bit manipulation functions
+
+;; void mpz_and (mpz_t ROP, const mpz_t OP1, const mpz_t OP2)
+(cl-defgeneric mpz-and (rop op1 op2)
+  "Set ROP to OP1 bitwise-and OP2.")
+(cl-defmethod mpz-and ((rop mpz) (op1 mpz) (op2 mpz))
+  "Set ROP to OP1 bitwise-and OP2."
+  (mmux-gmp-c-mpz-and (mpz-obj rop) (mpz-obj op1) (mpz-obj op2)))
+
+;; void mpz_ior (mpz_t ROP, const mpz_t OP1, const mpz_t OP2)
+(cl-defgeneric mpz-ior (rop op1 op2)
+  "Set ROP to OP1 bitwise inclusive-or OP2.")
+(cl-defmethod mpz-ior ((rop mpz) (op1 mpz) (op2 mpz))
+  "Set ROP to OP1 bitwise inclusive-or OP2."
+  (mmux-gmp-c-mpz-ior (mpz-obj rop) (mpz-obj op1) (mpz-obj op2)))
+
+;; void mpz_xor (mpz_t ROP, const mpz_t OP1, const mpz_t OP2)
+(cl-defgeneric mpz-xor (rop op1 op2)
+  "Set ROP to OP1 bitwise exclusive-or OP2.")
+(cl-defmethod mpz-xor ((rop mpz) (op1 mpz) (op2 mpz))
+  "Set ROP to OP1 bitwise exclusive-or OP2."
+  (mmux-gmp-c-mpz-xor (mpz-obj rop) (mpz-obj op1) (mpz-obj op2)))
+
+;; void mpz_com (mpz_t ROP, const mpz_t OP)
+(cl-defgeneric mpz-com (rop op)
+  "Set ROP to the one's complement of OP.")
+(cl-defmethod mpz-com ((rop mpz) (op mpz))
+  "Set ROP to the one's complement of OP."
+  (mmux-gmp-c-mpz-com (mpz-obj rop) (mpz-obj op)))
+
+;; mp_bitcnt_t mpz_popcount (const mpz_t OP)
+(cl-defgeneric mpz-popcount (op)
+  "Return the population count of OP.")
+(cl-defmethod mpz-popcount ((op mpz))
+  "Return the population count of OP."
+  (mmux-gmp-c-mpz-popcount (mpz-obj op)))
+
+;; mp_bitcnt_t mpz_hamdist (const mpz_t OP1, const mpz_t OP2)
+(cl-defgeneric mpz-hamdist (op1 op2)
+  "Return the hamming distance between the two operands.")
+(cl-defmethod mpz-hamdist ((op1 mpz) (op2 mpz))
+  "Return the hamming distance between the two operands."
+  (mmux-gmp-c-mpz-hamdist (mpz-obj op1) (mpz-obj op2)))
+
+;; mp_bitcnt_t mpz_scan0 (const mpz_t OP, mp_bitcnt_t STARTING_BIT)
+(cl-defgeneric mpz-scan0 (op starting-bit)
+  "Scan OP for the first 0 bit.")
+(cl-defmethod mpz-scan0 ((op mpz) (starting-bit integer))
+  "Scan OP for the first 0 bit."
+  (mmux-gmp-c-mpz-scan0 (mpz-obj op) starting-bit))
+
+;; mp_bitcnt_t mpz_scan1 (const mpz_t OP, mp_bitcnt_t STARTING_BIT)
+(cl-defgeneric mpz-scan1 (op starting-bit)
+  "Scan OP for the first 1 bit.")
+(cl-defmethod mpz-scan1 ((op mpz) (starting-bit integer))
+  "Scan OP for the first 1 bit."
+  (mmux-gmp-c-mpz-scan1 (mpz-obj op) starting-bit))
+
+;; void mpz_setbit (mpz_t ROP, mp_bitcnt_t BIT_INDEX)
+(cl-defgeneric mpz-setbit (rop bit-index)
+  "Set bit BIT_INDEX in ROP.")
+(cl-defmethod mpz-setbit ((rop mpz) (bit-index integer))
+  "Set bit BIT_INDEX in ROP."
+  (mmux-gmp-c-mpz-setbit (mpz-obj rop) bit-index))
+
+;; void mpz_clrbit (mpz_t ROP, mp_bitcnt_t BIT_INDEX)
+(cl-defgeneric mpz-clrbit (rop bit-index)
+  "Clear bit BIT_INDEX in ROP.")
+(cl-defmethod mpz-clrbit ((rop mpz) (bit-index integer))
+  "Clear bit BIT_INDEX in ROP."
+  (mmux-gmp-c-mpz-clrbit (mpz-obj rop) bit-index))
+
+;; void mpz_combit (mpz_t ROP, mp_bitcnt_t BIT_INDEX)
+(cl-defgeneric mpz-combit (rop bit-index)
+  "Complement bit BIT_INDEX in ROP.")
+(cl-defmethod mpz-combit ((rop mpz) (bit-index integer))
+  "Complement bit BIT_INDEX in ROP."
+  (mmux-gmp-c-mpz-combit (mpz-obj rop) bit-index))
+
+;; int mpz_tstbit (const mpz_t OP, mp_bitcnt_t BIT_INDEX)
+(cl-defgeneric mpz-tstbit (op bit-index)
+  "Test bit BIT_INDEX in OP and return 0 or 1 accordingly.")
+(cl-defmethod mpz-tstbit ((op mpz) (bit-index integer))
+  "Test bit BIT_INDEX in OP and return 0 or 1 accordingly."
+  (mmux-gmp-c-mpz-tstbit (mpz-obj op) bit-index))
 
 
 ;;;; integer number functions: miscellaneous

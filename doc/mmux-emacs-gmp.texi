@@ -306,6 +306,7 @@ garbage collected.
 * integers roots::              Root extraction functions.
 * integers comparison::         Commparison functions.
 * integers theoretic::          Number theoretic functions.
+* integers bitlogic::           Logical and bit manipulation functions.
 * integers miscellaneous::      Miscellaneous functions.
 @end menu
 
@@ -2085,6 +2086,201 @@ Set @var{LN} to to L[@var{N}]: the @var{N}'th Lucas number.  Set @var{LNSUB1} to
   (mpz-lucnum2-ui LN LNSUB1 N)
   (mpz-get-si LN)       @result{} 76
   (mpz-get-si LNSUB1))  @result{} 47
+@end lisp
+@end deffn
+
+@c page
+@node integers bitlogic
+@section Logical and bit manipulation functions
+
+
+@c void mpz_and (mpz_t @var{ROP}, const mpz_t @vari{OP}, const mpz_t @varii{OP})
+@deffn {Generic Function} mpz-and (@var{ROP} @vari{OP} @varii{OP})
+@deffnx {Method} mpz-and ((@var{ROP} mpz) (@vari{OP} mpz) (@varii{OP} mpz))
+Set @var{ROP} to @vari{OP} bitwise--and @varii{OP}.
+
+@lisp
+(let ((rop    (mpz))
+      (op1    (mpz #b1010101))
+      (op2    (mpz #b1101011)))
+  (mpz-and rop op1 op2)
+  (mpz-get-si rop))
+@result{} #b1000001
+@end lisp
+@end deffn
+
+
+@c void mpz_ior (mpz_t @var{ROP}, const mpz_t @vari{OP}, const mpz_t @varii{OP})
+@deffn {Generic Function} mpz-ior (@var{ROP} @vari{OP} @varii{OP})
+@deffnx {Method} mpz-ior ((@var{ROP} mpz) (@vari{OP} mpz) (@varii{OP} mpz))
+Set @var{ROP} to @vari{OP} bitwise inclusive--or @varii{OP}.
+
+@lisp
+(let ((rop    (mpz))
+      (op1    (mpz #b1010101))
+      (op2    (mpz #b1110101)))
+  (mpz-ior rop op1 op2)
+  (mpz-get-si rop))
+@result{} #b1110101
+@end lisp
+@end deffn
+
+
+@c void mpz_xor (mpz_t @var{ROP}, const mpz_t @vari{OP}, const mpz_t @varii{OP})
+@deffn {Generic Function} mpz-xor (@var{ROP} @vari{OP} @varii{OP})
+@deffnx {Method} mpz-xor ((@var{ROP} mpz) (@vari{OP} mpz) (@varii{OP} mpz))
+Set @var{ROP} to @vari{OP} bitwise exclusive--or @varii{OP}.
+
+@lisp
+(let ((rop    (mpz))
+      (op1    (mpz #b1110101))
+      (op2    (mpz #b1011101)))
+  (mpz-xor rop op1 op2)
+  (mpz-get-si rop))
+@result{} #b0101000
+@end lisp
+@end deffn
+
+
+@c void mpz_com (mpz_t @var{ROP}, const mpz_t @var{OP})
+@deffn {Generic Function} mpz-com (@var{ROP} @var{OP})
+@deffnx {Method} mpz-com ((@var{ROP} mpz) (@var{OP} mpz))
+Set @var{ROP} to the one's complement of @var{OP}.
+
+@lisp
+(let ((rop    (mpz))
+      (op     (mpz #b10)))
+  (mpz-com rop op)
+  (mpz-get-si rop))
+@result{} -3
+@end lisp
+@end deffn
+
+
+@c mp_bitcnt_t mpz_popcount (const mpz_t @var{OP})
+@deffn {Generic Function} mpz-popcount (op)
+@deffnx {Method} mpz-popcount ((@var{OP} mpz))
+Return the population count of @var{OP}.
+
+@lisp
+(mpz-popcount (mpz #b1010101))
+@result{} 4
+@end lisp
+@end deffn
+
+
+@c mp_bitcnt_t mpz_hamdist (const mpz_t @vari{OP}, const mpz_t @varii{OP})
+@deffn {Generic Function} mpz-hamdist (@vari{OP} @varii{OP})
+@deffnx {Method} mpz-hamdist ((@vari{OP} mpz) (@varii{OP} mpz))
+Return the hamming distance between the two operands.
+
+@lisp
+(let ((op1    (mpz 63))
+      (op2    (mpz 70)))
+  (mpz-hamdist op1 op2))
+@result{} 5
+@end lisp
+@end deffn
+
+
+@c mp_bitcnt_t mpz_scan0 (const mpz_t @var{OP}, mp_bitcnt_t STARTING_BIT)
+@deffn {Generic Function} mpz-scan0 (op @var{STARTING-BIT})
+@deffnx {Method} mpz-scan0 ((@var{OP} mpz) (@var{STARTING-BIT} integer))
+Scan @var{OP} for the first 0 bit.
+
+@lisp
+(let ((op             (mpz #b1000110))
+      (starting-bit   1))
+  (mpz-scan0 op starting-bit))
+@result{} 3
+
+(let ((op             (mpz #b1011111))
+      (starting-bit   2))
+  (mpz-scan0 op starting-bit))
+@result{} 5
+@end lisp
+@end deffn
+
+
+@c mp_bitcnt_t mpz_scan1 (const mpz_t @var{OP}, mp_bitcnt_t STARTING_BIT)
+@deffn {Generic Function} mpz-scan1 (op @var{STARTING-BIT})
+@deffnx {Method} mpz-scan1 ((@var{OP} mpz) (@var{STARTING-BIT} integer))
+Scan @var{OP} for the first 1 bit.
+
+@lisp
+(let ((op             (mpz #b1000110))
+      (starting-bit   3))
+  (mpz-scan1 op starting-bit))
+@result{} 6
+
+(let ((op             (mpz #b010000))
+      (starting-bit   2))
+  (mpz-scan1 op starting-bit))
+@result{} 4
+@end lisp
+@end deffn
+
+
+@c void mpz_setbit (mpz_t @var{ROP}, mp_bitcnt_t BIT_INDEX)
+@deffn {Generic Function} mpz-setbit (@var{ROP} @var{BIT-INDEX})
+@deffnx {Method} mpz-setbit ((@var{ROP} mpz) (@var{BIT-INDEX} integer))
+Set bit BIT_INDEX in @var{ROP}.
+
+@lisp
+(let ((rop            (mpz))
+      (bit-index      3))
+  (mpz-setbit rop bit-index)
+  (mpz-get-si rop))
+@result{} 8
+@end lisp
+@end deffn
+
+
+@c void mpz_clrbit (mpz_t @var{ROP}, mp_bitcnt_t BIT_INDEX)
+@deffn {Generic Function} mpz-clrbit (@var{ROP} @var{BIT-INDEX})
+@deffnx {Method} mpz-clrbit ((@var{ROP} mpz) (@var{BIT-INDEX} integer))
+Clear bit BIT_INDEX in @var{ROP}.
+
+@lisp
+(let ((rop            (mpz #b00100))
+      (bit-index      2))
+  (mpz-clrbit rop bit-index)
+  (mpz-get-si rop))
+@result{} 0
+@end lisp
+@end deffn
+
+
+@c void mpz_combit (mpz_t @var{ROP}, mp_bitcnt_t BIT_INDEX)
+@deffn {Generic Function} mpz-combit (@var{ROP} @var{BIT-INDEX})
+@deffnx {Method} mpz-combit ((@var{ROP} mpz) (@var{BIT-INDEX} integer))
+Complement bit BIT_INDEX in @var{ROP}.
+
+@lisp
+(let ((rop            (mpz #b00100))
+      (bit-index      2))
+  (mpz-combit rop bit-index)
+  (mpz-get-si rop))
+@result{} 0
+@end lisp
+@end deffn
+
+
+@c int mpz_tstbit (const mpz_t @var{OP}, mp_bitcnt_t BIT_INDEX)
+@deffn {Generic Function} mpz-tstbit (op @var{BIT-INDEX})
+@deffnx {Method} mpz-tstbit ((@var{OP} mpz) (@var{BIT-INDEX} integer))
+Test bit BIT_INDEX in @var{OP} and return 0 or 1 accordingly.
+
+@lisp
+(let ((op             (mpz #b01000))
+      (bit-index      3))
+  (mpz-tstbit op bit-index))
+@result{} t
+
+(let ((op             (mpz #b10111))
+      (bit-index      3))
+  (mpz-tstbit op bit-index))
+@result{} nil
 @end lisp
 @end deffn
 
