@@ -59,7 +59,7 @@
 @set DownloadUrl               @url{https://bitbucket.org/marcomaggi/@value{PACKAGE_NICKNAME}/downloads}
 @set DocumentationUrl          @url{https://marcomaggi.github.io/docs/@value{PACKAGE_NICKNAME}.html}
 
-@set GMPversion                 6.1.2+
+@set GMPversion                 6.2.0+
 
 @c page
 @c ------------------------------------------------------------
