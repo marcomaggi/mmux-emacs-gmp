@@ -143,10 +143,45 @@ Fmmux_gmp_c_mpf_make (emacs_env *env, ptrdiff_t nargs MMUX_EMACS_GMP_UNUSED,
 
 
 /** --------------------------------------------------------------------
+ ** Allocation functions: "gmp_randstate_t".
+ ** ----------------------------------------------------------------- */
+
+static void
+mmux_emacs_gmp_randstate_finalizer (void * obj)
+{
+  gmp_randclear(obj);
+  free(obj);
+}
+
+static emacs_value
+Fmmux_gmp_c_gmp_randstate_make (emacs_env *env, ptrdiff_t nargs MMUX_EMACS_GMP_UNUSED,
+				emacs_value args[] MMUX_EMACS_GMP_UNUSED, void * data MMUX_EMACS_GMP_UNUSED)
+{
+  mmux_gmp_randstate_t	obj;
+
+  errno = 0;
+  obj   = malloc(sizeof(__gmp_randstate_struct));
+  if (NULL == obj) {
+    char const		* errmsg = strerror(errno);
+    emacs_value		Serrmsg = env->make_string(env, errmsg, strlen(errmsg));
+
+    /* Signal an error,  then immediately return.  In the "elisp"  Info file: see the
+       node "Standard Errors" for a list of  the standard error symbols; see the node
+       "Error Symbols"  for methods to define  error symbols.  (Marco Maggi;  Jan 14,
+       2020) */
+    env->non_local_exit_signal(env, env->intern(env, "mmux-gmp-no-memory-error"), Serrmsg);
+    return env->intern(env, "nil");
+  } else {
+    return env->make_user_ptr(env, mmux_emacs_gmp_randstate_finalizer, obj);
+  }
+}
+
+
+/** --------------------------------------------------------------------
  ** Elisp functions table.
  ** ----------------------------------------------------------------- */
 
-#define NUMBER_OF_MODULE_FUNCTIONS	3
+#define NUMBER_OF_MODULE_FUNCTIONS	4
 static module_function_t const module_functions_table[NUMBER_OF_MODULE_FUNCTIONS] = {
   {
     .name		= "mmux-gmp-c-mpz-make",
@@ -168,6 +203,13 @@ static module_function_t const module_functions_table[NUMBER_OF_MODULE_FUNCTIONS
     .min_arity		= 0,
     .max_arity		= 0,
     .documentation	= "Build and return a new user-pointer object to be embedded into a `mpf' object."
+  },
+  {
+    .name		= "mmux-gmp-c-gmp-randstate-make",
+    .implementation	= Fmmux_gmp_c_gmp_randstate_make,
+    .min_arity		= 0,
+    .max_arity		= 0,
+    .documentation	= "Build and return a new user-pointer object to be embedded into a `gmp-randstate' object."
   },
 };
 

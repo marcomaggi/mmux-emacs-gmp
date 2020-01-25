@@ -1588,8 +1588,76 @@ Fmmux_gmp_c_mpz_tstbit (emacs_env *env, ptrdiff_t nargs, emacs_value args[], voi
 
 
 /** --------------------------------------------------------------------
- ** Miscellaneous functions.
+ ** Random number functions.
  ** ----------------------------------------------------------------- */
+
+/* void mpz_urandomb (mpz_t ROP, gmp_randstate_t STATE, mp_bitcnt_t N) */
+static emacs_value
+Fmmux_gmp_c_mpz_urandomb (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
+{
+  assert(3 == nargs);
+  mpz_ptr		rop	= mmux_get_mpz(env, args[0]);
+  mmux_gmp_randstate_t	state	= mmux_get_randstate(env, args[1]);
+  mp_bitcnt_t		N	= mmux_get_bitcnt(env, args[2]);
+
+  mpz_urandomb(rop, state, N);
+  return mmux_make_nil(env);
+}
+
+/* void mpz_urandomm (mpz_t ROP, gmp_randstate_t STATE, const mpz_t N) */
+static emacs_value
+Fmmux_gmp_c_mpz_urandomm (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
+{
+  assert(3 == nargs);
+  mpz_ptr		rop	= mmux_get_mpz(env, args[0]);
+  mmux_gmp_randstate_t	state	= mmux_get_randstate(env, args[1]);
+  mpz_ptr		N	= mmux_get_mpz(env, args[2]);
+
+  mpz_urandomm(rop, state, N);
+  return mmux_make_nil(env);
+}
+
+/* void mpz_rrandomb (mpz_t ROP, gmp_randstate_t STATE, mp_bitcnt_t N) */
+static emacs_value
+Fmmux_gmp_c_mpz_rrandomb (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
+{
+  assert(3 == nargs);
+  mpz_ptr		rop	= mmux_get_mpz(env, args[0]);
+  mmux_gmp_randstate_t	state	= mmux_get_randstate(env, args[1]);
+  mp_bitcnt_t		N	= mmux_get_bitcnt(env, args[2]);
+
+  mpz_rrandomb(rop, state, N);
+  return mmux_make_nil(env);
+}
+
+/* void mpz_random (mpz_t ROP, mp_size_t MAX_SIZE) */
+static emacs_value
+Fmmux_gmp_c_mpz_random (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
+{
+  assert(2 == nargs);
+  mpz_ptr	rop		= mmux_get_mpz(env, args[0]);
+  mp_size_t	max_size	= mmux_get_size(env, args[1]);
+
+  mpz_random(rop, max_size);
+  return mmux_make_nil(env);
+}
+
+/* void mpz_random2 (mpz_t ROP, mp_size_t MAX_SIZE) */
+static emacs_value
+Fmmux_gmp_c_mpz_random2 (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
+{
+  assert(2 == nargs);
+  mpz_ptr	rop		= mmux_get_mpz(env, args[0]);
+  mp_size_t	max_size	= mmux_get_size(env, args[1]);
+
+  mpz_random2(rop, max_size);
+  return mmux_make_nil(env);
+}
+
+
+/** --------------------------------------------------------------------
+** Miscellaneous functions.
+** ----------------------------------------------------------------- */
 
 /* int mpz_fits_ulong_p (const mpz_t OP) */
 static emacs_value
@@ -1691,7 +1759,7 @@ Fmmux_gmp_c_mpz_sizeinbase (emacs_env *env, ptrdiff_t nargs, emacs_value args[],
  ** Elisp functions table.
  ** ----------------------------------------------------------------- */
 
-#define NUMBER_OF_MODULE_FUNCTIONS	130
+#define NUMBER_OF_MODULE_FUNCTIONS	135
 static module_function_t const module_functions_table[NUMBER_OF_MODULE_FUNCTIONS] = {
   /* Assignment function. */
   {
@@ -2556,6 +2624,44 @@ static module_function_t const module_functions_table[NUMBER_OF_MODULE_FUNCTIONS
     .min_arity		= 2,
     .max_arity		= 2,
     .documentation	= "Test bit BIT_INDEX in OP and return 0 or 1 accordingly.",
+  },
+
+  /* Random number functions */
+  { /* void mpz_urandomb (mpz_t ROP, gmp_randstate_t STATE, mp_bitcnt_t N) */
+    .name		= "mmux-gmp-c-mpz-urandomb",
+    .implementation	= Fmmux_gmp_c_mpz_urandomb,
+    .min_arity		= 3,
+    .max_arity		= 3,
+    .documentation	= "Generate a uniformly distributed random integer in the range 0 to 2^N-1, inclusive.",
+  },
+  { /* void mpz_urandomm (mpz_t ROP, gmp_randstate_t STATE, const mpz_t N) */
+    .name		= "mmux-gmp-c-mpz-urandomm",
+    .implementation	= Fmmux_gmp_c_mpz_urandomm,
+    .min_arity		= 3,
+    .max_arity		= 3,
+    .documentation	= "Generate a uniform random integer in the range 0 to N-1, inclusive.",
+  },
+  { /* void mpz_rrandomb (mpz_t ROP, gmp_randstate_t STATE, mp_bitcnt_t N) */
+    .name		= "mmux-gmp-c-mpz-rrandomb",
+    .implementation	= Fmmux_gmp_c_mpz_rrandomb,
+    .min_arity		= 3,
+    .max_arity		= 3,
+    .documentation	= "Generate a random integer with long strings of zeros and ones in the binary representation. ",
+  },
+  { /* void mpz_random (mpz_t ROP, mp_size_t MAX_SIZE) */
+    .name		= "mmux-gmp-c-mpz-random",
+    .implementation	= Fmmux_gmp_c_mpz_random,
+    .min_arity		= 2,
+    .max_arity		= 2,
+    .documentation	= "Generate a random integer of at most MAX-SIZE limbs.",
+  },
+  { /* void mpz_random2 (mpz_t ROP, mp_size_t MAX_SIZE) */
+    .name		= "mmux-gmp-c-mpz-random2",
+    .implementation	= Fmmux_gmp_c_mpz_random2,
+    .min_arity		= 2,
+    .max_arity		= 2,
+    .documentation	= \
+    "Generate a random integer of at most MAX-SIZE limbs, with long strings of zeros and ones in the binary representation.",
   },
 
   /* Miscellaneous functions */

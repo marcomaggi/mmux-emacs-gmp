@@ -126,6 +126,12 @@
 #undef  mmux_get_prec
 #define mmux_get_prec(ENV, ARG)		((mp_prec_t)((ENV)->extract_integer((ENV), (ARG))))
 
+#undef  mmux_get_size
+#define mmux_get_size(ENV, ARG)		((mp_size_t)((ENV)->extract_integer((ENV), (ARG))))
+
+#undef  mmux_get_randstate
+#define mmux_get_randstate(ENV, ARG)	((mmux_gmp_randstate_t)(mmux_get_ptr((ENV), (ARG))))
+
 /* ------------------------------------------------------------------ */
 
 #undef  mmux_make_bitcnt
@@ -155,6 +161,10 @@ typedef unsigned int		mmux_uint_t;
 typedef signed   long int	mmux_slint_t;
 typedef unsigned long int	mmux_ulint_t;
 
+/* ------------------------------------------------------------------ */
+
+typedef __gmp_randstate_struct *	mmux_gmp_randstate_t;
+
 
 /** --------------------------------------------------------------------
  ** Constants.
@@ -182,6 +192,9 @@ mmux_emacs_gmp_rational_number_functions_init (emacs_env * env);
 
 mmux_emacs_gmp_private_decl void
 mmux_emacs_gmp_floating_point_number_functions_init (emacs_env * env);
+
+mmux_emacs_gmp_private_decl void
+mmux_emacs_gmp_miscellaneous_functions_init (emacs_env * env);
 
 
 /** --------------------------------------------------------------------

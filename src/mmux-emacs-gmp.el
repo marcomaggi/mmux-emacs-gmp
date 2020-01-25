@@ -4,7 +4,7 @@
 
 ;; Author: Marco Maggi <mrc.mgg@gmail.com>
 ;; Created: Jan 15, 2020
-;; Time-stamp: <2020-01-24 19:14:38 marco>
+;; Time-stamp: <2020-01-25 17:15:55 marco>
 ;; Keywords: extensions
 
 ;; This file is part of MMUX Emacs GMP.
@@ -93,7 +93,7 @@
   obj)
 
 (defun mpz (&optional INIT)
-  "Build and return a new, uninitialised, `mpz' object."
+  "Build and return a new `mpz' object."
   (let ((Z (mmux-gmp-c-mpz-make)))
     (cond ((integerp INIT)
 	   (mmux-gmp-c-mpz-set-si Z INIT))
@@ -115,7 +115,7 @@
   obj)
 
 (defun mpq (&optional INIT DENOMINATOR-INIT)
-  "Build and return a new, uninitialised, `mpq' object."
+  "Build and return a new `mpq' object."
   (let ((Q (mmux-gmp-c-mpq-make)))
     (if DENOMINATOR-INIT
 	(cond ((and (integerp INIT)
@@ -141,7 +141,7 @@
   obj)
 
 (defun mpf (&optional INIT)
-  "Build and return a new, uninitialised, `mpf' object."
+  "Build and return a new `mpf' object."
   (let ((F (mmux-gmp-c-mpf-make)))
     (cond ((integerp INIT)
 	   (mmux-gmp-c-mpf-set-si F INIT))
@@ -156,6 +156,16 @@
 	  (INIT
 	   (signal 'mmux-gmp-invalid-initialisation-value (list INIT))))
     (make-mpf :obj F)))
+
+;;; --------------------------------------------------------------------
+
+(cl-defstruct (gmp-randstate (:constructor make-gmp-randstate))
+  obj)
+
+(defun gmp-randstate ()
+  "Build and return a new `gmp-randstate' object."
+  (let ((obj (mmux-gmp-c-gmp-randstate-make)))
+    (make-gmp-randstate :obj obj)))
 
 
 ;;;; integer number functions: assignment
@@ -713,7 +723,7 @@
   (mmux-gmp-c-mpz-ui-pow-ui (mpz-obj rop) base exp))
 
 
-;;;; root extraction functions
+;;;; integer number functions: root extraction functions
 
 ;; int mpz_root (mpz_t ROP, const mpz_t OP, unsigned long int N)
 (cl-defgeneric mpz-root (rop op N)
@@ -760,7 +770,7 @@
   (mmux-gmp-c-mpz-perfect-square-p (mpz-obj op)))
 
 
-;;;; number theoretic functions
+;;;; integer number functions: number theoretic functions
 
 ;; int mpz_probab_prime_p (const mpz_t N, int REPS)
 (cl-defgeneric mpz-probab-prime-p (N reps)
@@ -961,7 +971,7 @@
   (mmux-gmp-c-mpz-lucnum2-ui (mpz-obj LN) (mpz-obj LNSUB1) N))
 
 
-;;;; comparison functions
+;;;; integer number functions: comparison functions
 
 ;; int mpz_cmp (const mpz_t OP1, const mpz_t OP2)
 (cl-defgeneric mpz-cmp (op1 op2)
@@ -1068,7 +1078,7 @@
   (<= 0 (mpz-cmp-si op 0)))
 
 
-;;;; logical and bit manipulation functions
+;;;; integer number functions: logical and bit manipulation functions
 
 ;; void mpz_and (mpz_t ROP, const mpz_t OP1, const mpz_t OP2)
 (cl-defgeneric mpz-and (rop op1 op2)
@@ -1153,6 +1163,44 @@
 (cl-defmethod mpz-tstbit ((op mpz) (bit-index integer))
   "Test bit BIT_INDEX in OP and return 0 or 1 accordingly."
   (mmux-gmp-c-mpz-tstbit (mpz-obj op) bit-index))
+
+
+;;;; integer number functions: random number functions
+
+;; void mpz_urandomb (mpz_t ROP, gmp_randstate_t STATE, mp_bitcnt_t N)
+(cl-defgeneric mpz-urandomb (rop state N)
+  "Generate a uniformly distributed random integer in the range 0 to 2^N-1, inclusive.")
+(cl-defmethod  mpz-urandomb ((rop mpz) (state gmp-randstate) (N integer))
+  "Generate a uniformly distributed random integer in the range 0 to 2^N-1, inclusive."
+  (mmux-gmp-c-mpz-urandomb (mpz-obj rop) (gmp-randstate-obj state) N))
+
+;; void mpz_urandomm (mpz_t ROP, gmp_randstate_t STATE, const mpz_t N)
+(cl-defgeneric mpz-urandomm (rop state N)
+  "Generate a uniform random integer in the range 0 to N-1, inclusive.")
+(cl-defmethod  mpz-urandomm ((rop mpz) (state gmp-randstate) (N mpz))
+  "Generate a uniform random integer in the range 0 to N-1, inclusive."
+  (mmux-gmp-c-mpz-urandomm (mpz-obj rop) (gmp-randstate-obj state) (mpz-obj N)))
+
+;; void mpz_rrandomb (mpz_t ROP, gmp_randstate_t STATE, mp_bitcnt_t N)
+(cl-defgeneric mpz-rrandomb (rop state N)
+  "Generate a random integer with long strings of zeros and ones in the binary representation. ")
+(cl-defmethod  mpz-rrandomb ((rop mpz) (state gmp-randstate) (N integer))
+  "Generate a random integer with long strings of zeros and ones in the binary representation. "
+  (mmux-gmp-c-mpz-rrandomb (mpz-obj rop) (gmp-randstate-obj state) N))
+
+;; void mpz_random (mpz_t ROP, mp_size_t MAX_SIZE)
+(cl-defgeneric mpz-random (rop max-size)
+  "Generate a random integer of at most MAX-SIZE limbs.")
+(cl-defmethod  mpz-random ((rop mpz) (max-size integer))
+  "Generate a random integer of at most MAX-SIZE limbs."
+  (mmux-gmp-c-mpz-random (mpz-obj rop) max-size))
+
+;; void mpz_random2 (mpz_t ROP, mp_size_t MAX_SIZE)
+(cl-defgeneric mpz-random2 (rop max-size)
+  "Generate a random integer of at most MAX-SIZE limbs, with long strings of zeros and ones in the binary representation.")
+(cl-defmethod  mpz-random2 ((rop mpz) (max-size integer))
+  "Generate a random integer of at most MAX-SIZE limbs, with long strings of zeros and ones in the binary representation."
+  (mmux-gmp-c-mpz-random2 (mpz-obj rop) max-size))
 
 
 ;;;; integer number functions: miscellaneous
@@ -1440,6 +1488,78 @@ The argument BASE can vary from 2 to 62."
   (cl-assert (mpf-p op1))
   (cl-assert (mpf-p op2))
   (mmux-gmp-c-mpf-add (mpf-obj rop) (mpf-obj op1) (mpf-obj op2)))
+
+
+;;;; random number functions: state initialisation
+
+;; void gmp_randinit_default (gmp_randstate_t STATE)
+(cl-defgeneric gmp-randinit-default (state)
+  "Initialize STATE with a default algorithm.")
+(cl-defmethod  gmp-randinit-default ((state gmp-randstate))
+  "Initialize STATE with a default algorithm."
+  (mmux-gmp-c-gmp-randinit-default (gmp-randstate-obj state)))
+
+;; void gmp_randinit_mt (gmp_randstate_t STATE)
+(cl-defgeneric gmp-randinit-mt (state)
+  "Initialize STATE for a Mersenne Twister algorithm.")
+(cl-defmethod  gmp-randinit-mt ((state gmp-randstate))
+  "Initialize STATE for a Mersenne Twister algorithm."
+  (mmux-gmp-c-gmp-randinit-mt (gmp-randstate-obj state)))
+
+;; void gmp_randinit_lc_2exp (gmp_randstate_t STATE, const mpz_t A, unsigned long C, mp_bitcnt_t M2EXP)
+(cl-defgeneric gmp-randinit-lc-2exp (state A C M2EXP)
+  "Initialize STATE with a linear congruential algorithm.")
+(cl-defmethod  gmp-randinit-lc-2exp ((state gmp-randstate) (A mpz) (C integer) (M2EXP integer))
+  "Initialize STATE with a linear congruential algorithm."
+  (mmux-gmp-c-gmp-randinit-lc-2exp (gmp-randstate-obj state) (mpz-obj A) C M2EXP))
+
+;; int gmp-randinit-lc-2exp_size (gmp_randstate_t STATE, mp_bitcnt_t SIZE)
+(cl-defgeneric gmp-randinit-lc-2exp-size (state size)
+  "Initialize STATE with a linear congruential algorithm.")
+(cl-defmethod  gmp-randinit-lc-2exp-size ((state gmp-randstate) (size integer))
+  "Initialize STATE with a linear congruential algorithm."
+  (mmux-gmp-c-gmp-randinit-lc-2exp-size (gmp-randstate-obj state) size))
+
+;; void gmp-randinit-set (gmp_randstate_t ROP, gmp_randstate_t OP)
+(cl-defgeneric gmp-randinit-set (rop op)
+  "Initialize ROP with a copy of the algorithm and state from OP.")
+(cl-defmethod  gmp-randinit-set ((rop gmp-randstate) (op gmp-randstate))
+  "Initialize ROP with a copy of the algorithm and state from OP."
+  (mmux-gmp-c-gmp-randinit-set (gmp-randstate-obj rop) (gmp-randstate-obj op)))
+
+
+;;;; random number functions: state seeding
+
+;; void gmp_randseed (gmp_randstate_t STATE, const mpz_t SEED)
+(cl-defgeneric gmp-randseed (state seed)
+  "Set an initial seed value into STATE.")
+(cl-defmethod  gmp-randseed ((state gmp-randstate) (seed mpz))
+  "Set an initial seed value into STATE."
+  (mmux-gmp-c-gmp-randseed (gmp-randstate-obj state) (mpz-obj seed)))
+
+;; void gmp_randseed_ui (gmp_randstate_t STATE, unsigned long int SEED)
+(cl-defgeneric gmp-randseed-ui (state seed)
+  "Set an initial seed value into STATE.")
+(cl-defmethod  gmp-randseed-ui ((state gmp-randstate) (seed integer))
+  "Set an initial seed value into STATE."
+  (mmux-gmp-c-gmp-randseed-ui (gmp-randstate-obj state) seed))
+
+
+;;;; random number functions: number generation
+
+;; unsigned long gmp_urandomb_ui (gmp_randstate_t STATE, unsigned long N)
+(cl-defgeneric gmp-urandomb-ui (state N)
+  "Return a uniformly distributed random number of N bits, in the range 0 to 2^N-1 inclusive.")
+(cl-defmethod  gmp-urandomb-ui ((state gmp-randstate) (N integer))
+  "Return a uniformly distributed random number of N bits, in the range 0 to 2^N-1 inclusive."
+  (mmux-gmp-c-gmp-urandomb-ui (gmp-randstate-obj state) N))
+
+;; unsigned long gmp_urandomm_ui (gmp_randstate_t STATE, unsigned long N)
+(cl-defgeneric gmp-urandomm-ui (state N)
+  "Return a uniformly distributed random number in the range 0 to N-1, inclusive.")
+(cl-defmethod  gmp-urandomm-ui ((state gmp-randstate) (N integer))
+  "Return a uniformly distributed random number in the range 0 to N-1, inclusive."
+  (mmux-gmp-c-gmp-urandomm-ui (gmp-randstate-obj state) N))
 
 
 ;;;; done

@@ -155,6 +155,7 @@ included in the section entitled ``@gnu{} Free Documentation License''.
 * integers::                    Exact integer objects and operations.
 * rationals::                   Rational number objects and operations.
 * floats::                      Floating-point number objects and operations.
+* random::                      Random numbers generation.
 * errors::                      How errors are signalled.
 
 Appendices
@@ -307,6 +308,7 @@ garbage collected.
 * integers comparison::         Commparison functions.
 * integers theoretic::          Number theoretic functions.
 * integers bitlogic::           Logical and bit manipulation functions.
+* integers random::             Random number functions.
 * integers miscellaneous::      Miscellaneous functions.
 @end menu
 
@@ -2285,6 +2287,107 @@ Test bit BIT_INDEX in @var{OP} and return 0 or 1 accordingly.
 @end deffn
 
 @c page
+@node integers random
+@section Random number functions
+
+
+@c void mpz_urandomb (mpz_t ROP, gmp_randstate_t STATE, mp_bitcnt_t N)
+@deffn {Generic Function} mpz-urandomb (@var{ROP} @var{STATE} @var{N})
+@deffnx {Method} mpz-urandomb ((@var{ROP} mpz) (@var{STATE} gmp-randstate) (@var{N} integer))
+Generate a uniformly distributed random integer in the range 0 to 2^@var{N}-1, inclusive.
+
+@lisp
+(let ((rop            (mpz))
+      (state          (gmp-randstate))
+      (N              3))
+  (gmp-randinit-default state)
+  (gmp-randseed-ui state 123)
+  (mpz-urandomb rop state N)
+  (let ((num (mpz-get-ui rop)))
+    (and (>= num 0)
+         (<  num (expt 2 N)))))
+@result{} t
+@end lisp
+@end deffn
+
+
+@c void mpz_urandomm (mpz_t ROP, gmp_randstate_t STATE, const mpz_t N)
+@deffn {Generic Function} mpz-urandomm (@var{ROP} @var{STATE} @var{N})
+@deffnx {Method} mpz-urandomm ((@var{ROP} mpz) (@var{STATE} gmp-randstate) (@var{N} mpz))
+Generate a uniform random integer in the range 0 to @var{N}-1, inclusive.
+
+@lisp
+(let ((rop            (mpz))
+      (state          (gmp-randstate))
+      (N              (mpz 3)))
+  (gmp-randinit-default state)
+  (gmp-randseed-ui state 123)
+  (mpz-urandomm rop state N)
+  (let ((num (mpz-get-ui rop)))
+    (and (>= num 0)
+         (<  num (mpz-get-ui N)))))
+@result{} t
+@end lisp
+@end deffn
+
+
+@c void mpz_rrandomb (mpz_t ROP, gmp_randstate_t STATE, mp_bitcnt_t N)
+@deffn {Generic Function} mpz-rrandomb (@var{ROP} @var{STATE} @var{N})
+@deffnx {Method} mpz-rrandomb ((@var{ROP} mpz) (@var{STATE} gmp-randstate) (@var{N} integer))
+Generate a random integer with long strings of zeros and ones in the binary representation.
+
+@lisp
+(let ((rop            (mpz))
+      (state          (gmp-randstate))
+      (N              3))
+  (gmp-randinit-default state)
+  (gmp-randseed-ui state 123)
+  (mpz-rrandomb rop state N)
+  (let ((num (mpz-get-ui rop)))
+    (and (>= num 0)
+         (<  num (expt 2 N)))))
+@result{} t
+@end lisp
+@end deffn
+
+
+@c void mpz_random (mpz_t ROP, mp_size_t MAX_SIZE)
+@deffn {Generic Function} mpz-random (@var{ROP} @var{MAX-SIZE})
+@deffnx {Method} mpz-random ((@var{ROP} mpz) (@var{MAX-SIZE} integer))
+Generate a random integer of at most @var{MAX-SIZE} limbs.
+
+@lisp
+(let ((rop            (mpz))
+      (state          (gmp-randstate))
+      (max-size       1))
+  (gmp-randinit-default state)
+  (gmp-randseed-ui state 123)
+  (mpz-random rop max-size)
+  rop)
+@result{} <some number>
+@end lisp
+@end deffn
+
+
+@c void mpz_random2 (mpz_t ROP, mp_size_t MAX_SIZE)
+@deffn {Generic Function} mpz-random2 (@var{ROP} @var{MAX-SIZE})
+@deffnx {Method} mpz-random2 ((@var{ROP} mpz) (@var{MAX-SIZE} integer))
+Generate a random integer of at most @var{MAX-SIZE} limbs, with long strings of zeros and ones in
+the binary representation.
+
+@lisp
+(let ((rop            (mpz))
+      (state          (gmp-randstate))
+      (max-size       1))
+  (gmp-randinit-default state)
+  (gmp-randseed-ui state 123)
+  (mpz-random2 rop max-size)
+  rop)
+@result{} <some number>
+@end lisp
+@end deffn
+
+@c page
 @node integers miscellaneous
 @section Miscellaneous functions
 
@@ -2807,6 +2910,202 @@ arguments @var{base} and @var{ndigits} are the same as documented for @func{mpf-
 @result{} "0.0"
 @end lisp
 @end defun
+
+@c page
+@node random
+@chapter Random numbers generation
+
+
+@deftp {Object Type} gmp-randstate
+Type of structures representing the state of a random numbers generator.  It is a wrapper for the C
+language type @objtype{gmp_randstate}.  These objects, and their internal representation, are
+correctly garbage collected.
+@end deftp
+
+
+@menu
+* random obj::                  Random number generator objects.
+* random init::                 Random number generators initialisation.
+* random seed::                 Random number generators seeding.
+* random gen::                  Generating random numbers.
+@end menu
+
+@c page
+@node random obj
+@section Random number generator objects
+
+
+@defun gmp-randstate
+Build and return a new @objtype{gmp-randstate} object.  The generator is @strong{uninitialised}.
+@end defun
+
+
+@defun gmp-randstate-p @var{obj}
+Return true if @var{obj} is an instance of @objtype{gmp-randstate}; otherwise return false.
+@end defun
+
+@c page
+@node random init
+@section Random number generators initialisation
+
+
+@c void gmp_randinit_default (gmp_randstate_t STATE)
+@deffn {Generic Function} gmp-randinit-default@strong{ (@var{STATE}})
+@deffnx {Method} gmp-randinit-default ((@var{STATE} gmp-randstate))
+Initialise @var{STATE} with a default algorithm.
+
+@lisp
+(let ((state  (gmp-randstate)))
+  (gmp-randinit-default state)
+  (gmp-randseed-ui state 123)
+  (let ((num (gmp-urandomb-ui state 3)))
+    (and (<= 0 num) (< num (expt 2 3)))))
+@result{} t
+@end lisp
+@end deffn
+
+
+@c void gmp_randinit_mt (gmp_randstate_t STATE)
+@deffn {Generic Function} gmp-randinit-mt (@var{STATE})
+@deffnx {Method} gmp-randinit-mt ((@var{STATE} gmp-randstate))
+Initialise @var{STATE} for a Mersenne Twister algorithm.
+
+@lisp
+(let ((state  (gmp-randstate)))
+  (gmp-randinit-mt state)
+  (gmp-randseed-ui state 123)
+  (let ((num (gmp-urandomb-ui state 3)))
+    (and (<= 0 num) (< num (expt 2 3)))))
+@result{} t
+@end lisp
+@end deffn
+
+
+@c void gmp_randinit_lc_2exp (gmp_randstate_t STATE, const mpz_t A, unsigned long C, mp_bitcnt_t M2EXP)
+@deffn {Generic Function} gmp-randinit-lc-2exp (@var{STATE} @var{A} @var{C} M2EXP)
+@deffnx {Method} gmp-randinit-lc-2exp ((@var{STATE} gmp-randstate) (@var{A} mpz) (@var{C} integer) (@var{M2EXP} integer))
+Initialise @var{STATE} with a linear congruential algorithm.
+
+@lisp
+(let ((state  (gmp-randstate))
+      (A      (mpz 19))
+      (C      2)
+      (M2EXP  3))
+  (gmp-randinit-lc-2exp state A C M2EXP)
+  (gmp-randseed-ui state 123)
+  (let ((num (gmp-urandomb-ui state 3)))
+    (and (<= 0 num) (< num (expt 2 3)))))
+@result{} t
+@end lisp
+@end deffn
+
+
+@c int gmp-randinit-lc-2exp_size (gmp_randstate_t STATE, mp_bitcnt_t SIZE)
+@deffn {Generic Function} gmp-randinit-lc-2exp-size (@var{STATE} @var{SIZE})
+@deffnx {Method} gmp-randinit-lc-2exp-size ((@var{STATE} gmp-randstate) (@var{SIZE} integer))
+Initialise @var{STATE} with a linear congruential algorithm.
+
+@lisp
+(let ((state  (gmp-randstate))
+      (size   30))
+  (gmp-randinit-lc-2exp-size state size)
+  (gmp-randseed-ui state 123)
+  (let ((num (gmp-urandomb-ui state 3)))
+    (and (<= 0 num) (< num (expt 2 3)))))
+@result{} t
+@end lisp
+@end deffn
+
+
+@c void gmp-randinit-set (gmp_randstate_t ROP, gmp_randstate_t OP)
+@deffn {Generic Function} gmp-randinit-set (@var{ROP} @var{OP})
+@deffnx {Method} gmp-randinit-set ((@var{ROP} gmp-randstate) (@var{OP} gmp-randstate))
+Initialise @var{ROP} with a copy of the algorithm and state from @var{OP}.
+
+@lisp
+(let ((rop    (gmp-randstate))
+      (op     (gmp-randstate)))
+  (gmp-randinit-default op)
+  (gmp-randseed-ui op 123)
+  (gmp-randinit-set rop op)
+  (let ((num (gmp-urandomb-ui op 3)))
+    (and (<= 0 num) (< num (expt 2 3)))))
+@result{} t
+@end lisp
+@end deffn
+
+@c page
+@node random seed
+@section Random number generators seeding
+
+
+@c void gmp_randseed (gmp_randstate_t STATE, const mpz_t SEED)
+@deffn {Generic Function} gmp-randseed (@var{STATE} @var{SEED})
+@deffnx {Method} gmp-randseed ((@var{STATE} gmp-randstate) (@var{SEED} mpz))
+Set an initial seed value into @var{STATE}.
+
+@lisp
+(let ((state  (gmp-randstate)))
+  (gmp-randinit-default state)
+  (gmp-randseed state (mpz 123))
+  (let ((num (gmp-urandomm-ui state 3)))
+    (and (<= 0 num) (< num 3))))
+@result{} t
+@end lisp
+@end deffn
+
+
+@c void gmp_randseed_ui (gmp_randstate_t STATE, unsigned long int SEED)
+@deffn {Generic Function} gmp-randseed-ui (@var{STATE} @var{SEED})
+@deffnx {Method} gmp-randseed-ui ((@var{STATE} gmp-randstate) (@var{SEED} integer))
+Set an initial seed value into @var{STATE}.
+
+@lisp
+(let ((state  (gmp-randstate)))
+  (gmp-randinit-default state)
+  (gmp-randseed-ui state 12)
+  (let ((num (gmp-urandomm-ui state 3)))
+    (and (<= 0 num) (< num 3))))
+@result{} t
+@end lisp
+@end deffn
+
+@c page
+@node random gen
+@section Generating random numbers
+
+
+@c unsigned long gmp_urandomb_ui (gmp_randstate_t STATE, unsigned long N)
+@deffn {Generic Function} gmp-urandomb-ui (@var{state} @var{N})
+@deffnx {Method} gmp-urandomb-ui ((@var{state} gmp-randstate) (@var{N} integer))
+Return a uniformly distributed random number of @var{N} bits, in the range 0 to 2^@var{N}-1
+inclusive.
+
+@lisp
+(let ((state  (gmp-randstate)))
+  (gmp-randinit-default state)
+  (gmp-randseed-ui state 123)
+  (let ((num (gmp-urandomb-ui state 3)))
+    (and (<= 0 num) (< num (expt 2 3)))))
+@result{} t
+@end lisp
+@end deffn
+
+
+@c unsigned long gmp_urandomm_ui (gmp_randstate_t STATE, unsigned long N)
+@deffn {Generic Function} gmp-urandomm-ui (@var{state} @var{N})
+@deffnx {Method} gmp-urandomm-ui ((@var{state} gmp-randstate) (@var{N} integer))
+Return a uniformly distributed random number in the range 0 to @var{N}-1, inclusive.
+
+@lisp
+(let ((state  (gmp-randstate)))
+  (gmp-randinit-default state)
+  (gmp-randseed-ui state 123)
+  (let ((num (gmp-urandomm-ui state 3)))
+    (and (<= 0 num) (< num 3))))
+@result{} t
+@end lisp
+@end deffn
 
 @c page
 @node errors

@@ -180,6 +180,7 @@ emacs_module_init (struct emacs_runtime *ert)
       mmux_emacs_gmp_integer_number_functions_init(env);
       mmux_emacs_gmp_rational_number_functions_init(env);
       mmux_emacs_gmp_floating_point_number_functions_init(env);
+      mmux_emacs_gmp_miscellaneous_functions_init(env);
       return 0;
     }
   }

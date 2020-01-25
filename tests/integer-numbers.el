@@ -1294,6 +1294,70 @@
     (should (equal nil (mpz-tstbit op bit-index)))))
 
 
+;;;; random number functions
+
+;; void mpz_urandomb (mpz_t ROP, gmp_randstate_t STATE, mp_bitcnt_t N)
+(ert-deftest mpz-urandomb ()
+  "Generate a uniformly distributed random integer in the range 0 to 2^N-1, inclusive."
+  (let ((rop		(mpz))
+	(state		(gmp-randstate))
+	(N		3))
+    (gmp-randinit-default state)
+    (gmp-randseed-ui state 123)
+    (mpz-urandomb rop state N)
+    (let ((num (mpz-get-ui rop)))
+      (should (and (>= num 0)
+		   (<  num (expt 2 N)))))))
+
+;; void mpz_urandomm (mpz_t ROP, gmp_randstate_t STATE, const mpz_t N)
+(ert-deftest mpz-urandomm ()
+  "Generate a uniform random integer in the range 0 to N-1, inclusive."
+  (let ((rop		(mpz))
+	(state		(gmp-randstate))
+	(N		(mpz 3)))
+    (gmp-randinit-default state)
+    (gmp-randseed-ui state 123)
+    (mpz-urandomm rop state N)
+    (let ((num (mpz-get-ui rop)))
+      (should (and (>= num 0)
+		   (<  num (mpz-get-ui N)))))))
+
+;; void mpz_rrandomb (mpz_t ROP, gmp_randstate_t STATE, mp_bitcnt_t N)
+(ert-deftest mpz-rrandomb ()
+  "Generate a random integer with long strings of zeros and ones in the binary representation."
+  (let ((rop		(mpz))
+	(state		(gmp-randstate))
+	(N		3))
+    (gmp-randinit-default state)
+    (gmp-randseed-ui state 123)
+    (mpz-rrandomb rop state N)
+    (let ((num (mpz-get-ui rop)))
+      (should (and (>= num 0)
+		   (<  num (expt 2 N)))))))
+
+;; void mpz_random (mpz_t ROP, mp_size_t MAX_SIZE)
+(ert-deftest mpz-random ()
+  "Generate a random integer of at most MAX-SIZE limbs."
+  (let ((rop		(mpz))
+	(state		(gmp-randstate))
+	(max-size	1))
+    (gmp-randinit-default state)
+    (gmp-randseed-ui state 123)
+    (mpz-random rop max-size)
+    (should rop)))
+
+;; void mpz_random2 (mpz_t ROP, mp_size_t MAX_SIZE)
+(ert-deftest mpz-random2 ()
+  "Generate a random integer of at most MAX-SIZE limbs, with long strings of zeros and ones in the binary representation."
+  (let ((rop		(mpz))
+	(state		(gmp-randstate))
+	(max-size	1))
+    (gmp-randinit-default state)
+    (gmp-randseed-ui state 123)
+    (mpz-random2 rop max-size)
+    (should rop)))
+
+
 ;;;; miscellaneous functions
 
 ;; int mpz_fits_ulong_p (const mpz_t OP)
@@ -1352,7 +1416,6 @@
 (ert-deftest mpz-sizeinbase ()
   ""
   (should (equal 1 (mpz-sizeinbase (mpz 1) 2))))
-
 
 
 ;;;; done

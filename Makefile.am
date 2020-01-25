@@ -48,7 +48,8 @@ libmmux_emacs_gmp_la_SOURCES	= \
 	src/mmux-emacs-gmp-user-pointer-objects.c	\
 	src/mmux-emacs-gmp-integer-numbers.c		\
 	src/mmux-emacs-gmp-rational-numbers.c		\
-	src/mmux-emacs-gmp-floating-point-numbers.c
+	src/mmux-emacs-gmp-floating-point-numbers.c	\
+	src/mmux-emacs-gmp-miscellaneous.c
 
 
 #### Emacs code
@@ -65,11 +66,12 @@ src/mmux-emacs-gmp.elc: libmmux-emacs-gmp.la
 #### tests
 
 MMUX_EMACS_GMP_TESTS = \
-	tests/version.el		\
-	tests/user-pointer-objects.el	\
-	tests/integer-numbers.el	\
-	tests/rational-numbers.el	\
-	tests/floating-point-numbers.el
+	tests/version.el			\
+	tests/user-pointer-objects.el		\
+	tests/integer-numbers.el		\
+	tests/rational-numbers.el		\
+	tests/floating-point-numbers.el		\
+	tests/random-numbers-generators.el
 
 EXTRA_DIST	+= $(MMUX_EMACS_GMP_TESTS)
 TESTS		 = $(MMUX_EMACS_GMP_TESTS)
