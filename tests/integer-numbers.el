@@ -1188,6 +1188,38 @@
   (should      (mpz-non-negative-p (mpz  0)))
   (should      (mpz-non-negative-p (mpz +1))))
 
+;;; --------------------------------------------------------------------
+
+(ert-deftest mpz< ()
+  "Compare operands."
+  (should      (mpz< (mpz 1) (mpz 2)))
+  (should (not (mpz< (mpz 1) (mpz 1))))
+  (should (not (mpz< (mpz 2) (mpz 1)))))
+
+(ert-deftest mpz> ()
+  "Compare operands."
+  (should (not (mpz> (mpz 1) (mpz 2))))
+  (should (not (mpz> (mpz 1) (mpz 1))))
+  (should      (mpz> (mpz 2) (mpz 1))))
+
+(ert-deftest mpz<= ()
+  "Compare operands."
+  (should      (mpz<= (mpz 1) (mpz 2)))
+  (should      (mpz<= (mpz 1) (mpz 1)))
+  (should (not (mpz<= (mpz 2) (mpz 1)))))
+
+(ert-deftest mpz>= ()
+  "Compare operands."
+  (should (not (mpz>= (mpz 1) (mpz 2))))
+  (should      (mpz>= (mpz 1) (mpz 1)))
+  (should      (mpz>= (mpz 2) (mpz 1))))
+
+(ert-deftest mpz= ()
+  "Compare operands."
+  (should (not (mpz= (mpz 1) (mpz 2))))
+  (should      (mpz= (mpz 1) (mpz 1)))
+  (should (not (mpz= (mpz 2) (mpz 1)))))
+
 
 ;;;; logical and bit manipulation functions
 

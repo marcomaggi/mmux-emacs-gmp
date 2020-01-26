@@ -1754,6 +1754,70 @@ Return true if @var{OP} is non-positive; otherwise return false.
 Return true if @var{OP} is non-negative; otherwise return false.
 @end deffn
 
+@c ------------------------------------------------------------------------
+
+@deffn {Generic Function} mpz< (@var{OP} &rest @var{OPS})
+@deffnx {Method} mpz< ((@vari{OP} mpz) (@varii{OP} mpz))
+Return true if each argument is strictly less than the following argument; otherwise return false.
+
+@lisp
+(mpz< (mpz 1) (mpz 2))          @result{} t
+(mpz< (mpz 1) (mpz 1))          @result{} nil
+(mpz< (mpz 2) (mpz 1))          @result{} nil
+@end lisp
+@end deffn
+
+
+@deffn {Generic Function} mpz> (@var{OP} &rest @var{OPS})
+@deffnx {Method} mpz> ((@vari{OP} mpz) (@varii{OP} mpz))
+Return true if each argument is strictly greater than the following argument; otherwise return
+false.
+
+@lisp
+(mpz> (mpz 1) (mpz 2))          @result{} nil
+(mpz> (mpz 1) (mpz 1))          @result{} nil
+(mpz> (mpz 2) (mpz 1))          @result{} t
+@end lisp
+@end deffn
+
+
+@deffn {Generic Function} mpz<= (@var{OP} &rest @var{OPS})
+@deffnx {Method} mpz<= ((@vari{OP} mpz) (@varii{OP} mpz))
+Return true if each argument is strictly less than, or equal to, the following argument; otherwise
+return false.
+
+@lisp
+(mpz<= (mpz 1) (mpz 2))         @result{} t
+(mpz<= (mpz 1) (mpz 1))         @result{} t
+(mpz<= (mpz 2) (mpz 1))         @result{} nil
+@end lisp
+@end deffn
+
+
+@deffn {Generic Function} mpz>= (@var{OP} &rest @var{OPS})
+@deffnx {Method} mpz>= ((@vari{OP} mpz) (@varii{OP} mpz))
+Return true if each argument is greater than, or equal to, the following argument; otherwise return
+false.
+
+@lisp
+(mpz>= (mpz 1) (mpz 2))         @result{} nil
+(mpz>= (mpz 1) (mpz 1))         @result{} t
+(mpz>= (mpz 2) (mpz 1))         @result{} t
+@end lisp
+@end deffn
+
+
+@deffn {Generic Function} mpz= (@var{OP} &rest @var{OPS})
+@deffnx {Method} mpz= ((@vari{OP} mpz) (@varii{OP} mpz))
+Return true if each argument is equal to the following argument; otherwise return false.
+
+@lisp
+(mpz= (mpz 1) (mpz 2))          @result{} nil
+(mpz= (mpz 1) (mpz 1))          @result{} t
+(mpz= (mpz 2) (mpz 1))          @result{} nil
+@end lisp
+@end deffn
+
 @c page
 @node integers theoretic
 @section Number theoretic functions

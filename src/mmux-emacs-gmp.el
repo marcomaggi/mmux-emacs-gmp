@@ -4,7 +4,7 @@
 
 ;; Author: Marco Maggi <mrc.mgg@gmail.com>
 ;; Created: Jan 15, 2020
-;; Time-stamp: <2020-01-26 07:18:12 marco>
+;; Time-stamp: <2020-01-26 10:10:34 marco>
 ;; Keywords: extensions
 
 ;; This file is part of MMUX Emacs GMP.
@@ -1071,6 +1071,38 @@
 (cl-defmethod  mpz-non-negative-p ((op mpz))
   "Return true if OP is non-negative; otherwise return false."
   (<= 0 (mpz-cmp-si op 0)))
+
+;;; --------------------------------------------------------------------
+
+(cl-defgeneric mpz< (op &rest ops)
+  "Return true if each argument is strictly less than the following argument; otherwise return false.")
+(cl-defmethod  mpz< ((op1 mpz) (op2 mpz))
+  "Return true if each argument is strictly less than the following argument; otherwise return false."
+  (> 0 (mpz-cmp op1 op2)))
+
+(cl-defgeneric mpz> (op &rest ops)
+  "Return true if each argument is strictly greater than the following argument; otherwise return false.")
+(cl-defmethod  mpz> ((op1 mpz) (op2 mpz))
+  "Return true if each argument is strictly greater than the following argument; otherwise return false."
+  (< 0 (mpz-cmp op1 op2)))
+
+(cl-defgeneric mpz<= (op &rest ops)
+  "Return true if each argument is strictly less than, or equal to, the following argument; otherwise return false.")
+(cl-defmethod  mpz<= ((op1 mpz) (op2 mpz))
+  "Return true if each argument is strictly less than, or equal to, the following argument; otherwise return false."
+  (>= 0 (mpz-cmp op1 op2)))
+
+(cl-defgeneric mpz>= (op &rest ops)
+  "Return true if each argument is greater than, or equal to, the following argument; otherwise return false.")
+(cl-defmethod  mpz>= ((op1 mpz) (op2 mpz))
+  "Return true if each argument is greater than, or equal to, the following argument; otherwise return false."
+  (<= 0 (mpz-cmp op1 op2)))
+
+(cl-defgeneric mpz= (op &rest ops)
+  "Return true if each argument is equal to the following argument; otherwise return false.")
+(cl-defmethod  mpz= ((op1 mpz) (op2 mpz))
+  "Return true if each argument is equal to the following argument; otherwise return false."
+  (zerop (mpz-cmp op1 op2)))
 
 
 ;;;; integer number functions: logical and bit manipulation functions
