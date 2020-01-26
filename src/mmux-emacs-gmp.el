@@ -4,7 +4,7 @@
 
 ;; Author: Marco Maggi <mrc.mgg@gmail.com>
 ;; Created: Jan 15, 2020
-;; Time-stamp: <2020-01-26 06:46:28 marco>
+;; Time-stamp: <2020-01-26 07:18:12 marco>
 ;; Keywords: extensions
 
 ;; This file is part of MMUX Emacs GMP.
@@ -1404,7 +1404,7 @@ The argument BASE can vary from 2 to 62."
   "Assign the value of an `mpz' object to an `mpf' object.")
 (cl-defmethod  mpf-set-z ((rop mpf) (op mpz))
   "Assign the value of an `mpz' object to an `mpf' object."
-  (mmux-gmp-c-mpf-set-q (mpf-obj rop) (mpz-obj op)))
+  (mmux-gmp-c-mpf-set-z (mpf-obj rop) (mpz-obj op)))
 
 (cl-defgeneric mpf-set-q (rop op)
   "Assign the value of an `mpq' object to an `mpf' object.")

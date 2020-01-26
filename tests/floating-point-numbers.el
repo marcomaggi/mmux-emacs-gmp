@@ -86,6 +86,20 @@
 			       (mpf-set-d rop 12.3)
 			       (mpf-get-str* 10 8 rop)))))
 
+(ert-deftest mpf-set-z ()
+  "Assign an `mpz' object an `mpf' object."
+  (let ((rop	(mpf))
+	(op	(mpz 123)))
+    (mpf-set-z rop op)
+    (should (equal "+0.123e+3" (mpf-get-str* 10 8 rop)))))
+
+(ert-deftest mpf-set-q ()
+  "Assign an `mpq' object an `mpf' object."
+  (let ((rop	(mpf))
+	(op	(mpq 2 3)))
+    (mpf-set-q rop op)
+    (should (equal "+0.66666667e0" (mpf-get-str* 10 8 rop)))))
+
 (ert-deftest mpf-set-str ()
   "Assign a string value to an `mpf' object."
   (let ((rop (mpf)))

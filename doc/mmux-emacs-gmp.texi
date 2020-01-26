@@ -347,8 +347,9 @@ Return @true{} if @var{obj} is an instance of @objtype{mpz}; otherwise return @f
 @section Assigning values to objects
 
 
-@defun mpz-set @var{rop} @var{op}
-Assign the value of @var{op} to @var{rop}; both the operands must be of type @objtype{mpz}.
+@deffn {Generic Function} mpz-set (@var{ROP} @var{OP})
+@deffnx {Method} mpz-set ((@var{ROP} mpz) (@var{OP} mpz))
+Assign the value of @var{OP} to @var{ROP}; both the operands must be of type @objtype{mpz}.
 
 @lisp
 (defconst rop (mpz))
@@ -358,10 +359,11 @@ Assign the value of @var{op} to @var{rop}; both the operands must be of type @ob
 (mpz-set    op rop)
 (mpz-get-str 10 op)     @result{} "123"
 @end lisp
-@end defun
+@end deffn
 
 
-@defun mpz-set-si @var{rop} @var{int}
+@deffn {Generic Function} mpz-set-si (@var{ROP} @var{INT})
+@deffnx {Method} mpz-set-si ((@var{ROP} mpz) (@var{INT} integer))
 Assign the value of an exact integer object to an @objtype{mpz} object.
 
 @lisp
@@ -370,10 +372,11 @@ Assign the value of an exact integer object to an @objtype{mpz} object.
 (mpz-set-si rop 123)
 (mpz-get-str 10 op)     @result{} "123"
 @end lisp
-@end defun
+@end deffn
 
 
-@defun mpz-set-d @var{rop} @var{flo}
+@deffn {Generic Function} mpz-set-d (@var{ROP} @var{FLO})
+@deffnx {Method} mpz-set-d ((@var{ROP} mpz) (@var{FLO} float))
 Assign the value of a floating--point object to an @objtype{mpz} object.
 
 @lisp
@@ -382,10 +385,11 @@ Assign the value of a floating--point object to an @objtype{mpz} object.
 (mpz-set-d rop 12.3)
 (mpz-get-str 10 rop)    @result{} "12"
 @end lisp
-@end defun
+@end deffn
 
 
-@defun mpz-set-q @var{rop} @var{op}
+@deffn {Generic Function} mpz-set-q (@var{ROP} @var{OP})
+@deffnx {Method} mpz-set-q ((@var{ROP} mpz) (@var{OP} mpq))
 Assign the value of an @objtype{mpq} object to an @objtype{mpz} object.
 
 @lisp
@@ -396,10 +400,11 @@ Assign the value of an @objtype{mpq} object to an @objtype{mpz} object.
 (mpz-set-q rop op)
 (mpz-get-str 10 rop)    @result{} "1"
 @end lisp
-@end defun
+@end deffn
 
 
-@defun mpz-set-f @var{rop} @var{op}
+@deffn {Generic Function} mpz-set-f (@var{ROP} @var{OP})
+@deffnx {Method} mpz-set-f ((@var{ROP} mpz) (@var{OP} mpf))
 Assign the value of an @objtype{mpf} object to an @objtype{mpz} object.
 
 @lisp
@@ -410,11 +415,12 @@ Assign the value of an @objtype{mpf} object to an @objtype{mpz} object.
 (mpz-set-f rop op)
 (mpz-get-str 10 rop)    @result{} "12"
 @end lisp
-@end defun
+@end deffn
 
 
-@defun mpz-set-str @var{rop} @var{str} @var{base}
-Assign the value of a string object to an @objtype{mpz} object.  The argument @var{base} must be an
+@deffn {Generic Function} mpz-set-str (@var{ROP} @var{STR} @var{BASE})
+@deffnx {Method} mpz-set-str ((@var{ROP} mpz) (@var{STR} string) (@var{BASE} integer))
+Assign the value of a string object to an @objtype{mpz} object.  The argument @var{BASE} must be an
 exact integer representing the base of the numeric string representation: @math{0} or a value
 between @math{2} and @math{32}.
 
@@ -424,10 +430,11 @@ between @math{2} and @math{32}.
 (mpz-set-str rop "123" 10)
 (mpz-get-str 10 rop)    @result{} "123"
 @end lisp
-@end defun
+@end deffn
 
 
-@defun mpz-swap @vari{op} @varii{op}
+@deffn {Generic Function} mpz-swap (@vari{OP} @varii{OP})
+@deffnx {Method} mpz-swap ((@vari{OP} mpz) (@varii{OP} mpz))
 Swap the values between two @objtype{mpz} objects.
 
 @lisp
@@ -440,42 +447,46 @@ Swap the values between two @objtype{mpz} objects.
 (mpz-get-str 10 op1)  @result{} "456"
 (mpz-get-str 10 op2)  @result{} "123"
 @end lisp
-@end defun
+@end deffn
 
 @c page
 @node integers conversion
 @section Converting exact integers to other objects
 
 
-@defun mpz-get-ui @var{op}
-Convert an object @var{op} of type @objtype{mpz} to an unsigned exact integer number.
+@deffn {Generic Function} mpz-get-ui (@var{OP})
+@deffnx {Method} mpz-get-ui ((@var{OP} mpz))
+Convert an object @var{OP} of type @objtype{mpz} to an unsigned exact integer number.
 
 @lisp
 (mpz-get-ui (mpz 123))  @result{} 123
 @end lisp
-@end defun
+@end deffn
 
 
-@defun mpz-get-si @var{op}
-Convert an object @var{op} of type @objtype{mpz} to an signed exact integer number.
+@deffn {Generic Function} mpz-get-si (@var{OP})
+@deffnx {Method} mpz-get-si ((@var{OP} mpz))
+Convert an object @var{OP} of type @objtype{mpz} to an signed exact integer number.
 
 @lisp
 (mpz-get-si (mpz 123))  @result{} 123
 @end lisp
-@end defun
+@end deffn
 
 
-@defun mpz-get-d @var{op}
-Convert an object @var{op} of type @objtype{mpz} to a floating--point number.
+@deffn {Generic Function} mpz-get-d (@var{OP})
+@deffnx {Method} mpz-get-d ((@var{OP} mpz))
+Convert an object @var{OP} of type @objtype{mpz} to a floating--point number.
 
 @lisp
 (mpz-get-d (mpz 123))  @result{} 123.0
 @end lisp
-@end defun
+@end deffn
 
 
-@defun mpz-get-d-2exp @var{op}
-Convert an object @var{op} of type @objtype{mpz} to a floating--point number, yielding the exponent
+@deffn {Generic Function} mpz-get-d-2exp (@var{OP})
+@deffnx {Method} mpz-get-d-2exp ((@var{OP} mpz))
+Convert an object @var{OP} of type @objtype{mpz} to a floating--point number, yielding the exponent
 separately.  The return value is a pair whose car is a floating--point number and whose cdr is the
 exponent:
 
@@ -485,12 +496,13 @@ exponent:
 rv                                      @result{} (0.9609375 . 7)
 (* (car rv) (expt 2 (cdr rv)))          @result{} 123.0
 @end lisp
-@end defun
+@end deffn
 
 
-@defun mpz-get-str @var{base} @var{op}
-Convert an object @var{op} of type @objtype{mpz} to a string; return the resulting string.
-@var{base} must be an exact integer representing the base of the numeric string representation:
+@deffn {Generic Function} mpz-get-str (@var{BASE} @var{OP})
+@deffnx {Method} mpz-get-str ((@var{BASE} integer) (@var{OP} mpz))
+Convert an object @var{OP} of type @objtype{mpz} to a string; return the resulting string.
+@var{BASE} must be an exact integer representing the base of the numeric string representation:
 positive between @math{2} and @math{36} or negative between @math{-2} and @math{-36}.
 
 @lisp
@@ -500,14 +512,15 @@ positive between @math{2} and @math{36} or negative between @math{-2} and @math{
 (mpz-get-str  16 op)    @result{} "f"
 (mpz-get-str -16 op)    @result{} "F"
 @end lisp
-@end defun
+@end deffn
 
 @c page
 @node integers arithmetic
 @section Arithmetic operations
 
 
-@defun mpz-add @var{rop} @vari{op} @varii{op}
+@deffn {Generic Function} mpz-add (@var{ROP} @vari{OP} @varii{OP})
+@deffnx {Method} mpz-add ((@var{ROP} mpz) (@vari{OP} mpz) (@varii{OP} mpz))
 Add two @objtype{mpz} objects.
 
 @lisp
@@ -518,10 +531,11 @@ Add two @objtype{mpz} objects.
   (mpz-get-ui rop))
 @result{} 11
 @end lisp
-@end defun
+@end deffn
 
 
-@defun mpz-add-ui @var{rop} @vari{op} @varii{op}
+@deffn {Generic Function} mpz-add-ui (@var{ROP} @vari{OP} @varii{OP})
+@deffnx {Method} mpz-add-ui ((@var{ROP} mpz) (@vari{OP} mpz) (@varii{OP} integer))
 Add an @objtype{mpz} object to an unsigned exact integer number.
 
 @lisp
@@ -532,10 +546,11 @@ Add an @objtype{mpz} object to an unsigned exact integer number.
   (mpz-get-ui rop))
 @result{} 11
 @end lisp
-@end defun
+@end deffn
 
 
-@defun mpz-sub @var{rop} @vari{op} @varii{op}
+@deffn {Generic Function} mpz-sub (@var{ROP} @vari{OP} @varii{OP})
+@deffnx {Method} mpz-sub ((@var{ROP} mpz) (@vari{OP} mpz) (@varii{OP} mpz))
 Subtract two @objtype{mpz} objects.
 
 @lisp
@@ -546,10 +561,11 @@ Subtract two @objtype{mpz} objects.
   (mpz-get-ui rop))
 @result{} 10
 @end lisp
-@end defun
+@end deffn
 
 
-@defun mpz-sub-ui @var{rop} @vari{op} @varii{op}
+@deffn {Generic Function} mpz-sub-ui (@var{ROP} @vari{OP} @varii{OP})
+@deffnx {Method} mpz-sub-ui ((@var{ROP} mpz) (@vari{OP} mpz) (@varii{OP} integer))
 Subtract an unsigned exact integer number from an @objtype{mpz} object.
 
 @lisp
@@ -560,10 +576,11 @@ Subtract an unsigned exact integer number from an @objtype{mpz} object.
   (mpz-get-ui rop))
 @result{} 10
 @end lisp
-@end defun
+@end deffn
 
 
-@defun mpz-addmul @var{rop} @vari{op} @varii{op}
+@deffn {Generic Function} mpz-addmul (@var{ROP} @vari{OP} @varii{OP})
+@deffnx {Method} mpz-addmul ((@var{ROP} mpz) (@vari{OP} mpz) (@varii{OP} mpz))
 Multiply two @objtype{mpz} objects, then add the result to another @objtype{mpz} object.
 
 @lisp
@@ -574,10 +591,11 @@ Multiply two @objtype{mpz} objects, then add the result to another @objtype{mpz}
   (mpz-get-ui rop))
 @result{} (+ 100 (* 11 2))
 @end lisp
-@end defun
+@end deffn
 
 
-@defun mpz-addmul-ui @var{rop} @vari{op} @varii{op}
+@deffn {Generic Function} mpz-addmul-ui (@var{ROP} @vari{OP} @varii{OP})
+@deffnx {Method} mpz-addmul-ui ((@var{ROP} mpz) (@vari{OP} mpz) (@varii{OP} integer))
 Multiply an @objtype{mpz} object with an unsigned exact integer number, then add the result to
 another @objtype{mpz} object.
 
@@ -589,10 +607,11 @@ another @objtype{mpz} object.
   (mpz-get-ui rop))
 @result{} (+ 100 (* 11 2))
 @end lisp
-@end defun
+@end deffn
 
 
-@defun mpz-submul @var{rop} @vari{op} @varii{op}
+@deffn {Generic Function} mpz-submul (@var{ROP} @vari{OP} @varii{OP})
+@deffnx {Method} mpz-submul ((@var{ROP} mpz) (@vari{OP} mpz) (@varii{OP} mpz))
 Multiply two @objtype{mpz} objects, then subtract the result from another @objtype{mpz} object.
 
 @lisp
@@ -603,10 +622,11 @@ Multiply two @objtype{mpz} objects, then subtract the result from another @objty
   (mpz-get-ui rop))
 @result{} (- 100 (* 11 2))
 @end lisp
-@end defun
+@end deffn
 
 
-@defun mpz-submul-ui @var{rop} @vari{op} @varii{op}
+@deffn {Generic Function} mpz-submul-ui (@var{ROP} @vari{OP} @varii{OP})
+@deffnx {Method} mpz-submul-ui ((@var{ROP} mpz) (@vari{OP} mpz) (@varii{OP} integer))
 Multiply an @objtype{mpz} object with an unsigned exact integer number, then subtract the result
 from another @objtype{mpz} object.
 
@@ -618,10 +638,11 @@ from another @objtype{mpz} object.
   (mpz-get-ui rop))
 @result{} (- 100 (* 11 2))
 @end lisp
-@end defun
+@end deffn
 
 
-@defun mpz-mul @var{rop} @vari{op} @varii{op}
+@deffn {Generic Function} mpz-mul (@var{ROP} @vari{OP} @varii{OP})
+@deffnx {Method} mpz-mul ((@var{ROP} mpz) (@vari{OP} mpz) (@varii{OP} mpz))
 Multiply two @objtype{mpz} objects.
 
 @lisp
@@ -632,10 +653,11 @@ Multiply two @objtype{mpz} objects.
   (mpz-get-ui rop))
 @result{} 222
 @end lisp
-@end defun
+@end deffn
 
 
-@defun mpz-mul-si @var{rop} @vari{op} @varii{op}
+@deffn {Generic Function} mpz-mul-si (@var{ROP} @vari{OP} @varii{OP})
+@deffnx {Method} mpz-mul-si ((@var{ROP} mpz) (@vari{OP} mpz) (@varii{OP} integer))
 Multiply an @objtype{mpz} object by a signed exact integer number.
 
 @lisp
@@ -646,10 +668,11 @@ Multiply an @objtype{mpz} object by a signed exact integer number.
   (mpz-get-ui rop))
 @result{} 222
 @end lisp
-@end defun
+@end deffn
 
 
-@defun mpz-mul-ui @var{rop} @vari{op} @varii{op}
+@deffn {Generic Function} mpz-mul-ui (@var{ROP} @vari{OP} @varii{OP})
+@deffnx {Method} mpz-mul-ui ((@var{ROP} mpz) (@vari{OP} mpz) (@varii{OP} integer))
 Multiply an @objtype{mpz} object by an unsigned exact integer number.
 
 @lisp
@@ -660,10 +683,11 @@ Multiply an @objtype{mpz} object by an unsigned exact integer number.
   (mpz-get-ui rop))
 @result{} 222
 @end lisp
-@end defun
+@end deffn
 
 
-@defun mpz-mul-2exp @var{rop} @var{op} @var{bitcnt}
+@deffn {Generic Function} mpz-mul-2exp (@var{ROP} @var{OP} @var{bitcnt})
+@deffnx {Method} mpz-mul-2exp ((@var{ROP} mpz) (@var{OP} mpz) (@var{bitcnt} integer))
 Left shift an @objtype{mpz} object.
 
 @lisp
@@ -674,10 +698,11 @@ Left shift an @objtype{mpz} object.
   (mpz-get-ui rop))
 @result{} #b1010100
 @end lisp
-@end defun
+@end deffn
 
 
-@defun mpz-neg @var{rop} @var{op}
+@deffn {Generic Function} mpz-neg (@var{ROP} @var{OP})
+@deffnx {Method} mpz-neg ((@var{ROP} mpz) (@var{OP} mpz))
 Negate an @objtype{mpz} object.
 
 @lisp
@@ -687,10 +712,11 @@ Negate an @objtype{mpz} object.
   (mpz-get-si rop))
 @result{} -123
 @end lisp
-@end defun
+@end deffn
 
 
-@defun mpz-abs @var{rop} @var{op}
+@deffn {Generic Function} mpz-abs (@var{ROP} @var{OP})
+@deffnx {Method} mpz-abs ((@var{ROP} mpz) (@var{OP} mpz))
 Compute the absolute value of an @objtype{mpz} object.
 
 @lisp
@@ -700,7 +726,7 @@ Compute the absolute value of an @objtype{mpz} object.
   (mpz-get-ui rop))
 @result{} 123
 @end lisp
-@end defun
+@end deffn
 
 @c page
 @node integers division
@@ -769,7 +795,8 @@ R = N - Q * D = 10 - 2 * 8 = 10 - 16 = -6
 @end example
 
 
-@defun mpz-cdiv-q @var{Q} @var{N} @var{D}
+@deffn {Generic Function} mpz-cdiv-q (@var{Q} @var{N} @var{D})
+@deffnx {Method} mpz-cdiv-q ((@var{Q} mpz) (@var{N} mpz) (@var{D} mpz))
 Divide @var{N} by @var{D}, forming a quotient @var{Q} and/or remainder @var{R}.
 
 @lisp
@@ -780,10 +807,11 @@ Divide @var{N} by @var{D}, forming a quotient @var{Q} and/or remainder @var{R}.
   (mpz-get-si Q))
 @result{} 4
 @end lisp
-@end defun
+@end deffn
 
 
-@defun mpz-cdiv-r @var{R} @var{N} @var{D}
+@deffn {Generic Function} mpz-cdiv-r (@var{R} @var{N} @var{D})
+@deffnx {Method} mpz-cdiv-r ((@var{R} mpz) (@var{N} mpz) (@var{D} mpz))
 Divide @var{N} by @var{D}, forming a quotient @var{Q} and/or remainder @var{R}.
 
 @lisp
@@ -794,14 +822,15 @@ Divide @var{N} by @var{D}, forming a quotient @var{Q} and/or remainder @var{R}.
   (mpz-get-si R))
 @result{} -2
 @end lisp
-@end defun
+@end deffn
 
 
-@defun mpz-cdiv-qr @var{Q} @var{R} @var{N} @var{D}
+@deffn {Generic Function} mpz-cdiv-qr (@var{Q} @var{R} @var{N} @var{D})
+@deffnx {Method} mpz-cdiv-qr ((@var{Q} mpz) (@var{R} mpz) (@var{N} mpz) (@var{D} mpz))
 Divide @var{N} by @var{D}, forming a quotient @var{Q} and/or remainder @var{R}.
 
 @lisp
-  (let ((Q      (mpz))
+(let ((Q      (mpz))
       (R      (mpz))
       (N      (mpz 10))
       (D      (mpz 3)))
@@ -809,10 +838,11 @@ Divide @var{N} by @var{D}, forming a quotient @var{Q} and/or remainder @var{R}.
   (mpz-get-si Q)        @result{} +4
   (mpz-get-si R))       @result{} -2
 @end lisp
-@end defun
+@end deffn
 
 
-@defun mpz-cdiv-q-ui @var{Q} @var{N} @var{D}
+@deffn {Generic Function} mpz-cdiv-q-ui (@var{Q} @var{N} @var{D})
+@deffnx {Method} mpz-cdiv-q-ui ((@var{Q} mpz) (@var{N} mpz) (@var{D} integer))
 Divide @var{N} by @var{D}, forming a quotient @var{Q} and/or remainder @var{R}.
 
 @lisp
@@ -823,10 +853,11 @@ Divide @var{N} by @var{D}, forming a quotient @var{Q} and/or remainder @var{R}.
     (mpz-get-si Q)      @result{} +4
     absR))              @result{} +2
 @end lisp
-@end defun
+@end deffn
 
 
-@defun mpz-cdiv-r-ui @var{R} @var{N} @var{D}
+@deffn {Generic Function} mpz-cdiv-r-ui (@var{R} @var{N} @var{D})
+@deffnx {Method} mpz-cdiv-r-ui ((@var{R} mpz) (@var{N} mpz) (@var{D} integer))
 Divide @var{N} by @var{D}, forming a quotient @var{Q} and/or remainder @var{R}.
 
 @lisp
@@ -837,10 +868,11 @@ Divide @var{N} by @var{D}, forming a quotient @var{Q} and/or remainder @var{R}.
     (mpz-get-si R)      @result{} -2
     absR))              @result{} +2
 @end lisp
-@end defun
+@end deffn
 
 
-@defun mpz-cdiv-qr-ui @var{Q} @var{R} @var{N} @var{D}
+@deffn {Generic Function} mpz-cdiv-qr-ui (@var{Q} @var{R} @var{N} @var{D})
+@deffnx {Method} mpz-cdiv-qr-ui ((@var{Q} mpz) (@var{R} mpz) (@var{N} mpz) (@var{D} integer))
 Divide @var{N} by @var{D}, forming a quotient @var{Q} and/or remainder @var{R}.
 
 @lisp
@@ -853,10 +885,11 @@ Divide @var{N} by @var{D}, forming a quotient @var{Q} and/or remainder @var{R}.
     (mpz-get-si R)      @result{} -2
     absR))              @result{} +2
 @end lisp
-@end defun
+@end deffn
 
 
-@defun mpz-cdiv-ui @var{N} @var{D}
+@deffn {Generic Function} mpz-cdiv-ui (@var{N} @var{D})
+@deffnx {Method} mpz-cdiv-ui ((@var{N} mpz) (@var{D} integer))
 Divide @var{N} by @var{D}, forming a quotient @var{Q} and/or remainder @var{R}.
 
 @lisp
@@ -864,10 +897,11 @@ Divide @var{N} by @var{D}, forming a quotient @var{Q} and/or remainder @var{R}.
       (D      3))
   (mpz-cdiv-ui N D))    @result{} +2
 @end lisp
-@end defun
+@end deffn
 
 
-@defun mpz-cdiv-q-2exp @var{Q} @var{N} @var{B}
+@deffn {Generic Function} mpz-cdiv-q-2exp (@var{Q} @var{N} @var{B})
+@deffnx {Method} mpz-cdiv-q-2exp ((@var{Q} mpz) (@var{N} mpz) (@var{B} integer))
 Divide @var{N} by @var{D}, forming a quotient @var{Q} and/or remainder @var{R}; compute
 @var{D} as 2^@var{B}.
 
@@ -879,10 +913,11 @@ Divide @var{N} by @var{D}, forming a quotient @var{Q} and/or remainder @var{R}; 
   (mpz-get-si Q))
 @result{} +2
 @end lisp
-@end defun
+@end deffn
 
 
-@defun mpz-cdiv-r-2exp @var{R} @var{N} @var{B}
+@deffn {Generic Function} mpz-cdiv-r-2exp (@var{R} @var{N} @var{B})
+@deffnx {Method} mpz-cdiv-r-2exp ((@var{R} mpz) (@var{N} mpz) (@var{B} integer))
 Divide @var{N} by @var{D}, forming a quotient @var{Q} and/or remainder @var{R}; compute
 @var{D} as 2^@var{B}.
 
@@ -894,7 +929,7 @@ Divide @var{N} by @var{D}, forming a quotient @var{Q} and/or remainder @var{R}; 
   (mpz-get-si R))
 @result{} -6
 @end lisp
-@end defun
+@end deffn
 
 @c page
 @node integers division floor
@@ -929,7 +964,8 @@ R = N - Q * D = 10 - 1 * 8 = 10 - 8 = +2
 @end example
 
 
-@defun mpz-fdiv-q @var{Q} @var{N} @var{D}
+@deffn {Generic Function} mpz-fdiv-q (@var{Q} @var{N} @var{D})
+@deffnx {Method} mpz-fdiv-q ((@var{Q} mpz) (@var{N} mpz) (@var{D} mpz))
 Divide @var{N} by @var{D}, forming a quotient @var{Q} and/or remainder @var{R}.
 
 @lisp
@@ -940,10 +976,11 @@ Divide @var{N} by @var{D}, forming a quotient @var{Q} and/or remainder @var{R}.
   (mpz-get-si Q))
 @result{} +3
 @end lisp
-@end defun
+@end deffn
 
 
-@defun mpz-fdiv-r @var{R} @var{N} @var{D}
+@deffn {Generic Function} mpz-fdiv-r (@var{R} @var{N} @var{D})
+@deffnx {Method} mpz-fdiv-r ((@var{R} mpz) (@var{N} mpz) (@var{D} mpz))
 Divide @var{N} by @var{D}, forming a quotient @var{Q} and/or remainder @var{R}.
 
 @lisp
@@ -954,10 +991,11 @@ Divide @var{N} by @var{D}, forming a quotient @var{Q} and/or remainder @var{R}.
   (mpz-get-si R))
 @result{} +1
 @end lisp
-@end defun
+@end deffn
 
 
-@defun mpz-fdiv-qr @var{Q} @var{R} @var{N} @var{D}
+@deffn {Generic Function} mpz-fdiv-qr (@var{Q} @var{R} @var{N} @var{D})
+@deffnx {Method} mpz-fdiv-qr ((@var{Q} mpz) (@var{R} mpz) (@var{N} mpz) (@var{D} mpz))
 Divide @var{N} by @var{D}, forming a quotient @var{Q} and/or remainder @var{R}.
 
 @lisp
@@ -969,10 +1007,11 @@ Divide @var{N} by @var{D}, forming a quotient @var{Q} and/or remainder @var{R}.
   (mpz-get-si Q)        @result{} +3
   (mpz-get-si R))       @result{} +1
 @end lisp
-@end defun
+@end deffn
 
 
-@defun mpz-fdiv-q-ui @var{Q} @var{N} @var{D}
+@deffn {Generic Function} mpz-fdiv-q-ui (@var{Q} @var{N} @var{D})
+@deffnx {Method} mpz-fdiv-q-ui ((@var{Q} mpz) (@var{N} mpz) (@var{D} integer))
 Divide @var{N} by @var{D}, forming a quotient @var{Q} and/or remainder @var{R}.
 
 @lisp
@@ -983,10 +1022,11 @@ Divide @var{N} by @var{D}, forming a quotient @var{Q} and/or remainder @var{R}.
     (mpz-get-si Q)      @result{} +3
     absR))              @result{} +1
 @end lisp
-@end defun
+@end deffn
 
 
-@defun mpz-fdiv-r-ui @var{R} @var{N} @var{D}
+@deffn {Generic Function} mpz-fdiv-r-ui (@var{R} @var{N} @var{D})
+@deffnx {Method} mpz-fdiv-r-ui ((@var{R} mpz) (@var{N} mpz) (@var{D} integer))
 Divide @var{N} by @var{D}, forming a quotient @var{Q} and/or remainder @var{R}.
 
 @lisp
@@ -997,10 +1037,11 @@ Divide @var{N} by @var{D}, forming a quotient @var{Q} and/or remainder @var{R}.
     (mpz-get-si R)      @result{} +1
     absR))              @result{} +1
 @end lisp
-@end defun
+@end deffn
 
 
-@defun mpz-fdiv-qr-ui @var{Q} @var{R} @var{N} @var{D}
+@deffn {Generic Function} mpz-fdiv-qr-ui (@var{Q} @var{R} @var{N} @var{D})
+@deffnx {Method} mpz-fdiv-qr-ui ((@var{Q} mpz) (@var{R} mpz) (@var{N} mpz) (@var{D} integer))
 Divide @var{N} by @var{D}, forming a quotient @var{Q} and/or remainder @var{R}.
 
 @lisp
@@ -1013,10 +1054,11 @@ Divide @var{N} by @var{D}, forming a quotient @var{Q} and/or remainder @var{R}.
     (mpz-get-si R)      @result{} +1
     absR))              @result{} +1
 @end lisp
-@end defun
+@end deffn
 
 
-@defun mpz-fdiv-ui @var{N} @var{D}
+@deffn {Generic Function} mpz-fdiv-ui (@var{N} @var{D})
+@deffnx {Method} mpz-fdiv-ui ((@var{N} mpz) (@var{D} integer))
 Divide @var{N} by @var{D}, forming a quotient @var{Q} and/or remainder @var{R}.
 
 @lisp
@@ -1025,10 +1067,11 @@ Divide @var{N} by @var{D}, forming a quotient @var{Q} and/or remainder @var{R}.
   (mpz-fdiv-ui N D))
 @result{} +1
 @end lisp
-@end defun
+@end deffn
 
 
-@defun mpz-fdiv-q-2exp @var{Q} @var{N} @var{B}
+@deffn {Generic Function} mpz-fdiv-q-2exp (@var{Q} @var{N} @var{B})
+@deffnx {Method} mpz-fdiv-q-2exp ((@var{Q} mpz) (@var{N} mpz) (@var{B} integer))
 Divide @var{N} by @var{D}, forming a quotient @var{Q} and/or remainder @var{R}; compute
 @var{D} as 2^@var{B}.
 
@@ -1040,10 +1083,11 @@ Divide @var{N} by @var{D}, forming a quotient @var{Q} and/or remainder @var{R}; 
   (mpz-get-si Q))
 @result{} +1
 @end lisp
-@end defun
+@end deffn
 
 
-@defun mpz-fdiv-r-2exp @var{R} @var{N} @var{B}
+@deffn {Generic Function} mpz-fdiv-r-2exp (@var{R} @var{N} @var{B})
+@deffnx {Method} mpz-fdiv-r-2exp ((@var{R} mpz) (@var{N} mpz) (@var{B} integer))
 Divide @var{N} by @var{D}, forming a quotient @var{Q} and/or remainder @var{R}; compute
 @var{D} as 2^@var{B}.
 
@@ -1055,7 +1099,7 @@ Divide @var{N} by @var{D}, forming a quotient @var{Q} and/or remainder @var{R}; 
   (mpz-get-si R))
 @result{} +2
 @end lisp
-@end defun
+@end deffn
 
 @c page
 @node integers division truncate
@@ -1090,7 +1134,8 @@ R = N - Q * D = 10 - 1 * 8 = 10 - 8 = +2
 @end example
 
 
-@defun mpz-tdiv-q @var{Q} @var{N} @var{D}
+@deffn {Generic Function} mpz-tdiv-q (@var{Q} @var{N} @var{D})
+@deffnx {Method} mpz-tdiv-q ((@var{Q} mpz) (@var{N} mpz) (@var{D} mpz))
 Divide @var{N} by @var{D}, forming a quotient @var{Q} and/or remainder @var{R}.
 
 @lisp
@@ -1101,10 +1146,11 @@ Divide @var{N} by @var{D}, forming a quotient @var{Q} and/or remainder @var{R}.
   (mpz-get-si Q))
 @result{} +3
 @end lisp
-@end defun
+@end deffn
 
 
-@defun mpz-tdiv-r @var{R} @var{N} @var{D}
+@deffn {Generic Function} mpz-tdiv-r (@var{R} @var{N} @var{D})
+@deffnx {Method} mpz-tdiv-r ((@var{R} mpz) (@var{N} mpz) (@var{D} mpz))
 Divide @var{N} by @var{D}, forming a quotient @var{Q} and/or remainder @var{R}.
 
 @lisp
@@ -1115,10 +1161,11 @@ Divide @var{N} by @var{D}, forming a quotient @var{Q} and/or remainder @var{R}.
   (mpz-get-si R))
 @result{} +1
 @end lisp
-@end defun
+@end deffn
 
 
-@defun mpz-tdiv-qr @var{Q} @var{R} @var{N} @var{D}
+@deffn {Generic Function} mpz-tdiv-qr (@var{Q} @var{R} @var{N} @var{D})
+@deffnx {Method} mpz-tdiv-qr ((@var{Q} mpz) (@var{R} mpz) (@var{N} mpz) (@var{D} mpz))
 Divide @var{N} by @var{D}, forming a quotient @var{Q} and/or remainder @var{R}.
 
 @lisp
@@ -1130,10 +1177,11 @@ Divide @var{N} by @var{D}, forming a quotient @var{Q} and/or remainder @var{R}.
   (mpz-get-si Q)        @result{} +3
   (mpz-get-si R))       @result{} +1
 @end lisp
-@end defun
+@end deffn
 
 
-@defun mpz-tdiv-q-ui @var{Q} @var{N} @var{D}
+@deffn {Generic Function} mpz-tdiv-q-ui (@var{Q} @var{N} @var{D})
+@deffnx {Method} mpz-tdiv-q-ui ((@var{Q} mpz) (@var{N} mpz) (@var{D} integer))
 Divide @var{N} by @var{D}, forming a quotient @var{Q} and/or remainder @var{R}.
 
 @lisp
@@ -1144,10 +1192,11 @@ Divide @var{N} by @var{D}, forming a quotient @var{Q} and/or remainder @var{R}.
     (mpz-get-si Q)      @result{} +3
     absR))              @result{} +1
 @end lisp
-@end defun
+@end deffn
 
 
-@defun mpz-tdiv-r-ui @var{R} @var{N} @var{D}
+@deffn {Generic Function} mpz-tdiv-r-ui (@var{R} @var{N} @var{D})
+@deffnx {Method} mpz-tdiv-r-ui ((@var{R} mpz) (@var{N} mpz) (@var{D} integer))
 Divide @var{N} by @var{D}, forming a quotient @var{Q} and/or remainder @var{R}.
 
 @lisp
@@ -1158,10 +1207,11 @@ Divide @var{N} by @var{D}, forming a quotient @var{Q} and/or remainder @var{R}.
     (mpz-get-si R)      @result{} +1
     absR))              @result{} +1
 @end lisp
-@end defun
+@end deffn
 
 
-@defun mpz-tdiv-qr-ui @var{Q} @var{R} @var{N} @var{D}
+@deffn {Generic Function} mpz-tdiv-qr-ui (@var{Q} @var{R} @var{N} @var{D})
+@deffnx {Method} mpz-tdiv-qr-ui ((@var{Q} mpz) (@var{R} mpz) (@var{N} mpz) (@var{D} integer))
 Divide @var{N} by @var{D}, forming a quotient @var{Q} and/or remainder @var{R}.
 
 @lisp
@@ -1174,10 +1224,11 @@ Divide @var{N} by @var{D}, forming a quotient @var{Q} and/or remainder @var{R}.
     (mpz-get-si R)      @result{} +1
     absR))              @result{} +1
 @end lisp
-@end defun
+@end deffn
 
 
-@defun mpz-tdiv-ui @var{N} @var{D}
+@deffn {Generic Function} mpz-tdiv-ui (@var{N} @var{D})
+@deffnx {Method} mpz-tdiv-ui ((@var{N} mpz) (@var{D} integer))
 Divide @var{N} by @var{D}, forming a quotient @var{Q} and/or remainder @var{R}.
 
 @lisp
@@ -1186,10 +1237,11 @@ Divide @var{N} by @var{D}, forming a quotient @var{Q} and/or remainder @var{R}.
   (mpz-tdiv-ui N D))
 @result{} +1
 @end lisp
-@end defun
+@end deffn
 
 
-@defun mpz-tdiv-q-2exp @var{Q} @var{N} @var{B}
+@deffn {Generic Function} mpz-tdiv-q-2exp (@var{Q} @var{N} @var{B})
+@deffnx {Method} mpz-tdiv-q-2exp ((@var{Q} mpz) (@var{N} mpz) (@var{B} integer))
 Divide @var{N} by @var{D}, forming a quotient @var{Q} and/or remainder @var{R}; compute
 @var{D} as 2^@var{B}.
 
@@ -1201,10 +1253,11 @@ Divide @var{N} by @var{D}, forming a quotient @var{Q} and/or remainder @var{R}; 
   (mpz-get-si Q))
 @result{} +1
 @end lisp
-@end defun
+@end deffn
 
 
-@defun mpz-tdiv-r-2exp @var{R} @var{N} @var{B}
+@deffn {Generic Function} mpz-tdiv-r-2exp (@var{R} @var{N} @var{B})
+@deffnx {Method} mpz-tdiv-r-2exp ((@var{R} mpz) (@var{N} mpz) (@var{B} integer))
 Divide @var{N} by @var{D}, forming a quotient @var{Q} and/or remainder @var{R}; compute
 @var{D} as 2^@var{B}.
 
@@ -1216,7 +1269,7 @@ Divide @var{N} by @var{D}, forming a quotient @var{Q} and/or remainder @var{R}; 
   (mpz-get-si R))
 @result{} +2
 @end lisp
-@end defun
+@end deffn
 
 @c page
 @node integers division modulo
@@ -1227,7 +1280,8 @@ The following functions use floor rounding, @ref{integers division floor, Roundi
 (floor)}.
 
 
-@defun mpz-mod @var{R} @var{N} @var{D}
+@deffn {Generic Function} mpz-mod (@var{R} @var{N} @var{D})
+@deffnx {Method} mpz-mod ((@var{R} mpz) (@var{N} mpz) (@var{D} mpz))
 Set @var{R} to @var{N} mod @var{D}.
 
 @lisp
@@ -1238,10 +1292,11 @@ Set @var{R} to @var{N} mod @var{D}.
   (mpz-get-si R))
 @result{} 1
 @end lisp
-@end defun
+@end deffn
 
 
-@defun mpz-mod-ui @var{R} @var{N} @var{D}
+@deffn {Generic Function} mpz-mod-ui (@var{R} @var{N} @var{D})
+@deffnx {Method} mpz-mod-ui ((@var{R} mpz) (@var{N} mpz) (@var{D} integer))
 Set @var{R} to @var{N} mod @var{D}.
 
 @lisp
@@ -1251,7 +1306,7 @@ Set @var{R} to @var{N} mod @var{D}.
   (mpz-mod-ui R N D))
 @result{} 1
 @end lisp
-@end defun
+@end deffn
 
 @c page
 @node integers division exact
@@ -1262,7 +1317,8 @@ The following functions will return correct results only when @math{D} is an exa
 @math{N}.
 
 
-@defun mpz-divexact @var{Q} @var{N} @var{D}
+@deffn {Generic Function} mpz-divexact (@var{Q} @var{N} @var{D})
+@deffnx {Method} mpz-divexact ((@var{Q} mpz) (@var{N} mpz) (@var{D} mpz))
 Set @var{Q} to @var{N}/@var{D}.
 
 @lisp
@@ -1273,10 +1329,11 @@ Set @var{Q} to @var{N}/@var{D}.
   (mpz-get-si Q))
 @result{} 3
 @end lisp
-@end defun
+@end deffn
 
 
-@defun mpz-divexact-ui @var{Q} @var{N} @var{D}
+@deffn {Generic Function} mpz-divexact-ui (@var{Q} @var{N} @var{D})
+@deffnx {Method} mpz-divexact-ui ((@var{Q} mpz) (@var{N} mpz) (@var{D} integer))
 Set @var{Q} to @var{N}/@var{D}.
 
 @lisp
@@ -1287,14 +1344,15 @@ Set @var{Q} to @var{N}/@var{D}.
   (mpz-get-si Q))
 @result{} 3
 @end lisp
-@end defun
+@end deffn
 
 @c ------------------------------------------------------------------------
 
 @subsubheading Exact division tests
 
 
-@defun mpz-divisible-p @var{N} @var{D}
+@deffn {Generic Function} mpz-divisible-p (@var{N} @var{D})
+@deffnx {Method} mpz-divisible-p ((@var{N} mpz) (@var{D} mpz))
 Return true if @var{N} is exactly divisible by @var{D}.
 
 @lisp
@@ -1303,10 +1361,11 @@ Return true if @var{N} is exactly divisible by @var{D}.
   (mpz-divisible-p N D))
 @result{} t
 @end lisp
-@end defun
+@end deffn
 
 
-@defun mpz-divisible-ui-p @var{N} @var{D}
+@deffn {Generic Function} mpz-divisible-ui-p (@var{N} @var{D})
+@deffnx {Method} mpz-divisible-ui-p ((@var{N} mpz) (@var{D} integer))
 Return true if @var{N} is exactly divisible by @var{D}.
 
 @lisp
@@ -1315,10 +1374,11 @@ Return true if @var{N} is exactly divisible by @var{D}.
   (mpz-divisible-ui-p N D))
 @result{} t
 @end lisp
-@end defun
+@end deffn
 
 
-@defun mpz-divisible-2exp-p @var{N} @var{B}
+@deffn {Generic Function} mpz-divisible-2exp-p (@var{N} @var{B})
+@deffnx {Method} mpz-divisible-2exp-p ((@var{N} mpz) (@var{B} integer))
 Return true if @var{N} is exactly divisible by 2^@var{B}.
 
 @lisp
@@ -1327,7 +1387,7 @@ Return true if @var{N} is exactly divisible by 2^@var{B}.
   (mpz-divisible-2exp-p N B))
 @result{} t
 @end lisp
-@end defun
+@end deffn
 
 @c ------------------------------------------------------------------------
 
@@ -1338,7 +1398,8 @@ Return true if @var{N} is exactly divisible by 2^@var{B}.
 @math{N = C + Q * D}.
 
 
-@defun mpz-congruent-p @var{N} @var{C} @var{D}
+@deffn {Generic Function} mpz-congruent-p (@var{N} @var{C} @var{D})
+@deffnx {Method} mpz-congruent-p ((@var{N} mpz) (@var{C} mpz) (@var{D} mpz))
 Return non-zero if @var{N} is congruent to @var{C} modulo @var{D}.
 
 @lisp
@@ -1348,10 +1409,11 @@ Return non-zero if @var{N} is congruent to @var{C} modulo @var{D}.
   (mpz-congruent-p N C D))
 @result{} t
 @end lisp
-@end defun
+@end deffn
 
 
-@defun mpz-congruent-ui-p @var{N} @var{C} @var{D}
+@deffn {Generic Function} mpz-congruent-ui-p (@var{N} @var{C} @var{D})
+@deffnx {Method} mpz-congruent-ui-p ((@var{N} mpz) (@var{C} integer) (@var{D} integer))
 Return non-zero if @var{N} is congruent to @var{C} modulo @var{D}.
 
 @lisp
@@ -1361,10 +1423,11 @@ Return non-zero if @var{N} is congruent to @var{C} modulo @var{D}.
   (mpz-congruent-ui-p N C D))
 @result{} t
 @end lisp
-@end defun
+@end deffn
 
 
-@defun mpz-congruent-2exp-p @var{N} @var{C} @var{B}
+@deffn {Generic Function} mpz-congruent-2exp-p (@var{N} @var{C} @var{B})
+@deffnx {Method} mpz-congruent-2exp-p ((@var{N} mpz) (@var{C} mpz) (@var{B} integer))
 Return non-zero if @var{N} is congruent to @var{C} modulo 2^@var{B}.
 
 @lisp
@@ -1374,14 +1437,15 @@ Return non-zero if @var{N} is congruent to @var{C} modulo 2^@var{B}.
   (mpz-congruent-2exp-p N C B))
 @result{} t
 @end lisp
-@end defun
+@end deffn
 
 @c page
 @node integers exponentiation
 @section Exponentiation operations
 
 
-@defun mpz-powm @var{ROP} @var{BASE} @var{EXP} @var{MOD}
+@deffn {Generic Function} mpz-powm (@var{ROP} @var{BASE} @var{EXP} @var{MOD})
+@deffnx {Method} mpz-powm ((@var{ROP} mpz) (@var{BASE} mpz) (@var{EXP} mpz) (@var{MOD} mpz))
 Set @var{ROP} to (@var{BASE} raised to @var{EXP}) modulo @var{MOD}.
 
 @lisp
@@ -1394,10 +1458,11 @@ Set @var{ROP} to (@var{BASE} raised to @var{EXP}) modulo @var{MOD}.
          (mpz-get-ui rop)))
 @result{} t
 @end lisp
-@end defun
+@end deffn
 
 
-@defun mpz-powm-ui @var{ROP} @var{BASE} @var{EXP} @var{MOD}
+@deffn {Generic Function} mpz-powm-ui (@var{ROP} @var{BASE} @var{EXP} @var{MOD})
+@deffnx {Method} mpz-powm-ui ((@var{ROP} mpz) (@var{BASE} mpz) (@var{EXP} integer) (@var{MOD} mpz))
 Set @var{ROP} to (@var{BASE} raised to @var{EXP}) modulo @var{MOD}.
 
 @lisp
@@ -1410,10 +1475,11 @@ Set @var{ROP} to (@var{BASE} raised to @var{EXP}) modulo @var{MOD}.
          (mpz-get-ui rop)))
 @result{} t
 @end lisp
-@end defun
+@end deffn
 
 
-@defun mpz-powm-sec @var{ROP} @var{BASE} @var{EXP} @var{MOD}
+@deffn {Generic Function} mpz-powm-sec (@var{ROP} @var{BASE} @var{EXP} @var{MOD})
+@deffnx {Method} mpz-powm-sec ((@var{ROP} mpz) (@var{BASE} mpz) (@var{EXP} mpz) (@var{MOD} mpz))
 Set @var{ROP} to (@var{BASE} raised to @var{EXP}) modulo @var{MOD}.
 
 @lisp
@@ -1426,10 +1492,11 @@ Set @var{ROP} to (@var{BASE} raised to @var{EXP}) modulo @var{MOD}.
          (mpz-get-ui rop)))
 @result{} t
 @end lisp
-@end defun
+@end deffn
 
 
-@defun mpz-pow-ui @var{ROP} @var{BASE} @var{EXP}
+@deffn {Generic Function} mpz-pow-ui (@var{ROP} @var{BASE} @var{EXP})
+@deffnx {Method} mpz-pow-ui ((@var{ROP} mpz) (@var{BASE} mpz) (@var{EXP} integer))
 Set @var{ROP} to @var{BASE} raised to @var{EXP}.
 
 @lisp
@@ -1441,10 +1508,11 @@ Set @var{ROP} to @var{BASE} raised to @var{EXP}.
          (mpz-get-ui rop)))
 @result{} t
 @end lisp
-@end defun
+@end deffn
 
 
-@defun mpz-ui-pow-ui @var{ROP} @var{BASE} @var{EXP}
+@deffn {Generic Function} mpz-ui-pow-ui (@var{ROP} @var{BASE} @var{EXP})
+@deffnx {Method} mpz-ui-pow-ui ((@var{ROP} mpz) (@var{BASE} integer) (@var{EXP} integer))
 Set @var{ROP} to @var{BASE} raised to @var{EXP}.
 
 @lisp
@@ -1456,15 +1524,15 @@ Set @var{ROP} to @var{BASE} raised to @var{EXP}.
          (mpz-get-ui rop)))
 @result{} t
 @end lisp
-@end defun
+@end deffn
 
 @c page
 @node integers roots
 @section Root extraction functions
 
 
-@deffn {Generic Function} mpz-root (@var{rop} @var{op} @var{N})
-@deffnx {Method} mpz-root ((@var{rop} mpz) (@var{op} mpz) (@var{N} integer))
+@deffn {Generic Function} mpz-root (@var{ROP} @var{OP} @var{N})
+@deffnx {Method} mpz-root ((@var{ROP} mpz) (@var{OP} mpz) (@var{N} integer))
 Set @var{ROP} to the truncated integer part of the @var{N}th root of @var{OP}.
 
 @lisp
@@ -1496,8 +1564,8 @@ remainder, @var{U}-@var{ROOT}^@var{N}.
 @end deffn
 
 
-@deffn {Generic Function} mpz-sqrt (@var{rop} @var{op})
-@deffnx {Method} mpz-sqrt ((@var{rop} mpz) (@var{op} mpz))
+@deffn {Generic Function} mpz-sqrt (@var{ROP} @var{OP})
+@deffnx {Method} mpz-sqrt ((@var{ROP} mpz) (@var{OP} mpz))
 Set @var{ROP} to the truncated integer part of the square root of @var{OP}.
 
 @lisp
@@ -1510,8 +1578,8 @@ Set @var{ROP} to the truncated integer part of the square root of @var{OP}.
 @end deffn
 
 
-@deffn {Generic Function} mpz-sqrtrem (@vari{rop} @varii{rop} @var{op})
-@deffnx {Method} mpz-sqrtrem ((@vari{rop} mpz) (@var{rop} mpz) (@var{op} mpz))
+@deffn {Generic Function} mpz-sqrtrem (@vari{rop} @varii{rop} @var{OP})
+@deffnx {Method} mpz-sqrtrem ((@vari{rop} mpz) (@var{ROP} mpz) (@var{OP} mpz))
 Set @vari{ROP} to the truncated integer part of the square root of @var{OP}.  Set @varii{ROP} to the
 remainder @var{OP}-@vari{ROP}*@vari{ROP}.
 
@@ -1527,8 +1595,8 @@ remainder @var{OP}-@vari{ROP}*@vari{ROP}.
 @end deffn
 
 
-@deffn {Generic Function} mpz-perfect-power-p (@var{op})
-@deffnx {Method} mpz-perfect-power-p ((@var{op} mpz))
+@deffn {Generic Function} mpz-perfect-power-p (@var{OP})
+@deffnx {Method} mpz-perfect-power-p ((@var{OP} mpz))
 Return true if @var{OP} is a perfect power; otherwise return false.
 
 @lisp
@@ -1538,8 +1606,8 @@ Return true if @var{OP} is a perfect power; otherwise return false.
 @end deffn
 
 
-@deffn {Generic Function} mpz-perfect-square-p (@var{op})
-@deffnx {Method} mpz-perfect-square-p ((@var{op} mpz))
+@deffn {Generic Function} mpz-perfect-square-p (@var{OP})
+@deffnx {Method} mpz-perfect-square-p ((@var{OP} mpz))
 Return true if @var{OP} is a perfect square; otherwise return false.
 
 @lisp
@@ -1553,8 +1621,8 @@ Return true if @var{OP} is a perfect square; otherwise return false.
 @section Commparison functions
 
 
-@deffn {Generic Function} mpz-cmp (@vari{op} @varii{op})
-@deffnx {Method} mpz-cmp ((@vari{op} mpz) (@varii{op} mpz))
+@deffn {Generic Function} mpz-cmp (@vari{OP} @varii{OP})
+@deffnx {Method} mpz-cmp ((@vari{OP} mpz) (@varii{OP} mpz))
 Compare @vari{OP} and @varii{OP}.
 
 @lisp
@@ -1565,8 +1633,8 @@ Compare @vari{OP} and @varii{OP}.
 @end deffn
 
 
-@deffn {Generic Function} mpz-cmp-d (@vari{op} @varii{op})
-@deffnx {Method} mpz-cmp-d ((@vari{op} mpz) (@varii{op} float))
+@deffn {Generic Function} mpz-cmp-d (@vari{OP} @varii{OP})
+@deffnx {Method} mpz-cmp-d ((@vari{OP} mpz) (@varii{OP} float))
 Compare @vari{OP} and @varii{OP}.
 
 @lisp
@@ -1577,8 +1645,8 @@ Compare @vari{OP} and @varii{OP}.
 @end deffn
 
 
-@deffn {Generic Function} mpz-cmp-si (@vari{op} @varii{op})
-@deffnx {Method} mpz-cmp-si ((@vari{op} mpz) (@varii{op} integer))
+@deffn {Generic Function} mpz-cmp-si (@vari{OP} @varii{OP})
+@deffnx {Method} mpz-cmp-si ((@vari{OP} mpz) (@varii{OP} integer))
 Compare @vari{OP} and @varii{OP}.
 
 @lisp
@@ -1589,8 +1657,8 @@ Compare @vari{OP} and @varii{OP}.
 @end deffn
 
 
-@deffn {Generic Function} mpz-cmp-ui (@vari{op} @varii{op})
-@deffnx {Method} mpz-cmp-ui ((@vari{op} mpz) (@varii{op} integer))
+@deffn {Generic Function} mpz-cmp-ui (@vari{OP} @varii{OP})
+@deffnx {Method} mpz-cmp-ui ((@vari{OP} mpz) (@varii{OP} integer))
 Compare @vari{OP} and @varii{OP}.
 
 @lisp
@@ -1602,8 +1670,8 @@ Compare @vari{OP} and @varii{OP}.
 
 @c ------------------------------------------------------------------------
 
-@deffn {Generic Function} mpz-cmpabs (@vari{op} @varii{op})
-@deffnx {Method} mpz-cmpabs ((@vari{op} mpz) (@varii{op} mpz))
+@deffn {Generic Function} mpz-cmpabs (@vari{OP} @varii{OP})
+@deffnx {Method} mpz-cmpabs ((@vari{OP} mpz) (@varii{OP} mpz))
 Compare the absolute values of OP1 and OP2.
 
 @lisp
@@ -1614,8 +1682,8 @@ Compare the absolute values of OP1 and OP2.
 @end deffn
 
 
-@deffn {Generic Function} mpz-cmpabs-d (@vari{op} @varii{op})
-@deffnx {Method} mpz-cmpabs-d ((@vari{op} mpz) (@varii{op} float))
+@deffn {Generic Function} mpz-cmpabs-d (@vari{OP} @varii{OP})
+@deffnx {Method} mpz-cmpabs-d ((@vari{OP} mpz) (@varii{OP} float))
 Compare the absolute values of OP1 and OP2.
 
 @lisp
@@ -1626,8 +1694,8 @@ Compare the absolute values of OP1 and OP2.
 @end deffn
 
 
-@deffn {Generic Function} mpz-cmpabs-ui (@vari{op} @varii{op})
-@deffnx {Method} mpz-cmpabs-ui ((@vari{op} mpz) (@varii{op} integer))
+@deffn {Generic Function} mpz-cmpabs-ui (@vari{OP} @varii{OP})
+@deffnx {Method} mpz-cmpabs-ui ((@vari{OP} mpz) (@varii{OP} integer))
 Compare the absolute values of OP1 and OP2.
 
 @lisp
@@ -1639,8 +1707,8 @@ Compare the absolute values of OP1 and OP2.
 
 @c ------------------------------------------------------------------------
 
-@deffn {Generic Function} mpz-sgn (@var{op})
-@deffnx {Method} mpz-sgn ((@var{op} mpz))
+@deffn {Generic Function} mpz-sgn (@var{OP})
+@deffnx {Method} mpz-sgn ((@var{OP} mpz))
 Return an integer representing the sign of the operand.
 
 @lisp
@@ -2442,8 +2510,8 @@ Return true if the operand is even; otherwise return false.
 
 @c ------------------------------------------------------------------------
 
-@deffn {Generic Function} mpz-sizeinbase (@var{op} @var{base})
-@deffnx {Method} mpz-sizeinbase ((@var{op} mpz) (@var{base} integer))
+@deffn {Generic Function} mpz-sizeinbase (@var{OP} @var{BASE})
+@deffnx {Method} mpz-sizeinbase ((@var{OP} mpz) (@var{BASE} integer))
 Return the size of @var{OP} measured in number of digits in the given @var{BASE}.
 
 The argument @var{BASE} can vary from @math{2} to @math{62}.
@@ -2528,8 +2596,9 @@ Return @true{} if @var{obj} is an instance of @objtype{mpq}; otherwise return @f
 @section Assigning values to rational number objects
 
 
-@defun mpq-set @var{rop} @var{op}
-Assign the value of @var{op} to @var{rop}; both the operands must be of type @objtype{mpq}.
+@deffn {Generic Function} mpq-set (@var{ROP} @var{OP})
+@deffnx {Method} mpq-set ((@var{ROP} mpq) (@var{OP} mpq))
+Assign the value of @var{OP} to @var{ROP}; both the operands must be of type @objtype{mpq}.
 
 @lisp
 (let ((rop (mpq))
@@ -2539,12 +2608,13 @@ Assign the value of @var{op} to @var{rop}; both the operands must be of type @ob
   (mpq-get-str 10 op))
 @result{} "3/4"
 @end lisp
-@end defun
+@end deffn
 
 
-@defun mpq-set-si @var{rop} @var{numerator-integer} @var{denominator-integer}
+@deffn {Generic Function} mpq-set-si (@var{ROP} @var{numerator-integer} @var{denominator-integer})
+@deffnx {Method} mpq-set-si ((@var{ROP} mpq) (@var{numerator-integer} integer) (@var{denominator-integer} integer))
 Assign the value of the signed exact integer numbers @var{numerator-integer} and
-@var{denominator-integer} to the @objtype{mpq} object @var{rop}.
+@var{denominator-integer} to the @objtype{mpq} object @var{ROP}.
 
 @lisp
 (let ((rop (mpq)))
@@ -2552,12 +2622,13 @@ Assign the value of the signed exact integer numbers @var{numerator-integer} and
   (mpq-get-str 10 rop))
 @result{} "3/4"
 @end lisp
-@end defun
+@end deffn
 
 
-@defun mpq-set-ui @var{rop} @var{numerator-integer} @var{denominator-integer}
+@deffn {Generic Function} mpq-set-ui (@var{ROP} @var{numerator-integer} @var{denominator-integer})
+@deffnx {Method} mpq-set-ui ((@var{ROP} mpq) (@var{numerator-integer} integer) (@var{denominator-integer} integer))
 Assign the value of the unsigned exact integer numbers @var{numerator-integer} and
-@var{denominator-integer} to the @objtype{mpq} object @var{rop}.
+@var{denominator-integer} to the @objtype{mpq} object @var{ROP}.
 
 @lisp
 (let ((rop (mpq)))
@@ -2565,10 +2636,11 @@ Assign the value of the unsigned exact integer numbers @var{numerator-integer} a
   (mpq-get-str 10 rop))
 @result{} "3/4"
 @end lisp
-@end defun
+@end deffn
 
 
-@defun mpq-set-d @var{rop} @var{flo}
+@deffn {Generic Function} mpq-set-d (@var{ROP} @var{flo})
+@deffnx {Method} mpq-set-d ((@var{ROP} mpq) (@var{flo} float))
 Assign the value of a floating--point object to an @objtype{mpq} object.
 
 @lisp
@@ -2577,10 +2649,11 @@ Assign the value of a floating--point object to an @objtype{mpq} object.
   (mpq-get-str 10 rop))
 @result{} "5404319552844595/4503599627370496"
 @end lisp
-@end defun
+@end deffn
 
 
-@defun mpq-set-z @var{rop} @var{op}
+@deffn {Generic Function} mpq-set-z (@var{ROP} @var{OP})
+@deffnx {Method} mpq-set-z ((@var{ROP} mpq) (@var{OP} mpz))
 Assign the value of an @objtype{mpz} object to an @objtype{mpq} object.
 
 @lisp
@@ -2590,10 +2663,11 @@ Assign the value of an @objtype{mpz} object to an @objtype{mpq} object.
   (mpq-get-str 10 rop))
 @result{} "123"
 @end lisp
-@end defun
+@end deffn
 
 
-@defun mpq-set-f @var{rop} @var{op}
+@deffn {Generic Function} mpq-set-f (@var{ROP} @var{OP})
+@deffnx {Method} mpq-set-f ((@var{ROP} mpq) (@var{OP} mpf))
 Assign the value of an @objtype{mpf} object to an @objtype{mpq} object.
 
 @lisp
@@ -2603,11 +2677,12 @@ Assign the value of an @objtype{mpf} object to an @objtype{mpq} object.
   (mpq-get-str 10 rop))
 @result{} "5404319552844595/4503599627370496"
 @end lisp
-@end defun
+@end deffn
 
 
-@defun mpq-set-str @var{rop} @var{str} @var{base}
-Assign the value of a string object to an @objtype{mpq} object.  The argument @var{base} must be an
+@deffn {Generic Function} mpq-set-str (@var{ROP} @var{STR} @var{BASE})
+@deffnx {Method} mpq-set-str ((@var{ROP} mpq) (@var{STR} string) (@var{BASE} integer))
+Assign the value of a string object to an @objtype{mpq} object.  The argument @var{BASE} must be an
 exact integer representing the base of the numeric string representation: @math{0} or a value
 between @math{2} and @math{62}.
 
@@ -2616,10 +2691,11 @@ between @math{2} and @math{62}.
   (mpq-set-str rop "3/4" 10)
   (mpq-get-str 10 rop))
 @end lisp
-@end defun
+@end deffn
 
 
-@defun mpq-swap @vari{op} @varii{op}
+@deffn {Generic Function} mpq-swap (@vari{OP} @varii{OP})
+@deffnx {Method} mpq-swap ((@vari{OP} mpq) (@varii{OP} mpq))
 Swap the values between two @objtype{mpq} objects.
 
 @lisp
@@ -2632,25 +2708,27 @@ Swap the values between two @objtype{mpq} objects.
   (mpq-get-str 10 op1)  @result{} "5/6"
   )
 @end lisp
-@end defun
+@end deffn
 
 @c page
 @node rationals conversion
 @section Converting rational numbers to other objects
 
 
-@defun mpq-get-d @var{op}
-Convert an object @var{op} of type @objtype{mpq} to a floating--point number.
+@deffn {Generic Function} mpq-get-d (@var{OP})
+@deffnx {Method} mpq-get-d ((@var{OP} mpq))
+Convert an object @var{OP} of type @objtype{mpq} to a floating--point number.
 
 @lisp
 (mpq-get-d (mp1 12.3))  @result{} 12.3
 @end lisp
-@end defun
+@end deffn
 
 
-@defun mpq-get-str @var{base} @var{op}
-Convert an object @var{op} of type @objtype{mpq} to a string; return the resulting string.
-@var{base} must be an exact integer representing the base of the numeric string representation:
+@deffn {Generic Function} mpq-get-str (@var{BASE} @var{OP})
+@deffnx {Method} mpq-get-str ((@var{BASE} integer) (@var{OP} mpq))
+Convert an object @var{OP} of type @objtype{mpq} to a string; return the resulting string.
+@var{BASE} must be an exact integer representing the base of the numeric string representation:
 positive between @math{2} and @math{36} or negative between @math{-2} and @math{-36}.
 
 @lisp
@@ -2661,7 +2739,7 @@ positive between @math{2} and @math{36} or negative between @math{-2} and @math{
 (mpq-get-str +16 op)    @result{} "11/d"
 (mpq-get-str -16 op)    @result{} "11/D"
 @end lisp
-@end defun
+@end deffn
 
 @c page
 @node floats
@@ -2719,26 +2797,30 @@ When the @var{INIT} argument is missing: the returned object is set to zero.
 @section Floating--point numbers initialisation functions
 
 
-@defun mpf-set-default-prec @var{prec}
+@deffn {Generic Function} mpf-set-default-prec (@var{prec})
+@deffnx {Method} mpf-set-default-prec ((@var{prec} integer))
 Set the default precision of @objtype{mpf} object to at least @var{prec}, which must be an exact
 integer number object.
-@end defun
+@end deffn
 
 
-@defun mpf-get-default-prec
-Return an exact integer number representing the current default precision of @objtype{mpf} objects.
-@end defun
+@deffn {Generic Function} mpf-get-default-prec
+@deffnx {Method} mpf-get-default-prec
+Return an exact integer number representing the current default precision of (@objtype{mpf} objects.)
+@end deffn
 
 
-@defun mpf-set-prec @var{rop} @var{prec}
-Set the precision of the @objtype{mpf} object @var{rop} to at least @var{prec}, which must be an
+@deffn {Generic Function} mpf-set-prec (@var{ROP} @var{prec})
+@deffnx {Method} mpf-set-prec ((@var{ROP} mpf) (@var{prec} integer))
+Set the precision of the @objtype{mpf} object @var{ROP} to at least @var{prec}, which must be an
 exact integer number object.
-@end defun
+@end deffn
 
 
-@defun mpf-get-prec @var{rop}
-Return an exact integer number representing the precision of the @objtype{mpf} object @var{rop}.
-@end defun
+@deffn {Generic Function} mpf-get-prec (@var{ROP})
+@deffnx {Method} mpf-get-prec ((@var{ROP} integer))
+Return an exact integer number representing the precision of the @objtype{mpf} object @var{ROP}.
+@end deffn
 
 @c page
 @node floats predicates
@@ -2759,97 +2841,153 @@ Return @true{} if @var{obj} is an instance of @objtype{mpf}; otherwise return @f
 @section Assigning values to floating--point number objects
 
 
-@defun mpf-set @var{rop} @var{op}
-Assign the value of @var{op} to @var{rop}; both the operands must be of type @objtype{mpf}.
+@deffn {Generic Function} mpf-set (@var{ROP} @var{OP})
+@deffnx {Method} mpf-set ((@var{ROP} mpf) (@var{OP} mpf))
+Assign the value of @var{OP} to @var{ROP}; both the operands must be of type @objtype{mpf}.
 
 @lisp
+(defconst rop (mpf))
+(defconst op  (mpf))
+(mpf-set-si rop 123)
+(mpf-set    op rop)
+(mpf-get-str* 10 8 op)  @result{} "+0.123e+3"
 @end lisp
-@end defun
+@end deffn
 
 
-@defun mpf-set-si @var{rop} @var{int}
+@deffn {Generic Function} mpf-set-si (@var{ROP} @var{INT})
+@deffnx {Method} mpf-set-si ((@var{ROP} mpf) (@var{INT} integer))
 Assign the value of an exact integer object to an @objtype{mpf} object.
 
 @lisp
+(defconst rop (mpf))
+(mpf-set-si rop 123)
+(mpf-get-str* 10 8 rop) @result{} "+0.123e+3"
 @end lisp
-@end defun
+@end deffn
 
 
-@defun mpf-set-d @var{rop} @var{flo}
+@deffn {Generic Function} mpf-set-ui (@var{ROP} @var{INT})
+@deffnx {Method} mpf-set-ui ((@var{ROP} mpf) (@var{INT} integer))
+Assign the value of an exact integer object to an @objtype{mpf} object.
+
+@lisp
+(defconst rop (mpf))
+(mpf-set-ui rop 123)
+(mpf-get-str* 10 8 rop) @result{} "+0.123e+3"
+@end lisp
+@end deffn
+
+
+@deffn {Generic Function} mpf-set-d (@var{ROP} @var{flo})
+@deffnx {Method} mpf-set-d ((@var{ROP} mpf) (@var{FLO} float))
 Assign the value of a floating--point object to an @objtype{mpf} object.
 
 @lisp
+(let ((rop (mpf)))
+  (mpf-set-d rop 12.3)
+  (mpf-get-str* 10 8 rop))
+@result{} "+0.123e+2"
 @end lisp
-@end defun
+@end deffn
 
 
-@defun mpf-set-z @var{rop} @var{op}
+@deffn {Generic Function} mpf-set-z (@var{ROP} @var{OP})
+@deffnx {Method} mpf-set-z ((@var{ROP} mpf) (@var{OP} mpz))
 Assign the value of an @objtype{mpz} object to an @objtype{mpf} object.
 
 @lisp
+(let ((rop    (mpf))
+      (op     (mpz 123)))
+  (mpf-set-z rop op)
+  (mpf-get-str* 10 8 rop))
+@result{} "+0.123e+3"
 @end lisp
-@end defun
+@end deffn
 
 
-@defun mpf-set-q @var{rop} @var{op}
+@deffn {Generic Function} mpf-set-q (@var{ROP} @var{OP})
+@deffnx {Method} mpf-set-q ((@var{ROP} mpf) (@var{OP} mpq))
 Assign the value of an @objtype{mpq} object to an @objtype{mpf} object.
 
 @lisp
+(let ((rop    (mpf))
+      (op     (mpq 2 3)))
+  (mpf-set-q rop op)
+  (mpf-get-str* 10 8 rop))
+@result{} "+0.66666667e0"
 @end lisp
-@end defun
+@end deffn
 
 
-@defun mpf-set-str @var{rop} @var{str} @var{base}
-Assign the value of a string object to an @objtype{mpf} object.  The argument @var{base} must be an
+@deffn {Generic Function} mpf-set-str (@var{ROP} @var{STR} @var{BASE})
+@deffnx {Method} mpf-set-str ((@var{ROP} mpf) (@var{STR} string) (@var{BASE} integer))
+Assign the value of a string object to an @objtype{mpf} object.  The argument @var{BASE} must be an
 exact integer representing the base of the numeric string representation: a positive value between
 @math{2} and @math{62} or a negative value between @math{-2} and @math{-62}.
 
 @lisp
+(let ((rop (mpf)))
+  (mpf-set-str rop "123" 10)
+  (mpf-get-str* 10 8 rop))
+@result{} "+0.123e+3"
 @end lisp
-@end defun
+@end deffn
 
 
-@defun mpf-swap @vari{op} @varii{op}
+@deffn {Generic Function} mpf-swap (@vari{OP} @varii{OP})
+@deffnx {Method} mpf-swap ((@vari{OP} mpf) (@varii{OP} mpf))
 Swap the values between two @objtype{mpf} objects.
 
 @lisp
+(let ((op1 (mpf))
+      (op2 (mpf)))
+  (mpf-set-si op1 123)
+  (mpf-set-si op2 456)
+  (mpf-swap op1 op2)
+  (mpf-get-str* 10 8 op2)       @result{} "+0.123e+3"
+  (mpf-get-str* 10 8 op1))      @result{} "+0.456e+3"
 @end lisp
-@end defun
+@end deffn
 
 @c page
 @node floats conversion
 @section Converting floating--point numbers to other objects
 
 
-@defun mpf-get-ui @var{op}
-Convert an object @var{op} of type @objtype{mpf} to an unsigned exact integer number.
+@deffn {Generic Function} mpf-get-ui (@var{OP})
+@deffnx {Method} mpf-get-ui ((@var{OP} mpf))
+Convert an object @var{OP} of type @objtype{mpf} to an unsigned exact integer number.
 
 @lisp
 (mpf-get-ui (mpf 123))  @result{} 123
 @end lisp
-@end defun
+@end deffn
 
 
-@defun mpf-get-si @var{op}
-Convert an object @var{op} of type @objtype{mpf} to an signed exact integer number.
+@deffn {Generic Function} mpf-get-si (@var{OP})
+@deffnx {Method} mpf-get-si ((@var{OP} mpf))
+Convert an object @var{OP} of type @objtype{mpf} to an signed exact integer number.
 
 @lisp
 (mpf-get-si (mpf 123))  @result{} 123
 @end lisp
-@end defun
+@end deffn
 
 
-@defun mpf-get-d @var{op}
-Convert an object @var{op} of type @objtype{mpf} to a floating--point number.
+@deffn {Generic Function} mpf-get-d (@var{OP})
+@deffnx {Method} mpf-get-d ((@var{OP} mpf))
+Convert an object @var{OP} of type @objtype{mpf} to a floating--point number.
 
 @lisp
 (mpf-get-d (mpf 123))  @result{} 123.0
 @end lisp
-@end defun
+@end deffn
 
 
-@defun mpf-get-d-2exp @var{op}
-Convert an object @var{op} of type @objtype{mpf} to a floating--point number, yielding the exponent
+@deffn {Generic Function} mpf-get-d-2exp (@var{OP})
+@deffnx {Method} mpf-get-d-2exp ((@var{OP} mpf))
+Convert an object @var{OP} of type @objtype{mpf} to a floating--point number, yielding the exponent
 separately.  The return value is a pair whose car is a floating--point number and whose cdr is the
 exponent:
 
@@ -2859,18 +2997,19 @@ exponent:
 rv                                      @result{} (0.9609375 . 7)
 (* (car rv) (expt 2 (cdr rv)))          @result{} 123.0
 @end lisp
-@end defun
+@end deffn
 
 
-@defun mpf-get-str @var{base} @var{ndigits} @var{op}
-Convert an object @var{op} of type @objtype{mpf} to a string; return a pair object whose car is a
+@deffn {Generic Function} mpf-get-str (@var{BASE} @var{NDIGITS} @var{OP})
+@deffnx {Method} mpf-get-str ((@var{BASE} integer) (@var{NDIGITS} integer) (@var{OP} mpf))
+Convert an object @var{OP} of type @objtype{mpf} to a string; return a pair object whose car is a
 string representing the mantissa and whose cdr is an exact integer representing the exponent.
 
-The arguments @var{base} must be an exact integer representing the base of the numeric string
+The arguments @var{BASE} must be an exact integer representing the base of the numeric string
 representation: positive between @math{+2} and @math{+62} or negative between @math{-2} and
 @math{-36}.
 
-The argument @var{ndigits} must be an exact integer representing the number of digits to generate.
+The argument @var{NDIGITS} must be an exact integer representing the number of digits to generate.
 
 @lisp
 (let ((op       (mpf 15))
@@ -2886,12 +3025,13 @@ The argument @var{ndigits} must be an exact integer representing the number of d
   (mpf-get-str +10 ndigits op))
 @result{} ("1234" . 2)
 @end lisp
-@end defun
+@end deffn
 
 
-@defun mpf-get-str* @var{base} @var{ndigits} @var{op}
-Convert an object @var{op} of type @objtype{mpf} to a formatted string; return the string.  The
-arguments @var{base} and @var{ndigits} are the same as documented for @func{mpf-get-str}.
+@deffn {Generic Function} mpf-get-str* (@var{BASE} @var{NDIGITS} @var{OP})
+@deffnx {Method} mpf-get-str* ((@var{BASE} integer) (@var{NDIGITS} integer) (@var{OP} mpf))
+Convert an object @var{OP} of type @objtype{mpf} to a formatted string; return the string.  The
+arguments @var{BASE} and @var{NDIGITS} are the same as documented for @func{mpf-get-str}.
 
 @lisp
 (let ((op       (mpf))
@@ -2909,7 +3049,7 @@ arguments @var{base} and @var{ndigits} are the same as documented for @func{mpf-
 (mpf-get-str* 10 5 (mpf))
 @result{} "0.0"
 @end lisp
-@end defun
+@end deffn
 
 @c page
 @node random
@@ -2936,11 +3076,11 @@ correctly garbage collected.
 
 
 @defun gmp-randstate
-Build and return a new @objtype{gmp-randstate} object.  The generator is @strong{uninitialised}.
+Build and return a new (@objtype{gmp-randstate} object.  The generator is @strong{uninitialised}.
 @end defun
 
 
-@defun gmp-randstate-p @var{obj}
+@defun gmp-randstate-p (@var{obj})
 Return true if @var{obj} is an instance of @objtype{gmp-randstate}; otherwise return false.
 @end defun
 
