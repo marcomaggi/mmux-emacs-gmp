@@ -4,7 +4,7 @@
 
 ;; Author: Marco Maggi <mrc.mgg@gmail.com>
 ;; Created: Jan 15, 2020
-;; Time-stamp: <2020-01-26 10:10:34 marco>
+;; Time-stamp: <2020-01-27 06:46:52 marco>
 ;; Keywords: extensions
 
 ;; This file is part of MMUX Emacs GMP.
@@ -1369,11 +1369,118 @@ The argument BASE can vary from 2 to 62."
 
 ;;;; rational number functions: arithmetic
 
+;; void mpq_add (mpq_t SUM, const mpq_t ADDEND1, const mpq_t ADDEND2)
 (cl-defgeneric mpq-add (rop op1 op2)
   "Add two `mpq' objects.")
 (cl-defmethod  mpq-add ((rop mpq) (op1 mpq) (op2 mpq))
   "Add two `mpq' objects."
   (mmux-gmp-c-mpq-add (mpq-obj rop) (mpq-obj op1) (mpq-obj op2)))
+
+;; void mpq_sub (mpq_t DIFFERENCE, const mpq_t MINUEND, const mpq_t SUBTRAHEND)
+(cl-defgeneric mpq-sub (difference minuend subtrahend)
+  "Set DIFFERENCE to MINUEND - SUBTRAHEND.")
+(cl-defmethod  mpq-sub ((difference mpq) (minuend mpq) (subtrahend mpq))
+  "Set DIFFERENCE to MINUEND - SUBTRAHEND."
+  (mmux-gmp-c-mpq-sub difference (mpq-obj minuend) (mpq-obj subtrahend)))
+
+;; void mpq_mul (mpq_t PRODUCT, const mpq_t MULTIPLIER, const mpq_t MULTIPLICAND)
+(cl-defgeneric mpq-mul (product multiplier multiplicand)
+  "Set PRODUCT to MULTIPLIER times MULTIPLICAND.")
+(cl-defmethod  mpq-mul ((product mpq) (multiplier mpq) (multiplicand mpq))
+  "Set PRODUCT to MULTIPLIER times MULTIPLICAND."
+  (mmux-gmp-c-mpq-mul (mpq-obj product) (mpq-obj multiplier) (mpq-obj multiplicand)))
+
+;; void mpq_mul_2exp (mpq_t ROP, const mpq_t OP1, mp_bitcnt_t OP2)
+(cl-defgeneric mpq-mul-2exp (rop op1 op2)
+  "Set ROP to OP1 times 2 raised to OP2.")
+(cl-defmethod  mpq-mul-2exp ((rop mpq) (op1 mpq) (op2 integer))
+  "Set ROP to OP1 times 2 raised to OP2."
+  (cl-assert (<= 0 op2))
+  (mmux-gmp-c-mpq-mul-2exp (mpq-obj rop) (mpq-obj op1) op2))
+
+;; void mpq_div (mpq_t QUOTIENT, const mpq_t DIVIDEND, const mpq_t DIVISOR)
+(cl-defgeneric mpq-div (quotient dividend divisor)
+  "Set QUOTIENT to DIVIDEND/DIVISOR.")
+(cl-defmethod  mpq-div ((quotient mpq) (dividend mpq) (divisor mpq))
+  "Set QUOTIENT to DIVIDEND/DIVISOR."
+  (mmux-gmp-c-mpq-div (mpq-obj quotient) (mpq-obj dividend) (mpq-obj divisor)))
+
+;; void mpq_div_2exp (mpq_t ROP, const mpq_t OP1, mp_bitcnt_t OP2)
+(cl-defgeneric mpq-div-2exp (rop op1 op2)
+  "Set ROP to OP1 divided by 2 raised to OP2.")
+(cl-defmethod  mpq-div-2exp ((rop mpq) (op1 mpq) (op2 integer))
+  "Set ROP to OP1 divided by 2 raised to OP2."
+  (cl-assert (<= 0 op2))
+  (mmux-gmp-c-mpq-div-2exp (mpq-obj rop) (mpq-obj op1) op2))
+
+;; void mpq_neg (mpq_t NEGATED_OPERAND, const mpq_t OPERAND)
+(cl-defgeneric mpq-neg (negated-operand operand)
+  "Set NEGATED-OPERAND to -OPERAND.")
+(cl-defmethod  mpq-neg ((negated-operand mpq) (operand mpq))
+  "Set NEGATED-OPERAND to -OPERAND."
+  (mmux-gmp-c-mpq-neg (mpq-obj negated-operand) (mpq-obj operand)))
+
+;; void mpq_abs (mpq_t ROP, const mpq_t OP)
+(cl-defgeneric mpq-abs (rop op)
+  "Set ROP to the absolute value of OP.")
+(cl-defmethod  mpq-abs ((rop mpq) (op mpq))
+  "Set ROP to the absolute value of OP."
+  (mmux-gmp-c-mpq-abs (mpq-obj rop) (mpq-obj op)))
+
+;; void mpq_inv (mpq_t INVERTED_NUMBER, const mpq_t NUMBER)
+(cl-defgeneric mpq-inv (inverted-number number)
+  "Set INVERTED-NUMBER to 1/NUMBER.")
+(cl-defmethod  mpq-inv ((inverted-number mpq) (number mpq))
+  "Set INVERTED-NUMBER to 1/NUMBER."
+  (mmux-gmp-c-mpq-inv (mpq-obj inverted-number) (mpq-obj number)))
+
+
+;;;; rational number functions: comparison
+
+;; int mpq_cmp (const mpq_t OP1, const mpq_t OP2)
+(cl-defgeneric mpq-cmp (op1 op2)
+  "Compare OP1 and OP2.")
+(cl-defmethod mpq-cmp ((op1 mpq) (op2 mpq))
+  "Compare OP1 and OP2."
+  (mmux-gmp-c-mpq-cmp (mpq-obj op1) (mpq-obj op2)))
+
+;; int mpq_cmp_z (const mpq_t OP1, const mpz_t OP2)
+(cl-defgeneric mpq-cmp-z (op1 op2)
+  "Compare OP1 and OP2.")
+(cl-defmethod mpq-cmp-z ((op1 mpq) (op2 mpz))
+  "Compare OP1 and OP2."
+  (mmux-gmp-c-mpq-cmp-z (mpq-obj op1) (mpz-obj op2)))
+
+;; int mpq_cmp_ui (const mpq_t OP1, unsigned long int NUM2, unsigned long int DEN2)
+(cl-defgeneric mpq-cmp-ui (op1 num2 den2)
+  "Compare OP1 and NUM2/DEN2.")
+(cl-defmethod mpq-cmp-ui ((op1 mpq) (num2 integer) (den2 integer))
+  "Compare OP1 and NUM2/DEN2."
+  (cl-assert (<= 0 num2))
+  (cl-assert (<= 0 den2))
+  (mmux-gmp-c-mpq-cmp-ui (mpq-obj op1) num2 den2))
+
+;; int mpq_cmp_si (const mpq_t OP1, long int NUM2, unsigned long int DEN2)
+(cl-defgeneric mpq-cmp-si (op1 num2 den2)
+  "Compare OP1 and NUM2/DEN2.")
+(cl-defmethod mpq-cmp-si ((op1 mpq) (num2 integer) (den2 integer))
+  "Compare OP1 and NUM2/DEN2."
+  (cl-assert (<= 0 den2))
+  (mmux-gmp-c-mpq-cmp-si (mpq-obj op1) num2 den2))
+
+;; int mpq_sgn (const mpq_t OP)
+(cl-defgeneric mpq-sgn (op)
+  "Return +1 if OP > 0, 0 if OP = 0, and -1 if OP < 0.")
+(cl-defmethod mpq-sgn ((op mpq))
+  "Return +1 if OP > 0, 0 if OP = 0, and -1 if OP < 0."
+  (mmux-gmp-c-mpq-sgn (mpq-obj op)))
+
+;; int mpq_equal (const mpq_t OP1, const mpq_t OP2)
+(cl-defgeneric mpq-equal (op1 op2)
+  "Return non-zero if OP1 and OP2 are equal, zero if they are non-equal.")
+(cl-defmethod mpq-equal ((op1 mpq) (op2 mpq))
+  "Return non-zero if OP1 and OP2 are equal, zero if they are non-equal."
+  (mmux-gmp-c-mpq-equal (mpq-obj op1) (mpq-obj op2)))
 
 
 ;;;; floating-point number functions: initialisation
@@ -1503,7 +1610,7 @@ The argument BASE can vary from 2 to 62."
 	 (exponent	(cdr rv)))
     (if (string= "" mantissa.str)
 	"0.0"
-      (let ((negative?	(if (string= "-" (substring mantissa.str 0 1)) t nil)))
+      (let ((negative?	(if (char-equal ?- (elt mantissa.str 0)) t nil)))
 	(format "%s0.%se%s%d"
 		(if negative? "-" "+")
 		(if negative? (substring mantissa.str 1) mantissa.str)

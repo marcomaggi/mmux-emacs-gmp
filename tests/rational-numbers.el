@@ -129,6 +129,55 @@
     (should (equal "11/D"  (mpq-get-str -16 op)))))
 
 
+;;;; arithmetic functions
+
+
+
+
+;;;; rational number functions: comparison
+
+;; int mpq_cmp (const mpq_t OP1, const mpq_t OP2)
+(ert-deftest mpq-cmp ()
+  "Compare OP1 and OP2."
+  (should (equal -1 (mpq-cmp (mpq 1 2) (mpq 3 2))))
+  (should (equal  0 (mpq-cmp (mpq 1 2) (mpq 1 2))))
+  (should (equal +1 (mpq-cmp (mpq 3 2) (mpq 1 2)))))
+
+;; int mpq_cmp_z (const mpq_t OP1, const mpz_t OP2)
+(ert-deftest mpq-cmp-z ()
+  "Compare OP1 and OP2."
+  (should (equal -1 (mpq-cmp-z (mpq 1 2) (mpz 1))))
+  (should (equal  0 (mpq-cmp-z (mpq 1 1) (mpz 1))))
+  (should (equal +1 (mpq-cmp-z (mpq 3 2) (mpz 1)))))
+
+;; int mpq_cmp_ui (const mpq_t OP1, unsigned long int NUM2, unsigned long int DEN2)
+(ert-deftest mpq-cmp-ui ()
+  "Compare OP1 and NUM2/DEN2."
+  (should (equal -1 (mpq-cmp-ui (mpq 1 2) 3 2)))
+  (should (equal  0 (mpq-cmp-ui (mpq 1 2) 1 2)))
+  (should (equal +1 (mpq-cmp-ui (mpq 3 2) 1 2))))
+
+;; int mpq_cmp_si (const mpq_t OP1, long int NUM2, unsigned long int DEN2)
+(ert-deftest mpq-cmp-si ()
+  "Compare OP1 and NUM2/DEN2."
+  (should (equal +1 (mpq-cmp-si (mpq -1 2) -3 2)))
+  (should (equal  0 (mpq-cmp-si (mpq -1 2) -1 2)))
+  (should (equal -1 (mpq-cmp-si (mpq -3 2) -1 2))))
+
+;; int mpq_sgn (const mpq_t OP)
+(ert-deftest mpq-sgn ()
+  "Return +1 if OP > 0, 0 if OP = 0, and -1 if OP < 0."
+  (should (equal +1 (mpq-sgn (mpq +1 2))))
+  (should (equal  0 (mpq-sgn (mpq  0 2))))
+  (should (equal -1 (mpq-sgn (mpq -1 2)))))
+
+;; int mpq_equal (const mpq_t OP1, const mpq_t OP2)
+(ert-deftest mpq-equal ()
+  "Return non-zero if OP1 and OP2 are equal, zero if they are non-equal."
+  (should      (mpq-equal (mpq 1 2) (mpq 1 2)))
+  (should (not (mpq-equal (mpq 1 2) (mpq 3 2)))))
+
+
 ;;;; done
 
 (garbage-collect)

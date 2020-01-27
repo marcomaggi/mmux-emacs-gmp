@@ -2600,6 +2600,8 @@ garbage collected.
                                 number objects.
 * rationals conversion::        Converting rational numbers to
                                 other objects.
+* rationals arithmetic::        Arithmetic operations.
+* rationals comparison::        Comparison functions.
 @end menu
 
 @c page
@@ -2802,6 +2804,180 @@ positive between @math{2} and @math{36} or negative between @math{-2} and @math{
 (mpq-get-str +10 op)    @result{} "17/13"
 (mpq-get-str +16 op)    @result{} "11/d"
 (mpq-get-str -16 op)    @result{} "11/D"
+@end lisp
+@end deffn
+
+@c page
+@node rationals arithmetic
+@section Arithmetic operations
+
+
+@c void mpq_add (mpq_t SUM, const mpq_t ADDEND1, const mpq_t ADDEND2)
+@deffn {Generic Function} mpq-add (@var{rop} @vari{op} @varii{op})
+@deffnx {Method} mpq-add ((@var{rop} mpq) (@vari{op} mpq) (@varii{op} mpq))
+Add two @objtype{mpq} objects.
+
+@lisp
+@end lisp
+@end deffn
+
+
+@c void mpq_sub (mpq_t DIFFERENCE, const mpq_t MINUEND, const mpq_t SUBTRAHEND)
+@deffn {Generic Function} mpq-sub (@var{difference} @var{minuend} @var{subtrahend})
+@deffnx {Method} mpq-sub ((@var{difference} mpq) (@var{minuend} mpq) (@var{subtrahend} mpq))
+Set @var{DIFFERENCE} to @var{MINUEND} - @var{SUBTRAHEND}.
+
+@lisp
+@end lisp
+@end deffn
+
+
+@c void mpq_mul (mpq_t PRODUCT, const mpq_t MULTIPLIER, const mpq_t MULTIPLICAND)
+@deffn {Generic Function} mpq-mul (@var{product} @var{multiplier} @var{multiplicand})
+@deffnx {Method} mpq-mul ((@var{product} mpq) (@var{multiplier} mpq) (@var{multiplicand} mpq))
+Set @var{PRODUCT} to @var{MULTIPLIER} times @var{MULTIPLICAND}.
+
+@lisp
+@end lisp
+@end deffn
+
+
+@c void mpq_mul_2exp (mpq_t ROP, const mpq_t OP1, mp_bitcnt_t OP2)
+@deffn {Generic Function} mpq-mul-2exp (@var{rop} @vari{op} @varii{op})
+@deffnx {Method} mpq-mul-2exp ((@var{ROP} mpq) (@vari{OP} mpq) (@varii{OP} integer))
+Set ROP to OP1 times 2 raised to OP2.
+
+@lisp
+@end lisp
+@end deffn
+
+
+@c void mpq_div (mpq_t QUOTIENT, const mpq_t DIVIDEND, const mpq_t DIVISOR)
+@deffn {Generic Function} mpq-div (@var{QUOTIENT} @var{DIVIDEND} @var{DIVISOR})
+@deffnx {Method} mpq-div ((@var{QUOTIENT} mpq) (@var{DIVIDEND} mpq) (@var{DIVISOR} mpq))
+Set @var{QUOTIENT} to @var{DIVIDEND}/@var{DIVISOR}.
+
+@lisp
+@end lisp
+@end deffn
+
+
+@c void mpq_div_2exp (mpq_t ROP, const mpq_t OP1, mp_bitcnt_t OP2)
+@deffn {Generic Function} mpq-div-2exp (@var{rop} @vari{op} @varii{op})
+@deffnx {Method} mpq-div-2exp ((@var{ROP} mpq) (@vari{OP} mpq) (@varii{OP} integer))
+Set @var{ROP} to @vari{OP} divided by 2 raised to @varii{OP}.
+
+@lisp
+@end lisp
+@end deffn
+
+@c void mpq_neg (mpq_t NEGATED_OPERAND, const mpq_t OPERAND)
+@deffn {Generic Function} mpq-neg (@var{NEGATED-OPERAND} @var{OPERAND})
+@deffnx {Method} mpq-neg ((@var{NEGATED-OPERAND} mpq) (@var{OPERAND} mpq))
+Set @var{NEGATED-OPERAND} to -@var{OPERAND}.
+
+@lisp
+@end lisp
+@end deffn
+
+
+@c void mpq_abs (mpq_t ROP, const mpq_t OP)
+@deffn {Generic Function} mpq-abs (@var{ROP} @var{OP})
+@deffnx {Method} mpq-abs ((@var{ROP} mpq) (@var{OP} mpq))
+Set @var{ROP} to the absolute value of @var{OP}.
+
+@lisp
+@end lisp
+@end deffn
+
+
+@c void mpq_inv (mpq_t INVERTED_NUMBER, const mpq_t NUMBER)
+@deffn {Generic Function} mpq-inv (@var{INVERTED-NUMBER} @var{NUMBER})
+@deffnx {Method} mpq-inv ((@var{INVERTED-NUMBER} mpq) (@var{NUMBER} mpq))
+Set @var{INVERTED-NUMBER} to 1/@var{NUMBER}.
+
+@lisp
+@end lisp
+@end deffn
+
+@c page
+@node rationals comparison
+@section Comparison functions
+
+
+@c int mpq_cmp (const mpq_t OP1, const mpq_t OP2)
+@deffn {Generic Function} mpq-cmp (@vari{OP} @varii{OP})
+@deffnx {Method} mpq-cmp ((@vari{OP} mpq) (@varii{OP} mpq))
+Compare @vari{OP} and @varii{OP}.
+
+@lisp
+(mpq-cmp (mpq 1 2) (mpq 3 2))   @result{} -1
+(mpq-cmp (mpq 1 2) (mpq 1 2))   @result{}  0
+(mpq-cmp (mpq 3 2) (mpq 1 2))   @result{} +1
+@end lisp
+@end deffn
+
+
+@c int mpq_cmp_z (const mpq_t OP1, const mpz_t OP2)
+@deffn {Generic Function} mpq-cmp-z (@vari{OP} @varii{OP})
+@deffnx {Method} mpq-cmp-z ((@vari{OP} mpq) (@varii{OP} mpz))
+Compare @vari{OP} and @varii{OP}.
+
+@lisp
+(mpq-cmp-z (mpq 1 2) (mpz 1))   @result{} -1
+(mpq-cmp-z (mpq 1 1) (mpz 1))   @result{}  0
+(mpq-cmp-z (mpq 3 2) (mpz 1))   @result{} +1
+@end lisp
+@end deffn
+
+
+@c int mpq_cmp_ui (const mpq_t OP1, unsigned long int NUM2, unsigned long int DEN2)
+@deffn {Generic Function} mpq-cmp-ui (@vari{OP} num2 den2)
+@deffnx {Method} mpq-cmp-ui ((@vari{OP} mpq) (@varii{NUM} integer) (@varii{DEN} integer))
+Compare @vari{OP} and @varii{NUM}/@varii{DEN}.
+
+@lisp
+(mpq-cmp-ui (mpq 1 2) 3 2)      @result{} -1
+(mpq-cmp-ui (mpq 1 2) 1 2)      @result{}  0
+(mpq-cmp-ui (mpq 3 2) 1 2)      @result{} +1
+@end lisp
+@end deffn
+
+
+@c int mpq_cmp_si (const mpq_t OP1, long int NUM2, unsigned long int DEN2)
+@deffn {Generic Function} mpq-cmp-si (@vari{OP} num2 den2)
+@deffnx {Method} mpq-cmp-si ((@vari{OP} mpq) (@varii{NUM} integer) (@varii{DEN} integer))
+Compare @vari{OP} and @varii{NUM}/@varii{DEN}.
+
+@lisp
+(mpq-cmp-si (mpq -1 2) -3 2)    @result{} +1
+(mpq-cmp-si (mpq -1 2) -1 2)    @result{}  0
+(mpq-cmp-si (mpq -3 2) -1 2)    @result{} -1
+@end lisp
+@end deffn
+
+
+@c int mpq_sgn (const mpq_t OP)
+@deffn {Generic Function} mpq-sgn (@var{OP})
+@deffnx {Method} mpq-sgn ((@var{OP} mpq))
+Return +1 if @var{OP} > 0, 0 if @var{OP} = 0, and -1 if @var{OP} < 0.
+
+@lisp
+(mpq-sgn (mpq +1 2))            @result{} +1
+(mpq-sgn (mpq  0 2))            @result{}  0
+(mpq-sgn (mpq -1 2))            @result{} -1
+@end lisp
+@end deffn
+
+
+@c int mpq_equal (const mpq_t OP1, const mpq_t OP)
+@deffn {Generic Function} mpq-equal (@vari{OP} @varii{OP})
+@deffnx {Method} mpq-equal ((@vari{OP} mpq) (@varii{OP} mpq))
+Return non-zero if @vari{OP} and @varii{OP} are equal, zero if they are non-equal.
+
+@lisp
+(mpq-equal (mpq 1 2) (mpq 1 2)) @result{} t
+(mpq-equal (mpq 1 2) (mpq 3 2)) @result{} nil
 @end lisp
 @end deffn
 
