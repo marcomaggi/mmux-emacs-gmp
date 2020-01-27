@@ -124,7 +124,7 @@ Fmmux_gmp_c_mpz_set_str (emacs_env *env, ptrdiff_t nargs, emacs_value args[], vo
        node "Standard Errors" for a list of  the standard error symbols; see the node
        "Error Symbols"  for methods to define  error symbols.  (Marco Maggi;  Jan 14,
        2020) */
-    env->non_local_exit_signal(env, env->intern(env, MMUX_EMAC_GMP_ERROR_STRING_TOO_LONG), Serrmsg);
+    env->non_local_exit_signal(env, env->intern(env, MMUX_EMACS_GMP_ERROR_STRING_TOO_LONG), Serrmsg);
     return mmux_make_nil(env);
   }
 }
