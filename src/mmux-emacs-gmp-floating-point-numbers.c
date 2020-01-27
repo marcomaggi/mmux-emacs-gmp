@@ -40,10 +40,10 @@ static emacs_value
 Fmmux_gmp_c_mpf_set_default_prec (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
 {
   assert(1 == nargs);
-  mp_bitcnt_t	prec = env->extract_integer(env, args[0]);
+  mp_bitcnt_t	prec = mmux_emacs_get_bitcnt(env, args[0]);
 
   mpf_set_default_prec(prec);
-  return env->intern(env, "nil");
+  return mmux_emacs_make_nil(env);
 }
 
 static emacs_value
@@ -52,27 +52,27 @@ Fmmux_gmp_c_mpf_get_default_prec (emacs_env *env, ptrdiff_t nargs,
 {
   assert(0 == nargs);
 
-  return env->make_integer(env, (intmax_t)mpf_get_default_prec());
+  return mmux_emacs_make_prec(env, mpf_get_default_prec());
 }
 
 static emacs_value
 Fmmux_gmp_c_mpf_set_prec (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
 {
   assert(2 == nargs);
-  mpf_ptr	rop  = env->get_user_ptr(env, args[0]);
-  mp_bitcnt_t	prec = env->extract_integer(env, args[1]);
+  mpf_ptr	rop  = mmux_emacs_get_mpf(env, args[0]);
+  mp_bitcnt_t	prec = mmux_emacs_get_bitcnt(env, args[1]);
 
   mpf_set_prec(rop, prec);
-  return env->intern(env, "nil");
+  return mmux_emacs_make_nil(env);
 }
 
 static emacs_value
 Fmmux_gmp_c_mpf_get_prec (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
 {
   assert(1 == nargs);
-  mpf_ptr	rop  = env->get_user_ptr(env, args[0]);
+  mpf_ptr	rop  = mmux_emacs_get_ptr(env, args[0]);
 
-  return env->make_integer(env, (intmax_t)mpf_get_prec(rop));
+  return mmux_emacs_make_prec(env, mpf_get_prec(rop));
 }
 
 
@@ -84,74 +84,74 @@ static emacs_value
 Fmmux_gmp_c_mpf_set (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
 {
   assert(2 == nargs);
-  mpf_ptr	rop = env->get_user_ptr(env, args[0]);
-  mpf_ptr	op  = env->get_user_ptr(env, args[1]);
+  mpf_ptr	rop = mmux_emacs_get_mpf(env, args[0]);
+  mpf_ptr	op  = mmux_emacs_get_mpf(env, args[1]);
 
   mpf_set(rop, op);
-  return env->intern(env, "nil");
+  return mmux_emacs_make_nil(env);
 }
 
 static emacs_value
 Fmmux_gmp_c_mpf_set_si (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
 {
   assert(2 == nargs);
-  mpf_ptr	rop = env->get_user_ptr(env, args[0]);
-  intmax_t	op  = env->extract_integer(env, args[1]);
+  mpf_ptr	rop = mmux_emacs_get_mpf(env, args[0]);
+  mmux_slint_t	op  = mmux_emacs_get_slint(env, args[1]);
 
-  mpf_set_si(rop, (signed long int)op);
-  return env->intern(env, "nil");
+  mpf_set_si(rop, op);
+  return mmux_emacs_make_nil(env);
 }
 
 static emacs_value
 Fmmux_gmp_c_mpf_set_ui (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
 {
   assert(2 == nargs);
-  mpf_ptr	rop = env->get_user_ptr(env, args[0]);
-  intmax_t	op  = env->extract_integer(env, args[1]);
+  mpf_ptr	rop = mmux_emacs_get_mpf(env, args[0]);
+  mmux_ulint_t	op  = mmux_emacs_get_ulint(env, args[1]);
 
-  mpf_set_ui(rop, (unsigned long int)op);
-  return env->intern(env, "nil");
+  mpf_set_ui(rop, op);
+  return mmux_emacs_make_nil(env);
 }
 
 static emacs_value
 Fmmux_gmp_c_mpf_set_d (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
 {
   assert(2 == nargs);
-  mpf_ptr	rop = env->get_user_ptr(env, args[0]);
-  double	op  = env->extract_float(env, args[1]);
+  mpf_ptr	rop = mmux_emacs_get_mpf(env, args[0]);
+  double	op  = mmux_emacs_get_float(env, args[1]);
 
   mpf_set_d(rop, op);
-  return env->intern(env, "nil");
+  return mmux_emacs_make_nil(env);
 }
 
 static emacs_value
 Fmmux_gmp_c_mpf_set_z (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
 {
   assert(2 == nargs);
-  mpf_ptr	rop = env->get_user_ptr(env, args[0]);
-  mpz_ptr	op  = env->get_user_ptr(env, args[1]);
+  mpf_ptr	rop = mmux_emacs_get_mpf(env, args[0]);
+  mpz_ptr	op  = mmux_emacs_get_mpz(env, args[1]);
 
   mpf_set_z(rop, op);
-  return env->intern(env, "nil");
+  return mmux_emacs_make_nil(env);
 }
 
 static emacs_value
 Fmmux_gmp_c_mpf_set_q (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
 {
   assert(2 == nargs);
-  mpf_ptr	rop = env->get_user_ptr(env, args[0]);
-  mpq_ptr	op  = env->get_user_ptr(env, args[1]);
+  mpf_ptr	rop = mmux_emacs_get_mpf(env, args[0]);
+  mpq_ptr	op  = mmux_emacs_get_mpq(env, args[1]);
 
   mpf_set_q(rop, op);
-  return env->intern(env, "nil");
+  return mmux_emacs_make_nil(env);
 }
 
 static emacs_value
 Fmmux_gmp_c_mpf_set_str (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
 {
   assert(3 == nargs);
-  mpf_ptr	rop  = env->get_user_ptr    (env, args[0]);
-  intmax_t	base = env->extract_integer (env, args[2]);
+  mpf_ptr	rop  = mmux_emacs_get_mpf(env, args[0]);
+  intmax_t	base = mmux_emacs_get_int(env, args[2]);
   ptrdiff_t	len  = 0;
 
   env->copy_string_contents(env, args[1], NULL, &len);
@@ -164,14 +164,14 @@ Fmmux_gmp_c_mpf_set_str (emacs_env *env, ptrdiff_t nargs, emacs_value args[], vo
     return env->make_integer(env, rv);
   } else {
     char const *	errmsg  = "input string exceeds maximum length";
-    emacs_value		Serrmsg = env->make_string(env, errmsg, strlen(errmsg));
+    emacs_value		Serrmsg = mmux_emacs_make_string(env, errmsg, strlen(errmsg));
 
     /* Signal an error,  then immediately return.  In the "elisp"  Info file: see the
        node "Standard Errors" for a list of  the standard error symbols; see the node
        "Error Symbols"  for methods to define  error symbols.  (Marco Maggi;  Jan 14,
        2020) */
     env->non_local_exit_signal(env, env->intern(env, MMUX_EMACS_GMP_ERROR_STRING_TOO_LONG), Serrmsg);
-    return env->intern(env, "nil");
+    return mmux_emacs_make_nil(env);
   }
 }
 
@@ -179,11 +179,11 @@ static emacs_value
 Fmmux_gmp_c_mpf_swap (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
 {
   assert(2 == nargs);
-  mpf_ptr	op1 = env->get_user_ptr(env, args[0]);
-  mpf_ptr	op2 = env->get_user_ptr(env, args[1]);
+  mpf_ptr	op1 = mmux_emacs_get_mpf(env, args[0]);
+  mpf_ptr	op2 = mmux_emacs_get_mpf(env, args[1]);
 
   mpf_swap(op1, op2);
-  return env->intern(env, "nil");
+  return mmux_emacs_make_nil(env);
 }
 
 
@@ -196,7 +196,7 @@ Fmmux_gmp_c_mpf_get_ui (emacs_env *env, ptrdiff_t nargs MMUX_EMACS_GMP_UNUSED,
 			emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
 {
   assert(1 == nargs);
-  mpf_ptr	op   = env->get_user_ptr    (env, args[0]);
+  mpf_ptr	op   = mmux_emacs_get_mpf(env, args[0]);
 
   return env->make_integer(env, (intmax_t)mpf_get_ui(op));
 }
@@ -206,7 +206,7 @@ Fmmux_gmp_c_mpf_get_si (emacs_env *env, ptrdiff_t nargs MMUX_EMACS_GMP_UNUSED,
 			emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
 {
   assert(1 == nargs);
-  mpf_ptr	op   = env->get_user_ptr    (env, args[0]);
+  mpf_ptr	op   = mmux_emacs_get_mpf(env, args[0]);
 
   return env->make_integer(env, (intmax_t)mpf_get_si(op));
 }
@@ -216,7 +216,7 @@ Fmmux_gmp_c_mpf_get_d (emacs_env *env, ptrdiff_t nargs MMUX_EMACS_GMP_UNUSED,
 			emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
 {
   assert(1 == nargs);
-  mpf_ptr	op   = env->get_user_ptr    (env, args[0]);
+  mpf_ptr	op   = mmux_emacs_get_mpf(env, args[0]);
 
   return env->make_float(env, (intmax_t)mpf_get_d(op));
 }
@@ -226,7 +226,7 @@ Fmmux_gmp_c_mpf_get_d_2exp (emacs_env *env, ptrdiff_t nargs MMUX_EMACS_GMP_UNUSE
 			    emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
 {
   assert(1 == nargs);
-  mpf_ptr	op   = env->get_user_ptr    (env, args[0]);
+  mpf_ptr	op   = mmux_emacs_get_mpf(env, args[0]);
   double	rv;
   mp_exp_t	exponent;
 
@@ -246,9 +246,9 @@ static emacs_value
 Fmmux_gmp_c_mpf_get_str (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
 {
   assert(3 == nargs);
-  intmax_t	base      = env->extract_integer (env, args[0]);
-  intmax_t	ndigits   = env->extract_integer (env, args[1]);
-  mpf_ptr	op        = env->get_user_ptr    (env, args[2]);
+  int		base      = mmux_emacs_get_sint(env, args[0]);
+  size_t	ndigits   = (size_t)mmux_emacs_get_int(env, args[1]);
+  mpf_ptr	op        = mmux_emacs_get_mpf(env, args[2]);
 
   emacs_value	Srv;
   mp_exp_t	exponent;
@@ -260,9 +260,9 @@ Fmmux_gmp_c_mpf_get_str (emacs_env *env, ptrdiff_t nargs, emacs_value args[], vo
     /* When  the first  argument  is NULL:  allocate memory  using  the configured  GMP
        allocator.  According to GMP's specification: the allocator cannot fail and will
        always return a non-NULL pointer. */
-    mantissa_string     = mpf_get_str(NULL, &exponent, (int)base, (size_t)ndigits, op);
+    mantissa_string     = mpf_get_str(NULL, &exponent, base, ndigits, op);
     mantissa_string_len = strlen(mantissa_string);
-    Srv = env->make_string(env, mantissa_string, mantissa_string_len);
+    Srv = mmux_emacs_make_string(env, mantissa_string, mantissa_string_len);
     {
       void (*freefunc) (void *, size_t);
 
@@ -273,7 +273,7 @@ Fmmux_gmp_c_mpf_get_str (emacs_env *env, ptrdiff_t nargs, emacs_value args[], vo
 
   {
     emacs_value Qcons       = env->intern(env, "cons");
-    emacs_value operands[2] = { Srv, env->make_integer(env, (intmax_t)exponent) };
+    emacs_value operands[2] = { Srv, mmux_emacs_make_int(env, (intmax_t)exponent) };
 
     return env->funcall(env, Qcons, 2, operands);
   }
@@ -289,12 +289,12 @@ static emacs_value
 Fmmux_gmp_c_mpf_add (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
 {
   assert(3 == nargs);
-  mpf_ptr	rop = env->get_user_ptr(env, args[0]);
-  mpf_ptr	op1 = env->get_user_ptr(env, args[1]);
-  mpf_ptr	op2 = env->get_user_ptr(env, args[2]);
+  mpf_ptr	rop = mmux_emacs_get_mpf(env, args[0]);
+  mpf_ptr	op1 = mmux_emacs_get_mpf(env, args[1]);
+  mpf_ptr	op2 = mmux_emacs_get_mpf(env, args[2]);
 
   mpf_add(rop, op1, op2);
-  return env->intern(env, "nil");
+  return mmux_emacs_make_nil(env);
 }
 
 

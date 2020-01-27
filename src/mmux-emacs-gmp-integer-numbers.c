@@ -38,74 +38,74 @@ static emacs_value
 Fmmux_gmp_c_mpz_set (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
 {
   assert(2 == nargs);
-  mpz_ptr	rop = mmux_get_ptr(env, args[0]);
-  mpz_ptr	op  = mmux_get_ptr(env, args[1]);
+  mpz_ptr	rop = mmux_emacs_get_ptr(env, args[0]);
+  mpz_ptr	op  = mmux_emacs_get_ptr(env, args[1]);
 
   mpz_set(rop, op);
-  return mmux_make_nil(env);
+  return mmux_emacs_make_nil(env);
 }
 
 static emacs_value
 Fmmux_gmp_c_mpz_set_si (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
 {
   assert(2 == nargs);
-  mpz_ptr	rop = mmux_get_ptr(env, args[0]);
-  mmux_slint_t	op  = mmux_get_slint(env, args[1]);
+  mpz_ptr	rop = mmux_emacs_get_ptr(env, args[0]);
+  mmux_slint_t	op  = mmux_emacs_get_slint(env, args[1]);
 
   mpz_set_si(rop, op);
-  return mmux_make_nil(env);
+  return mmux_emacs_make_nil(env);
 }
 
 static emacs_value
 Fmmux_gmp_c_mpz_set_ui (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
 {
   assert(2 == nargs);
-  mpz_ptr	rop = mmux_get_ptr(env, args[0]);
-  mmux_slint_t	op  = mmux_get_slint(env, args[1]);
+  mpz_ptr	rop = mmux_emacs_get_ptr(env, args[0]);
+  mmux_slint_t	op  = mmux_emacs_get_slint(env, args[1]);
 
   mpz_set_ui(rop, op);
-  return mmux_make_nil(env);
+  return mmux_emacs_make_nil(env);
 }
 
 static emacs_value
 Fmmux_gmp_c_mpz_set_d (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
 {
   assert(2 == nargs);
-  mpz_ptr	rop = mmux_get_ptr(env, args[0]);
+  mpz_ptr	rop = mmux_emacs_get_ptr(env, args[0]);
   double	op  = env->extract_float(env, args[1]);
 
   mpz_set_d(rop, op);
-  return mmux_make_nil(env);
+  return mmux_emacs_make_nil(env);
 }
 
 static emacs_value
 Fmmux_gmp_c_mpz_set_q (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
 {
   assert(2 == nargs);
-  mpz_ptr	rop = mmux_get_ptr(env, args[0]);
-  mpq_ptr	op  = mmux_get_ptr(env, args[1]);
+  mpz_ptr	rop = mmux_emacs_get_ptr(env, args[0]);
+  mpq_ptr	op  = mmux_emacs_get_ptr(env, args[1]);
 
   mpz_set_q(rop, op);
-  return mmux_make_nil(env);
+  return mmux_emacs_make_nil(env);
 }
 
 static emacs_value
 Fmmux_gmp_c_mpz_set_f (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
 {
   assert(2 == nargs);
-  mpz_ptr	rop = mmux_get_ptr(env, args[0]);
-  mpf_ptr	op  = mmux_get_ptr(env, args[1]);
+  mpz_ptr	rop = mmux_emacs_get_ptr(env, args[0]);
+  mpf_ptr	op  = mmux_emacs_get_ptr(env, args[1]);
 
   mpz_set_f(rop, op);
-  return mmux_make_nil(env);
+  return mmux_emacs_make_nil(env);
 }
 
 static emacs_value
 Fmmux_gmp_c_mpz_set_str (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
 {
   assert(3 == nargs);
-  mpz_ptr	rop  = mmux_get_ptr	(env, args[0]);
-  mmux_sint_t	base = mmux_get_sint	(env, args[2]);
+  mpz_ptr	rop  = mmux_emacs_get_ptr	(env, args[0]);
+  mmux_sint_t	base = mmux_emacs_get_sint	(env, args[2]);
   ptrdiff_t	len  = 0;
 
   env->copy_string_contents(env, args[1], NULL, &len);
@@ -115,7 +115,7 @@ Fmmux_gmp_c_mpz_set_str (emacs_env *env, ptrdiff_t nargs, emacs_value args[], vo
 
     env->copy_string_contents(env, args[1], buf, &len);
     rv = mpz_set_str(rop, buf, base);
-    return mmux_make_int(env, rv);
+    return mmux_emacs_make_int(env, rv);
   } else {
     char const *	errmsg  = "input string exceeds maximum length";
     emacs_value		Serrmsg = env->make_string(env, errmsg, strlen(errmsg));
@@ -125,7 +125,7 @@ Fmmux_gmp_c_mpz_set_str (emacs_env *env, ptrdiff_t nargs, emacs_value args[], vo
        "Error Symbols"  for methods to define  error symbols.  (Marco Maggi;  Jan 14,
        2020) */
     env->non_local_exit_signal(env, env->intern(env, MMUX_EMACS_GMP_ERROR_STRING_TOO_LONG), Serrmsg);
-    return mmux_make_nil(env);
+    return mmux_emacs_make_nil(env);
   }
 }
 
@@ -133,11 +133,11 @@ static emacs_value
 Fmmux_gmp_c_mpz_swap (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
 {
   assert(2 == nargs);
-  mpz_ptr	op1 = mmux_get_ptr(env, args[0]);
-  mpz_ptr	op2 = mmux_get_ptr(env, args[1]);
+  mpz_ptr	op1 = mmux_emacs_get_ptr(env, args[0]);
+  mpz_ptr	op2 = mmux_emacs_get_ptr(env, args[1]);
 
   mpz_swap(op1, op2);
-  return mmux_make_nil(env);
+  return mmux_emacs_make_nil(env);
 }
 
 
@@ -150,9 +150,9 @@ Fmmux_gmp_c_mpz_get_ui (emacs_env *env, ptrdiff_t nargs MMUX_EMACS_GMP_UNUSED,
 			emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
 {
   assert(1 == nargs);
-  mpz_ptr	op   = mmux_get_ptr    (env, args[0]);
+  mpz_ptr	op   = mmux_emacs_get_ptr    (env, args[0]);
 
-  return mmux_make_int(env, (intmax_t)mpz_get_ui(op));
+  return mmux_emacs_make_int(env, (intmax_t)mpz_get_ui(op));
 }
 
 static emacs_value
@@ -160,9 +160,9 @@ Fmmux_gmp_c_mpz_get_si (emacs_env *env, ptrdiff_t nargs MMUX_EMACS_GMP_UNUSED,
 			emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
 {
   assert(1 == nargs);
-  mpz_ptr	op   = mmux_get_ptr    (env, args[0]);
+  mpz_ptr	op   = mmux_emacs_get_ptr    (env, args[0]);
 
-  return mmux_make_int(env, (intmax_t)mpz_get_si(op));
+  return mmux_emacs_make_int(env, (intmax_t)mpz_get_si(op));
 }
 
 static emacs_value
@@ -170,7 +170,7 @@ Fmmux_gmp_c_mpz_get_d (emacs_env *env, ptrdiff_t nargs MMUX_EMACS_GMP_UNUSED,
 			emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
 {
   assert(1 == nargs);
-  mpz_ptr	op   = mmux_get_ptr    (env, args[0]);
+  mpz_ptr	op   = mmux_emacs_get_ptr    (env, args[0]);
 
   return env->make_float(env, (intmax_t)mpz_get_d(op));
 }
@@ -180,7 +180,7 @@ Fmmux_gmp_c_mpz_get_d_2exp (emacs_env *env, ptrdiff_t nargs MMUX_EMACS_GMP_UNUSE
 			    emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
 {
   assert(1 == nargs);
-  mpz_ptr	op   = mmux_get_ptr    (env, args[0]);
+  mpz_ptr	op   = mmux_emacs_get_ptr    (env, args[0]);
   double	rv;
   mp_exp_t	exponent;
 
@@ -189,7 +189,7 @@ Fmmux_gmp_c_mpz_get_d_2exp (emacs_env *env, ptrdiff_t nargs MMUX_EMACS_GMP_UNUSE
     emacs_value Qcons       = env->intern(env, "cons");
     emacs_value operands[2] = {
       env->make_float(env, rv),
-      mmux_make_int(env, (intmax_t)exponent)
+      mmux_emacs_make_int(env, (intmax_t)exponent)
     };
 
     return env->funcall(env, Qcons, 2, operands);
@@ -201,8 +201,8 @@ Fmmux_gmp_c_mpz_get_str (emacs_env *env, ptrdiff_t nargs MMUX_EMACS_GMP_UNUSED,
 			 emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
 {
   assert(2 == nargs);
-  mmux_sint_t	base = mmux_get_sint (env, args[0]);
-  mpz_ptr	op   = mmux_get_ptr  (env, args[1]);
+  mmux_sint_t	base = mmux_emacs_get_sint (env, args[0]);
+  mpz_ptr	op   = mmux_emacs_get_ptr  (env, args[1]);
 
   {
     int		maxlen = 2 + mpz_sizeinbase(op, base);
@@ -222,24 +222,24 @@ static emacs_value
 Fmmux_gmp_c_mpz_add (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
 {
   assert(3 == nargs);
-  mpz_ptr	rop = mmux_get_mpz(env, args[0]);
-  mpz_ptr	op1 = mmux_get_mpz(env, args[1]);
-  mpz_ptr	op2 = mmux_get_mpz(env, args[2]);
+  mpz_ptr	rop = mmux_emacs_get_mpz(env, args[0]);
+  mpz_ptr	op1 = mmux_emacs_get_mpz(env, args[1]);
+  mpz_ptr	op2 = mmux_emacs_get_mpz(env, args[2]);
 
   mpz_add(rop, op1, op2);
-  return mmux_make_nil(env);
+  return mmux_emacs_make_nil(env);
 }
 
 static emacs_value
 Fmmux_gmp_c_mpz_add_ui (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
 {
   assert(3 == nargs);
-  mpz_ptr	rop = mmux_get_mpz(env, args[0]);
-  mpz_ptr	op1 = mmux_get_mpz(env, args[1]);
-  mmux_ulint_t	op2 = mmux_get_ulint(env, args[2]);
+  mpz_ptr	rop = mmux_emacs_get_mpz(env, args[0]);
+  mpz_ptr	op1 = mmux_emacs_get_mpz(env, args[1]);
+  mmux_ulint_t	op2 = mmux_emacs_get_ulint(env, args[2]);
 
   mpz_add_ui(rop, op1, op2);
-  return mmux_make_nil(env);
+  return mmux_emacs_make_nil(env);
 }
 
 /* ------------------------------------------------------------------ */
@@ -248,24 +248,24 @@ static emacs_value
 Fmmux_gmp_c_mpz_sub (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
 {
   assert(3 == nargs);
-  mpz_ptr	rop = mmux_get_mpz(env, args[0]);
-  mpz_ptr	op1 = mmux_get_mpz(env, args[1]);
-  mpz_ptr	op2 = mmux_get_mpz(env, args[2]);
+  mpz_ptr	rop = mmux_emacs_get_mpz(env, args[0]);
+  mpz_ptr	op1 = mmux_emacs_get_mpz(env, args[1]);
+  mpz_ptr	op2 = mmux_emacs_get_mpz(env, args[2]);
 
   mpz_sub(rop, op1, op2);
-  return mmux_make_nil(env);
+  return mmux_emacs_make_nil(env);
 }
 
 static emacs_value
 Fmmux_gmp_c_mpz_sub_ui (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
 {
   assert(3 == nargs);
-  mpz_ptr	rop = mmux_get_mpz(env, args[0]);
-  mpz_ptr	op1 = mmux_get_mpz(env, args[1]);
-  mmux_ulint_t	op2 = mmux_get_ulint(env, args[2]);
+  mpz_ptr	rop = mmux_emacs_get_mpz(env, args[0]);
+  mpz_ptr	op1 = mmux_emacs_get_mpz(env, args[1]);
+  mmux_ulint_t	op2 = mmux_emacs_get_ulint(env, args[2]);
 
   mpz_sub_ui(rop, op1, op2);
-  return mmux_make_nil(env);
+  return mmux_emacs_make_nil(env);
 }
 
 /* ------------------------------------------------------------------ */
@@ -274,24 +274,24 @@ static emacs_value
 Fmmux_gmp_c_mpz_addmul (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
 {
   assert(3 == nargs);
-  mpz_ptr	rop = mmux_get_mpz(env, args[0]);
-  mpz_ptr	op1 = mmux_get_mpz(env, args[1]);
-  mpz_ptr	op2 = mmux_get_mpz(env, args[2]);
+  mpz_ptr	rop = mmux_emacs_get_mpz(env, args[0]);
+  mpz_ptr	op1 = mmux_emacs_get_mpz(env, args[1]);
+  mpz_ptr	op2 = mmux_emacs_get_mpz(env, args[2]);
 
   mpz_addmul(rop, op1, op2);
-  return mmux_make_nil(env);
+  return mmux_emacs_make_nil(env);
 }
 
 static emacs_value
 Fmmux_gmp_c_mpz_addmul_ui (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
 {
   assert(3 == nargs);
-  mpz_ptr	rop = mmux_get_mpz(env, args[0]);
-  mpz_ptr	op1 = mmux_get_mpz(env, args[1]);
-  mmux_ulint_t	op2 = mmux_get_ulint(env, args[2]);
+  mpz_ptr	rop = mmux_emacs_get_mpz(env, args[0]);
+  mpz_ptr	op1 = mmux_emacs_get_mpz(env, args[1]);
+  mmux_ulint_t	op2 = mmux_emacs_get_ulint(env, args[2]);
 
   mpz_addmul_ui(rop, op1, op2);
-  return mmux_make_nil(env);
+  return mmux_emacs_make_nil(env);
 }
 
 /* ------------------------------------------------------------------ */
@@ -300,24 +300,24 @@ static emacs_value
 Fmmux_gmp_c_mpz_submul (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
 {
   assert(3 == nargs);
-  mpz_ptr	rop = mmux_get_mpz(env, args[0]);
-  mpz_ptr	op1 = mmux_get_mpz(env, args[1]);
-  mpz_ptr	op2 = mmux_get_mpz(env, args[2]);
+  mpz_ptr	rop = mmux_emacs_get_mpz(env, args[0]);
+  mpz_ptr	op1 = mmux_emacs_get_mpz(env, args[1]);
+  mpz_ptr	op2 = mmux_emacs_get_mpz(env, args[2]);
 
   mpz_submul(rop, op1, op2);
-  return mmux_make_nil(env);
+  return mmux_emacs_make_nil(env);
 }
 
 static emacs_value
 Fmmux_gmp_c_mpz_submul_ui (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
 {
   assert(3 == nargs);
-  mpz_ptr	rop = mmux_get_mpz(env, args[0]);
-  mpz_ptr	op1 = mmux_get_mpz(env, args[1]);
-  mmux_ulint_t	op2 = mmux_get_ulint(env, args[2]);
+  mpz_ptr	rop = mmux_emacs_get_mpz(env, args[0]);
+  mpz_ptr	op1 = mmux_emacs_get_mpz(env, args[1]);
+  mmux_ulint_t	op2 = mmux_emacs_get_ulint(env, args[2]);
 
   mpz_submul_ui(rop, op1, op2);
-  return mmux_make_nil(env);
+  return mmux_emacs_make_nil(env);
 }
 
 /* ------------------------------------------------------------------ */
@@ -326,36 +326,36 @@ static emacs_value
 Fmmux_gmp_c_mpz_mul (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
 {
   assert(3 == nargs);
-  mpz_ptr	rop = mmux_get_mpz(env, args[0]);
-  mpz_ptr	op1 = mmux_get_mpz(env, args[1]);
-  mpz_ptr	op2 = mmux_get_mpz(env, args[2]);
+  mpz_ptr	rop = mmux_emacs_get_mpz(env, args[0]);
+  mpz_ptr	op1 = mmux_emacs_get_mpz(env, args[1]);
+  mpz_ptr	op2 = mmux_emacs_get_mpz(env, args[2]);
 
   mpz_mul(rop, op1, op2);
-  return mmux_make_nil(env);
+  return mmux_emacs_make_nil(env);
 }
 
 static emacs_value
 Fmmux_gmp_c_mpz_mul_si (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
 {
   assert(3 == nargs);
-  mpz_ptr	rop = mmux_get_mpz(env, args[0]);
-  mpz_ptr	op1 = mmux_get_mpz(env, args[1]);
-  mmux_slint_t	op2 = mmux_get_slint(env, args[2]);
+  mpz_ptr	rop = mmux_emacs_get_mpz(env, args[0]);
+  mpz_ptr	op1 = mmux_emacs_get_mpz(env, args[1]);
+  mmux_slint_t	op2 = mmux_emacs_get_slint(env, args[2]);
 
   mpz_mul_si(rop, op1, op2);
-  return mmux_make_nil(env);
+  return mmux_emacs_make_nil(env);
 }
 
 static emacs_value
 Fmmux_gmp_c_mpz_mul_ui (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
 {
   assert(3 == nargs);
-  mpz_ptr	rop = mmux_get_mpz(env, args[0]);
-  mpz_ptr	op1 = mmux_get_mpz(env, args[1]);
-  mmux_ulint_t	op2 = mmux_get_ulint(env, args[2]);
+  mpz_ptr	rop = mmux_emacs_get_mpz(env, args[0]);
+  mpz_ptr	op1 = mmux_emacs_get_mpz(env, args[1]);
+  mmux_ulint_t	op2 = mmux_emacs_get_ulint(env, args[2]);
 
   mpz_mul_ui(rop, op1, op2);
-  return mmux_make_nil(env);
+  return mmux_emacs_make_nil(env);
 }
 
 /* ------------------------------------------------------------------ */
@@ -364,34 +364,34 @@ static emacs_value
 Fmmux_gmp_c_mpz_mul_2exp (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
 {
   assert(3 == nargs);
-  mpz_ptr	rop = mmux_get_mpz(env, args[0]);
-  mpz_ptr	op1 = mmux_get_mpz(env, args[1]);
-  mp_bitcnt_t	op2 = mmux_get_bitcnt(env, args[2]);
+  mpz_ptr	rop = mmux_emacs_get_mpz(env, args[0]);
+  mpz_ptr	op1 = mmux_emacs_get_mpz(env, args[1]);
+  mp_bitcnt_t	op2 = mmux_emacs_get_bitcnt(env, args[2]);
 
   mpz_mul_2exp(rop, op1, op2);
-  return mmux_make_nil(env);
+  return mmux_emacs_make_nil(env);
 }
 
 static emacs_value
 Fmmux_gmp_c_mpz_neg (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
 {
   assert(2 == nargs);
-  mpz_ptr	rop = mmux_get_mpz(env, args[0]);
-  mpz_ptr	op  = mmux_get_mpz(env, args[1]);
+  mpz_ptr	rop = mmux_emacs_get_mpz(env, args[0]);
+  mpz_ptr	op  = mmux_emacs_get_mpz(env, args[1]);
 
   mpz_neg(rop, op);
-  return mmux_make_nil(env);
+  return mmux_emacs_make_nil(env);
 }
 
 static emacs_value
 Fmmux_gmp_c_mpz_abs (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
 {
   assert(2 == nargs);
-  mpz_ptr	rop = mmux_get_mpz(env, args[0]);
-  mpz_ptr	op  = mmux_get_mpz(env, args[1]);
+  mpz_ptr	rop = mmux_emacs_get_mpz(env, args[0]);
+  mpz_ptr	op  = mmux_emacs_get_mpz(env, args[1]);
 
   mpz_abs(rop, op);
-  return mmux_make_nil(env);
+  return mmux_emacs_make_nil(env);
 }
 
 
@@ -404,12 +404,12 @@ static emacs_value
 Fmmux_gmp_c_cdiv_q (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
 {
   assert(3 == nargs);
-  mpz_ptr	Q = mmux_get_mpz(env, args[0]);
-  mpz_ptr	N = mmux_get_mpz(env, args[1]);
-  mpz_ptr	D = mmux_get_mpz(env, args[2]);
+  mpz_ptr	Q = mmux_emacs_get_mpz(env, args[0]);
+  mpz_ptr	N = mmux_emacs_get_mpz(env, args[1]);
+  mpz_ptr	D = mmux_emacs_get_mpz(env, args[2]);
 
   mpz_cdiv_q(Q, N, D);
-  return mmux_make_nil(env);
+  return mmux_emacs_make_nil(env);
 }
 
 /* void mpz_cdiv_r (mpz_t R, const mpz_t N, const mpz_t D) */
@@ -417,12 +417,12 @@ static emacs_value
 Fmmux_gmp_c_cdiv_r (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
 {
   assert(3 == nargs);
-  mpz_ptr	R = mmux_get_mpz(env, args[0]);
-  mpz_ptr	N = mmux_get_mpz(env, args[1]);
-  mpz_ptr	D = mmux_get_mpz(env, args[2]);
+  mpz_ptr	R = mmux_emacs_get_mpz(env, args[0]);
+  mpz_ptr	N = mmux_emacs_get_mpz(env, args[1]);
+  mpz_ptr	D = mmux_emacs_get_mpz(env, args[2]);
 
   mpz_cdiv_r(R, N, D);
-  return mmux_make_nil(env);
+  return mmux_emacs_make_nil(env);
 }
 
 /* void mpz_cdiv_qr (mpz_t Q, mpz_t R, const mpz_t N, const mpz_t D) */
@@ -430,13 +430,13 @@ static emacs_value
 Fmmux_gmp_c_cdiv_qr (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
 {
   assert(4 == nargs);
-  mpz_ptr	Q = mmux_get_mpz(env, args[0]);
-  mpz_ptr	R = mmux_get_mpz(env, args[1]);
-  mpz_ptr	N = mmux_get_mpz(env, args[2]);
-  mpz_ptr	D = mmux_get_mpz(env, args[3]);
+  mpz_ptr	Q = mmux_emacs_get_mpz(env, args[0]);
+  mpz_ptr	R = mmux_emacs_get_mpz(env, args[1]);
+  mpz_ptr	N = mmux_emacs_get_mpz(env, args[2]);
+  mpz_ptr	D = mmux_emacs_get_mpz(env, args[3]);
 
   mpz_cdiv_qr(Q, R, N, D);
-  return mmux_make_nil(env);
+  return mmux_emacs_make_nil(env);
 }
 
 /* ------------------------------------------------------------------ */
@@ -446,11 +446,11 @@ static emacs_value
 Fmmux_gmp_c_cdiv_q_ui (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
 {
   assert(3 == nargs);
-  mpz_ptr	Q = mmux_get_mpz(env, args[0]);
-  mpz_ptr	N = mmux_get_mpz(env, args[1]);
-  mmux_ulint_t	D = mmux_get_ulint(env, args[2]);
+  mpz_ptr	Q = mmux_emacs_get_mpz(env, args[0]);
+  mpz_ptr	N = mmux_emacs_get_mpz(env, args[1]);
+  mmux_ulint_t	D = mmux_emacs_get_ulint(env, args[2]);
 
-  return mmux_make_int(env, mpz_cdiv_q_ui(Q, N, D));
+  return mmux_emacs_make_int(env, mpz_cdiv_q_ui(Q, N, D));
 }
 
 /* unsigned long int mpz_cdiv_r_ui (mpz_t R, const mpz_t N, unsigned long int D) */
@@ -458,11 +458,11 @@ static emacs_value
 Fmmux_gmp_c_cdiv_r_ui (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
 {
   assert(3 == nargs);
-  mpz_ptr	Q = mmux_get_mpz(env, args[0]);
-  mpz_ptr	N = mmux_get_mpz(env, args[1]);
-  mmux_ulint_t	D = mmux_get_ulint(env, args[2]);
+  mpz_ptr	Q = mmux_emacs_get_mpz(env, args[0]);
+  mpz_ptr	N = mmux_emacs_get_mpz(env, args[1]);
+  mmux_ulint_t	D = mmux_emacs_get_ulint(env, args[2]);
 
-  return mmux_make_int(env, mpz_cdiv_r_ui(Q, N, D));
+  return mmux_emacs_make_int(env, mpz_cdiv_r_ui(Q, N, D));
 }
 
 /* unsigned long int mpz_cdiv_qr_ui (mpz_t Q, mpz_t R, const mpz_t N, unsigned long int D) */
@@ -470,12 +470,12 @@ static emacs_value
 Fmmux_gmp_c_cdiv_qr_ui (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
 {
   assert(4 == nargs);
-  mpz_ptr	Q = mmux_get_mpz(env, args[0]);
-  mpz_ptr	R = mmux_get_mpz(env, args[1]);
-  mpz_ptr	N = mmux_get_mpz(env, args[2]);
-  mmux_ulint_t	D = mmux_get_ulint(env, args[3]);
+  mpz_ptr	Q = mmux_emacs_get_mpz(env, args[0]);
+  mpz_ptr	R = mmux_emacs_get_mpz(env, args[1]);
+  mpz_ptr	N = mmux_emacs_get_mpz(env, args[2]);
+  mmux_ulint_t	D = mmux_emacs_get_ulint(env, args[3]);
 
-  return mmux_make_int(env, mpz_cdiv_qr_ui(Q, R, N, D));
+  return mmux_emacs_make_int(env, mpz_cdiv_qr_ui(Q, R, N, D));
 }
 
 /* unsigned long int mpz_cdiv_ui (const mpz_t N, unsigned long int D) */
@@ -483,10 +483,10 @@ static emacs_value
 Fmmux_gmp_c_cdiv_ui (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
 {
   assert(2 == nargs);
-  mpz_ptr	N = mmux_get_mpz(env, args[0]);
-  mmux_ulint_t	D = mmux_get_ulint(env, args[1]);
+  mpz_ptr	N = mmux_emacs_get_mpz(env, args[0]);
+  mmux_ulint_t	D = mmux_emacs_get_ulint(env, args[1]);
 
-  return mmux_make_int(env, mpz_cdiv_ui(N, D));
+  return mmux_emacs_make_int(env, mpz_cdiv_ui(N, D));
 }
 
 /* ------------------------------------------------------------------ */
@@ -496,12 +496,12 @@ static emacs_value
 Fmmux_gmp_c_cdiv_q_2exp (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
 {
   assert(3 == nargs);
-  mpz_ptr	Q = mmux_get_mpz(env, args[0]);
-  mpz_ptr	N = mmux_get_mpz(env, args[1]);
-  mp_bitcnt_t	B = mmux_get_bitcnt(env, args[2]);
+  mpz_ptr	Q = mmux_emacs_get_mpz(env, args[0]);
+  mpz_ptr	N = mmux_emacs_get_mpz(env, args[1]);
+  mp_bitcnt_t	B = mmux_emacs_get_bitcnt(env, args[2]);
 
   mpz_cdiv_q_2exp(Q, N, B);
-  return mmux_make_nil(env);
+  return mmux_emacs_make_nil(env);
 }
 
 /* void mpz_cdiv_r_2exp (mpz_t R, const mpz_t N, mp_bitcnt_t B) */
@@ -509,12 +509,12 @@ static emacs_value
 Fmmux_gmp_c_cdiv_r_2exp (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
 {
   assert(3 == nargs);
-  mpz_ptr	R = mmux_get_mpz(env, args[0]);
-  mpz_ptr	N = mmux_get_mpz(env, args[1]);
-  mp_bitcnt_t	B = mmux_get_bitcnt(env, args[2]);
+  mpz_ptr	R = mmux_emacs_get_mpz(env, args[0]);
+  mpz_ptr	N = mmux_emacs_get_mpz(env, args[1]);
+  mp_bitcnt_t	B = mmux_emacs_get_bitcnt(env, args[2]);
 
   mpz_cdiv_r_2exp(R, N, B);
-  return mmux_make_nil(env);
+  return mmux_emacs_make_nil(env);
 }
 
 /* ------------------------------------------------------------------ */
@@ -524,12 +524,12 @@ static emacs_value
 Fmmux_gmp_c_fdiv_q (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
 {
   assert(3 == nargs);
-  mpz_ptr	Q = mmux_get_mpz(env, args[0]);
-  mpz_ptr	N = mmux_get_mpz(env, args[1]);
-  mpz_ptr	D = mmux_get_mpz(env, args[2]);
+  mpz_ptr	Q = mmux_emacs_get_mpz(env, args[0]);
+  mpz_ptr	N = mmux_emacs_get_mpz(env, args[1]);
+  mpz_ptr	D = mmux_emacs_get_mpz(env, args[2]);
 
   mpz_fdiv_q(Q, N, D);
-  return mmux_make_nil(env);
+  return mmux_emacs_make_nil(env);
 }
 
 /* void mpz_fdiv_r (mpz_t R, const mpz_t N, const mpz_t D) */
@@ -537,12 +537,12 @@ static emacs_value
 Fmmux_gmp_c_fdiv_r (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
 {
   assert(3 == nargs);
-  mpz_ptr	R = mmux_get_mpz(env, args[0]);
-  mpz_ptr	N = mmux_get_mpz(env, args[1]);
-  mpz_ptr	D = mmux_get_mpz(env, args[2]);
+  mpz_ptr	R = mmux_emacs_get_mpz(env, args[0]);
+  mpz_ptr	N = mmux_emacs_get_mpz(env, args[1]);
+  mpz_ptr	D = mmux_emacs_get_mpz(env, args[2]);
 
   mpz_fdiv_r(R, N, D);
-  return mmux_make_nil(env);
+  return mmux_emacs_make_nil(env);
 }
 
 /* void mpz_fdiv_qr (mpz_t Q, mpz_t R, const mpz_t N, const mpz_t D) */
@@ -550,13 +550,13 @@ static emacs_value
 Fmmux_gmp_c_fdiv_qr (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
 {
   assert(4 == nargs);
-  mpz_ptr	Q = mmux_get_mpz(env, args[0]);
-  mpz_ptr	R = mmux_get_mpz(env, args[1]);
-  mpz_ptr	N = mmux_get_mpz(env, args[2]);
-  mpz_ptr	D = mmux_get_mpz(env, args[3]);
+  mpz_ptr	Q = mmux_emacs_get_mpz(env, args[0]);
+  mpz_ptr	R = mmux_emacs_get_mpz(env, args[1]);
+  mpz_ptr	N = mmux_emacs_get_mpz(env, args[2]);
+  mpz_ptr	D = mmux_emacs_get_mpz(env, args[3]);
 
   mpz_fdiv_qr(Q, R, N, D);
-  return mmux_make_nil(env);
+  return mmux_emacs_make_nil(env);
 }
 
 /* unsigned long int mpz_fdiv_q_ui (mpz_t Q, const mpz_t N, unsigned long int D) */
@@ -564,11 +564,11 @@ static emacs_value
 Fmmux_gmp_c_fdiv_q_ui (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
 {
   assert(3 == nargs);
-  mpz_ptr	Q = mmux_get_mpz(env, args[0]);
-  mpz_ptr	N = mmux_get_mpz(env, args[1]);
-  mmux_ulint_t	D = mmux_get_ulint(env, args[2]);
+  mpz_ptr	Q = mmux_emacs_get_mpz(env, args[0]);
+  mpz_ptr	N = mmux_emacs_get_mpz(env, args[1]);
+  mmux_ulint_t	D = mmux_emacs_get_ulint(env, args[2]);
 
-  return mmux_make_int(env, mpz_fdiv_q_ui(Q, N, D));
+  return mmux_emacs_make_int(env, mpz_fdiv_q_ui(Q, N, D));
 }
 
 /* unsigned long int mpz_fdiv_r_ui (mpz_t R, const mpz_t N, unsigned long int D) */
@@ -576,11 +576,11 @@ static emacs_value
 Fmmux_gmp_c_fdiv_r_ui (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
 {
   assert(3 == nargs);
-  mpz_ptr	R = mmux_get_mpz(env, args[0]);
-  mpz_ptr	N = mmux_get_mpz(env, args[1]);
-  mmux_ulint_t	D = mmux_get_ulint(env, args[2]);
+  mpz_ptr	R = mmux_emacs_get_mpz(env, args[0]);
+  mpz_ptr	N = mmux_emacs_get_mpz(env, args[1]);
+  mmux_ulint_t	D = mmux_emacs_get_ulint(env, args[2]);
 
-  return mmux_make_int(env, mpz_fdiv_r_ui(R, N, D));
+  return mmux_emacs_make_int(env, mpz_fdiv_r_ui(R, N, D));
 }
 
 /* unsigned long int mpz_fdiv_qr_ui (mpz_t Q, mpz_t R, const mpz_t N, unsigned long int D) */
@@ -588,12 +588,12 @@ static emacs_value
 Fmmux_gmp_c_fdiv_qr_ui (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
 {
   assert(4 == nargs);
-  mpz_ptr	Q = mmux_get_mpz(env, args[0]);
-  mpz_ptr	R = mmux_get_mpz(env, args[1]);
-  mpz_ptr	N = mmux_get_mpz(env, args[2]);
-  mmux_ulint_t	D = mmux_get_ulint(env, args[3]);
+  mpz_ptr	Q = mmux_emacs_get_mpz(env, args[0]);
+  mpz_ptr	R = mmux_emacs_get_mpz(env, args[1]);
+  mpz_ptr	N = mmux_emacs_get_mpz(env, args[2]);
+  mmux_ulint_t	D = mmux_emacs_get_ulint(env, args[3]);
 
-  return mmux_make_int(env, mpz_fdiv_qr_ui(Q, R, N, D));
+  return mmux_emacs_make_int(env, mpz_fdiv_qr_ui(Q, R, N, D));
 }
 
 /* unsigned long int mpz_fdiv_ui (const mpz_t N, unsigned long int D) */
@@ -601,10 +601,10 @@ static emacs_value
 Fmmux_gmp_c_fdiv_ui (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
 {
   assert(2 == nargs);
-  mpz_ptr	N = mmux_get_mpz(env, args[0]);
-  mmux_ulint_t	D = mmux_get_ulint(env, args[1]);
+  mpz_ptr	N = mmux_emacs_get_mpz(env, args[0]);
+  mmux_ulint_t	D = mmux_emacs_get_ulint(env, args[1]);
 
-  return mmux_make_int(env, mpz_fdiv_ui(N, D));
+  return mmux_emacs_make_int(env, mpz_fdiv_ui(N, D));
 }
 
 /* void mpz_fdiv_q_2exp (mpz_t Q, const mpz_t N, mp_bitcnt_t B) */
@@ -612,12 +612,12 @@ static emacs_value
 Fmmux_gmp_c_fdiv_q_2exp (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
 {
   assert(3 == nargs);
-  mpz_ptr	Q = mmux_get_mpz(env, args[0]);
-  mpz_ptr	N = mmux_get_mpz(env, args[1]);
-  mp_bitcnt_t	B = mmux_get_bitcnt(env, args[2]);
+  mpz_ptr	Q = mmux_emacs_get_mpz(env, args[0]);
+  mpz_ptr	N = mmux_emacs_get_mpz(env, args[1]);
+  mp_bitcnt_t	B = mmux_emacs_get_bitcnt(env, args[2]);
 
   mpz_fdiv_q_2exp(Q, N, B);
-  return mmux_make_nil(env);
+  return mmux_emacs_make_nil(env);
 }
 
 /* void mpz_fdiv_r_2exp (mpz_t R, const mpz_t N, mp_bitcnt_t B) */
@@ -625,12 +625,12 @@ static emacs_value
 Fmmux_gmp_c_fdiv_r_2exp (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
 {
   assert(3 == nargs);
-  mpz_ptr	R = mmux_get_mpz(env, args[0]);
-  mpz_ptr	N = mmux_get_mpz(env, args[1]);
-  mp_bitcnt_t	B = mmux_get_bitcnt(env, args[2]);
+  mpz_ptr	R = mmux_emacs_get_mpz(env, args[0]);
+  mpz_ptr	N = mmux_emacs_get_mpz(env, args[1]);
+  mp_bitcnt_t	B = mmux_emacs_get_bitcnt(env, args[2]);
 
   mpz_fdiv_r_2exp(R, N, B);
-  return mmux_make_nil(env);
+  return mmux_emacs_make_nil(env);
 }
 
 /* ------------------------------------------------------------------ */
@@ -640,12 +640,12 @@ static emacs_value
 Fmmux_gmp_c_tdiv_q (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
 {
   assert(3 == nargs);
-  mpz_ptr	Q = mmux_get_mpz(env, args[0]);
-  mpz_ptr	N = mmux_get_mpz(env, args[1]);
-  mpz_ptr	D = mmux_get_mpz(env, args[2]);
+  mpz_ptr	Q = mmux_emacs_get_mpz(env, args[0]);
+  mpz_ptr	N = mmux_emacs_get_mpz(env, args[1]);
+  mpz_ptr	D = mmux_emacs_get_mpz(env, args[2]);
 
   mpz_tdiv_q(Q, N, D);
-  return mmux_make_nil(env);
+  return mmux_emacs_make_nil(env);
 }
 
 /* void mpz_tdiv_r (mpz_t R, const mpz_t N, const mpz_t D) */
@@ -653,12 +653,12 @@ static emacs_value
 Fmmux_gmp_c_tdiv_r (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
 {
   assert(3 == nargs);
-  mpz_ptr	R = mmux_get_mpz(env, args[0]);
-  mpz_ptr	N = mmux_get_mpz(env, args[1]);
-  mpz_ptr	D = mmux_get_mpz(env, args[2]);
+  mpz_ptr	R = mmux_emacs_get_mpz(env, args[0]);
+  mpz_ptr	N = mmux_emacs_get_mpz(env, args[1]);
+  mpz_ptr	D = mmux_emacs_get_mpz(env, args[2]);
 
   mpz_tdiv_r(R, N, D);
-  return mmux_make_nil(env);
+  return mmux_emacs_make_nil(env);
 }
 
 /* void mpz_tdiv_qr (mpz_t Q, mpz_t R, const mpz_t N, const mpz_t D) */
@@ -666,13 +666,13 @@ static emacs_value
 Fmmux_gmp_c_tdiv_qr (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
 {
   assert(4 == nargs);
-  mpz_ptr	Q = mmux_get_mpz(env, args[0]);
-  mpz_ptr	R = mmux_get_mpz(env, args[1]);
-  mpz_ptr	N = mmux_get_mpz(env, args[2]);
-  mpz_ptr	D = mmux_get_mpz(env, args[3]);
+  mpz_ptr	Q = mmux_emacs_get_mpz(env, args[0]);
+  mpz_ptr	R = mmux_emacs_get_mpz(env, args[1]);
+  mpz_ptr	N = mmux_emacs_get_mpz(env, args[2]);
+  mpz_ptr	D = mmux_emacs_get_mpz(env, args[3]);
 
   mpz_tdiv_qr(Q, R, N, D);
-  return mmux_make_nil(env);
+  return mmux_emacs_make_nil(env);
 }
 
 /* unsigned long int mpz_tdiv_q_ui (mpz_t Q, const mpz_t N, unsigned long int D) */
@@ -680,11 +680,11 @@ static emacs_value
 Fmmux_gmp_c_tdiv_q_ui (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
 {
   assert(3 == nargs);
-  mpz_ptr	Q = mmux_get_mpz(env, args[0]);
-  mpz_ptr	N = mmux_get_mpz(env, args[1]);
-  mmux_ulint_t	D = mmux_get_ulint(env, args[2]);
+  mpz_ptr	Q = mmux_emacs_get_mpz(env, args[0]);
+  mpz_ptr	N = mmux_emacs_get_mpz(env, args[1]);
+  mmux_ulint_t	D = mmux_emacs_get_ulint(env, args[2]);
 
-  return mmux_make_ulint(env, mpz_tdiv_q_ui(Q, N, D));
+  return mmux_emacs_make_ulint(env, mpz_tdiv_q_ui(Q, N, D));
 }
 
 /* unsigned long int mpz_tdiv_r_ui (mpz_t R, const mpz_t N, unsigned long int D) */
@@ -692,11 +692,11 @@ static emacs_value
 Fmmux_gmp_c_tdiv_r_ui (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
 {
   assert(3 == nargs);
-  mpz_ptr	R = mmux_get_mpz(env, args[0]);
-  mpz_ptr	N = mmux_get_mpz(env, args[1]);
-  mmux_ulint_t	D = mmux_get_ulint(env, args[2]);
+  mpz_ptr	R = mmux_emacs_get_mpz(env, args[0]);
+  mpz_ptr	N = mmux_emacs_get_mpz(env, args[1]);
+  mmux_ulint_t	D = mmux_emacs_get_ulint(env, args[2]);
 
-  return mmux_make_ulint(env, mpz_tdiv_r_ui(R, N, D));
+  return mmux_emacs_make_ulint(env, mpz_tdiv_r_ui(R, N, D));
 }
 
 /* unsigned long int mpz_tdiv_qr_ui (mpz_t Q, mpz_t R, const mpz_t N, unsigned long int D) */
@@ -704,12 +704,12 @@ static emacs_value
 Fmmux_gmp_c_tdiv_qr_ui (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
 {
   assert(4 == nargs);
-  mpz_ptr	Q = mmux_get_mpz(env, args[0]);
-  mpz_ptr	R = mmux_get_mpz(env, args[1]);
-  mpz_ptr	N = mmux_get_mpz(env, args[2]);
-  mmux_ulint_t	D = mmux_get_ulint(env, args[3]);
+  mpz_ptr	Q = mmux_emacs_get_mpz(env, args[0]);
+  mpz_ptr	R = mmux_emacs_get_mpz(env, args[1]);
+  mpz_ptr	N = mmux_emacs_get_mpz(env, args[2]);
+  mmux_ulint_t	D = mmux_emacs_get_ulint(env, args[3]);
 
-  return mmux_make_ulint(env, mpz_tdiv_qr_ui(Q, R, N, D));
+  return mmux_emacs_make_ulint(env, mpz_tdiv_qr_ui(Q, R, N, D));
 }
 
 /* unsigned long int mpz_tdiv_ui (const mpz_t N, unsigned long int D) */
@@ -717,10 +717,10 @@ static emacs_value
 Fmmux_gmp_c_tdiv_ui (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
 {
   assert(2 == nargs);
-  mpz_ptr	N = mmux_get_mpz(env, args[0]);
-  mmux_ulint_t	D = mmux_get_ulint(env, args[1]);
+  mpz_ptr	N = mmux_emacs_get_mpz(env, args[0]);
+  mmux_ulint_t	D = mmux_emacs_get_ulint(env, args[1]);
 
-  return mmux_make_ulint(env, mpz_tdiv_ui(N, D));
+  return mmux_emacs_make_ulint(env, mpz_tdiv_ui(N, D));
 }
 
 /* void mpz_tdiv_q_2exp (mpz_t Q, const mpz_t N, mp_bitcnt_t B) */
@@ -728,12 +728,12 @@ static emacs_value
 Fmmux_gmp_c_tdiv_q_2exp (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
 {
   assert(3 == nargs);
-  mpz_ptr	Q = mmux_get_mpz(env, args[0]);
-  mpz_ptr	N = mmux_get_mpz(env, args[1]);
-  mp_bitcnt_t	B = mmux_get_bitcnt(env, args[2]);
+  mpz_ptr	Q = mmux_emacs_get_mpz(env, args[0]);
+  mpz_ptr	N = mmux_emacs_get_mpz(env, args[1]);
+  mp_bitcnt_t	B = mmux_emacs_get_bitcnt(env, args[2]);
 
   mpz_tdiv_q_2exp(Q, N, B);
-  return mmux_make_nil(env);
+  return mmux_emacs_make_nil(env);
 }
 
 /* void mpz_tdiv_r_2exp (mpz_t R, const mpz_t N, mp_bitcnt_t B) */
@@ -741,12 +741,12 @@ static emacs_value
 Fmmux_gmp_c_tdiv_r_2exp (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
 {
   assert(3 == nargs);
-  mpz_ptr	R = mmux_get_mpz(env, args[0]);
-  mpz_ptr	N = mmux_get_mpz(env, args[1]);
-  mp_bitcnt_t	B = mmux_get_bitcnt(env, args[2]);
+  mpz_ptr	R = mmux_emacs_get_mpz(env, args[0]);
+  mpz_ptr	N = mmux_emacs_get_mpz(env, args[1]);
+  mp_bitcnt_t	B = mmux_emacs_get_bitcnt(env, args[2]);
 
   mpz_tdiv_r_2exp(R, N, B);
-  return mmux_make_nil(env);
+  return mmux_emacs_make_nil(env);
 }
 
 /* ------------------------------------------------------------------ */
@@ -756,12 +756,12 @@ static emacs_value
 Fmmux_gmp_c_mod (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
 {
   assert(3 == nargs);
-  mpz_ptr	R = mmux_get_mpz(env, args[0]);
-  mpz_ptr	N = mmux_get_mpz(env, args[1]);
-  mpz_ptr	D = mmux_get_mpz(env, args[2]);
+  mpz_ptr	R = mmux_emacs_get_mpz(env, args[0]);
+  mpz_ptr	N = mmux_emacs_get_mpz(env, args[1]);
+  mpz_ptr	D = mmux_emacs_get_mpz(env, args[2]);
 
   mpz_mod(R, N, D);
-  return mmux_make_nil(env);
+  return mmux_emacs_make_nil(env);
 }
 
 /* unsigned long int mpz_mod_ui (mpz_t R, const mpz_t N, unsigned long int D) */
@@ -769,11 +769,11 @@ static emacs_value
 Fmmux_gmp_c_mod_ui (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
 {
   assert(3 == nargs);
-  mpz_ptr	R = mmux_get_mpz(env, args[0]);
-  mpz_ptr	N = mmux_get_mpz(env, args[1]);
-  mmux_ulint_t	D = mmux_get_ulint(env, args[2]);
+  mpz_ptr	R = mmux_emacs_get_mpz(env, args[0]);
+  mpz_ptr	N = mmux_emacs_get_mpz(env, args[1]);
+  mmux_ulint_t	D = mmux_emacs_get_ulint(env, args[2]);
 
-  return mmux_make_ulint(env, mpz_mod_ui(R, N, D));
+  return mmux_emacs_make_ulint(env, mpz_mod_ui(R, N, D));
 }
 
 /* void mpz_divexact (mpz_t Q, const mpz_t N, const mpz_t D) */
@@ -781,12 +781,12 @@ static emacs_value
 Fmmux_gmp_c_divexact (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
 {
   assert(3 == nargs);
-  mpz_ptr	Q = mmux_get_mpz(env, args[0]);
-  mpz_ptr	N = mmux_get_mpz(env, args[1]);
-  mpz_ptr	D = mmux_get_mpz(env, args[2]);
+  mpz_ptr	Q = mmux_emacs_get_mpz(env, args[0]);
+  mpz_ptr	N = mmux_emacs_get_mpz(env, args[1]);
+  mpz_ptr	D = mmux_emacs_get_mpz(env, args[2]);
 
   mpz_divexact(Q, N, D);
-  return mmux_make_nil(env);
+  return mmux_emacs_make_nil(env);
 }
 
 /* void mpz_divexact_ui (mpz_t Q, const mpz_t N, unsigned long D) */
@@ -794,12 +794,12 @@ static emacs_value
 Fmmux_gmp_c_divexact_ui (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
 {
   assert(3 == nargs);
-  mpz_ptr	Q = mmux_get_mpz(env, args[0]);
-  mpz_ptr	N = mmux_get_mpz(env, args[1]);
-  mmux_ulint_t	D = mmux_get_ulint(env, args[2]);
+  mpz_ptr	Q = mmux_emacs_get_mpz(env, args[0]);
+  mpz_ptr	N = mmux_emacs_get_mpz(env, args[1]);
+  mmux_ulint_t	D = mmux_emacs_get_ulint(env, args[2]);
 
   mpz_divexact_ui(Q, N, D);
-  return mmux_make_nil(env);
+  return mmux_emacs_make_nil(env);
 }
 
 /* ------------------------------------------------------------------ */
@@ -809,10 +809,10 @@ static emacs_value
 Fmmux_gmp_c_divisible_p (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
 {
   assert(2 == nargs);
-  mpz_ptr	N = mmux_get_mpz(env, args[0]);
-  mpz_ptr	D = mmux_get_mpz(env, args[1]);
+  mpz_ptr	N = mmux_emacs_get_mpz(env, args[0]);
+  mpz_ptr	D = mmux_emacs_get_mpz(env, args[1]);
 
-  return mmux_make_boolean(env, mpz_divisible_p(N, D));
+  return mmux_emacs_make_boolean(env, mpz_divisible_p(N, D));
 }
 
 /* int mpz_divisible_ui_p (const mpz_t N, unsigned long int D) */
@@ -820,10 +820,10 @@ static emacs_value
 Fmmux_gmp_c_divisible_ui_p (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
 {
   assert(2 == nargs);
-  mpz_ptr	N = mmux_get_mpz(env, args[0]);
-  mmux_ulint_t	D = mmux_get_ulint(env, args[1]);
+  mpz_ptr	N = mmux_emacs_get_mpz(env, args[0]);
+  mmux_ulint_t	D = mmux_emacs_get_ulint(env, args[1]);
 
-  return mmux_make_boolean(env, mpz_divisible_ui_p(N, D));
+  return mmux_emacs_make_boolean(env, mpz_divisible_ui_p(N, D));
 }
 
 /* int mpz_divisible_2exp_p (const mpz_t N, mp_bitcnt_t B) */
@@ -831,10 +831,10 @@ static emacs_value
 Fmmux_gmp_c_divisible_2exp_p (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
 {
   assert(2 == nargs);
-  mpz_ptr	N = mmux_get_mpz(env, args[0]);
-  mp_bitcnt_t	B = mmux_get_bitcnt(env, args[1]);
+  mpz_ptr	N = mmux_emacs_get_mpz(env, args[0]);
+  mp_bitcnt_t	B = mmux_emacs_get_bitcnt(env, args[1]);
 
-  return mmux_make_boolean(env, mpz_divisible_2exp_p(N, B));
+  return mmux_emacs_make_boolean(env, mpz_divisible_2exp_p(N, B));
 }
 
 /* ------------------------------------------------------------------ */
@@ -844,11 +844,11 @@ static emacs_value
 Fmmux_gmp_c_congruent_p (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
 {
   assert(3 == nargs);
-  mpz_ptr	N = mmux_get_mpz(env, args[0]);
-  mpz_ptr	C = mmux_get_mpz(env, args[1]);
-  mpz_ptr	D = mmux_get_mpz(env, args[2]);
+  mpz_ptr	N = mmux_emacs_get_mpz(env, args[0]);
+  mpz_ptr	C = mmux_emacs_get_mpz(env, args[1]);
+  mpz_ptr	D = mmux_emacs_get_mpz(env, args[2]);
 
-  return mmux_make_boolean(env, mpz_congruent_p(N, C, D));
+  return mmux_emacs_make_boolean(env, mpz_congruent_p(N, C, D));
 }
 
 /* int mpz_congruent_ui_p (const mpz_t N, unsigned long int C, unsigned long int D) */
@@ -856,11 +856,11 @@ static emacs_value
 Fmmux_gmp_c_congruent_ui_p (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
 {
   assert(3 == nargs);
-  mpz_ptr	N = mmux_get_mpz(env, args[0]);
-  mmux_ulint_t	C = mmux_get_ulint(env, args[1]);
-  mmux_ulint_t	D = mmux_get_ulint(env, args[2]);
+  mpz_ptr	N = mmux_emacs_get_mpz(env, args[0]);
+  mmux_ulint_t	C = mmux_emacs_get_ulint(env, args[1]);
+  mmux_ulint_t	D = mmux_emacs_get_ulint(env, args[2]);
 
-  return mmux_make_boolean(env, mpz_congruent_ui_p(N, C, D));
+  return mmux_emacs_make_boolean(env, mpz_congruent_ui_p(N, C, D));
 }
 
 /* int mpz_congruent_2exp_p (const mpz_t N, const mpz_t C, mp_bitcnt_t B) */
@@ -868,11 +868,11 @@ static emacs_value
 Fmmux_gmp_c_congruent_2exp_p (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
 {
   assert(3 == nargs);
-  mpz_ptr	N = mmux_get_mpz(env, args[0]);
-  mpz_ptr	C = mmux_get_mpz(env, args[1]);
-  mp_bitcnt_t	B = mmux_get_bitcnt(env, args[2]);
+  mpz_ptr	N = mmux_emacs_get_mpz(env, args[0]);
+  mpz_ptr	C = mmux_emacs_get_mpz(env, args[1]);
+  mp_bitcnt_t	B = mmux_emacs_get_bitcnt(env, args[2]);
 
-  return mmux_make_boolean(env, mpz_congruent_2exp_p(N, C, B));
+  return mmux_emacs_make_boolean(env, mpz_congruent_2exp_p(N, C, B));
 }
 
 
@@ -885,13 +885,13 @@ static emacs_value
 Fmmux_gmp_c_mpz_powm (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
 {
   assert(4 == nargs);
-  mpz_ptr	rop	= mmux_get_mpz(env, args[0]);
-  mpz_ptr	base	= mmux_get_mpz(env, args[1]);
-  mpz_ptr	exp	= mmux_get_mpz(env, args[2]);
-  mpz_ptr	mod	= mmux_get_mpz(env, args[3]);
+  mpz_ptr	rop	= mmux_emacs_get_mpz(env, args[0]);
+  mpz_ptr	base	= mmux_emacs_get_mpz(env, args[1]);
+  mpz_ptr	exp	= mmux_emacs_get_mpz(env, args[2]);
+  mpz_ptr	mod	= mmux_emacs_get_mpz(env, args[3]);
 
   mpz_powm(rop, base, exp, mod);
-  return mmux_make_nil(env);
+  return mmux_emacs_make_nil(env);
 }
 
 /* void mpz_powm_ui (mpz_t ROP, const mpz_t BASE, unsigned long int EXP, const mpz_t MOD) */
@@ -899,13 +899,13 @@ static emacs_value
 Fmmux_gmp_c_mpz_powm_ui (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
 {
   assert(4 == nargs);
-  mpz_ptr	rop	= mmux_get_mpz(env, args[0]);
-  mpz_ptr	base	= mmux_get_mpz(env, args[1]);
-  mmux_ulint_t	exp	= mmux_get_ulint(env, args[2]);
-  mpz_ptr	mod	= mmux_get_mpz(env, args[3]);
+  mpz_ptr	rop	= mmux_emacs_get_mpz(env, args[0]);
+  mpz_ptr	base	= mmux_emacs_get_mpz(env, args[1]);
+  mmux_ulint_t	exp	= mmux_emacs_get_ulint(env, args[2]);
+  mpz_ptr	mod	= mmux_emacs_get_mpz(env, args[3]);
 
   mpz_powm_ui(rop, base, exp, mod);
-  return mmux_make_nil(env);
+  return mmux_emacs_make_nil(env);
 }
 
 /* void mpz_powm_sec (mpz_t ROP, const mpz_t BASE, const mpz_t EXP, const mpz_t MOD) */
@@ -913,13 +913,13 @@ static emacs_value
 Fmmux_gmp_c_mpz_powm_sec (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
 {
   assert(4 == nargs);
-  mpz_ptr	rop	= mmux_get_mpz(env, args[0]);
-  mpz_ptr	base	= mmux_get_mpz(env, args[1]);
-  mpz_ptr	exp	= mmux_get_mpz(env, args[2]);
-  mpz_ptr	mod	= mmux_get_mpz(env, args[3]);
+  mpz_ptr	rop	= mmux_emacs_get_mpz(env, args[0]);
+  mpz_ptr	base	= mmux_emacs_get_mpz(env, args[1]);
+  mpz_ptr	exp	= mmux_emacs_get_mpz(env, args[2]);
+  mpz_ptr	mod	= mmux_emacs_get_mpz(env, args[3]);
 
   mpz_powm_sec(rop, base, exp, mod);
-  return mmux_make_nil(env);
+  return mmux_emacs_make_nil(env);
 }
 
 /* void mpz_pow_ui (mpz_t ROP, const mpz_t BASE, unsigned long int EXP) */
@@ -927,12 +927,12 @@ static emacs_value
 Fmmux_gmp_c_mpz_pow_ui (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
 {
   assert(3 == nargs);
-  mpz_ptr	rop	= mmux_get_mpz(env, args[0]);
-  mpz_ptr	base	= mmux_get_mpz(env, args[1]);
-  mmux_ulint_t	exp	= mmux_get_ulint(env, args[2]);
+  mpz_ptr	rop	= mmux_emacs_get_mpz(env, args[0]);
+  mpz_ptr	base	= mmux_emacs_get_mpz(env, args[1]);
+  mmux_ulint_t	exp	= mmux_emacs_get_ulint(env, args[2]);
 
   mpz_pow_ui(rop, base, exp);
-  return mmux_make_nil(env);
+  return mmux_emacs_make_nil(env);
 }
 
 /* void mpz_ui_pow_ui (mpz_t ROP, unsigned long int BASE, unsigned long int EXP) */
@@ -940,12 +940,12 @@ static emacs_value
 Fmmux_gmp_c_mpz_ui_pow_ui (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
 {
   assert(3 == nargs);
-  mpz_ptr	rop	= mmux_get_mpz(env, args[0]);
-  mmux_ulint_t	base	= mmux_get_ulint(env, args[1]);
-  mmux_ulint_t	exp	= mmux_get_ulint(env, args[2]);
+  mpz_ptr	rop	= mmux_emacs_get_mpz(env, args[0]);
+  mmux_ulint_t	base	= mmux_emacs_get_ulint(env, args[1]);
+  mmux_ulint_t	exp	= mmux_emacs_get_ulint(env, args[2]);
 
   mpz_ui_pow_ui(rop, base, exp);
-  return mmux_make_nil(env);
+  return mmux_emacs_make_nil(env);
 }
 
 
@@ -958,11 +958,11 @@ static emacs_value
 Fmmux_gmp_c_mpz_root (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
 {
   assert(3 == nargs);
-  mpz_ptr	rop	= mmux_get_mpz(env, args[0]);
-  mpz_ptr	op	= mmux_get_mpz(env, args[1]);
-  mmux_ulint_t	N	= mmux_get_ulint(env, args[2]);
+  mpz_ptr	rop	= mmux_emacs_get_mpz(env, args[0]);
+  mpz_ptr	op	= mmux_emacs_get_mpz(env, args[1]);
+  mmux_ulint_t	N	= mmux_emacs_get_ulint(env, args[2]);
 
-  return mmux_make_sint(env, mpz_root(rop, op, N));
+  return mmux_emacs_make_sint(env, mpz_root(rop, op, N));
 }
 
 /* void mpz_rootrem (mpz_t ROOT, mpz_t REM, const mpz_t U, unsigned long int N) */
@@ -970,13 +970,13 @@ static emacs_value
 Fmmux_gmp_c_mpz_rootrem (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
 {
   assert(4 == nargs);
-  mpz_ptr	root	= mmux_get_mpz(env, args[0]);
-  mpz_ptr	rem	= mmux_get_mpz(env, args[1]);
-  mpz_ptr	U	= mmux_get_mpz(env, args[2]);
-  mmux_ulint_t	N	= mmux_get_ulint(env, args[3]);
+  mpz_ptr	root	= mmux_emacs_get_mpz(env, args[0]);
+  mpz_ptr	rem	= mmux_emacs_get_mpz(env, args[1]);
+  mpz_ptr	U	= mmux_emacs_get_mpz(env, args[2]);
+  mmux_ulint_t	N	= mmux_emacs_get_ulint(env, args[3]);
 
   mpz_rootrem(root, rem, U, N);
-  return mmux_make_nil(env);
+  return mmux_emacs_make_nil(env);
 }
 
 /* void mpz_sqrt (mpz_t ROP, const mpz_t OP) */
@@ -984,11 +984,11 @@ static emacs_value
 Fmmux_gmp_c_mpz_sqrt (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
 {
   assert(2 == nargs);
-  mpz_ptr	rop	= mmux_get_mpz(env, args[0]);
-  mpz_ptr	op	= mmux_get_mpz(env, args[1]);
+  mpz_ptr	rop	= mmux_emacs_get_mpz(env, args[0]);
+  mpz_ptr	op	= mmux_emacs_get_mpz(env, args[1]);
 
   mpz_sqrt(rop, op);
-  return mmux_make_nil(env);
+  return mmux_emacs_make_nil(env);
 }
 
 /* void mpz_sqrtrem (mpz_t ROP1, mpz_t ROP2, const mpz_t OP) */
@@ -996,12 +996,12 @@ static emacs_value
 Fmmux_gmp_c_mpz_sqrtrem (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
 {
   assert(3 == nargs);
-  mpz_ptr	rop1	= mmux_get_mpz(env, args[0]);
-  mpz_ptr	rop2	= mmux_get_mpz(env, args[1]);
-  mpz_ptr	op	= mmux_get_mpz(env, args[2]);
+  mpz_ptr	rop1	= mmux_emacs_get_mpz(env, args[0]);
+  mpz_ptr	rop2	= mmux_emacs_get_mpz(env, args[1]);
+  mpz_ptr	op	= mmux_emacs_get_mpz(env, args[2]);
 
   mpz_sqrtrem(rop1, rop2, op);
-  return mmux_make_nil(env);
+  return mmux_emacs_make_nil(env);
 }
 
 /* int mpz_perfect_power_p (const mpz_t OP) */
@@ -1009,9 +1009,9 @@ static emacs_value
 Fmmux_gmp_c_mpz_perfect_power_p (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
 {
   assert(1 == nargs);
-  mpz_ptr	op	= mmux_get_mpz(env, args[0]);
+  mpz_ptr	op	= mmux_emacs_get_mpz(env, args[0]);
 
-  return mmux_make_boolean(env, mpz_perfect_power_p(op));
+  return mmux_emacs_make_boolean(env, mpz_perfect_power_p(op));
 }
 
 /* int mpz_perfect_square_p (const mpz_t OP) */
@@ -1019,9 +1019,9 @@ static emacs_value
 Fmmux_gmp_c_mpz_perfect_square_p (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
 {
   assert(1 == nargs);
-  mpz_ptr	op	= mmux_get_mpz(env, args[0]);
+  mpz_ptr	op	= mmux_emacs_get_mpz(env, args[0]);
 
-  return mmux_make_boolean(env, mpz_perfect_square_p(op));
+  return mmux_emacs_make_boolean(env, mpz_perfect_square_p(op));
 }
 
 
@@ -1034,10 +1034,10 @@ static emacs_value
 Fmmux_gmp_c_mpz_probab_prime_p (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
 {
   assert(2 == nargs);
-  mpz_ptr	N	= mmux_get_mpz(env, args[0]);
-  mmux_sint_t	reps	= mmux_get_sint(env, args[1]);
+  mpz_ptr	N	= mmux_emacs_get_mpz(env, args[0]);
+  mmux_sint_t	reps	= mmux_emacs_get_sint(env, args[1]);
 
-  return mmux_make_sint(env, mpz_probab_prime_p(N, reps));
+  return mmux_emacs_make_sint(env, mpz_probab_prime_p(N, reps));
 }
 
 /* void mpz_nextprime (mpz_t ROP, const mpz_t OP) */
@@ -1045,11 +1045,11 @@ static emacs_value
 Fmmux_gmp_c_mpz_nextprime (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
 {
   assert(2 == nargs);
-  mpz_ptr	rop	= mmux_get_mpz(env, args[0]);
-  mpz_ptr	op	= mmux_get_mpz(env, args[1]);
+  mpz_ptr	rop	= mmux_emacs_get_mpz(env, args[0]);
+  mpz_ptr	op	= mmux_emacs_get_mpz(env, args[1]);
 
   mpz_nextprime(rop, op);
-  return mmux_make_nil(env);
+  return mmux_emacs_make_nil(env);
 }
 
 /* void mpz_gcd (mpz_t ROP, const mpz_t OP1, const mpz_t OP2) */
@@ -1057,12 +1057,12 @@ static emacs_value
 Fmmux_gmp_c_mpz_gcd (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
 {
   assert(3 == nargs);
-  mpz_ptr	rop	= mmux_get_mpz(env, args[0]);
-  mpz_ptr	op1	= mmux_get_mpz(env, args[1]);
-  mpz_ptr	op2	= mmux_get_mpz(env, args[2]);
+  mpz_ptr	rop	= mmux_emacs_get_mpz(env, args[0]);
+  mpz_ptr	op1	= mmux_emacs_get_mpz(env, args[1]);
+  mpz_ptr	op2	= mmux_emacs_get_mpz(env, args[2]);
 
   mpz_gcd(rop, op1, op2);
-  return mmux_make_nil(env);
+  return mmux_emacs_make_nil(env);
 }
 
 /* unsigned long int mpz_gcd_ui (mpz_t ROP, const mpz_t OP1, unsigned long int OP2) */
@@ -1070,11 +1070,11 @@ static emacs_value
 Fmmux_gmp_c_mpz_gcd_ui (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
 {
   assert(3 == nargs);
-  mpz_ptr	rop	= mmux_get_mpz(env, args[0]);
-  mpz_ptr	op1	= mmux_get_mpz(env, args[1]);
-  mmux_ulint_t	op2	= mmux_get_ulint(env, args[2]);
+  mpz_ptr	rop	= mmux_emacs_get_mpz(env, args[0]);
+  mpz_ptr	op1	= mmux_emacs_get_mpz(env, args[1]);
+  mmux_ulint_t	op2	= mmux_emacs_get_ulint(env, args[2]);
 
-  return mmux_make_ulint(env, mpz_gcd_ui(rop, op1, op2));
+  return mmux_emacs_make_ulint(env, mpz_gcd_ui(rop, op1, op2));
 }
 
 /* void mpz_gcdext (mpz_t G, mpz_t S, mpz_t T, const mpz_t A, const mpz_t B) */
@@ -1082,14 +1082,14 @@ static emacs_value
 Fmmux_gmp_c_mpz_gcdext (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
 {
   assert(5 == nargs);
-  mpz_ptr	G	= mmux_get_mpz(env, args[0]);
-  mpz_ptr	S	= mmux_get_mpz(env, args[1]);
-  mpz_ptr	T	= mmux_get_mpz(env, args[2]);
-  mpz_ptr	A	= mmux_get_mpz(env, args[3]);
-  mpz_ptr	B	= mmux_get_mpz(env, args[4]);
+  mpz_ptr	G	= mmux_emacs_get_mpz(env, args[0]);
+  mpz_ptr	S	= mmux_emacs_get_mpz(env, args[1]);
+  mpz_ptr	T	= mmux_emacs_get_mpz(env, args[2]);
+  mpz_ptr	A	= mmux_emacs_get_mpz(env, args[3]);
+  mpz_ptr	B	= mmux_emacs_get_mpz(env, args[4]);
 
   mpz_gcdext(G, S, T, A, B);
-  return mmux_make_nil(env);
+  return mmux_emacs_make_nil(env);
 }
 
 /* void mpz_lcm (mpz_t ROP, const mpz_t OP1, const mpz_t OP2) */
@@ -1097,12 +1097,12 @@ static emacs_value
 Fmmux_gmp_c_mpz_lcm (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
 {
   assert(3 == nargs);
-  mpz_ptr	rop	= mmux_get_mpz(env, args[0]);
-  mpz_ptr	op1	= mmux_get_mpz(env, args[1]);
-  mpz_ptr	op2	= mmux_get_mpz(env, args[2]);
+  mpz_ptr	rop	= mmux_emacs_get_mpz(env, args[0]);
+  mpz_ptr	op1	= mmux_emacs_get_mpz(env, args[1]);
+  mpz_ptr	op2	= mmux_emacs_get_mpz(env, args[2]);
 
   mpz_lcm(rop, op1, op2);
-  return mmux_make_nil(env);
+  return mmux_emacs_make_nil(env);
 }
 
 /* void mpz_lcm_ui (mpz_t ROP, const mpz_t OP1, unsigned long OP2) */
@@ -1110,12 +1110,12 @@ static emacs_value
 Fmmux_gmp_c_mpz_lcm_ui (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
 {
   assert(3 == nargs);
-  mpz_ptr	rop	= mmux_get_mpz(env, args[0]);
-  mpz_ptr	op1	= mmux_get_mpz(env, args[1]);
-  mmux_ulint_t	op2	= mmux_get_ulint(env, args[2]);
+  mpz_ptr	rop	= mmux_emacs_get_mpz(env, args[0]);
+  mpz_ptr	op1	= mmux_emacs_get_mpz(env, args[1]);
+  mmux_ulint_t	op2	= mmux_emacs_get_ulint(env, args[2]);
 
   mpz_lcm_ui(rop, op1, op2);
-  return mmux_make_nil(env);
+  return mmux_emacs_make_nil(env);
 }
 
 /* int mpz_invert (mpz_t ROP, const mpz_t OP1, const mpz_t OP2) */
@@ -1123,11 +1123,11 @@ static emacs_value
 Fmmux_gmp_c_mpz_invert (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
 {
   assert(3 == nargs);
-  mpz_ptr	rop	= mmux_get_mpz(env, args[0]);
-  mpz_ptr	op1	= mmux_get_mpz(env, args[1]);
-  mpz_ptr	op2	= mmux_get_mpz(env, args[2]);
+  mpz_ptr	rop	= mmux_emacs_get_mpz(env, args[0]);
+  mpz_ptr	op1	= mmux_emacs_get_mpz(env, args[1]);
+  mpz_ptr	op2	= mmux_emacs_get_mpz(env, args[2]);
 
-  return mmux_make_boolean(env, mpz_invert(rop, op1, op2));
+  return mmux_emacs_make_boolean(env, mpz_invert(rop, op1, op2));
 }
 
 /* int mpz_jacobi (const mpz_t A, const mpz_t B) */
@@ -1135,10 +1135,10 @@ static emacs_value
 Fmmux_gmp_c_mpz_jacobi (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
 {
   assert(2 == nargs);
-  mpz_ptr	A	= mmux_get_mpz(env, args[0]);
-  mpz_ptr	B	= mmux_get_mpz(env, args[1]);
+  mpz_ptr	A	= mmux_emacs_get_mpz(env, args[0]);
+  mpz_ptr	B	= mmux_emacs_get_mpz(env, args[1]);
 
-  return mmux_make_sint(env, mpz_jacobi(A, B));
+  return mmux_emacs_make_sint(env, mpz_jacobi(A, B));
 }
 
 /* int mpz_legendre (const mpz_t A, const mpz_t P) */
@@ -1146,10 +1146,10 @@ static emacs_value
 Fmmux_gmp_c_mpz_legendre (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
 {
   assert(2 == nargs);
-  mpz_ptr	A	= mmux_get_mpz(env, args[0]);
-  mpz_ptr	P	= mmux_get_mpz(env, args[1]);
+  mpz_ptr	A	= mmux_emacs_get_mpz(env, args[0]);
+  mpz_ptr	P	= mmux_emacs_get_mpz(env, args[1]);
 
-  return mmux_make_sint(env, mpz_legendre(A, P));
+  return mmux_emacs_make_sint(env, mpz_legendre(A, P));
 }
 
 /* int mpz_kronecker (const mpz_t A, const mpz_t B) */
@@ -1157,10 +1157,10 @@ static emacs_value
 Fmmux_gmp_c_mpz_kronecker (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
 {
   assert(2 == nargs);
-  mpz_ptr	A	= mmux_get_mpz(env, args[0]);
-  mpz_ptr	B	= mmux_get_mpz(env, args[1]);
+  mpz_ptr	A	= mmux_emacs_get_mpz(env, args[0]);
+  mpz_ptr	B	= mmux_emacs_get_mpz(env, args[1]);
 
-  return mmux_make_sint(env, mpz_kronecker(A, B));
+  return mmux_emacs_make_sint(env, mpz_kronecker(A, B));
 }
 
 /* int mpz_kronecker_si (const mpz_t A, long B) */
@@ -1168,10 +1168,10 @@ static emacs_value
 Fmmux_gmp_c_mpz_kronecker_si (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
 {
   assert(2 == nargs);
-  mpz_ptr	A	= mmux_get_mpz(env, args[0]);
-  mmux_slint_t	B	= mmux_get_slint(env, args[1]);
+  mpz_ptr	A	= mmux_emacs_get_mpz(env, args[0]);
+  mmux_slint_t	B	= mmux_emacs_get_slint(env, args[1]);
 
-  return mmux_make_sint(env, mpz_kronecker_si(A, B));
+  return mmux_emacs_make_sint(env, mpz_kronecker_si(A, B));
 }
 
 /* int mpz_kronecker_ui (const mpz_t A, unsigned long B) */
@@ -1179,10 +1179,10 @@ static emacs_value
 Fmmux_gmp_c_mpz_kronecker_ui (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
 {
   assert(2 == nargs);
-  mpz_ptr	A	= mmux_get_mpz(env, args[0]);
-  mmux_ulint_t	B	= mmux_get_ulint(env, args[1]);
+  mpz_ptr	A	= mmux_emacs_get_mpz(env, args[0]);
+  mmux_ulint_t	B	= mmux_emacs_get_ulint(env, args[1]);
 
-  return mmux_make_sint(env, mpz_kronecker_ui(A, B));
+  return mmux_emacs_make_sint(env, mpz_kronecker_ui(A, B));
 }
 
 /* int mpz_si_kronecker (long A, const mpz_t B) */
@@ -1190,10 +1190,10 @@ static emacs_value
 Fmmux_gmp_c_mpz_si_kronecker (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
 {
   assert(2 == nargs);
-  mmux_slint_t	A	= mmux_get_slint(env, args[0]);
-  mpz_ptr	B	= mmux_get_mpz(env, args[1]);
+  mmux_slint_t	A	= mmux_emacs_get_slint(env, args[0]);
+  mpz_ptr	B	= mmux_emacs_get_mpz(env, args[1]);
 
-  return mmux_make_sint(env, mpz_si_kronecker(A, B));
+  return mmux_emacs_make_sint(env, mpz_si_kronecker(A, B));
 }
 
 /* int mpz_ui_kronecker (unsigned long A, const mpz_t B) */
@@ -1201,10 +1201,10 @@ static emacs_value
 Fmmux_gmp_c_mpz_ui_kronecker (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
 {
   assert(2 == nargs);
-  mmux_ulint_t	A	= mmux_get_ulint(env, args[0]);
-  mpz_ptr	B	= mmux_get_mpz(env, args[1]);
+  mmux_ulint_t	A	= mmux_emacs_get_ulint(env, args[0]);
+  mpz_ptr	B	= mmux_emacs_get_mpz(env, args[1]);
 
-  return mmux_make_sint(env, mpz_ui_kronecker(A, B));
+  return mmux_emacs_make_sint(env, mpz_ui_kronecker(A, B));
 }
 
 /* mp_bitcnt_t mpz_remove (mpz_t ROP, const mpz_t OP, const mpz_t F) */
@@ -1212,11 +1212,11 @@ static emacs_value
 Fmmux_gmp_c_mpz_remove (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
 {
   assert(3 == nargs);
-  mpz_ptr	rop	= mmux_get_mpz(env, args[0]);
-  mpz_ptr	op	= mmux_get_mpz(env, args[1]);
-  mpz_ptr	F	= mmux_get_mpz(env, args[2]);
+  mpz_ptr	rop	= mmux_emacs_get_mpz(env, args[0]);
+  mpz_ptr	op	= mmux_emacs_get_mpz(env, args[1]);
+  mpz_ptr	F	= mmux_emacs_get_mpz(env, args[2]);
 
-  return mmux_make_bitcnt(env, mpz_remove(rop, op, F));
+  return mmux_emacs_make_bitcnt(env, mpz_remove(rop, op, F));
 }
 
 /* void mpz_fac_ui (mpz_t ROP, unsigned long int N) */
@@ -1224,11 +1224,11 @@ static emacs_value
 Fmmux_gmp_c_mpz_fac_ui (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
 {
   assert(2 == nargs);
-  mpz_ptr	rop	= mmux_get_mpz(env, args[0]);
-  mmux_ulint_t	N	= mmux_get_ulint(env, args[1]);
+  mpz_ptr	rop	= mmux_emacs_get_mpz(env, args[0]);
+  mmux_ulint_t	N	= mmux_emacs_get_ulint(env, args[1]);
 
   mpz_fac_ui(rop, N);
-  return mmux_make_nil(env);
+  return mmux_emacs_make_nil(env);
 }
 
 /* void mpz_2fac_ui (mpz_t ROP, unsigned long int N) */
@@ -1236,11 +1236,11 @@ static emacs_value
 Fmmux_gmp_c_mpz_2fac_ui (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
 {
   assert(2 == nargs);
-  mpz_ptr	rop	= mmux_get_mpz(env, args[0]);
-  mmux_ulint_t	N	= mmux_get_ulint(env, args[1]);
+  mpz_ptr	rop	= mmux_emacs_get_mpz(env, args[0]);
+  mmux_ulint_t	N	= mmux_emacs_get_ulint(env, args[1]);
 
   mpz_2fac_ui(rop, N);
-  return mmux_make_nil(env);
+  return mmux_emacs_make_nil(env);
 }
 
 /* void mpz_mfac_uiui (mpz_t ROP, unsigned long int N, unsigned long int M) */
@@ -1248,12 +1248,12 @@ static emacs_value
 Fmmux_gmp_c_mpz_mfac_uiui (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
 {
   assert(3 == nargs);
-  mpz_ptr	rop	= mmux_get_mpz(env, args[0]);
-  mmux_ulint_t	N	= mmux_get_ulint(env, args[1]);
-  mmux_ulint_t	M	= mmux_get_ulint(env, args[2]);
+  mpz_ptr	rop	= mmux_emacs_get_mpz(env, args[0]);
+  mmux_ulint_t	N	= mmux_emacs_get_ulint(env, args[1]);
+  mmux_ulint_t	M	= mmux_emacs_get_ulint(env, args[2]);
 
   mpz_mfac_uiui(rop, N, M);
-  return mmux_make_nil(env);
+  return mmux_emacs_make_nil(env);
 }
 
 /* void mpz_primorial_ui (mpz_t ROP, unsigned long int N) */
@@ -1261,11 +1261,11 @@ static emacs_value
 Fmmux_gmp_c_mpz_primorial_ui (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
 {
   assert(2 == nargs);
-  mpz_ptr	rop	= mmux_get_mpz(env, args[0]);
-  mmux_ulint_t	N	= mmux_get_ulint(env, args[1]);
+  mpz_ptr	rop	= mmux_emacs_get_mpz(env, args[0]);
+  mmux_ulint_t	N	= mmux_emacs_get_ulint(env, args[1]);
 
   mpz_primorial_ui(rop, N);
-  return mmux_make_nil(env);
+  return mmux_emacs_make_nil(env);
 }
 
 /* void mpz_bin_ui (mpz_t ROP, const mpz_t N, unsigned long int K) */
@@ -1273,12 +1273,12 @@ static emacs_value
 Fmmux_gmp_c_mpz_bin_ui (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
 {
   assert(3 == nargs);
-  mpz_ptr	rop	= mmux_get_mpz(env, args[0]);
-  mpz_ptr	N	= mmux_get_mpz(env, args[1]);
-  mmux_ulint_t	K	= mmux_get_ulint(env, args[2]);
+  mpz_ptr	rop	= mmux_emacs_get_mpz(env, args[0]);
+  mpz_ptr	N	= mmux_emacs_get_mpz(env, args[1]);
+  mmux_ulint_t	K	= mmux_emacs_get_ulint(env, args[2]);
 
   mpz_bin_ui(rop, N, K);
-  return mmux_make_nil(env);
+  return mmux_emacs_make_nil(env);
 }
 
 /* void mpz_bin_uiui (mpz_t ROP, unsigned long int N, unsigned long int K) */
@@ -1286,12 +1286,12 @@ static emacs_value
 Fmmux_gmp_c_mpz_bin_uiui (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
 {
   assert(3 == nargs);
-  mpz_ptr	rop	= mmux_get_mpz(env, args[0]);
-  mmux_ulint_t	N	= mmux_get_ulint(env, args[1]);
-  mmux_ulint_t	K	= mmux_get_ulint(env, args[2]);
+  mpz_ptr	rop	= mmux_emacs_get_mpz(env, args[0]);
+  mmux_ulint_t	N	= mmux_emacs_get_ulint(env, args[1]);
+  mmux_ulint_t	K	= mmux_emacs_get_ulint(env, args[2]);
 
   mpz_bin_uiui(rop, N, K);
-  return mmux_make_nil(env);
+  return mmux_emacs_make_nil(env);
 }
 
 /* void mpz_fib_ui (mpz_t FN, unsigned long int N) */
@@ -1299,11 +1299,11 @@ static emacs_value
 Fmmux_gmp_c_mpz_fib_ui (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
 {
   assert(2 == nargs);
-  mpz_ptr	FN	= mmux_get_mpz(env, args[0]);
-  mmux_ulint_t	N	= mmux_get_ulint(env, args[1]);
+  mpz_ptr	FN	= mmux_emacs_get_mpz(env, args[0]);
+  mmux_ulint_t	N	= mmux_emacs_get_ulint(env, args[1]);
 
   mpz_fib_ui(FN, N);
-  return mmux_make_nil(env);
+  return mmux_emacs_make_nil(env);
 }
 
 /* void mpz_fib2_ui (mpz_t FN, mpz_t FNSUB1, unsigned long int N) */
@@ -1311,12 +1311,12 @@ static emacs_value
 Fmmux_gmp_c_mpz_fib2_ui (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
 {
   assert(3 == nargs);
-  mpz_ptr	FN	= mmux_get_mpz(env, args[0]);
-  mpz_ptr	FNSUB1	= mmux_get_mpz(env, args[1]);
-  mmux_ulint_t	N	= mmux_get_ulint(env, args[2]);
+  mpz_ptr	FN	= mmux_emacs_get_mpz(env, args[0]);
+  mpz_ptr	FNSUB1	= mmux_emacs_get_mpz(env, args[1]);
+  mmux_ulint_t	N	= mmux_emacs_get_ulint(env, args[2]);
 
   mpz_fib2_ui(FN, FNSUB1, N);
-  return mmux_make_nil(env);
+  return mmux_emacs_make_nil(env);
 }
 
 /* void mpz_lucnum_ui (mpz_t LN, unsigned long int N) */
@@ -1324,11 +1324,11 @@ static emacs_value
 Fmmux_gmp_c_mpz_lucnum_ui (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
 {
   assert(2 == nargs);
-  mpz_ptr	LN	= mmux_get_mpz(env, args[0]);
-  mmux_ulint_t	N	= mmux_get_ulint(env, args[1]);
+  mpz_ptr	LN	= mmux_emacs_get_mpz(env, args[0]);
+  mmux_ulint_t	N	= mmux_emacs_get_ulint(env, args[1]);
 
   mpz_lucnum_ui(LN, N);
-  return mmux_make_nil(env);
+  return mmux_emacs_make_nil(env);
 }
 
 /* void mpz_lucnum2_ui (mpz_t LN, mpz_t LNSUB1, unsigned long int N) */
@@ -1336,12 +1336,12 @@ static emacs_value
 Fmmux_gmp_c_mpz_lucnum2_ui (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
 {
   assert(3 == nargs);
-  mpz_ptr	LN	= mmux_get_mpz(env, args[0]);
-  mpz_ptr	LNSUB1	= mmux_get_mpz(env, args[1]);
-  mmux_ulint_t	N	= mmux_get_ulint(env, args[2]);
+  mpz_ptr	LN	= mmux_emacs_get_mpz(env, args[0]);
+  mpz_ptr	LNSUB1	= mmux_emacs_get_mpz(env, args[1]);
+  mmux_ulint_t	N	= mmux_emacs_get_ulint(env, args[2]);
 
   mpz_lucnum2_ui(LN, LNSUB1, N);
-  return mmux_make_nil(env);
+  return mmux_emacs_make_nil(env);
 }
 
 
@@ -1354,10 +1354,10 @@ static emacs_value
 Fmmux_gmp_c_mpz_cmp (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
 {
   assert(2 == nargs);
-  mpz_ptr	op1	= mmux_get_mpz(env, args[0]);
-  mpz_ptr	op2	= mmux_get_mpz(env, args[1]);
+  mpz_ptr	op1	= mmux_emacs_get_mpz(env, args[0]);
+  mpz_ptr	op2	= mmux_emacs_get_mpz(env, args[1]);
 
-  return mmux_make_int(env, mpz_cmp(op1, op2));
+  return mmux_emacs_make_int(env, mpz_cmp(op1, op2));
 }
 
 /* int mpz_cmp_d (const mpz_t OP1, double OP2) */
@@ -1365,10 +1365,10 @@ static emacs_value
 Fmmux_gmp_c_mpz_cmp_d (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
 {
   assert(2 == nargs);
-  mpz_ptr	op1	= mmux_get_mpz(env, args[0]);
-  double	op2	= mmux_get_float(env, args[1]);
+  mpz_ptr	op1	= mmux_emacs_get_mpz(env, args[0]);
+  double	op2	= mmux_emacs_get_float(env, args[1]);
 
-  return mmux_make_int(env, mpz_cmp_d(op1, op2));
+  return mmux_emacs_make_int(env, mpz_cmp_d(op1, op2));
 }
 
 /* int mpz_cmp_si (const mpz_t OP1, signed long int OP2) */
@@ -1376,10 +1376,10 @@ static emacs_value
 Fmmux_gmp_c_mpz_cmp_si (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
 {
   assert(2 == nargs);
-  mpz_ptr	op1	= mmux_get_mpz(env, args[0]);
-  mmux_slint_t	op2	= mmux_get_slint(env, args[1]);
+  mpz_ptr	op1	= mmux_emacs_get_mpz(env, args[0]);
+  mmux_slint_t	op2	= mmux_emacs_get_slint(env, args[1]);
 
-  return mmux_make_int(env, mpz_cmp_si(op1, op2));
+  return mmux_emacs_make_int(env, mpz_cmp_si(op1, op2));
 }
 
 /* int mpz_cmp_ui (const mpz_t OP1, unsigned long int OP2) */
@@ -1387,10 +1387,10 @@ static emacs_value
 Fmmux_gmp_c_mpz_cmp_ui (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
 {
   assert(2 == nargs);
-  mpz_ptr	op1	= mmux_get_mpz(env, args[0]);
-  mmux_ulint_t	op2	= mmux_get_ulint(env, args[1]);
+  mpz_ptr	op1	= mmux_emacs_get_mpz(env, args[0]);
+  mmux_ulint_t	op2	= mmux_emacs_get_ulint(env, args[1]);
 
-  return mmux_make_int(env, mpz_cmp_ui(op1, op2));
+  return mmux_emacs_make_int(env, mpz_cmp_ui(op1, op2));
 }
 
 /* ------------------------------------------------------------------ */
@@ -1400,10 +1400,10 @@ static emacs_value
 Fmmux_gmp_c_mpz_cmpabs (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
 {
   assert(2 == nargs);
-  mpz_ptr	op1	= mmux_get_mpz(env, args[0]);
-  mpz_ptr	op2	= mmux_get_mpz(env, args[1]);
+  mpz_ptr	op1	= mmux_emacs_get_mpz(env, args[0]);
+  mpz_ptr	op2	= mmux_emacs_get_mpz(env, args[1]);
 
-  return mmux_make_int(env, mpz_cmpabs(op1, op2));
+  return mmux_emacs_make_int(env, mpz_cmpabs(op1, op2));
 }
 
 /* int mpz_cmpabs_d (const mpz_t OP1, double OP2) */
@@ -1411,10 +1411,10 @@ static emacs_value
 Fmmux_gmp_c_mpz_cmpabs_d (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
 {
   assert(2 == nargs);
-  mpz_ptr	op1	= mmux_get_mpz(env, args[0]);
-  double	op2	= mmux_get_float(env, args[1]);
+  mpz_ptr	op1	= mmux_emacs_get_mpz(env, args[0]);
+  double	op2	= mmux_emacs_get_float(env, args[1]);
 
-  return mmux_make_int(env, mpz_cmpabs_d(op1, op2));
+  return mmux_emacs_make_int(env, mpz_cmpabs_d(op1, op2));
 }
 
 /* int mpz_cmpabs_ui (const mpz_t OP1, unsigned long int OP2) */
@@ -1422,10 +1422,10 @@ static emacs_value
 Fmmux_gmp_c_mpz_cmpabs_ui (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
 {
   assert(2 == nargs);
-  mpz_ptr	op1	= mmux_get_mpz(env, args[0]);
-  mmux_ulint_t	op2	= mmux_get_ulint(env, args[1]);
+  mpz_ptr	op1	= mmux_emacs_get_mpz(env, args[0]);
+  mmux_ulint_t	op2	= mmux_emacs_get_ulint(env, args[1]);
 
-  return mmux_make_int(env, mpz_cmpabs_ui(op1, op2));
+  return mmux_emacs_make_int(env, mpz_cmpabs_ui(op1, op2));
 }
 
 /* ------------------------------------------------------------------ */
@@ -1435,9 +1435,9 @@ static emacs_value
 Fmmux_gmp_c_mpz_sgn (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
 {
   assert(1 == nargs);
-  mpz_ptr	op	= mmux_get_mpz(env, args[0]);
+  mpz_ptr	op	= mmux_emacs_get_mpz(env, args[0]);
 
-  return mmux_make_int(env, mpz_sgn(op));
+  return mmux_emacs_make_int(env, mpz_sgn(op));
 }
 
 
@@ -1450,12 +1450,12 @@ static emacs_value
 Fmmux_gmp_c_mpz_and (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
 {
   assert(3 == nargs);
-  mpz_ptr	rop	= mmux_get_mpz(env, args[0]);
-  mpz_ptr	op1	= mmux_get_mpz(env, args[1]);
-  mpz_ptr	op2	= mmux_get_mpz(env, args[2]);
+  mpz_ptr	rop	= mmux_emacs_get_mpz(env, args[0]);
+  mpz_ptr	op1	= mmux_emacs_get_mpz(env, args[1]);
+  mpz_ptr	op2	= mmux_emacs_get_mpz(env, args[2]);
 
   mpz_and(rop, op1, op2);
-  return mmux_make_nil(env);
+  return mmux_emacs_make_nil(env);
 }
 
 /* void mpz_ior (mpz_t ROP, const mpz_t OP1, const mpz_t OP2) */
@@ -1463,12 +1463,12 @@ static emacs_value
 Fmmux_gmp_c_mpz_ior (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
 {
   assert(3 == nargs);
-  mpz_ptr	rop	= mmux_get_mpz(env, args[0]);
-  mpz_ptr	op1	= mmux_get_mpz(env, args[1]);
-  mpz_ptr	op2	= mmux_get_mpz(env, args[2]);
+  mpz_ptr	rop	= mmux_emacs_get_mpz(env, args[0]);
+  mpz_ptr	op1	= mmux_emacs_get_mpz(env, args[1]);
+  mpz_ptr	op2	= mmux_emacs_get_mpz(env, args[2]);
 
   mpz_ior(rop, op1, op2);
-  return mmux_make_nil(env);
+  return mmux_emacs_make_nil(env);
 }
 
 /* void mpz_xor (mpz_t ROP, const mpz_t OP1, const mpz_t OP2) */
@@ -1476,12 +1476,12 @@ static emacs_value
 Fmmux_gmp_c_mpz_xor (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
 {
   assert(3 == nargs);
-  mpz_ptr	rop	= mmux_get_mpz(env, args[0]);
-  mpz_ptr	op1	= mmux_get_mpz(env, args[1]);
-  mpz_ptr	op2	= mmux_get_mpz(env, args[2]);
+  mpz_ptr	rop	= mmux_emacs_get_mpz(env, args[0]);
+  mpz_ptr	op1	= mmux_emacs_get_mpz(env, args[1]);
+  mpz_ptr	op2	= mmux_emacs_get_mpz(env, args[2]);
 
   mpz_xor(rop, op1, op2);
-  return mmux_make_nil(env);
+  return mmux_emacs_make_nil(env);
 }
 
 /* void mpz_com (mpz_t ROP, const mpz_t OP) */
@@ -1489,11 +1489,11 @@ static emacs_value
 Fmmux_gmp_c_mpz_com (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
 {
   assert(2 == nargs);
-  mpz_ptr	rop	= mmux_get_mpz(env, args[0]);
-  mpz_ptr	op	= mmux_get_mpz(env, args[1]);
+  mpz_ptr	rop	= mmux_emacs_get_mpz(env, args[0]);
+  mpz_ptr	op	= mmux_emacs_get_mpz(env, args[1]);
 
   mpz_com(rop, op);
-  return mmux_make_nil(env);
+  return mmux_emacs_make_nil(env);
 }
 
 /* mp_bitcnt_t mpz_popcount (const mpz_t OP) */
@@ -1501,9 +1501,9 @@ static emacs_value
 Fmmux_gmp_c_mpz_popcount (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
 {
   assert(1 == nargs);
-  mpz_ptr	op	= mmux_get_mpz(env, args[0]);
+  mpz_ptr	op	= mmux_emacs_get_mpz(env, args[0]);
 
-  return mmux_make_bitcnt(env, mpz_popcount(op));
+  return mmux_emacs_make_bitcnt(env, mpz_popcount(op));
 }
 
 /* mp_bitcnt_t mpz_hamdist (const mpz_t OP1, const mpz_t OP2) */
@@ -1511,10 +1511,10 @@ static emacs_value
 Fmmux_gmp_c_mpz_hamdist (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
 {
   assert(2 == nargs);
-  mpz_ptr	op1	= mmux_get_mpz(env, args[0]);
-  mpz_ptr	op2	= mmux_get_mpz(env, args[1]);
+  mpz_ptr	op1	= mmux_emacs_get_mpz(env, args[0]);
+  mpz_ptr	op2	= mmux_emacs_get_mpz(env, args[1]);
 
-  return mmux_make_bitcnt(env, mpz_hamdist(op1, op2));
+  return mmux_emacs_make_bitcnt(env, mpz_hamdist(op1, op2));
 }
 
 /* mp_bitcnt_t mpz_scan0 (const mpz_t OP, mp_bitcnt_t STARTING_BIT) */
@@ -1522,10 +1522,10 @@ static emacs_value
 Fmmux_gmp_c_mpz_scan0 (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
 {
   assert(2 == nargs);
-  mpz_ptr	op		= mmux_get_mpz(env, args[0]);
-  mp_bitcnt_t	starting_bit	= mmux_get_bitcnt(env, args[1]);
+  mpz_ptr	op		= mmux_emacs_get_mpz(env, args[0]);
+  mp_bitcnt_t	starting_bit	= mmux_emacs_get_bitcnt(env, args[1]);
 
-  return mmux_make_bitcnt(env, mpz_scan0(op, starting_bit));
+  return mmux_emacs_make_bitcnt(env, mpz_scan0(op, starting_bit));
 }
 
 /* mp_bitcnt_t mpz_scan1 (const mpz_t OP, mp_bitcnt_t STARTING_BIT) */
@@ -1533,10 +1533,10 @@ static emacs_value
 Fmmux_gmp_c_mpz_scan1 (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
 {
   assert(2 == nargs);
-  mpz_ptr	op		= mmux_get_mpz(env, args[0]);
-  mp_bitcnt_t	starting_bit	= mmux_get_bitcnt(env, args[1]);
+  mpz_ptr	op		= mmux_emacs_get_mpz(env, args[0]);
+  mp_bitcnt_t	starting_bit	= mmux_emacs_get_bitcnt(env, args[1]);
 
-  return mmux_make_bitcnt(env, mpz_scan1(op, starting_bit));
+  return mmux_emacs_make_bitcnt(env, mpz_scan1(op, starting_bit));
 }
 
 /* void mpz_setbit (mpz_t ROP, mp_bitcnt_t BIT_INDEX) */
@@ -1544,11 +1544,11 @@ static emacs_value
 Fmmux_gmp_c_mpz_setbit (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
 {
   assert(2 == nargs);
-  mpz_ptr	rop		= mmux_get_mpz(env, args[0]);
-  mp_bitcnt_t	bit_index	= mmux_get_bitcnt(env, args[1]);
+  mpz_ptr	rop		= mmux_emacs_get_mpz(env, args[0]);
+  mp_bitcnt_t	bit_index	= mmux_emacs_get_bitcnt(env, args[1]);
 
   mpz_setbit(rop, bit_index);
-  return mmux_make_nil(env);
+  return mmux_emacs_make_nil(env);
 }
 
 /* void mpz_clrbit (mpz_t ROP, mp_bitcnt_t BIT_INDEX) */
@@ -1556,11 +1556,11 @@ static emacs_value
 Fmmux_gmp_c_mpz_clrbit (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
 {
   assert(2 == nargs);
-  mpz_ptr	rop		= mmux_get_mpz(env, args[0]);
-  mp_bitcnt_t	bit_index	= mmux_get_bitcnt(env, args[1]);
+  mpz_ptr	rop		= mmux_emacs_get_mpz(env, args[0]);
+  mp_bitcnt_t	bit_index	= mmux_emacs_get_bitcnt(env, args[1]);
 
   mpz_clrbit(rop, bit_index);
-  return mmux_make_nil(env);
+  return mmux_emacs_make_nil(env);
 }
 
 /* void mpz_combit (mpz_t ROP, mp_bitcnt_t BIT_INDEX) */
@@ -1568,11 +1568,11 @@ static emacs_value
 Fmmux_gmp_c_mpz_combit (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
 {
   assert(2 == nargs);
-  mpz_ptr	rop		= mmux_get_mpz(env, args[0]);
-  mp_bitcnt_t	bit_index	= mmux_get_bitcnt(env, args[1]);
+  mpz_ptr	rop		= mmux_emacs_get_mpz(env, args[0]);
+  mp_bitcnt_t	bit_index	= mmux_emacs_get_bitcnt(env, args[1]);
 
   mpz_combit(rop, bit_index);
-  return mmux_make_nil(env);
+  return mmux_emacs_make_nil(env);
 }
 
 /* int mpz_tstbit (const mpz_t OP, mp_bitcnt_t BIT_INDEX) */
@@ -1580,10 +1580,10 @@ static emacs_value
 Fmmux_gmp_c_mpz_tstbit (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
 {
   assert(2 == nargs);
-  mpz_ptr	op		= mmux_get_mpz(env, args[0]);
-  mp_bitcnt_t	bit_index	= mmux_get_bitcnt(env, args[1]);
+  mpz_ptr	op		= mmux_emacs_get_mpz(env, args[0]);
+  mp_bitcnt_t	bit_index	= mmux_emacs_get_bitcnt(env, args[1]);
 
-  return mmux_make_boolean(env, mpz_tstbit(op, bit_index));
+  return mmux_emacs_make_boolean(env, mpz_tstbit(op, bit_index));
 }
 
 
@@ -1596,12 +1596,12 @@ static emacs_value
 Fmmux_gmp_c_mpz_urandomb (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
 {
   assert(3 == nargs);
-  mpz_ptr		rop	= mmux_get_mpz(env, args[0]);
-  mmux_gmp_randstate_t	state	= mmux_get_randstate(env, args[1]);
-  mp_bitcnt_t		N	= mmux_get_bitcnt(env, args[2]);
+  mpz_ptr		rop	= mmux_emacs_get_mpz(env, args[0]);
+  mmux_gmp_randstate_t	state	= mmux_emacs_get_randstate(env, args[1]);
+  mp_bitcnt_t		N	= mmux_emacs_get_bitcnt(env, args[2]);
 
   mpz_urandomb(rop, state, N);
-  return mmux_make_nil(env);
+  return mmux_emacs_make_nil(env);
 }
 
 /* void mpz_urandomm (mpz_t ROP, gmp_randstate_t STATE, const mpz_t N) */
@@ -1609,12 +1609,12 @@ static emacs_value
 Fmmux_gmp_c_mpz_urandomm (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
 {
   assert(3 == nargs);
-  mpz_ptr		rop	= mmux_get_mpz(env, args[0]);
-  mmux_gmp_randstate_t	state	= mmux_get_randstate(env, args[1]);
-  mpz_ptr		N	= mmux_get_mpz(env, args[2]);
+  mpz_ptr		rop	= mmux_emacs_get_mpz(env, args[0]);
+  mmux_gmp_randstate_t	state	= mmux_emacs_get_randstate(env, args[1]);
+  mpz_ptr		N	= mmux_emacs_get_mpz(env, args[2]);
 
   mpz_urandomm(rop, state, N);
-  return mmux_make_nil(env);
+  return mmux_emacs_make_nil(env);
 }
 
 /* void mpz_rrandomb (mpz_t ROP, gmp_randstate_t STATE, mp_bitcnt_t N) */
@@ -1622,12 +1622,12 @@ static emacs_value
 Fmmux_gmp_c_mpz_rrandomb (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
 {
   assert(3 == nargs);
-  mpz_ptr		rop	= mmux_get_mpz(env, args[0]);
-  mmux_gmp_randstate_t	state	= mmux_get_randstate(env, args[1]);
-  mp_bitcnt_t		N	= mmux_get_bitcnt(env, args[2]);
+  mpz_ptr		rop	= mmux_emacs_get_mpz(env, args[0]);
+  mmux_gmp_randstate_t	state	= mmux_emacs_get_randstate(env, args[1]);
+  mp_bitcnt_t		N	= mmux_emacs_get_bitcnt(env, args[2]);
 
   mpz_rrandomb(rop, state, N);
-  return mmux_make_nil(env);
+  return mmux_emacs_make_nil(env);
 }
 
 /* void mpz_random (mpz_t ROP, mp_size_t MAX_SIZE) */
@@ -1635,11 +1635,11 @@ static emacs_value
 Fmmux_gmp_c_mpz_random (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
 {
   assert(2 == nargs);
-  mpz_ptr	rop		= mmux_get_mpz(env, args[0]);
-  mp_size_t	max_size	= mmux_get_size(env, args[1]);
+  mpz_ptr	rop		= mmux_emacs_get_mpz(env, args[0]);
+  mp_size_t	max_size	= mmux_emacs_get_size(env, args[1]);
 
   mpz_random(rop, max_size);
-  return mmux_make_nil(env);
+  return mmux_emacs_make_nil(env);
 }
 
 /* void mpz_random2 (mpz_t ROP, mp_size_t MAX_SIZE) */
@@ -1647,11 +1647,11 @@ static emacs_value
 Fmmux_gmp_c_mpz_random2 (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
 {
   assert(2 == nargs);
-  mpz_ptr	rop		= mmux_get_mpz(env, args[0]);
-  mp_size_t	max_size	= mmux_get_size(env, args[1]);
+  mpz_ptr	rop		= mmux_emacs_get_mpz(env, args[0]);
+  mp_size_t	max_size	= mmux_emacs_get_size(env, args[1]);
 
   mpz_random2(rop, max_size);
-  return mmux_make_nil(env);
+  return mmux_emacs_make_nil(env);
 }
 
 
@@ -1664,9 +1664,9 @@ static emacs_value
 Fmmux_gmp_c_mpz_fits_ulong_p (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
 {
   assert(1 == nargs);
-  mpz_ptr	op	= mmux_get_mpz(env, args[0]);
+  mpz_ptr	op	= mmux_emacs_get_mpz(env, args[0]);
 
-  return mmux_make_boolean(env, mpz_fits_ulong_p(op));
+  return mmux_emacs_make_boolean(env, mpz_fits_ulong_p(op));
 }
 
 /* int mpz_fits_slong_p (const mpz_t OP) */
@@ -1674,9 +1674,9 @@ static emacs_value
 Fmmux_gmp_c_mpz_fits_slong_p (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
 {
   assert(1 == nargs);
-  mpz_ptr	op	= mmux_get_mpz(env, args[0]);
+  mpz_ptr	op	= mmux_emacs_get_mpz(env, args[0]);
 
-  return mmux_make_boolean(env, mpz_fits_slong_p(op));
+  return mmux_emacs_make_boolean(env, mpz_fits_slong_p(op));
 }
 
 /* int mpz_fits_uint_p (const mpz_t OP) */
@@ -1684,9 +1684,9 @@ static emacs_value
 Fmmux_gmp_c_mpz_fits_uint_p (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
 {
   assert(1 == nargs);
-  mpz_ptr	op	= mmux_get_mpz(env, args[0]);
+  mpz_ptr	op	= mmux_emacs_get_mpz(env, args[0]);
 
-  return mmux_make_boolean(env, mpz_fits_uint_p(op));
+  return mmux_emacs_make_boolean(env, mpz_fits_uint_p(op));
 }
 
 /* int mpz_fits_sint_p (const mpz_t OP) */
@@ -1694,9 +1694,9 @@ static emacs_value
 Fmmux_gmp_c_mpz_fits_sint_p (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
 {
   assert(1 == nargs);
-  mpz_ptr	op	= mmux_get_mpz(env, args[0]);
+  mpz_ptr	op	= mmux_emacs_get_mpz(env, args[0]);
 
-  return mmux_make_boolean(env, mpz_fits_sint_p(op));
+  return mmux_emacs_make_boolean(env, mpz_fits_sint_p(op));
 }
 
 /* int mpz_fits_ushort_p (const mpz_t OP) */
@@ -1704,9 +1704,9 @@ static emacs_value
 Fmmux_gmp_c_mpz_fits_ushort_p (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
 {
   assert(1 == nargs);
-  mpz_ptr	op	= mmux_get_mpz(env, args[0]);
+  mpz_ptr	op	= mmux_emacs_get_mpz(env, args[0]);
 
-  return mmux_make_boolean(env, mpz_fits_ushort_p(op));
+  return mmux_emacs_make_boolean(env, mpz_fits_ushort_p(op));
 }
 
 /* int mpz_fits_sshort_p (const mpz_t OP) */
@@ -1714,9 +1714,9 @@ static emacs_value
 Fmmux_gmp_c_mpz_fits_sshort_p (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
 {
   assert(1 == nargs);
-  mpz_ptr	op	= mmux_get_mpz(env, args[0]);
+  mpz_ptr	op	= mmux_emacs_get_mpz(env, args[0]);
 
-  return mmux_make_boolean(env, mpz_fits_sshort_p(op));
+  return mmux_emacs_make_boolean(env, mpz_fits_sshort_p(op));
 }
 
 /* ------------------------------------------------------------------ */
@@ -1726,9 +1726,9 @@ static emacs_value
 Fmmux_gmp_c_mpz_odd_p (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
 {
   assert(1 == nargs);
-  mpz_ptr	op	= mmux_get_mpz(env, args[0]);
+  mpz_ptr	op	= mmux_emacs_get_mpz(env, args[0]);
 
-  return mmux_make_boolean(env, mpz_odd_p(op));
+  return mmux_emacs_make_boolean(env, mpz_odd_p(op));
 }
 
 /* int mpz_even_p (const mpz_t OP) */
@@ -1736,9 +1736,9 @@ static emacs_value
 Fmmux_gmp_c_mpz_even_p (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
 {
   assert(1 == nargs);
-  mpz_ptr	op	= mmux_get_mpz(env, args[0]);
+  mpz_ptr	op	= mmux_emacs_get_mpz(env, args[0]);
 
-  return mmux_make_boolean(env, mpz_even_p(op));
+  return mmux_emacs_make_boolean(env, mpz_even_p(op));
 }
 
 /* ------------------------------------------------------------------ */
@@ -1748,10 +1748,10 @@ static emacs_value
 Fmmux_gmp_c_mpz_sizeinbase (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
 {
   assert(2 == nargs);
-  mpz_ptr	op	= mmux_get_mpz(env, args[0]);
-  mmux_sint_t	base	= mmux_get_sint(env, args[1]);
+  mpz_ptr	op	= mmux_emacs_get_mpz(env, args[0]);
+  mmux_sint_t	base	= mmux_emacs_get_sint(env, args[1]);
 
-  return mmux_make_ulint(env, mpz_sizeinbase(op, base));
+  return mmux_emacs_make_ulint(env, mpz_sizeinbase(op, base));
 }
 
 

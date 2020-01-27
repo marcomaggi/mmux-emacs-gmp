@@ -38,11 +38,11 @@ static emacs_value
 Fmmux_gmp_c_mpq_set (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
 {
   assert(2 == nargs);
-  mpq_ptr	rop = mmux_get_mpq(env, args[0]);
-  mpq_ptr	op  = mmux_get_mpq(env, args[1]);
+  mpq_ptr	rop = mmux_emacs_get_mpq(env, args[0]);
+  mpq_ptr	op  = mmux_emacs_get_mpq(env, args[1]);
 
   mpq_set(rop, op);
-  return mmux_make_nil(env);
+  return mmux_emacs_make_nil(env);
 }
 
 /* void mpq_set_si (mpq_t ROP, signed long int OP1, unsigned long int OP2) */
@@ -50,12 +50,12 @@ static emacs_value
 Fmmux_gmp_c_mpq_set_si (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
 {
   assert(3 == nargs);
-  mpq_ptr	rop = mmux_get_mpq(env, args[0]);
-  mmux_slint_t	op1 = mmux_get_slint(env, args[1]);
-  mmux_ulint_t	op2 = mmux_get_ulint(env, args[2]);
+  mpq_ptr	rop = mmux_emacs_get_mpq(env, args[0]);
+  mmux_slint_t	op1 = mmux_emacs_get_slint(env, args[1]);
+  mmux_ulint_t	op2 = mmux_emacs_get_ulint(env, args[2]);
 
   mpq_set_si(rop, op1, op2);
-  return mmux_make_nil(env);
+  return mmux_emacs_make_nil(env);
 }
 
 /* void mpq_set_ui (mpq_t ROP, unsigned long int OP1, unsigned long int OP2) */
@@ -63,45 +63,45 @@ static emacs_value
 Fmmux_gmp_c_mpq_set_ui (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
 {
   assert(3 == nargs);
-  mpq_ptr	rop = mmux_get_mpq(env, args[0]);
-  mmux_ulint_t	op1 = mmux_get_ulint(env, args[1]);
-  mmux_ulint_t	op2 = mmux_get_ulint(env, args[2]);
+  mpq_ptr	rop = mmux_emacs_get_mpq(env, args[0]);
+  mmux_ulint_t	op1 = mmux_emacs_get_ulint(env, args[1]);
+  mmux_ulint_t	op2 = mmux_emacs_get_ulint(env, args[2]);
 
   mpq_set_ui(rop, op1, op2);
-  return mmux_make_nil(env);
+  return mmux_emacs_make_nil(env);
 }
 
 static emacs_value
 Fmmux_gmp_c_mpq_set_d (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
 {
   assert(2 == nargs);
-  mpq_ptr	rop = mmux_get_mpq(env, args[0]);
-  double	op  = mmux_get_float(env, args[1]);
+  mpq_ptr	rop = mmux_emacs_get_mpq(env, args[0]);
+  double	op  = mmux_emacs_get_float(env, args[1]);
 
   mpq_set_d(rop, op);
-  return mmux_make_nil(env);
+  return mmux_emacs_make_nil(env);
 }
 
 static emacs_value
 Fmmux_gmp_c_mpq_set_z (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
 {
   assert(2 == nargs);
-  mpq_ptr	rop = mmux_get_mpq(env, args[0]);
-  mpz_ptr	op  = mmux_get_mpz(env, args[1]);
+  mpq_ptr	rop = mmux_emacs_get_mpq(env, args[0]);
+  mpz_ptr	op  = mmux_emacs_get_mpz(env, args[1]);
 
   mpq_set_z(rop, op);
-  return mmux_make_nil(env);
+  return mmux_emacs_make_nil(env);
 }
 
 static emacs_value
 Fmmux_gmp_c_mpq_set_f (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
 {
   assert(2 == nargs);
-  mpq_ptr	rop = mmux_get_mpq(env, args[0]);
-  mpf_ptr	op  = mmux_get_mpf(env, args[1]);
+  mpq_ptr	rop = mmux_emacs_get_mpq(env, args[0]);
+  mpf_ptr	op  = mmux_emacs_get_mpf(env, args[1]);
 
   mpq_set_f(rop, op);
-  return mmux_make_nil(env);
+  return mmux_emacs_make_nil(env);
 }
 
 /* int mpq_set_str (mpq_t ROP, const char *STR, int BASE) */
@@ -109,8 +109,8 @@ static emacs_value
 Fmmux_gmp_c_mpq_set_str (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
 {
   assert(3 == nargs);
-  mpq_ptr	rop  = mmux_get_mpq(env, args[0]);
-  mmux_sint_t	base = mmux_get_sint(env, args[2]);
+  mpq_ptr	rop  = mmux_emacs_get_mpq(env, args[0]);
+  mmux_sint_t	base = mmux_emacs_get_sint(env, args[2]);
   ptrdiff_t	len  = 0;
 
   env->copy_string_contents(env, args[1], NULL, &len);
@@ -130,7 +130,7 @@ Fmmux_gmp_c_mpq_set_str (emacs_env *env, ptrdiff_t nargs, emacs_value args[], vo
        "Error Symbols"  for methods to define  error symbols.  (Marco Maggi;  Jan 14,
        2020) */
     env->non_local_exit_signal(env, env->intern(env, MMUX_EMACS_GMP_ERROR_STRING_TOO_LONG), Serrmsg);
-    return mmux_make_nil(env);
+    return mmux_emacs_make_nil(env);
   }
 }
 
@@ -138,11 +138,11 @@ static emacs_value
 Fmmux_gmp_c_mpq_swap (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
 {
   assert(2 == nargs);
-  mpq_ptr	op1 = mmux_get_mpq(env, args[0]);
-  mpq_ptr	op2 = mmux_get_mpq(env, args[1]);
+  mpq_ptr	op1 = mmux_emacs_get_mpq(env, args[0]);
+  mpq_ptr	op2 = mmux_emacs_get_mpq(env, args[1]);
 
   mpq_swap(op1, op2);
-  return mmux_make_nil(env);
+  return mmux_emacs_make_nil(env);
 }
 
 
@@ -155,9 +155,9 @@ Fmmux_gmp_c_mpq_get_d (emacs_env *env, ptrdiff_t nargs MMUX_EMACS_GMP_UNUSED,
 			emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
 {
   assert(1 == nargs);
-  mpq_ptr	op   = mmux_get_mpq(env, args[0]);
+  mpq_ptr	op   = mmux_emacs_get_mpq(env, args[0]);
 
-  return mmux_make_float(env, mpq_get_d(op));
+  return mmux_emacs_make_float(env, mpq_get_d(op));
 }
 
 static emacs_value
@@ -165,15 +165,15 @@ Fmmux_gmp_c_mpq_get_str (emacs_env *env, ptrdiff_t nargs MMUX_EMACS_GMP_UNUSED,
 			 emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
 {
   assert(2 == nargs);
-  intmax_t	base = mmux_get_int(env, args[0]);
-  mpq_ptr	op   = mmux_get_mpq(env, args[1]);
+  intmax_t	base = mmux_emacs_get_int(env, args[0]);
+  mpq_ptr	op   = mmux_emacs_get_mpq(env, args[1]);
 
   {
     int		maxlen = 3 + mpz_sizeinbase(mpq_numref(op), base) + mpz_sizeinbase(mpq_denref(op), base) + 3;
     char	str[maxlen];
 
     mpq_get_str(str, base, op);
-    return mmux_make_string(env, str, strlen(str));
+    return mmux_emacs_make_string(env, str, strlen(str));
   }
 }
 
@@ -187,12 +187,12 @@ static emacs_value
 Fmmux_gmp_c_mpq_add (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
 {
   assert(3 == nargs);
-  mpq_ptr	rop = mmux_get_mpq(env, args[0]);
-  mpq_ptr	op1 = mmux_get_mpq(env, args[1]);
-  mpq_ptr	op2 = mmux_get_mpq(env, args[2]);
+  mpq_ptr	rop = mmux_emacs_get_mpq(env, args[0]);
+  mpq_ptr	op1 = mmux_emacs_get_mpq(env, args[1]);
+  mpq_ptr	op2 = mmux_emacs_get_mpq(env, args[2]);
 
   mpq_add(rop, op1, op2);
-  return mmux_make_nil(env);
+  return mmux_emacs_make_nil(env);
 }
 
 /* void mpq_sub (mpq_t DIFFERENCE, const mpq_t MINUEND, const mpq_t SUBTRAHEND) */
@@ -200,12 +200,12 @@ static emacs_value
 Fmmux_gmp_c_mpq_sub (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
 {
   assert(3 == nargs);
-  mpq_ptr	difference	= mmux_get_mpq(env, args[0]);
-  mpq_ptr	minuend		= mmux_get_mpq(env, args[1]);
-  mpq_ptr	subtrahend	= mmux_get_mpq(env, args[2]);
+  mpq_ptr	difference	= mmux_emacs_get_mpq(env, args[0]);
+  mpq_ptr	minuend		= mmux_emacs_get_mpq(env, args[1]);
+  mpq_ptr	subtrahend	= mmux_emacs_get_mpq(env, args[2]);
 
   mpq_sub(difference, minuend, subtrahend);
-  return mmux_make_nil(env);
+  return mmux_emacs_make_nil(env);
 }
 
 /* void mpq_mul (mpq_t PRODUCT, const mpq_t MULTIPLIER, const mpq_t MULTIPLICAND) */
@@ -213,12 +213,12 @@ static emacs_value
 Fmmux_gmp_c_mpq_mul (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
 {
   assert(3 == nargs);
-  mpq_ptr	product		= mmux_get_mpq(env, args[0]);
-  mpq_ptr	multiplier	= mmux_get_mpq(env, args[1]);
-  mpq_ptr	multiplicand	= mmux_get_mpq(env, args[2]);
+  mpq_ptr	product		= mmux_emacs_get_mpq(env, args[0]);
+  mpq_ptr	multiplier	= mmux_emacs_get_mpq(env, args[1]);
+  mpq_ptr	multiplicand	= mmux_emacs_get_mpq(env, args[2]);
 
   mpq_mul(product, multiplier, multiplicand);
-  return mmux_make_nil(env);
+  return mmux_emacs_make_nil(env);
 }
 
 /* void mpq_mul_2exp (mpq_t ROP, const mpq_t OP1, mp_bitcnt_t OP2) */
@@ -226,12 +226,12 @@ static emacs_value
 Fmmux_gmp_c_mpq_mul_2exp (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
 {
   assert(3 == nargs);
-  mpq_ptr	rop = mmux_get_mpq(env, args[0]);
-  mpq_ptr	op1 = mmux_get_mpq(env, args[1]);
-  mp_bitcnt_t	op2 = mmux_get_bitcnt(env, args[2]);
+  mpq_ptr	rop = mmux_emacs_get_mpq(env, args[0]);
+  mpq_ptr	op1 = mmux_emacs_get_mpq(env, args[1]);
+  mp_bitcnt_t	op2 = mmux_emacs_get_bitcnt(env, args[2]);
 
   mpq_mul_2exp(rop, op1, op2);
-  return mmux_make_nil(env);
+  return mmux_emacs_make_nil(env);
 }
 
 /* void mpq_div (mpq_t QUOTIENT, const mpq_t DIVIDEND, const mpq_t DIVISOR) */
@@ -239,12 +239,12 @@ static emacs_value
 Fmmux_gmp_c_mpq_div (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
 {
   assert(3 == nargs);
-  mpq_ptr	quotient	= mmux_get_mpq(env, args[0]);
-  mpq_ptr	dividend	= mmux_get_mpq(env, args[1]);
-  mpq_ptr	divisor		= mmux_get_mpq(env, args[2]);
+  mpq_ptr	quotient	= mmux_emacs_get_mpq(env, args[0]);
+  mpq_ptr	dividend	= mmux_emacs_get_mpq(env, args[1]);
+  mpq_ptr	divisor		= mmux_emacs_get_mpq(env, args[2]);
 
   mpq_div(quotient, dividend, divisor);
-  return mmux_make_nil(env);
+  return mmux_emacs_make_nil(env);
 }
 
 /* void mpq_div_2exp (mpq_t ROP, const mpq_t OP1, mp_bitcnt_t OP2) */
@@ -252,12 +252,12 @@ static emacs_value
 Fmmux_gmp_c_mpq_div_2exp (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
 {
   assert(3 == nargs);
-  mpq_ptr	rop = mmux_get_mpq(env, args[0]);
-  mpq_ptr	op1 = mmux_get_mpq(env, args[1]);
-  mp_bitcnt_t	op2 = mmux_get_bitcnt(env, args[2]);
+  mpq_ptr	rop = mmux_emacs_get_mpq(env, args[0]);
+  mpq_ptr	op1 = mmux_emacs_get_mpq(env, args[1]);
+  mp_bitcnt_t	op2 = mmux_emacs_get_bitcnt(env, args[2]);
 
   mpq_div_2exp(rop, op1, op2);
-  return mmux_make_nil(env);
+  return mmux_emacs_make_nil(env);
 }
 
 /* void mpq_neg (mpq_t NEGATED_OPERAND, const mpq_t OPERAND) */
@@ -265,11 +265,11 @@ static emacs_value
 Fmmux_gmp_c_mpq_neg (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
 {
   assert(2 == nargs);
-  mpq_ptr	negated_operand	= mmux_get_mpq(env, args[0]);
-  mpq_ptr	operand		= mmux_get_mpq(env, args[1]);
+  mpq_ptr	negated_operand	= mmux_emacs_get_mpq(env, args[0]);
+  mpq_ptr	operand		= mmux_emacs_get_mpq(env, args[1]);
 
   mpq_neg(negated_operand, operand);
-  return mmux_make_nil(env);
+  return mmux_emacs_make_nil(env);
 }
 
 /* void mpq_abs (mpq_t ROP, const mpq_t OP) */
@@ -277,11 +277,11 @@ static emacs_value
 Fmmux_gmp_c_mpq_abs (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
 {
   assert(2 == nargs);
-  mpq_ptr	rop = mmux_get_mpq(env, args[0]);
-  mpq_ptr	op  = mmux_get_mpq(env, args[1]);
+  mpq_ptr	rop = mmux_emacs_get_mpq(env, args[0]);
+  mpq_ptr	op  = mmux_emacs_get_mpq(env, args[1]);
 
   mpq_abs(rop, op);
-  return mmux_make_nil(env);
+  return mmux_emacs_make_nil(env);
 }
 
 /* void mpq_inv (mpq_t INVERTED_NUMBER, const mpq_t NUMBER) */
@@ -289,11 +289,11 @@ static emacs_value
 Fmmux_gmp_c_mpq_inv (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
 {
   assert(2 == nargs);
-  mpq_ptr	inverted_number	= mmux_get_mpq(env, args[0]);
-  mpq_ptr	number		= mmux_get_mpq(env, args[1]);
+  mpq_ptr	inverted_number	= mmux_emacs_get_mpq(env, args[0]);
+  mpq_ptr	number		= mmux_emacs_get_mpq(env, args[1]);
 
   mpq_inv(inverted_number, number);
-  return mmux_make_nil(env);
+  return mmux_emacs_make_nil(env);
 }
 
 
@@ -306,10 +306,10 @@ static emacs_value
 Fmmux_gmp_c_mpq_cmp (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
 {
   assert(2 == nargs);
-  mpq_ptr	op1 = mmux_get_mpq(env, args[0]);
-  mpq_ptr	op2 = mmux_get_mpq(env, args[1]);
+  mpq_ptr	op1 = mmux_emacs_get_mpq(env, args[0]);
+  mpq_ptr	op2 = mmux_emacs_get_mpq(env, args[1]);
 
-  return mmux_make_int(env, mpq_cmp(op1, op2));
+  return mmux_emacs_make_int(env, mpq_cmp(op1, op2));
 }
 
 /* int mpq_cmp_z (const mpq_t OP1, const mpz_t OP2) */
@@ -317,10 +317,10 @@ static emacs_value
 Fmmux_gmp_c_mpq_cmp_z (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
 {
   assert(2 == nargs);
-  mpq_ptr	op1 = mmux_get_mpq(env, args[0]);
-  mpz_ptr	op2 = mmux_get_mpz(env, args[1]);
+  mpq_ptr	op1 = mmux_emacs_get_mpq(env, args[0]);
+  mpz_ptr	op2 = mmux_emacs_get_mpz(env, args[1]);
 
-  return mmux_make_int(env, mpq_cmp_z(op1, op2));
+  return mmux_emacs_make_int(env, mpq_cmp_z(op1, op2));
 }
 
 /* int mpq_cmp_ui (const mpq_t OP1, unsigned long int NUM2, unsigned long int DEN2) */
@@ -328,11 +328,11 @@ static emacs_value
 Fmmux_gmp_c_mpq_cmp_ui (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
 {
   assert(3 == nargs);
-  mpq_ptr	op1	= mmux_get_mpq(env, args[0]);
-  mmux_ulint_t	num2	= mmux_get_ulint(env, args[1]);
-  mmux_ulint_t	den2	= mmux_get_ulint(env, args[2]);
+  mpq_ptr	op1	= mmux_emacs_get_mpq(env, args[0]);
+  mmux_ulint_t	num2	= mmux_emacs_get_ulint(env, args[1]);
+  mmux_ulint_t	den2	= mmux_emacs_get_ulint(env, args[2]);
 
-  return mmux_make_int(env, mpq_cmp_ui(op1, num2, den2));
+  return mmux_emacs_make_int(env, mpq_cmp_ui(op1, num2, den2));
 }
 
 /* int mpq_cmp_si (const mpq_t OP1, long int NUM2, unsigned long int DEN2) */
@@ -340,11 +340,11 @@ static emacs_value
 Fmmux_gmp_c_mpq_cmp_si (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
 {
   assert(3 == nargs);
-  mpq_ptr	op1	= mmux_get_mpq(env, args[0]);
-  mmux_slint_t	num2	= mmux_get_slint(env, args[1]);
-  mmux_ulint_t	den2	= mmux_get_ulint(env, args[2]);
+  mpq_ptr	op1	= mmux_emacs_get_mpq(env, args[0]);
+  mmux_slint_t	num2	= mmux_emacs_get_slint(env, args[1]);
+  mmux_ulint_t	den2	= mmux_emacs_get_ulint(env, args[2]);
 
-  return mmux_make_int(env, mpq_cmp_si(op1, num2, den2));
+  return mmux_emacs_make_int(env, mpq_cmp_si(op1, num2, den2));
 }
 
 /* int mpq_sgn (const mpq_t OP) */
@@ -352,9 +352,9 @@ static emacs_value
 Fmmux_gmp_c_mpq_sgn (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
 {
   assert(1 == nargs);
-  mpq_ptr	op	= mmux_get_mpq(env, args[0]);
+  mpq_ptr	op	= mmux_emacs_get_mpq(env, args[0]);
 
-  return mmux_make_int(env, mpq_sgn(op));
+  return mmux_emacs_make_int(env, mpq_sgn(op));
 }
 
 /* int mpq_equal (const mpq_t OP1, const mpq_t OP2) */
@@ -362,10 +362,10 @@ static emacs_value
 Fmmux_gmp_c_mpq_equal (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
 {
   assert(2 == nargs);
-  mpq_ptr	op1	= mmux_get_mpq(env, args[0]);
-  mpq_ptr	op2	= mmux_get_mpq(env, args[1]);
+  mpq_ptr	op1	= mmux_emacs_get_mpq(env, args[0]);
+  mpq_ptr	op2	= mmux_emacs_get_mpq(env, args[1]);
 
-  return mmux_make_boolean(env, mpq_equal(op1, op2));
+  return mmux_emacs_make_boolean(env, mpq_equal(op1, op2));
 }
 
 

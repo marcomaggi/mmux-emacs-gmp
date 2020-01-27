@@ -95,105 +95,105 @@ mmux_emacs_gmp_decl int  plugin_is_GPL_compatible;
  ** ----------------------------------------------------------------- */
 
 static inline void *
-mmux_get_ptr (emacs_env * env, emacs_value arg)
+mmux_emacs_get_ptr (emacs_env * env, emacs_value arg)
 {
   return env->get_user_ptr(env, arg);
 }
 
 static inline intmax_t
-mmux_get_int (emacs_env * env, emacs_value arg)
+mmux_emacs_get_int (emacs_env * env, emacs_value arg)
 {
   return env->extract_integer(env, arg);
 }
 
 static inline double
-mmux_get_float (emacs_env * env, emacs_value arg)
+mmux_emacs_get_float (emacs_env * env, emacs_value arg)
 {
   return env->extract_float(env, arg);
 }
 
 static inline mmux_ulint_t
-mmux_get_ulint (emacs_env * env, emacs_value arg)
+mmux_emacs_get_ulint (emacs_env * env, emacs_value arg)
 {
-  return ((mmux_ulint_t)(mmux_get_int(env, arg)));
+  return ((mmux_ulint_t)(mmux_emacs_get_int(env, arg)));
 }
 
 static inline mmux_slint_t
-mmux_get_slint (emacs_env * env, emacs_value arg)
+mmux_emacs_get_slint (emacs_env * env, emacs_value arg)
 {
-  return ((mmux_slint_t)(mmux_get_int(env, arg)));
+  return ((mmux_slint_t)(mmux_emacs_get_int(env, arg)));
 }
 
 static inline mmux_ulint_t
-mmux_get_uint (emacs_env * env, emacs_value arg)
+mmux_emacs_get_uint (emacs_env * env, emacs_value arg)
 {
-  return ((mmux_uint_t)(mmux_get_int(env, arg)));
+  return ((mmux_uint_t)(mmux_emacs_get_int(env, arg)));
 }
 
 static inline mmux_sint_t
-mmux_get_sint (emacs_env * env, emacs_value arg)
+mmux_emacs_get_sint (emacs_env * env, emacs_value arg)
 {
-  return ((mmux_sint_t)(mmux_get_int(env, arg)));
+  return ((mmux_sint_t)(mmux_emacs_get_int(env, arg)));
 }
 
 /* ------------------------------------------------------------------ */
 
 static inline emacs_value
-mmux_make_nil (emacs_env * env)
+mmux_emacs_make_nil (emacs_env * env)
 {
   return env->intern(env, "nil");
 }
 
 static inline emacs_value
-mmux_make_true (emacs_env * env)
+mmux_emacs_make_true (emacs_env * env)
 {
   return env->intern(env, "t");
 }
 
 static inline emacs_value
-mmux_make_boolean (emacs_env * env, int val)
+mmux_emacs_make_boolean (emacs_env * env, int val)
 {
-  return ((val)? mmux_make_true(env) : mmux_make_nil(env));
+  return ((val)? mmux_emacs_make_true(env) : mmux_emacs_make_nil(env));
 }
 
 static inline emacs_value
-mmux_make_int (emacs_env * env, intmax_t arg)
+mmux_emacs_make_int (emacs_env * env, intmax_t arg)
 {
   return env->make_integer(env, arg);
 }
 
 static inline emacs_value
-mmux_make_float (emacs_env * env, double arg)
+mmux_emacs_make_float (emacs_env * env, double arg)
 {
   return env->make_float(env, arg);
 }
 
 static inline emacs_value
-mmux_make_uint (emacs_env * env, mmux_uint_t arg)
+mmux_emacs_make_uint (emacs_env * env, mmux_uint_t arg)
 {
-  return mmux_make_int(env, arg);
+  return mmux_emacs_make_int(env, arg);
 }
 
 static inline emacs_value
-mmux_make_sint (emacs_env * env, mmux_sint_t arg)
+mmux_emacs_make_sint (emacs_env * env, mmux_sint_t arg)
 {
-  return mmux_make_int(env, arg);
+  return mmux_emacs_make_int(env, arg);
 }
 
 static inline emacs_value
-mmux_make_ulint (emacs_env * env, mmux_ulint_t arg)
+mmux_emacs_make_ulint (emacs_env * env, mmux_ulint_t arg)
 {
-  return mmux_make_int(env, arg);
+  return mmux_emacs_make_int(env, arg);
 }
 
 static inline emacs_value
-mmux_make_slint (emacs_env * env, mmux_slint_t arg)
+mmux_emacs_make_slint (emacs_env * env, mmux_slint_t arg)
 {
-  return mmux_make_int(env, arg);
+  return mmux_emacs_make_int(env, arg);
 }
 
 static inline emacs_value
-mmux_make_string (emacs_env * env, char const * strptr, size_t strlen)
+mmux_emacs_make_string (emacs_env * env, char const * strptr, size_t strlen)
 {
   return env->make_string(env, strptr, strlen);
 }
@@ -204,53 +204,59 @@ mmux_make_string (emacs_env * env, char const * strptr, size_t strlen)
  ** ----------------------------------------------------------------- */
 
 static inline mpz_ptr
-mmux_get_mpz (emacs_env * env, emacs_value arg)
+mmux_emacs_get_mpz (emacs_env * env, emacs_value arg)
 {
-  return ((mpz_ptr)(mmux_get_ptr(env, arg)));
+  return ((mpz_ptr)(mmux_emacs_get_ptr(env, arg)));
 }
 
 static inline mpq_ptr
-mmux_get_mpq (emacs_env * env, emacs_value arg)
+mmux_emacs_get_mpq (emacs_env * env, emacs_value arg)
 {
-  return ((mpq_ptr)(mmux_get_ptr(env, arg)));
+  return ((mpq_ptr)(mmux_emacs_get_ptr(env, arg)));
 }
 
 static inline mpf_ptr
-mmux_get_mpf (emacs_env * env, emacs_value arg)
+mmux_emacs_get_mpf (emacs_env * env, emacs_value arg)
 {
-  return ((mpf_ptr)(mmux_get_ptr(env, arg)));
+  return ((mpf_ptr)(mmux_emacs_get_ptr(env, arg)));
 }
 
 static inline mp_bitcnt_t
-mmux_get_bitcnt (emacs_env * env, emacs_value arg)
+mmux_emacs_get_bitcnt (emacs_env * env, emacs_value arg)
 {
   return ((mp_bitcnt_t)(env->extract_integer(env, arg)));
 }
 
 static inline mp_bitcnt_t
-mmux_get_prec (emacs_env * env, emacs_value arg)
+mmux_emacs_get_prec (emacs_env * env, emacs_value arg)
 {
   return ((mp_bitcnt_t)(env->extract_integer(env, arg)));
 }
 
 static inline mp_size_t
-mmux_get_size (emacs_env * env, emacs_value arg)
+mmux_emacs_get_size (emacs_env * env, emacs_value arg)
 {
   return ((mp_size_t)(env->extract_integer(env, arg)));
 }
 
 static inline mmux_gmp_randstate_t
-mmux_get_randstate (emacs_env * env, emacs_value arg)
+mmux_emacs_get_randstate (emacs_env * env, emacs_value arg)
 {
-  return ((mmux_gmp_randstate_t)(mmux_get_ptr(env, arg)));
+  return ((mmux_gmp_randstate_t)(mmux_emacs_get_ptr(env, arg)));
 }
 
 /* ------------------------------------------------------------------ */
 
 static inline emacs_value
-mmux_make_bitcnt (emacs_env * env, mp_bitcnt_t cnt)
+mmux_emacs_make_bitcnt (emacs_env * env, mp_bitcnt_t cnt)
 {
-  return (mmux_make_int(env, (intmax_t)cnt));
+  return (mmux_emacs_make_int(env, (intmax_t)cnt));
+}
+
+static inline emacs_value
+mmux_emacs_make_prec (emacs_env * env, mp_bitcnt_t cnt)
+{
+  return (mmux_emacs_make_int(env, (intmax_t)cnt));
 }
 
 
