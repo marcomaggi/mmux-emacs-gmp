@@ -299,10 +299,93 @@ Fmmux_emacs_gmp_c_mpf_add (emacs_env *env, ptrdiff_t nargs, emacs_value args[], 
 
 
 /** --------------------------------------------------------------------
+ ** Comparison functions.
+ ** ----------------------------------------------------------------- */
+
+/* int mpf_cmp (const mpf_t OP1, const mpf_t OP2) */
+static emacs_value
+Fmmux_emacs_gmp_c_mpf_cmp (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
+{
+  assert(2 == nargs);
+  mpf_ptr	op1	= mmux_emacs_get_mpf(env, args[0]);
+  mpf_ptr	op2	= mmux_emacs_get_mpf(env, args[1]);
+
+  return mmux_emacs_make_sint(env, mpf_cmp(op1, op2));
+}
+
+/* int mpf_cmp_z (const mpf_t OP1, const mpz_t OP2) */
+static emacs_value
+Fmmux_emacs_gmp_c_mpf_cmp_z (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
+{
+  assert(2 == nargs);
+  mpf_ptr	op1	= mmux_emacs_get_mpf(env, args[0]);
+  mpz_ptr	op2	= mmux_emacs_get_mpz(env, args[1]);
+
+  return mmux_emacs_make_sint(env, mpf_cmp_z(op1, op2));
+}
+
+/* int mpf_cmp_d (const mpf_t OP1, double OP2) */
+static emacs_value
+Fmmux_emacs_gmp_c_mpf_cmp_d (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
+{
+  assert(2 == nargs);
+  mpf_ptr	op1	= mmux_emacs_get_mpf(env, args[0]);
+  double	op2	= mmux_emacs_get_float(env, args[1]);
+
+  return mmux_emacs_make_sint(env, mpf_cmp_d(op1, op2));
+}
+
+/* int mpf_cmp_ui (const mpf_t OP1, unsigned long int OP2) */
+static emacs_value
+Fmmux_emacs_gmp_c_mpf_cmp_ui (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
+{
+  assert(2 == nargs);
+  mpf_ptr	op1	= mmux_emacs_get_mpf(env, args[0]);
+  mmux_ulint_t	op2	= mmux_emacs_get_ulint(env, args[1]);
+
+  return mmux_emacs_make_sint(env, mpf_cmp_ui(op1, op2));
+}
+
+/* int mpf_cmp_si (const mpf_t OP1, long int OP2) */
+static emacs_value
+Fmmux_emacs_gmp_c_mpf_cmp_si (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
+{
+  assert(2 == nargs);
+  mpf_ptr	op1	= mmux_emacs_get_mpf(env, args[0]);
+  mmux_slint_t	op2	= mmux_emacs_get_slint(env, args[1]);
+
+  return mmux_emacs_make_sint(env, mpf_cmp_si(op1, op2));
+}
+
+/* int mpf_sgn (const mpf_t OP) */
+static emacs_value
+Fmmux_emacs_gmp_c_mpf_sgn (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
+{
+  assert(1 == nargs);
+  mpf_ptr	op = mmux_emacs_get_mpf(env, args[0]);
+
+  return mmux_emacs_make_sint(env, mpf_sgn(op));
+}
+
+/* void mpf_reldiff (mpf_t ROP, const mpf_t OP1, const mpf_t OP2) */
+static emacs_value
+Fmmux_emacs_gmp_c_mpf_reldiff (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
+{
+  assert(3 == nargs);
+  mpf_ptr	rop	= mmux_emacs_get_mpf(env, args[0]);
+  mpf_ptr	op1	= mmux_emacs_get_mpf(env, args[1]);
+  mpf_ptr	op2	= mmux_emacs_get_mpf(env, args[2]);
+
+  mpf_reldiff(rop, op1, op2);
+  return mmux_emacs_make_nil(env);
+}
+
+
+/** --------------------------------------------------------------------
  ** Elisp functions table.
  ** ----------------------------------------------------------------- */
 
-#define NUMBER_OF_MODULE_FUNCTIONS	18
+#define NUMBER_OF_MODULE_FUNCTIONS	25
 static module_function_t const module_functions_table[NUMBER_OF_MODULE_FUNCTIONS] = {
   /* Assignment function. */
   {
@@ -436,6 +519,57 @@ static module_function_t const module_functions_table[NUMBER_OF_MODULE_FUNCTIONS
     .min_arity		= 3,
     .max_arity		= 3,
     .documentation	= "Add two `mpf' objects."
+  },
+
+  /* Comparison functions. */
+  { /* int mpf_cmp (const mpf_t OP1, const mpf_t OP2) */
+    .name		= "mmux-gmp-c-mpf-cmp",
+    .implementation	= Fmmux_emacs_gmp_c_mpf_cmp,
+    .min_arity		= 2,
+    .max_arity		= 2,
+    .documentation	= "Compare OP1 and OP2.",
+  },
+  { /* int mpf_cmp_z (const mpf_t OP1, const mpz_t OP2) */
+    .name		= "mmux-gmp-c-mpf-cmp-z",
+    .implementation	= Fmmux_emacs_gmp_c_mpf_cmp_z,
+    .min_arity		= 2,
+    .max_arity		= 2,
+    .documentation	= "Compare OP1 and OP2.",
+  },
+  { /* int mpf_cmp_d (const mpf_t OP1, double OP2) */
+    .name		= "mmux-gmp-c-mpf-cmp-d",
+    .implementation	= Fmmux_emacs_gmp_c_mpf_cmp_d,
+    .min_arity		= 2,
+    .max_arity		= 2,
+    .documentation	= "Compare OP1 and OP2.",
+  },
+  { /* int mpf_cmp_ui (const mpf_t OP1, unsigned long int OP2) */
+    .name		= "mmux-gmp-c-mpf-cmp-ui",
+    .implementation	= Fmmux_emacs_gmp_c_mpf_cmp_ui,
+    .min_arity		= 2,
+    .max_arity		= 2,
+    .documentation	= "Compare OP1 and OP2.",
+  },
+  { /* int mpf_cmp_si (const mpf_t OP1, long int OP2) */
+    .name		= "mmux-gmp-c-mpf-cmp-si",
+    .implementation	= Fmmux_emacs_gmp_c_mpf_cmp_si,
+    .min_arity		= 2,
+    .max_arity		= 2,
+    .documentation	= "Compare OP1 and OP2.",
+  },
+  { /* int mpf_sgn (const mpf_t OP) */
+    .name		= "mmux-gmp-c-mpf-sgn",
+    .implementation	= Fmmux_emacs_gmp_c_mpf_sgn,
+    .min_arity		= 1,
+    .max_arity		= 1,
+    .documentation	= "Return +1 if OP > 0, 0 if OP = 0, and -1 if OP < 0.",
+  },
+  { /* int mpf_reldiff (mpf_t ROP, const mpf_t OP1, const mpf_t OP2) */
+    .name		= "mmux-gmp-c-mpf-reldiff",
+    .implementation	= Fmmux_emacs_gmp_c_mpf_reldiff,
+    .min_arity		= 3,
+    .max_arity		= 3,
+    .documentation	= "Compute the relative difference between OP1 and OP2 and store the result in ROP.  This is abs(OP1-OP2)/OP1.",
   },
 };
 

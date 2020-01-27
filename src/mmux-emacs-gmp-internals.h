@@ -171,25 +171,25 @@ mmux_emacs_make_float (emacs_env * env, double arg)
 static inline emacs_value
 mmux_emacs_make_uint (emacs_env * env, mmux_uint_t arg)
 {
-  return mmux_emacs_make_int(env, arg);
+  return mmux_emacs_make_int(env, (intmax_t)arg);
 }
 
 static inline emacs_value
 mmux_emacs_make_sint (emacs_env * env, mmux_sint_t arg)
 {
-  return mmux_emacs_make_int(env, arg);
+  return mmux_emacs_make_int(env, (intmax_t)arg);
 }
 
 static inline emacs_value
 mmux_emacs_make_ulint (emacs_env * env, mmux_ulint_t arg)
 {
-  return mmux_emacs_make_int(env, arg);
+  return mmux_emacs_make_int(env, (intmax_t)arg);
 }
 
 static inline emacs_value
 mmux_emacs_make_slint (emacs_env * env, mmux_slint_t arg)
 {
-  return mmux_emacs_make_int(env, arg);
+  return mmux_emacs_make_int(env, (intmax_t)arg);
 }
 
 static inline emacs_value

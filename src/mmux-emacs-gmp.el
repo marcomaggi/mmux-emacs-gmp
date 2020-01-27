@@ -4,7 +4,7 @@
 
 ;; Author: Marco Maggi <mrc.mgg@gmail.com>
 ;; Created: Jan 15, 2020
-;; Time-stamp: <2020-01-27 14:49:20 marco>
+;; Time-stamp: <2020-01-27 16:30:39 marco>
 ;; Keywords: extensions
 
 ;; This file is part of MMUX Emacs GMP.
@@ -723,7 +723,7 @@
 ;; int mpz_root (mpz_t ROP, const mpz_t OP, unsigned long int N)
 (cl-defgeneric mpz-root (rop op N)
   "Set ROP to the truncated integer part of the Nth root of OP.")
-(cl-defmethod mpz-root ((rop mpz) (op mpz) (N integer))
+(cl-defmethod  mpz-root ((rop mpz) (op mpz) (N integer))
   "Set ROP to the truncated integer part of the Nth root of OP."
   (cl-assert (mmux-gmp-positive-p N))
   (mmux-gmp-c-mpz-root (mpz-obj rop) (mpz-obj op) N))
@@ -731,7 +731,7 @@
 ;; void mpz_rootrem (mpz_t ROOT, mpz_t REM, const mpz_t U, unsigned long int N)
 (cl-defgeneric mpz-rootrem (root rem U N)
   "Set ROOT to the truncated integer part of the Nth root of U.  Set REM to the remainder, U-ROOT^N.")
-(cl-defmethod mpz-rootrem ((root mpz) (rem mpz) (U mpz) (N integer))
+(cl-defmethod  mpz-rootrem ((root mpz) (rem mpz) (U mpz) (N integer))
   "Set ROOT to the truncated integer part of the Nth root of U.  Set REM to the remainder, U-ROOT^N."
   (cl-assert (mmux-gmp-positive-p N))
   (mmux-gmp-c-mpz-rootrem (mpz-obj root) (mpz-obj rem) (mpz-obj U) N))
@@ -739,28 +739,28 @@
 ;; void mpz_sqrt (mpz_t ROP, const mpz_t OP)
 (cl-defgeneric mpz-sqrt (rop op)
   "Set ROP to the truncated integer part of the square root of OP.")
-(cl-defmethod mpz-sqrt ((rop mpz) (op mpz))
+(cl-defmethod  mpz-sqrt ((rop mpz) (op mpz))
   "Set ROP to the truncated integer part of the square root of OP."
   (mmux-gmp-c-mpz-sqrt (mpz-obj rop) (mpz-obj op)))
 
 ;; void mpz_sqrtrem (mpz_t ROP1, mpz_t ROP2, const mpz_t OP)
 (cl-defgeneric mpz-sqrtrem (rop1 rop2 op)
   "Set ROP1 to the truncated integer part of the square root of OP.  Set ROP2 to the remainder OP-ROP1*ROP1.")
-(cl-defmethod mpz-sqrtrem ((rop1 mpz) (rop2 mpz) (op mpz))
+(cl-defmethod  mpz-sqrtrem ((rop1 mpz) (rop2 mpz) (op mpz))
   "Set ROP1 to the truncated integer part of the square root of OP.  Set ROP2 to the remainder OP-ROP1*ROP1."
   (mmux-gmp-c-mpz-sqrtrem (mpz-obj rop1) (mpz-obj rop2) (mpz-obj op)))
 
 ;; int mpz_perfect_power_p (const mpz_t OP)
 (cl-defgeneric mpz-perfect-power-p (op)
   "Return true if OP is a perfect power.")
-(cl-defmethod mpz-perfect-power-p ((op mpz))
+(cl-defmethod  mpz-perfect-power-p ((op mpz))
   "Return true if OP is a perfect power."
   (mmux-gmp-c-mpz-perfect-power-p (mpz-obj op)))
 
 ;; int mpz_perfect_square_p (const mpz_t OP)
 (cl-defgeneric mpz-perfect-square-p (op)
   "Return true if OP is a perfect square.")
-(cl-defmethod mpz-perfect-square-p ((op mpz))
+(cl-defmethod  mpz-perfect-square-p ((op mpz))
   "Return true if OP is a perfect square."
   (mmux-gmp-c-mpz-perfect-square-p (mpz-obj op)))
 
@@ -1110,84 +1110,84 @@
 ;; void mpz_and (mpz_t ROP, const mpz_t OP1, const mpz_t OP2)
 (cl-defgeneric mpz-and (rop op1 op2)
   "Set ROP to OP1 bitwise-and OP2.")
-(cl-defmethod mpz-and ((rop mpz) (op1 mpz) (op2 mpz))
+(cl-defmethod  mpz-and ((rop mpz) (op1 mpz) (op2 mpz))
   "Set ROP to OP1 bitwise-and OP2."
   (mmux-gmp-c-mpz-and (mpz-obj rop) (mpz-obj op1) (mpz-obj op2)))
 
 ;; void mpz_ior (mpz_t ROP, const mpz_t OP1, const mpz_t OP2)
 (cl-defgeneric mpz-ior (rop op1 op2)
   "Set ROP to OP1 bitwise inclusive-or OP2.")
-(cl-defmethod mpz-ior ((rop mpz) (op1 mpz) (op2 mpz))
+(cl-defmethod  mpz-ior ((rop mpz) (op1 mpz) (op2 mpz))
   "Set ROP to OP1 bitwise inclusive-or OP2."
   (mmux-gmp-c-mpz-ior (mpz-obj rop) (mpz-obj op1) (mpz-obj op2)))
 
 ;; void mpz_xor (mpz_t ROP, const mpz_t OP1, const mpz_t OP2)
 (cl-defgeneric mpz-xor (rop op1 op2)
   "Set ROP to OP1 bitwise exclusive-or OP2.")
-(cl-defmethod mpz-xor ((rop mpz) (op1 mpz) (op2 mpz))
+(cl-defmethod  mpz-xor ((rop mpz) (op1 mpz) (op2 mpz))
   "Set ROP to OP1 bitwise exclusive-or OP2."
   (mmux-gmp-c-mpz-xor (mpz-obj rop) (mpz-obj op1) (mpz-obj op2)))
 
 ;; void mpz_com (mpz_t ROP, const mpz_t OP)
 (cl-defgeneric mpz-com (rop op)
   "Set ROP to the one's complement of OP.")
-(cl-defmethod mpz-com ((rop mpz) (op mpz))
+(cl-defmethod  mpz-com ((rop mpz) (op mpz))
   "Set ROP to the one's complement of OP."
   (mmux-gmp-c-mpz-com (mpz-obj rop) (mpz-obj op)))
 
 ;; mp_bitcnt_t mpz_popcount (const mpz_t OP)
 (cl-defgeneric mpz-popcount (op)
   "Return the population count of OP.")
-(cl-defmethod mpz-popcount ((op mpz))
+(cl-defmethod  mpz-popcount ((op mpz))
   "Return the population count of OP."
   (mmux-gmp-c-mpz-popcount (mpz-obj op)))
 
 ;; mp_bitcnt_t mpz_hamdist (const mpz_t OP1, const mpz_t OP2)
 (cl-defgeneric mpz-hamdist (op1 op2)
   "Return the hamming distance between the two operands.")
-(cl-defmethod mpz-hamdist ((op1 mpz) (op2 mpz))
+(cl-defmethod  mpz-hamdist ((op1 mpz) (op2 mpz))
   "Return the hamming distance between the two operands."
   (mmux-gmp-c-mpz-hamdist (mpz-obj op1) (mpz-obj op2)))
 
 ;; mp_bitcnt_t mpz_scan0 (const mpz_t OP, mp_bitcnt_t STARTING_BIT)
 (cl-defgeneric mpz-scan0 (op starting-bit)
   "Scan OP for the first 0 bit.")
-(cl-defmethod mpz-scan0 ((op mpz) (starting-bit integer))
+(cl-defmethod  mpz-scan0 ((op mpz) (starting-bit integer))
   "Scan OP for the first 0 bit."
   (mmux-gmp-c-mpz-scan0 (mpz-obj op) starting-bit))
 
 ;; mp_bitcnt_t mpz_scan1 (const mpz_t OP, mp_bitcnt_t STARTING_BIT)
 (cl-defgeneric mpz-scan1 (op starting-bit)
   "Scan OP for the first 1 bit.")
-(cl-defmethod mpz-scan1 ((op mpz) (starting-bit integer))
+(cl-defmethod  mpz-scan1 ((op mpz) (starting-bit integer))
   "Scan OP for the first 1 bit."
   (mmux-gmp-c-mpz-scan1 (mpz-obj op) starting-bit))
 
 ;; void mpz_setbit (mpz_t ROP, mp_bitcnt_t BIT_INDEX)
 (cl-defgeneric mpz-setbit (rop bit-index)
   "Set bit BIT_INDEX in ROP.")
-(cl-defmethod mpz-setbit ((rop mpz) (bit-index integer))
+(cl-defmethod  mpz-setbit ((rop mpz) (bit-index integer))
   "Set bit BIT_INDEX in ROP."
   (mmux-gmp-c-mpz-setbit (mpz-obj rop) bit-index))
 
 ;; void mpz_clrbit (mpz_t ROP, mp_bitcnt_t BIT_INDEX)
 (cl-defgeneric mpz-clrbit (rop bit-index)
   "Clear bit BIT_INDEX in ROP.")
-(cl-defmethod mpz-clrbit ((rop mpz) (bit-index integer))
+(cl-defmethod  mpz-clrbit ((rop mpz) (bit-index integer))
   "Clear bit BIT_INDEX in ROP."
   (mmux-gmp-c-mpz-clrbit (mpz-obj rop) bit-index))
 
 ;; void mpz_combit (mpz_t ROP, mp_bitcnt_t BIT_INDEX)
 (cl-defgeneric mpz-combit (rop bit-index)
   "Complement bit BIT_INDEX in ROP.")
-(cl-defmethod mpz-combit ((rop mpz) (bit-index integer))
+(cl-defmethod  mpz-combit ((rop mpz) (bit-index integer))
   "Complement bit BIT_INDEX in ROP."
   (mmux-gmp-c-mpz-combit (mpz-obj rop) bit-index))
 
 ;; int mpz_tstbit (const mpz_t OP, mp_bitcnt_t BIT_INDEX)
 (cl-defgeneric mpz-tstbit (op bit-index)
   "Test bit BIT_INDEX in OP and return 0 or 1 accordingly.")
-(cl-defmethod mpz-tstbit ((op mpz) (bit-index integer))
+(cl-defmethod  mpz-tstbit ((op mpz) (bit-index integer))
   "Test bit BIT_INDEX in OP and return 0 or 1 accordingly."
   (mmux-gmp-c-mpz-tstbit (mpz-obj op) bit-index))
 
@@ -1234,37 +1234,37 @@
 
 ;; int mpz_fits_ulong_p (const mpz_t OP)
 (cl-defgeneric mpz-fits-ulong-p (op))
-(cl-defmethod mpz-fits-ulong-p ((op mpz))
+(cl-defmethod  mpz-fits-ulong-p ((op mpz))
   "Return true if the operand fits an `unsigned long int'; otherwise return false."
   (mmux-gmp-c-mpz-fits-ulong-p (mpz-obj op)))
 
 ;; int mpz_fits_slong_p (const mpz_t OP)
 (cl-defgeneric mpz-fits-slong-p (op))
-(cl-defmethod mpz-fits-slong-p ((op mpz))
+(cl-defmethod  mpz-fits-slong-p ((op mpz))
   "Return true if the operand fits a `signed long int'; otherwise return false."
   (mmux-gmp-c-mpz-fits-slong-p (mpz-obj op)))
 
 ;; int mpz_fits_uint_p (const mpz_t OP)
 (cl-defgeneric mpz-fits-uint-p (op))
-(cl-defmethod mpz-fits-uint-p ((op mpz))
+(cl-defmethod  mpz-fits-uint-p ((op mpz))
   "Return true if the operand fits an `unsigned int'; otherwise return false."
   (mmux-gmp-c-mpz-fits-uint-p (mpz-obj op)))
 
 ;; int mpz_fits_sint_p (const mpz_t OP)
 (cl-defgeneric mpz-fits-sint-p (op))
-(cl-defmethod mpz-fits-sint-p ((op mpz))
+(cl-defmethod  mpz-fits-sint-p ((op mpz))
   "Return true if the operand fits n `signed int'; otherwise return false."
   (mmux-gmp-c-mpz-fits-sint-p (mpz-obj op)))
 
 ;; int mpz_fits_ushort_p (const mpz_t OP)
 (cl-defgeneric mpz-fits-ushort-p (op))
-(cl-defmethod mpz-fits-ushort-p ((op mpz))
+(cl-defmethod  mpz-fits-ushort-p ((op mpz))
   "Return true if the operand fits an `unsigned short int'; otherwise return false."
   (mmux-gmp-c-mpz-fits-ushort-p (mpz-obj op)))
 
 ;; int mpz_fits_sshort_p (const mpz_t OP)
 (cl-defgeneric mpz-fits-sshort-p (op))
-(cl-defmethod mpz-fits-sshort-p ((op mpz))
+(cl-defmethod  mpz-fits-sshort-p ((op mpz))
   "Return true if the operand fits a `signed short int'; otherwise return false."
   (mmux-gmp-c-mpz-fits-sshort-p (mpz-obj op)))
 
@@ -1272,13 +1272,13 @@
 
 ;; int mpz_odd_p (const mpz_t OP)
 (cl-defgeneric mpz-odd-p (op))
-(cl-defmethod mpz-odd-p ((op mpz))
+(cl-defmethod  mpz-odd-p ((op mpz))
   "Return true if the operand is odd; otherwise return false."
   (mmux-gmp-c-mpz-odd-p (mpz-obj op)))
 
 ;; int mpz_even_p (const mpz_t OP)
 (cl-defgeneric mpz-even-p (op))
-(cl-defmethod mpz-even-p ((op mpz))
+(cl-defmethod  mpz-even-p ((op mpz))
   "Return true if the operand is even; otherwise return false."
   (mmux-gmp-c-mpz-even-p (mpz-obj op)))
 
@@ -1286,7 +1286,7 @@
 
 ;; size_t mpz_sizeinbase (const mpz_t OP, int BASE)
 (cl-defgeneric mpz-sizeinbase (op base))
-(cl-defmethod mpz-sizeinbase ((op mpz) (base integer))
+(cl-defmethod  mpz-sizeinbase ((op mpz) (base integer))
   "Return the size of OP measured in number of digits in the given BASE.
 
 The argument BASE can vary from 2 to 62."
@@ -1458,21 +1458,21 @@ The argument BASE can vary from 2 to 62."
 ;; int mpq_cmp (const mpq_t OP1, const mpq_t OP2)
 (cl-defgeneric mpq-cmp (op1 op2)
   "Compare OP1 and OP2.")
-(cl-defmethod mpq-cmp ((op1 mpq) (op2 mpq))
+(cl-defmethod  mpq-cmp ((op1 mpq) (op2 mpq))
   "Compare OP1 and OP2."
   (mmux-gmp-c-mpq-cmp (mpq-obj op1) (mpq-obj op2)))
 
 ;; int mpq_cmp_z (const mpq_t OP1, const mpz_t OP2)
 (cl-defgeneric mpq-cmp-z (op1 op2)
   "Compare OP1 and OP2.")
-(cl-defmethod mpq-cmp-z ((op1 mpq) (op2 mpz))
+(cl-defmethod  mpq-cmp-z ((op1 mpq) (op2 mpz))
   "Compare OP1 and OP2."
   (mmux-gmp-c-mpq-cmp-z (mpq-obj op1) (mpz-obj op2)))
 
 ;; int mpq_cmp_ui (const mpq_t OP1, unsigned long int NUM2, unsigned long int DEN2)
 (cl-defgeneric mpq-cmp-ui (op1 num2 den2)
   "Compare OP1 and NUM2/DEN2.")
-(cl-defmethod mpq-cmp-ui ((op1 mpq) (num2 integer) (den2 integer))
+(cl-defmethod  mpq-cmp-ui ((op1 mpq) (num2 integer) (den2 integer))
   "Compare OP1 and NUM2/DEN2."
   (cl-assert (<= 0 num2))
   (cl-assert (<= 0 den2))
@@ -1481,7 +1481,7 @@ The argument BASE can vary from 2 to 62."
 ;; int mpq_cmp_si (const mpq_t OP1, long int NUM2, unsigned long int DEN2)
 (cl-defgeneric mpq-cmp-si (op1 num2 den2)
   "Compare OP1 and NUM2/DEN2.")
-(cl-defmethod mpq-cmp-si ((op1 mpq) (num2 integer) (den2 integer))
+(cl-defmethod  mpq-cmp-si ((op1 mpq) (num2 integer) (den2 integer))
   "Compare OP1 and NUM2/DEN2."
   (cl-assert (<= 0 den2))
   (mmux-gmp-c-mpq-cmp-si (mpq-obj op1) num2 den2))
@@ -1489,14 +1489,14 @@ The argument BASE can vary from 2 to 62."
 ;; int mpq_sgn (const mpq_t OP)
 (cl-defgeneric mpq-sgn (op)
   "Return +1 if OP > 0, 0 if OP = 0, and -1 if OP < 0.")
-(cl-defmethod mpq-sgn ((op mpq))
+(cl-defmethod  mpq-sgn ((op mpq))
   "Return +1 if OP > 0, 0 if OP = 0, and -1 if OP < 0."
   (mmux-gmp-c-mpq-sgn (mpq-obj op)))
 
 ;; int mpq_equal (const mpq_t OP1, const mpq_t OP2)
 (cl-defgeneric mpq-equal (op1 op2)
   "Return non-zero if OP1 and OP2 are equal, zero if they are non-equal.")
-(cl-defmethod mpq-equal ((op1 mpq) (op2 mpq))
+(cl-defmethod  mpq-equal ((op1 mpq) (op2 mpq))
   "Return non-zero if OP1 and OP2 are equal, zero if they are non-equal."
   (mmux-gmp-c-mpq-equal (mpq-obj op1) (mpq-obj op2)))
 
@@ -1750,6 +1750,139 @@ The argument BASE can vary from 2 to 62."
 (cl-defmethod  mpf-add ((rop mpf) (op1 mpf) (op2 mpf))
   "Add two `mpf' objects."
   (mmux-gmp-c-mpf-add (mpf-obj rop) (mpf-obj op1) (mpf-obj op2)))
+
+
+;;;; floating-point number functions: comparison
+
+;; int mpf_cmp (const mpf_t OP1, const mpf_t OP2)
+(cl-defgeneric mpf-cmp (op1 op2)
+  "Compare OP1 and OP2.")
+(cl-defmethod  mpf-cmp ((op1 mpf) (op2 mpf))
+  "Compare OP1 and OP2."
+  (mmux-gmp-c-mpf-cmp (mpf-obj op1) (mpf-obj op2)))
+
+;; int mpf_cmp_z (const mpf_t OP1, const mpz_t OP2)
+(cl-defgeneric mpf-cmp-z (op1 op2)
+  "Compare OP1 and OP2.")
+(cl-defmethod  mpf-cmp-z ((op1 mpf) (op2 mpz))
+  "Compare OP1 and OP2."
+  (mmux-gmp-c-mpf-cmp-z (mpf-obj op1) (mpz-obj op2)))
+
+;; int mpf_cmp_d (const mpf_t OP1, double OP2)
+(cl-defgeneric mpf-cmp-d (op1 op2)
+  "Compare OP1 and OP2.")
+(cl-defmethod  mpf-cmp-d ((op1 mpf) (op2 float))
+  "Compare OP1 and OP2."
+  (mmux-gmp-c-mpf-cmp-d (mpf-obj op1) op2))
+
+;; int mpf_cmp_ui (const mpf_t OP1, unsigned long int OP2)
+(cl-defgeneric mpf-cmp-ui (op1 op2)
+  "Compare OP1 and OP2.")
+(cl-defmethod  mpf-cmp-ui ((op1 mpf) (op2 integer))
+  "Compare OP1 and OP2."
+  (cl-assert (<= 0 op2))
+  (mmux-gmp-c-mpf-cmp-ui (mpf-obj op1) op2))
+
+;; int mpf_cmp_si (const mpf_t OP1, long int OP2)
+(cl-defgeneric mpf-cmp-si (op1 op2)
+  "Compare OP1 and OP2.")
+(cl-defmethod  mpf-cmp-si ((op1 mpf) (op2 integer))
+  "Compare OP1 and OP2."
+  (mmux-gmp-c-mpf-cmp-si (mpf-obj op1) op2))
+
+;; int mpf_sgn (const mpf_t OP)
+(cl-defgeneric mpf-sgn (op)
+  "Return +1 if OP > 0, 0 if OP = 0, and -1 if OP < 0.")
+(cl-defmethod  mpf-sgn ((op mpf))
+  "Return +1 if OP > 0, 0 if OP = 0, and -1 if OP < 0."
+  (mmux-gmp-c-mpf-sgn (mpf-obj op)))
+
+;; void mpf_reldiff (mpf_t ROP, const mpf_t OP1, const mpf_t OP2)
+(cl-defgeneric mpf-reldiff (rop op1 op2)
+  "Compute the relative difference between OP1 and OP2 and store the result in ROP.  This is abs(OP1-OP2)/OP1.")
+(cl-defmethod  mpf-reldiff ((rop mpf) (op1 mpf) (op2 mpf))
+  "Compute the relative difference between OP1 and OP2 and store the result in ROP.  This is abs(OP1-OP2)/OP1."
+  (mmux-gmp-c-mpf-reldiff (mpf-obj rop) (mpf-obj op1) (mpf-obj op2)))
+
+(cl-defgeneric mpf-equal (op1 op2)
+  "Return true the operands are equal; otherwise return false.")
+(cl-defmethod  mpf-equal ((op1 mpf) (op2 mpf))
+  "Return true the operands are equal; otherwise return false."
+  (= 0 (mmux-gmp-c-mpf-cmp (mpf-obj op1) (mpf-obj op2))))
+
+;;; --------------------------------------------------------------------
+
+(cl-defgeneric mpf-zero-p (op)
+  "Return true if OP is zero; otherwise return false.")
+(cl-defmethod  mpf-zero-p ((op mpf))
+  "Return true if OP is zero; otherwise return false."
+  (= 0 (mpf-cmp-si op 0)))
+
+(cl-defgeneric mpf-non-zero-p (op)
+  "Return true if OP is non-zero; otherwise return false.")
+(cl-defmethod  mpf-non-zero-p ((op mpf))
+  "Return true if OP is non-zero; otherwise return false."
+  (not (= 0 (mpf-cmp-si op 0))))
+
+;;; --------------------------------------------------------------------
+
+(cl-defgeneric mpf-positive-p (op)
+  "Return true if OP is strictly positive; otherwise return false.")
+(cl-defmethod  mpf-positive-p ((op mpf))
+  "Return true if OP is strictly positive; otherwise return false."
+  (= +1 (mpf-cmp-si op 0)))
+
+(cl-defgeneric mpf-negative-p (op)
+  "Return true if OP is strictly negative; otherwise return false.")
+(cl-defmethod  mpf-negative-p ((op mpf))
+  "Return true if OP is strictly negative; otherwise return false."
+  (= -1 (mpf-cmp-si op 0)))
+
+;;; --------------------------------------------------------------------
+
+(cl-defgeneric mpf-non-positive-p (op)
+  "Return true if OP is non-positive; otherwise return false.")
+(cl-defmethod  mpf-non-positive-p ((op mpf))
+  "Return true if OP is non-positive; otherwise return false."
+  (>= 0 (mpf-cmp-si op 0)))
+
+(cl-defgeneric mpf-non-negative-p (op)
+  "Return true if OP is non-negative; otherwise return false.")
+(cl-defmethod  mpf-non-negative-p ((op mpf))
+  "Return true if OP is non-negative; otherwise return false."
+  (<= 0 (mpf-cmp-si op 0)))
+
+;;; --------------------------------------------------------------------
+
+(cl-defgeneric mpf< (op &rest ops)
+  "Return true if each argument is strictly less than the following argument; otherwise return false.")
+(cl-defmethod  mpf< ((op1 mpf) (op2 mpf))
+  "Return true if each argument is strictly less than the following argument; otherwise return false."
+  (> 0 (mpf-cmp op1 op2)))
+
+(cl-defgeneric mpf> (op &rest ops)
+  "Return true if each argument is strictly greater than the following argument; otherwise return false.")
+(cl-defmethod  mpf> ((op1 mpf) (op2 mpf))
+  "Return true if each argument is strictly greater than the following argument; otherwise return false."
+  (< 0 (mpf-cmp op1 op2)))
+
+(cl-defgeneric mpf<= (op &rest ops)
+  "Return true if each argument is strictly less than, or equal to, the following argument; otherwise return false.")
+(cl-defmethod  mpf<= ((op1 mpf) (op2 mpf))
+  "Return true if each argument is strictly less than, or equal to, the following argument; otherwise return false."
+  (>= 0 (mpf-cmp op1 op2)))
+
+(cl-defgeneric mpf>= (op &rest ops)
+  "Return true if each argument is greater than, or equal to, the following argument; otherwise return false.")
+(cl-defmethod  mpf>= ((op1 mpf) (op2 mpf))
+  "Return true if each argument is greater than, or equal to, the following argument; otherwise return false."
+  (<= 0 (mpf-cmp op1 op2)))
+
+(cl-defgeneric mpf= (op &rest ops)
+  "Return true if each argument is equal to the following argument; otherwise return false.")
+(cl-defmethod  mpf= ((op1 mpf) (op2 mpf))
+  "Return true if each argument is equal to the following argument; otherwise return false."
+  (mpf-equal op1 op2))
 
 
 ;;;; random number functions: state initialisation

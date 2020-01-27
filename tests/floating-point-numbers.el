@@ -211,6 +211,140 @@
     (should (equal "-0.1234e+2" (mpf-get-str* +10 ndigits op)))))
 
 
+;;;; comparison functions
+
+;; int mpf_cmp (const mpf_t OP1, const mpf_t OP2)
+(ert-deftest mpf-cmp ()
+  "Compare OP1 and OP2."
+  (should (equal -1 (mpf-cmp (mpf 1.2) (mpf 3.4))))
+  (should (equal  0 (mpf-cmp (mpf 1.2) (mpf 1.2))))
+  (should (equal +1 (mpf-cmp (mpf 3.4) (mpf 1.2)))))
+
+;; int mpf_cmp_z (const mpf_t OP1, const mpz_t OP2)
+(ert-deftest mpf-cmp-z ()
+  "Compare OP1 and OP2."
+  (should (equal -1 (mpf-cmp-z (mpf 1.2) (mpz 2))))
+  (should (equal  0 (mpf-cmp-z (mpf 1.0) (mpz 1))))
+  (should (equal +1 (mpf-cmp-z (mpf 1.2) (mpz 1)))))
+
+;; int mpf_cmp_d (const mpf_t OP1, double OP2)
+(ert-deftest mpf-cmp-d ()
+  "Compare OP1 and OP2."
+  (should (equal -1 (mpf-cmp-d (mpf 1.2) 3.4)))
+  (should (equal  0 (mpf-cmp-d (mpf 1.2) 1.2)))
+  (should (equal +1 (mpf-cmp-d (mpf 3.4) 1.2))))
+
+;; int mpf_cmp_ui (const mpf_t OP1, unsigned long int OP2)
+(ert-deftest mpf-cmp-ui ()
+  "Compare OP1 and OP2."
+  (should (equal -1 (mpf-cmp-ui (mpf 1.2) 2)))
+  (should (equal  0 (mpf-cmp-ui (mpf 1.0) 1)))
+  (should (equal +1 (mpf-cmp-ui (mpf 1.2) 1))))
+
+;; int mpf_cmp_si (const mpf_t OP1, long int OP2)
+(ert-deftest mpf-cmp-si ()
+  "Compare OP1 and OP2."
+  (should (equal -1 (mpf-cmp-si (mpf -2.1) -2)))
+  (should (equal  0 (mpf-cmp-si (mpf -1.0) -1)))
+  (should (equal +1 (mpf-cmp-si (mpf -1.0) -2))))
+
+;; int mpf_sgn (const mpf_t OP)
+(ert-deftest mpf-sgn ()
+  "Return +1 if OP > 0, 0 if OP = 0, and -1 if OP < 0."
+  (should (equal -1 (mpf-sgn (mpf -1.0))))
+  (should (equal  0 (mpf-sgn (mpf  0.0))))
+  (should (equal +1 (mpf-sgn (mpf +1.0)))))
+
+;; void mpf_reldiff (mpf_t ROP, const mpf_t OP1, const mpf_t OP2)
+(ert-deftest mpf-reldiff ()
+  "Compute the relative difference between OP1 and OP2 and store the result in ROP.  This is abs(OP1-OP2)/OP1."
+  (let ((rop	(mpf))
+	(op1	(mpf 1.2))
+	(op2	(mpf 3.4)))
+    (mpf-reldiff rop op1 op2)
+    (let ((X (/ (abs (- 1.2 3.4)) 1.2)))
+      (should (< (- X 0.00001)
+		 (mpf-get-d rop)
+		 (+ X 0.00001))))))
+
+(ert-deftest mpf-equal ()
+  "Return true the operands are equal; otherwise return false."
+  (should      (mpf-equal (mpf 1.2) (mpf 1.2)))
+  (should (not (mpf-equal (mpf 1.2) (mpf 3.4)))))
+
+;; ;;; --------------------------------------------------------------------
+
+(ert-deftest mpf-zero-p ()
+  "Return true if OP is zero; otherwise return false."
+  (should      (mpf-zero-p (mpf 0.0)))
+  (should (not (mpf-zero-p (mpf 1.0)))))
+
+(ert-deftest mpf-non-zero-p ()
+  "Return true if OP is non-zero; otherwise return false."
+  (should (mpf-non-zero-p (mpf 1.0)))
+  (should (not (mpf-non-zero-p (mpf 0.0)))))
+
+;;; --------------------------------------------------------------------
+
+(ert-deftest mpf-positive-p ()
+  "Return true if OP is strictly positive; otherwise return false."
+  (should      (mpf-positive-p (mpf +1.0)))
+  (should (not (mpf-positive-p (mpf  0.0))))
+  (should (not (mpf-positive-p (mpf -1.0)))))
+
+(ert-deftest mpf-negative-p ()
+  "Return true if OP is strictly negative; otherwise return false."
+  (should (not (mpf-negative-p (mpf +1.0))))
+  (should (not (mpf-negative-p (mpf  0.0))))
+  (should      (mpf-negative-p (mpf -1.0))))
+
+;;; --------------------------------------------------------------------
+
+(ert-deftest mpf-non-positive-p ()
+  "Return true if OP is non-positive; otherwise return false."
+  (should (not (mpf-non-positive-p (mpf +1.0))))
+  (should      (mpf-non-positive-p (mpf  0.0)))
+  (should      (mpf-non-positive-p (mpf -1.0))))
+
+(ert-deftest mpf-non-negative-p ()
+  "Return true if OP is non-negative; otherwise return false."
+  (should      (mpf-non-negative-p (mpf +1.0)))
+  (should      (mpf-non-negative-p (mpf  0.0)))
+  (should (not (mpf-non-negative-p (mpf -1.0)))))
+
+;;; --------------------------------------------------------------------
+
+(ert-deftest mpf< ()
+  "Return true if each argument is strictly less than the following argument; otherwise return false."
+  (should      (mpf< (mpf 1.0) (mpf 2.0)))
+  (should (not (mpf< (mpf 1.0) (mpf 1.0))))
+  (should (not (mpf< (mpf 2.0) (mpf 1.0)))))
+
+(ert-deftest mpf> ()
+  "Return true if each argument is strictly greater than the following argument; otherwise return false."
+  (should (not (mpf> (mpf 1.0) (mpf 2.0))))
+  (should (not (mpf> (mpf 1.0) (mpf 1.0))))
+  (should      (mpf> (mpf 2.0) (mpf 1.0))))
+
+(ert-deftest mpf<= ()
+  "Return true if each argument is strictly less than, or equal to, the following argument; otherwise return false."
+  (should      (mpf<= (mpf 1.0) (mpf 2.0)))
+  (should      (mpf<= (mpf 1.0) (mpf 1.0)))
+  (should (not (mpf<= (mpf 2.0) (mpf 1.0)))))
+
+(ert-deftest mpf>= ()
+  "Return true if each argument is greater than, or equal to, the following argument; otherwise return false."
+  (should (not (mpf>= (mpf 1.0) (mpf 2.0))))
+  (should      (mpf>= (mpf 1.0) (mpf 1.0)))
+  (should      (mpf>= (mpf 2.0) (mpf 1.0))))
+
+(ert-deftest mpf= ()
+  "Return true if each argument is equal to the following argument; otherwise return false."
+  (should (not (mpf= (mpf 1.0) (mpf 2.0))))
+  (should      (mpf= (mpf 1.0) (mpf 1.0)))
+  (should (not (mpf= (mpf 2.0) (mpf 1.0)))))
+
+
 ;;;; done
 
 (garbage-collect)

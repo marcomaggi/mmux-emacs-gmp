@@ -3198,6 +3198,8 @@ correctly garbage collected.
                                 number objects.
 * floats conversion::           Converting floating-point numbers to
                                 other objects.
+* floats arithmetic::           Arithmetic operations.
+* floats comparison::           Comparison functions.
 @end menu
 
 @c page
@@ -3484,6 +3486,262 @@ arguments @var{BASE} and @var{NDIGITS} are the same as documented for @func{mpf-
 
 (mpf-get-str* 10 5 (mpf))
 @result{} "0.0"
+@end lisp
+@end deffn
+
+@c page
+@node floats arithmetic
+@section Arithmetic operations
+
+
+
+@c page
+@node floats comparison
+@section Comparison functions
+
+
+@c int mpf_cmp (const mpf_t OP1, const mpf_t OP2)
+@deffn {Generic Function} mpf-cmp (@vari{OP} @varii{OP})
+@deffnx {Method} mpf-cmp ((@vari{OP} mpf) (@varii{OP} mpf))
+Compare @vari{OP} and @varii{OP}.
+
+@lisp
+(mpf-cmp (mpf 1.2) (mpf 3.4))           @result{} -1
+(mpf-cmp (mpf 1.2) (mpf 1.2))           @result{}  0
+(mpf-cmp (mpf 3.4) (mpf 1.2)))          @result{} +1
+@end lisp
+@end deffn
+
+
+@c int mpf_cmp_z (const mpf_t OP1, const mpz_t OP2)
+@deffn {Generic Function} mpf-cmp-z (@vari{OP} @varii{OP})
+@deffnx {Method} mpf-cmp-z ((@vari{OP} mpf) (@varii{OP} mpz))
+Compare @vari{OP} and @varii{OP}.
+
+@lisp
+(mpf-cmp-z (mpf 1.2) (mpz 2))           @result{} -1
+(mpf-cmp-z (mpf 1.0) (mpz 1))           @result{}  0
+(mpf-cmp-z (mpf 1.2) (mpz 1))           @result{} +1
+@end lisp
+@end deffn
+
+
+@c int mpf_cmp_d (const mpf_t OP1, double OP2)
+@deffn {Generic Function} mpf-cmp-d (@vari{OP} @varii{OP})
+@deffnx {Method} mpf-cmp-d ((@vari{OP} mpf) (@varii{OP} float))
+Compare @vari{OP} and @varii{OP}.
+
+@lisp
+(mpf-cmp-d (mpf 1.2) 3.4)               @result{} -1
+(mpf-cmp-d (mpf 1.2) 1.2)               @result{}  0
+(mpf-cmp-d (mpf 3.4) 1.2)               @result{} +1
+@end lisp
+@end deffn
+
+
+@c int mpf_cmp_ui (const mpf_t OP1, unsigned long int OP2)
+@deffn {Generic Function} mpf-cmp-ui (@vari{op} @varii{op})
+@deffnx {Method} mpf-cmp-ui ((@vari{OP} mpf) (@varii{OP} integer))
+Compare @vari{OP} and @varii{OP}.
+
+@lisp
+(mpf-cmp-ui (mpf 1.2) 2)                @result{} -1
+(mpf-cmp-ui (mpf 1.0) 1)                @result{}  0
+(mpf-cmp-ui (mpf 1.2) 1)                @result{} +1
+@end lisp
+@end deffn
+
+
+@c int mpf_cmp_si (const mpf_t OP1, long int OP2)
+@deffn {Generic Function} mpf-cmp-si (@vari{OP} @varii{OP})
+@deffnx {Method} mpf-cmp-si ((@vari{OP} mpf) (@varii{OP} integer))
+Compare @vari{OP} and @varii{OP}.
+
+@lisp
+(mpf-cmp-si (mpf -2.1) -2)              @result{} -1
+(mpf-cmp-si (mpf -1.0) -1)              @result{}  0
+(mpf-cmp-si (mpf -1.0) -2)              @result{} +1
+@end lisp
+@end deffn
+
+
+@c int mpf_sgn (const mpf_t OP)
+@deffn {Generic Function} mpf-sgn (@var{OP})
+@deffnx {Method} mpf-sgn ((@var{OP} mpf))
+Return +1 if @var{OP} > 0, 0 if @var{OP} = 0, and -1 if @var{OP} < 0.
+
+@lisp
+(mpf-sgn (mpf -1.0))            @result{} -1
+(mpf-sgn (mpf  0.0))            @result{}  0
+(mpf-sgn (mpf +1.0))            @result{} +1
+@end lisp
+@end deffn
+
+
+@c void mpf_reldiff (mpf_t ROP, const mpf_t OP1, const mpf_t OP2)
+@deffn {Generic Function} mpf-reldiff (@var{ROP} @vari{OP} @varii{OP})
+@deffnx {Method} mpf-reldiff ((@var{ROP} mpf) (@vari{OP} mpf) (@varii{OP} mpf))
+Compute the relative difference between @vari{OP} and @varii{OP} and store the result in @var{ROP}.  This
+is abs(@vari{OP}-@varii{OP})/@vari{OP}.
+
+@lisp
+(let ((rop    (mpf))
+      (op1    (mpf 1.2))
+      (op2    (mpf 3.4)))
+  (mpf-reldiff rop op1 op2)
+  (let ((X (/ (abs (- 1.2 3.4)) 1.2)))
+    (< (- X 0.00001)
+       (mpf-get-d rop)
+       (+ X 0.00001))))
+@result{} t
+@end lisp
+@end deffn
+
+
+@deffn {Generic Function} mpf-equal (@vari{OP} @varii{OP})
+@deffnx {Method} mpf-equal ((@vari{OP} mpf) (@varii{OP} mpf))
+Return true the operands are equal; otherwise return false.
+
+@lisp
+(mpf-equal (mpf 1.2) (mpf 1.2)))                @result{} t
+(mpf-equal (mpf 1.2) (mpf 3.4)))))              @result{} nil
+@end lisp
+@end deffn
+
+@c --------------------------------------------------------------------
+
+@deffn {Generic Function} mpf-zero-p (@var{OP})
+@deffnx {Method} mpf-zero-p ((@var{OP} mpf))
+Return true if @var{OP} is zero; otherwise return false.
+
+@lisp
+(mpf-zero-p (mpf 0.0)))         @result{} t
+(mpf-zero-p (mpf 1.0)))))       @result{} nil
+@end lisp
+@end deffn
+
+
+@deffn {Generic Function} mpf-non-zero-p (@var{OP})
+@deffnx {Method} mpf-non-zero-p ((@var{OP} mpf))
+Return true if @var{OP} is non-zero; otherwise return false.
+
+@lisp
+(mpf-non-zero-p (mpf 1.0)))     @result{} t
+(mpf-non-zero-p (mpf 0.0)))     @result{} nil
+@end lisp
+@end deffn
+
+@c --------------------------------------------------------------------
+
+@deffn {Generic Function} mpf-positive-p (@var{OP})
+@deffnx {Method} mpf-positive-p ((@var{OP} mpf))
+Return true if @var{OP} is strictly positive; otherwise return false.
+
+@lisp
+(mpf-positive-p (mpf +1.0)))    @result{} t
+(mpf-positive-p (mpf  0.0)))    @result{} nil
+(mpf-positive-p (mpf -1.0)))    @result{} nil
+@end lisp
+@end deffn
+
+
+@deffn {Generic Function} mpf-negative-p (@var{OP})
+@deffnx {Method} mpf-negative-p ((@var{OP} mpf))
+Return true if @var{OP} is strictly negative; otherwise return false.
+
+@lisp
+(mpf-negative-p (mpf +1.0))     @result{} nil
+(mpf-negative-p (mpf  0.0))     @result{} nil
+(mpf-negative-p (mpf -1.0))     @result{} t
+@end lisp
+@end deffn
+
+@c --------------------------------------------------------------------
+
+@deffn {Generic Function} mpf-non-positive-p (@var{OP})
+@deffnx {Method} mpf-non-positive-p ((@var{OP} mpf))
+Return true if @var{OP} is non-positive; otherwise return false.
+
+@lisp
+(mpf-non-positive-p (mpf +1.0)) @result{} nil
+(mpf-non-positive-p (mpf  0.0)) @result{} t
+(mpf-non-positive-p (mpf -1.0)) @result{} t
+@end lisp
+@end deffn
+
+
+@deffn {Generic Function} mpf-non-negative-p (@var{OP})
+@deffnx {Method} mpf-non-negative-p ((@var{OP} mpf))
+Return true if @var{OP} is non-negative; otherwise return false.
+
+@lisp
+(mpf-non-negative-p (mpf +1.0)) @result{} t
+(mpf-non-negative-p (mpf  0.0)) @result{} t
+(mpf-non-negative-p (mpf -1.0)) @result{} nil
+@end lisp
+@end deffn
+
+@c --------------------------------------------------------------------
+
+@deffn {Generic Function} mpf< (@var{OP} &rest @var{OPS})
+@deffnx {Method} mpf< ((@vari{OP} mpf) (@varii{OP} mpf))
+Return true if each argument is strictly less than the following argument; otherwise return false.
+
+@lisp
+(mpf< (mpf 1.0) (mpf 2.0))      @result{} t
+(mpf< (mpf 1.0) (mpf 1.0))      @result{} nil
+(mpf< (mpf 2.0) (mpf 1.0))      @result{} nil
+@end lisp
+@end deffn
+
+
+@deffn {Generic Function} mpf> (@var{OP} &rest @var{OPS})
+@deffnx {Method} mpf> ((@vari{OP} mpf) (@varii{OP} mpf))
+Return true if each argument is strictly greater than the following argument; otherwise return
+false.
+
+@lisp
+(mpf> (mpf 1.0) (mpf 2.0))      @result{} nil
+(mpf> (mpf 1.0) (mpf 1.0))      @result{} nil
+(mpf> (mpf 2.0) (mpf 1.0))      @result{} t
+@end lisp
+@end deffn
+
+
+@deffn {Generic Function} mpf<= (@var{OP} &rest @var{OPS})
+@deffnx {Method} mpf<= ((@vari{OP} mpf) (@varii{OP} mpf))
+Return true if each argument is strictly less than, or equal to, the following argument; otherwise
+return false.
+
+@lisp
+(mpf<= (mpf 1.0) (mpf 2.0)))    @result{} t
+(mpf<= (mpf 1.0) (mpf 1.0)))    @result{} t
+(mpf<= (mpf 2.0) (mpf 1.0)))    @result{} nil
+@end lisp
+@end deffn
+
+
+@deffn {Generic Function} mpf>= (@var{OP} &rest @var{OPS})
+@deffnx {Method} mpf>= ((@vari{OP} mpf) (@varii{OP} mpf))
+Return true if each argument is greater than, or equal to, the following argument; otherwise return
+false.
+
+@lisp
+(mpf>= (mpf 1.0) (mpf 2.0))     @result{} nil
+(mpf>= (mpf 1.0) (mpf 1.0))     @result{} t
+(mpf>= (mpf 2.0) (mpf 1.0))     @result{} t
+@end lisp
+@end deffn
+
+
+@deffn {Generic Function} mpf= (@var{OP} &rest @var{OPS})
+@deffnx {Method} mpf= ((@vari{OP} mpf) (@varii{OP} mpf))
+Return true if each argument is equal to the following argument; otherwise return false.
+
+@lisp
+(mpf= (mpf 1.0) (mpf 2.0))      @result{} nil
+(mpf= (mpf 1.0) (mpf 1.0))      @result{} t
+(mpf= (mpf 2.0) (mpf 1.0))      @result{} nil
 @end lisp
 @end deffn
 
