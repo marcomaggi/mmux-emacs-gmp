@@ -2981,6 +2981,143 @@ Return non-zero if @vari{OP} and @varii{OP} are equal, zero if they are non-equa
 @end lisp
 @end deffn
 
+@c ------------------------------------------------------------------------
+
+@deffn {Generic Function} mpq-zero-p (@var{OP})
+@deffnx {Method} mpq-zero-p ((@var{OP} mpq))
+Return true if @var{OP} is zero; otherwise return false.
+
+@lisp
+(mpq-zero-p (mpq -1 2))         @result{} nil
+(mpq-zero-p (mpq  0 2))         @result{} t
+(mpq-zero-p (mpq +1 2))         @result{} nil
+@end lisp
+@end deffn
+
+
+@deffn {Generic Function} mpq-non-zero-p (@var{OP})
+@deffnx {Method} mpq-non-zero-p ((@var{OP} mpq))
+Return true if @var{OP} is non-zero; otherwise return false.
+
+@lisp
+(mpq-non-zero-p (mpq -1 2))     @result{} t
+(mpq-non-zero-p (mpq  0 2))     @result{} nil
+(mpq-non-zero-p (mpq +1 2))     @result{} t
+@end lisp
+@end deffn
+
+
+@deffn {Generic Function} mpq-positive-p (@var{OP})
+@deffnx {Method} mpq-positive-p ((@var{OP} mpq))
+Return true if @var{OP} is strictly positive; otherwise return false.
+
+@lisp
+(mpq-positive-p (mpq -1 2))     @result{} nil
+(mpq-positive-p (mpq  0 2))     @result{} nil
+(mpq-positive-p (mpq +1 2))     @result{} t
+@end lisp
+@end deffn
+
+
+@deffn {Generic Function} mpq-negative-p (@var{OP})
+@deffnx {Method} mpq-negative-p ((@var{OP} mpq))
+Return true if @var{OP} is strictly negative; otherwise return false.
+
+@lisp
+(mpq-negative-p (mpq -1 2))     @result{} t
+(mpq-negative-p (mpq  0 2))     @result{} nil
+(mpq-negative-p (mpq +1 2))     @result{} nil
+@end lisp
+@end deffn
+
+
+@deffn {Generic Function} mpq-non-positive-p (@var{OP})
+@deffnx {Method} mpq-non-positive-p ((@var{OP} mpq))
+Return true if @var{OP} is non-positive; otherwise return false.
+
+@lisp
+(mpq-non-positive-p (mpq -1 2)) @result{} t
+(mpq-non-positive-p (mpq  0 2)) @result{} t
+(mpq-non-positive-p (mpq +1 2)) @result{} nil
+@end lisp
+@end deffn
+
+
+@deffn {Generic Function} mpq-non-negative-p (@var{OP})
+@deffnx {Method} mpq-non-negative-p ((@var{OP} mpq))
+Return true if @var{OP} is non-negative; otherwise return false.
+
+@lisp
+(mpq-non-negative-p (mpq -1 2)) @result{} nil
+(mpq-non-negative-p (mpq  0 2)) @result{} t
+(mpq-non-negative-p (mpq +1 2)) @result{} t
+@end lisp
+@end deffn
+
+@c ------------------------------------------------------------------------
+
+@deffn {Generic Function} mpq< (@var{OP} &rest @var{OPS})
+@deffnx {Method} mpq< ((@vari{OP} mpq) (@varii{OP} mpq))
+Return true if each argument is strictly less than the following argument; otherwise return false.
+
+@lisp
+(mpq< (mpq 1 2) (mpq 2 2))      @result{} t
+(mpq< (mpq 1 2) (mpq 1 2))      @result{} nil
+(mpq< (mpq 2 2) (mpq 1 2))      @result{} nil
+@end lisp
+@end deffn
+
+
+@deffn {Generic Function} mpq> (@var{OP} &rest @var{OPS})
+@deffnx {Method} mpq> ((@vari{OP} mpq) (@varii{OP} mpq))
+Return true if each argument is strictly greater than the following argument; otherwise return
+false.
+
+@lisp
+(mpq> (mpq 1 2) (mpq 2 2))      @result{} nil
+(mpq> (mpq 1 2) (mpq 1 2))      @result{} nil
+(mpq> (mpq 2 2) (mpq 1 2))      @result{} t
+@end lisp
+@end deffn
+
+
+@deffn {Generic Function} mpq<= (@var{OP} &rest @var{OPS})
+@deffnx {Method} mpq<= ((@vari{OP} mpq) (@varii{OP} mpq))
+Return true if each argument is strictly less than, or equal to, the following argument; otherwise
+return false.
+
+@lisp
+(mpq<= (mpq 1 2) (mpq 2 2))     @result{} t
+(mpq<= (mpq 1 2) (mpq 1 2))     @result{} t
+(mpq<= (mpq 2 2) (mpq 1 2))     @result{} nil
+@end lisp
+@end deffn
+
+
+@deffn {Generic Function} mpq>= (@var{OP} &rest @var{OPS})
+@deffnx {Method} mpq>= ((@vari{OP} mpq) (@varii{OP} mpq))
+Return true if each argument is greater than, or equal to, the following argument; otherwise return
+false.
+
+@lisp
+(mpq>= (mpq 1 2) (mpq 2 2))     @result{} nil
+(mpq>= (mpq 1 2) (mpq 1 2))     @result{} t
+(mpq>= (mpq 2 2) (mpq 1 2))     @result{} t
+@end lisp
+@end deffn
+
+
+@deffn {Generic Function} mpq= (@var{OP} &rest @var{OPS})
+@deffnx {Method} mpq= ((@vari{OP} mpq) (@varii{OP} mpq))
+Return true if each argument is equal to the following argument; otherwise return false.
+
+@lisp
+(mpq= (mpq 1 2) (mpq 2 2))      @result{} nil
+(mpq= (mpq 1 2) (mpq 1 2))      @result{} t
+(mpq= (mpq 2 2) (mpq 1 2))      @result{} nil
+@end lisp
+@end deffn
+
 @c page
 @node floats
 @chapter Floating-point number objects and operations

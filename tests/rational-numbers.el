@@ -177,6 +177,80 @@
   (should      (mpq-equal (mpq 1 2) (mpq 1 2)))
   (should (not (mpq-equal (mpq 1 2) (mpq 3 2)))))
 
+;;; --------------------------------------------------------------------
+
+(ert-deftest mpq-zero-p ()
+  "Return true if OP is zero; otherwise return false."
+  (should (not (mpq-zero-p (mpq -1 2))))
+  (should      (mpq-zero-p (mpq  0 2)))
+  (should (not (mpq-zero-p (mpq +1 2)))))
+
+(ert-deftest mpq-non-zero-p ()
+  "Return true if OP is non-zero; otherwise return false."
+  (should      (mpq-non-zero-p (mpq -1 2)))
+  (should (not (mpq-non-zero-p (mpq  0 2))))
+  (should      (mpq-non-zero-p (mpq +1 2))))
+
+;;; --------------------------------------------------------------------
+
+(ert-deftest mpq-positive-p ()
+  "Return true if OP is strictly positive; otherwise return false."
+  (should (not (mpq-positive-p (mpq -1 2))))
+  (should (not (mpq-positive-p (mpq  0 2))))
+  (should      (mpq-positive-p (mpq +1 2))))
+
+(ert-deftest mpq-negative-p ()
+  "Return true if OP is strictly negative; otherwise return false."
+  (should      (mpq-negative-p (mpq -1 2)))
+  (should (not (mpq-negative-p (mpq  0 2))))
+  (should (not (mpq-negative-p (mpq +1 2)))))
+
+;;; --------------------------------------------------------------------
+
+(ert-deftest mpq-non-positive-p ()
+  "Return true if OP is non-positive; otherwise return false."
+  (should      (mpq-non-positive-p (mpq -1 2)))
+  (should      (mpq-non-positive-p (mpq  0 2)))
+  (should (not (mpq-non-positive-p (mpq +1 2)))))
+
+(ert-deftest mpq-non-negative-p ()
+  "Return true if OP is non-negative; otherwise return false."
+  (should (not (mpq-non-negative-p (mpq -1 2))))
+  (should      (mpq-non-negative-p (mpq  0 2)))
+  (should      (mpq-non-negative-p (mpq +1 2))))
+
+;;; --------------------------------------------------------------------
+
+(ert-deftest mpq< ()
+  "Compare operands."
+  (should      (mpq< (mpq 1 2) (mpq 2 2)))
+  (should (not (mpq< (mpq 1 2) (mpq 1 2))))
+  (should (not (mpq< (mpq 2 2) (mpq 1 2)))))
+
+(ert-deftest mpq> ()
+  "Compare operands."
+  (should (not (mpq> (mpq 1 2) (mpq 2 2))))
+  (should (not (mpq> (mpq 1 2) (mpq 1 2))))
+  (should      (mpq> (mpq 2 2) (mpq 1 2))))
+
+(ert-deftest mpq<= ()
+  "Compare operands."
+  (should      (mpq<= (mpq 1 2) (mpq 2 2)))
+  (should      (mpq<= (mpq 1 2) (mpq 1 2)))
+  (should (not (mpq<= (mpq 2 2) (mpq 1 2)))))
+
+(ert-deftest mpq>= ()
+  "Compare operands."
+  (should (not (mpq>= (mpq 1 2) (mpq 2 2))))
+  (should      (mpq>= (mpq 1 2) (mpq 1 2)))
+  (should      (mpq>= (mpq 2 2) (mpq 1 2))))
+
+(ert-deftest mpq= ()
+  "Compare operands."
+  (should (not (mpq= (mpq 1 2) (mpq 2 2))))
+  (should      (mpq= (mpq 1 2) (mpq 1 2)))
+  (should (not (mpq= (mpq 2 2) (mpq 1 2)))))
+
 
 ;;;; done
 

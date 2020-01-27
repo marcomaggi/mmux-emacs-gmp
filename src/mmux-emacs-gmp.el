@@ -4,7 +4,7 @@
 
 ;; Author: Marco Maggi <mrc.mgg@gmail.com>
 ;; Created: Jan 15, 2020
-;; Time-stamp: <2020-01-27 06:46:52 marco>
+;; Time-stamp: <2020-01-27 07:15:17 marco>
 ;; Keywords: extensions
 
 ;; This file is part of MMUX Emacs GMP.
@@ -1481,6 +1481,80 @@ The argument BASE can vary from 2 to 62."
 (cl-defmethod mpq-equal ((op1 mpq) (op2 mpq))
   "Return non-zero if OP1 and OP2 are equal, zero if they are non-equal."
   (mmux-gmp-c-mpq-equal (mpq-obj op1) (mpq-obj op2)))
+
+;;; --------------------------------------------------------------------
+
+(cl-defgeneric mpq-zero-p (op)
+  "Return true if OP is zero; otherwise return false.")
+(cl-defmethod  mpq-zero-p ((op mpq))
+  "Return true if OP is zero; otherwise return false."
+  (= 0 (mpq-cmp-si op 0 1)))
+
+(cl-defgeneric mpq-non-zero-p (op)
+  "Return true if OP is non-zero; otherwise return false.")
+(cl-defmethod  mpq-non-zero-p ((op mpq))
+  "Return true if OP is non-zero; otherwise return false."
+  (not (= 0 (mpq-cmp-si op 0 1))))
+
+;;; --------------------------------------------------------------------
+
+(cl-defgeneric mpq-positive-p (op)
+  "Return true if OP is strictly positive; otherwise return false.")
+(cl-defmethod  mpq-positive-p ((op mpq))
+  "Return true if OP is strictly positive; otherwise return false."
+  (= +1 (mpq-cmp-si op 0 1)))
+
+(cl-defgeneric mpq-negative-p (op)
+  "Return true if OP is strictly negative; otherwise return false.")
+(cl-defmethod  mpq-negative-p ((op mpq))
+  "Return true if OP is strictly negative; otherwise return false."
+  (= -1 (mpq-cmp-si op 0 1)))
+
+;;; --------------------------------------------------------------------
+
+(cl-defgeneric mpq-non-positive-p (op)
+  "Return true if OP is non-positive; otherwise return false.")
+(cl-defmethod  mpq-non-positive-p ((op mpq))
+  "Return true if OP is non-positive; otherwise return false."
+  (>= 0 (mpq-cmp-si op 0 1)))
+
+(cl-defgeneric mpq-non-negative-p (op)
+  "Return true if OP is non-negative; otherwise return false.")
+(cl-defmethod  mpq-non-negative-p ((op mpq))
+  "Return true if OP is non-negative; otherwise return false."
+  (<= 0 (mpq-cmp-si op 0 1)))
+
+;;; --------------------------------------------------------------------
+
+(cl-defgeneric mpq< (op &rest ops)
+  "Return true if each argument is strictly less than the following argument; otherwise return false.")
+(cl-defmethod  mpq< ((op1 mpq) (op2 mpq))
+  "Return true if each argument is strictly less than the following argument; otherwise return false."
+  (> 0 (mpq-cmp op1 op2)))
+
+(cl-defgeneric mpq> (op &rest ops)
+  "Return true if each argument is strictly greater than the following argument; otherwise return false.")
+(cl-defmethod  mpq> ((op1 mpq) (op2 mpq))
+  "Return true if each argument is strictly greater than the following argument; otherwise return false."
+  (< 0 (mpq-cmp op1 op2)))
+
+(cl-defgeneric mpq<= (op &rest ops)
+  "Return true if each argument is strictly less than, or equal to, the following argument; otherwise return false.")
+(cl-defmethod  mpq<= ((op1 mpq) (op2 mpq))
+  "Return true if each argument is strictly less than, or equal to, the following argument; otherwise return false."
+  (>= 0 (mpq-cmp op1 op2)))
+
+(cl-defgeneric mpq>= (op &rest ops)
+  "Return true if each argument is greater than, or equal to, the following argument; otherwise return false.")
+(cl-defmethod  mpq>= ((op1 mpq) (op2 mpq))
+  "Return true if each argument is greater than, or equal to, the following argument; otherwise return false."
+  (<= 0 (mpq-cmp op1 op2)))
+
+(cl-defgeneric mpq= (op &rest ops)
+  "Return true if each argument is equal to the following argument; otherwise return false.")
+(cl-defmethod  mpq= ((op1 mpq) (op2 mpq))
+  "Return true if each argument is equal to the following argument; otherwise return false."
+  (mpq-equal op1 op2))
 
 
 ;;;; floating-point number functions: initialisation
