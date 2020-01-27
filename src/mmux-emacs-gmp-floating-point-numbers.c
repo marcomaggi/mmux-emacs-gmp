@@ -161,7 +161,7 @@ Fmmux_gmp_c_mpf_set_str (emacs_env *env, ptrdiff_t nargs, emacs_value args[], vo
 
     env->copy_string_contents(env, args[1], buf, &len);
     rv = mpf_set_str(rop, buf, (int)base);
-    return env->make_integer(env, rv);
+    return mmux_emacs_make_sint(env, rv);
   } else {
     char const *	errmsg  = "input string exceeds maximum length";
     emacs_value		Serrmsg = mmux_emacs_make_string(env, errmsg, strlen(errmsg));
@@ -198,7 +198,7 @@ Fmmux_gmp_c_mpf_get_ui (emacs_env *env, ptrdiff_t nargs MMUX_EMACS_GMP_UNUSED,
   assert(1 == nargs);
   mpf_ptr	op   = mmux_emacs_get_mpf(env, args[0]);
 
-  return env->make_integer(env, (intmax_t)mpf_get_ui(op));
+  return mmux_emacs_make_ulint(env, mpf_get_ui(op));
 }
 
 static emacs_value
@@ -208,7 +208,7 @@ Fmmux_gmp_c_mpf_get_si (emacs_env *env, ptrdiff_t nargs MMUX_EMACS_GMP_UNUSED,
   assert(1 == nargs);
   mpf_ptr	op   = mmux_emacs_get_mpf(env, args[0]);
 
-  return env->make_integer(env, (intmax_t)mpf_get_si(op));
+  return mmux_emacs_make_slint(env, mpf_get_si(op));
 }
 
 static emacs_value
@@ -218,7 +218,7 @@ Fmmux_gmp_c_mpf_get_d (emacs_env *env, ptrdiff_t nargs MMUX_EMACS_GMP_UNUSED,
   assert(1 == nargs);
   mpf_ptr	op   = mmux_emacs_get_mpf(env, args[0]);
 
-  return env->make_float(env, (intmax_t)mpf_get_d(op));
+  return mmux_emacs_make_float(env, mpf_get_d(op));
 }
 
 static emacs_value
@@ -234,8 +234,8 @@ Fmmux_gmp_c_mpf_get_d_2exp (emacs_env *env, ptrdiff_t nargs MMUX_EMACS_GMP_UNUSE
   {
     emacs_value Qcons       = env->intern(env, "cons");
     emacs_value operands[2] = {
-      env->make_float(env, rv),
-      env->make_integer(env, (intmax_t)exponent)
+      mmux_emacs_make_float(env, rv),
+      mmux_emacs_make_mp_exp(env, exponent)
     };
 
     return env->funcall(env, Qcons, 2, operands);
@@ -273,7 +273,7 @@ Fmmux_gmp_c_mpf_get_str (emacs_env *env, ptrdiff_t nargs, emacs_value args[], vo
 
   {
     emacs_value Qcons       = env->intern(env, "cons");
-    emacs_value operands[2] = { Srv, mmux_emacs_make_int(env, (intmax_t)exponent) };
+    emacs_value operands[2] = { Srv, mmux_emacs_make_mp_exp(env, exponent) };
 
     return env->funcall(env, Qcons, 2, operands);
   }

@@ -250,13 +250,19 @@ mmux_emacs_get_randstate (emacs_env * env, emacs_value arg)
 static inline emacs_value
 mmux_emacs_make_bitcnt (emacs_env * env, mp_bitcnt_t cnt)
 {
-  return (mmux_emacs_make_int(env, (intmax_t)cnt));
+  return mmux_emacs_make_int(env, (intmax_t)cnt);
 }
 
 static inline emacs_value
 mmux_emacs_make_prec (emacs_env * env, mp_bitcnt_t cnt)
 {
-  return (mmux_emacs_make_int(env, (intmax_t)cnt));
+  return mmux_emacs_make_int(env, (intmax_t)cnt);
+}
+
+static inline emacs_value
+mmux_emacs_make_mp_exp (emacs_env * env, mp_exp_t exponent)
+{
+  return mmux_emacs_make_int(env, (intmax_t)exponent);
 }
 
 
