@@ -341,6 +341,41 @@
   (should (not (mpq= (mpq 2 2) (mpq 1 2)))))
 
 
+;;;; rational number functions: components
+
+;; void mpq_get_num (mpz_t NUMERATOR, const mpq_t RATIONAL)
+(ert-deftest mpq-get-num ()
+  "Get the numerator of an `mpq' object."
+  (let ((numerator	(mpz))
+	(rational	(mpq 3 5)))
+    (mpq-get-num numerator rational)
+    (should (mpz= (mpz 3) numerator))))
+
+;; void mpq_get_den (mpz_t DENOMINATOR, const mpq_t RATIONAL)
+(ert-deftest mpq-get-den ()
+  "Get the denominator of an `mpq' object."
+  (let ((denominator	(mpz))
+	(rational	(mpq 3 5)))
+    (mpq-get-den denominator rational)
+    (should (mpz= (mpz 5) denominator))))
+
+;; void mpq_set_num (mpq_t RATIONAL, const mpz_t NUMERATOR)
+(ert-deftest mpq-set-num ()
+  "Set the numerator of an `mpq' object."
+  (let ((rational	(mpq 3 5))
+	(numerator	(mpz 17)))
+    (mpq-set-num rational numerator)
+    (should (mpq-equal (mpq 17 5) rational))))
+
+;; void mpq_set_den (mpq_t RATIONAL, const mpz_t DENOMINATOR)
+(ert-deftest mpq-set-den ()
+  "Set the denominator of an `mpq' object."
+  (let ((rational	(mpq 3 5))
+	(denominator	(mpz 17)))
+    (mpq-set-den rational denominator)
+    (should (mpq-equal (mpq 3 17) rational))))
+
+
 ;;;; done
 
 (garbage-collect)

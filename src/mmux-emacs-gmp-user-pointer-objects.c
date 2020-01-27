@@ -45,7 +45,7 @@ mmux_emacs_mpz_finalizer (void * obj)
 }
 
 static emacs_value
-Fmmux_gmp_c_mpz_make (emacs_env *env, ptrdiff_t nargs MMUX_EMACS_GMP_UNUSED,
+Fmmux_emacs_gmp_c_mpz_make (emacs_env *env, ptrdiff_t nargs MMUX_EMACS_GMP_UNUSED,
 		      emacs_value args[] MMUX_EMACS_GMP_UNUSED, void * data MMUX_EMACS_GMP_UNUSED)
 {
   mpz_ptr	obj;
@@ -81,7 +81,7 @@ mmux_emacs_mpq_finalizer (void * obj)
 }
 
 static emacs_value
-Fmmux_gmp_c_mpq_make (emacs_env *env, ptrdiff_t nargs MMUX_EMACS_GMP_UNUSED,
+Fmmux_emacs_gmp_c_mpq_make (emacs_env *env, ptrdiff_t nargs MMUX_EMACS_GMP_UNUSED,
 		      emacs_value args[] MMUX_EMACS_GMP_UNUSED, void * data MMUX_EMACS_GMP_UNUSED)
 {
   mpq_ptr	obj;
@@ -117,7 +117,7 @@ mmux_emacs_mpf_finalizer (void * obj)
 }
 
 static emacs_value
-Fmmux_gmp_c_mpf_make (emacs_env *env, ptrdiff_t nargs MMUX_EMACS_GMP_UNUSED,
+Fmmux_emacs_gmp_c_mpf_make (emacs_env *env, ptrdiff_t nargs MMUX_EMACS_GMP_UNUSED,
 		      emacs_value args[] MMUX_EMACS_GMP_UNUSED, void * data MMUX_EMACS_GMP_UNUSED)
 {
   mpf_ptr	obj;
@@ -154,7 +154,7 @@ mmux_emacs_gmp_randstate_finalizer (void * obj)
 }
 
 static emacs_value
-Fmmux_gmp_c_gmp_randstate_make (emacs_env *env, ptrdiff_t nargs MMUX_EMACS_GMP_UNUSED,
+Fmmux_emacs_gmp_c_gmp_randstate_make (emacs_env *env, ptrdiff_t nargs MMUX_EMACS_GMP_UNUSED,
 				emacs_value args[] MMUX_EMACS_GMP_UNUSED, void * data MMUX_EMACS_GMP_UNUSED)
 {
   mmux_gmp_randstate_t	obj;
@@ -185,28 +185,28 @@ Fmmux_gmp_c_gmp_randstate_make (emacs_env *env, ptrdiff_t nargs MMUX_EMACS_GMP_U
 static module_function_t const module_functions_table[NUMBER_OF_MODULE_FUNCTIONS] = {
   {
     .name		= "mmux-gmp-c-mpz-make",
-    .implementation	= Fmmux_gmp_c_mpz_make,
+    .implementation	= Fmmux_emacs_gmp_c_mpz_make,
     .min_arity		= 0,
     .max_arity		= 0,
     .documentation	= "Build and return a new user-pointer object to be embedded into a `mpz' object."
   },
   {
     .name		= "mmux-gmp-c-mpq-make",
-    .implementation	= Fmmux_gmp_c_mpq_make,
+    .implementation	= Fmmux_emacs_gmp_c_mpq_make,
     .min_arity		= 0,
     .max_arity		= 0,
     .documentation	= "Build and return a new user-pointer object to be embedded into a `mpq' object."
   },
   {
     .name		= "mmux-gmp-c-mpf-make",
-    .implementation	= Fmmux_gmp_c_mpf_make,
+    .implementation	= Fmmux_emacs_gmp_c_mpf_make,
     .min_arity		= 0,
     .max_arity		= 0,
     .documentation	= "Build and return a new user-pointer object to be embedded into a `mpf' object."
   },
   {
     .name		= "mmux-gmp-c-gmp-randstate-make",
-    .implementation	= Fmmux_gmp_c_gmp_randstate_make,
+    .implementation	= Fmmux_emacs_gmp_c_gmp_randstate_make,
     .min_arity		= 0,
     .max_arity		= 0,
     .documentation	= "Build and return a new user-pointer object to be embedded into a `gmp-randstate' object."

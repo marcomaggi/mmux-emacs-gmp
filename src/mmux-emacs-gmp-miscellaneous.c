@@ -35,7 +35,7 @@
 
 /* void gmp_randinit_default (gmp_randstate_t STATE) */
 static emacs_value
-Fmmux_gmp_c_gmp_randinit_default (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
+Fmmux_emacs_gmp_c_gmp_randinit_default (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
 {
   assert(1 == nargs);
   mmux_gmp_randstate_t	state	= mmux_emacs_get_randstate(env, args[0]);
@@ -46,7 +46,7 @@ Fmmux_gmp_c_gmp_randinit_default (emacs_env *env, ptrdiff_t nargs, emacs_value a
 
 /* void gmp_randinit_mt (gmp_randstate_t STATE) */
 static emacs_value
-Fmmux_gmp_c_gmp_randinit_mt (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
+Fmmux_emacs_gmp_c_gmp_randinit_mt (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
 {
   assert(1 == nargs);
   mmux_gmp_randstate_t	state	= mmux_emacs_get_randstate(env, args[0]);
@@ -57,7 +57,7 @@ Fmmux_gmp_c_gmp_randinit_mt (emacs_env *env, ptrdiff_t nargs, emacs_value args[]
 
 /* void gmp_randinit_lc_2exp (gmp_randstate_t STATE, const mpz_t A, unsigned long C, mp_bitcnt_t M2EXP) */
 static emacs_value
-Fmmux_gmp_c_gmp_randinit_lc_2exp (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
+Fmmux_emacs_gmp_c_gmp_randinit_lc_2exp (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
 {
   assert(4 == nargs);
   mmux_gmp_randstate_t	state	= mmux_emacs_get_randstate(env, args[0]);
@@ -71,7 +71,7 @@ Fmmux_gmp_c_gmp_randinit_lc_2exp (emacs_env *env, ptrdiff_t nargs, emacs_value a
 
 /* int gmp_randinit_lc_2exp_size (gmp_randstate_t STATE, mp_bitcnt_t SIZE) */
 static emacs_value
-Fmmux_gmp_c_gmp_randinit_lc_2exp_size (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
+Fmmux_emacs_gmp_c_gmp_randinit_lc_2exp_size (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
 {
   assert(2 == nargs);
   mmux_gmp_randstate_t	state	= mmux_emacs_get_randstate(env, args[0]);
@@ -83,7 +83,7 @@ Fmmux_gmp_c_gmp_randinit_lc_2exp_size (emacs_env *env, ptrdiff_t nargs, emacs_va
 
 /* void gmp_randinit_set (gmp_randstate_t ROP, gmp_randstate_t OP) */
 static emacs_value
-Fmmux_gmp_c_gmp_randinit_set (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
+Fmmux_emacs_gmp_c_gmp_randinit_set (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
 {
   assert(2 == nargs);
   mmux_gmp_randstate_t	rop	= mmux_emacs_get_randstate(env, args[0]);
@@ -100,7 +100,7 @@ Fmmux_gmp_c_gmp_randinit_set (emacs_env *env, ptrdiff_t nargs, emacs_value args[
 
 /* void gmp_randseed (gmp_randstate_t STATE, const mpz_t SEED) */
 static emacs_value
-Fmmux_gmp_c_gmp_randseed (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
+Fmmux_emacs_gmp_c_gmp_randseed (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
 {
   assert(2 == nargs);
   mmux_gmp_randstate_t	state	= mmux_emacs_get_randstate(env, args[0]);
@@ -112,7 +112,7 @@ Fmmux_gmp_c_gmp_randseed (emacs_env *env, ptrdiff_t nargs, emacs_value args[], v
 
 /* void gmp_randseed_ui (gmp_randstate_t STATE, unsigned long int SEED) */
 static emacs_value
-Fmmux_gmp_c_gmp_randseed_ui (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
+Fmmux_emacs_gmp_c_gmp_randseed_ui (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
 {
   assert(2 == nargs);
   mmux_gmp_randstate_t	state	= mmux_emacs_get_randstate(env, args[0]);
@@ -129,7 +129,7 @@ Fmmux_gmp_c_gmp_randseed_ui (emacs_env *env, ptrdiff_t nargs, emacs_value args[]
 
 /* unsigned long gmp_urandomb_ui (gmp_randstate_t STATE, unsigned long N) */
 static emacs_value
-Fmmux_gmp_c_gmp_urandomb_ui (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
+Fmmux_emacs_gmp_c_gmp_urandomb_ui (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
 {
   assert(2 == nargs);
   mmux_gmp_randstate_t	state	= mmux_emacs_get_randstate(env, args[0]);
@@ -145,7 +145,7 @@ Fmmux_gmp_c_gmp_urandomb_ui (emacs_env *env, ptrdiff_t nargs, emacs_value args[]
 
 /* unsigned long gmp_urandomm_ui (gmp_randstate_t STATE, unsigned long N) */
 static emacs_value
-Fmmux_gmp_c_gmp_urandomm_ui (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
+Fmmux_emacs_gmp_c_gmp_urandomm_ui (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
 {
   assert(2 == nargs);
   mmux_gmp_randstate_t	state	= mmux_emacs_get_randstate(env, args[0]);
@@ -164,35 +164,35 @@ static module_function_t const module_functions_table[NUMBER_OF_MODULE_FUNCTIONS
   /* Random state initialisation function. */
   { /* void gmp_randinit_default (gmp_randstate_t STATE) */
     .name		= "mmux-gmp-c-gmp-randinit-default",
-    .implementation	= Fmmux_gmp_c_gmp_randinit_default,
+    .implementation	= Fmmux_emacs_gmp_c_gmp_randinit_default,
     .min_arity		= 1,
     .max_arity		= 1,
     .documentation	= "Initialize STATE with a default algorithm.",
   },
   { /* void gmp_randinit_mt (gmp_randstate_t STATE) */
     .name		= "mmux-gmp-c-gmp-randinit-mt",
-    .implementation	= Fmmux_gmp_c_gmp_randinit_mt,
+    .implementation	= Fmmux_emacs_gmp_c_gmp_randinit_mt,
     .min_arity		= 1,
     .max_arity		= 1,
     .documentation	= "Initialize STATE for a Mersenne Twister algorithm.",
   },
   { /* void gmp_randinit_lc_2exp (gmp_randstate_t STATE, const mpz_t A, unsigned long C, mp_bitcnt_t M2EXP) */
     .name		= "mmux-gmp-c-gmp-randinit-lc-2exp",
-    .implementation	= Fmmux_gmp_c_gmp_randinit_lc_2exp,
+    .implementation	= Fmmux_emacs_gmp_c_gmp_randinit_lc_2exp,
     .min_arity		= 4,
     .max_arity		= 4,
     .documentation	= "Initialize STATE with a linear congruential algorithm.",
   },
   { /* int gmp_randinit_lc_2exp_size (gmp_randstate_t STATE, mp_bitcnt_t SIZE) */
     .name		= "mmux-gmp-c-gmp-randinit-lc-2exp-size",
-    .implementation	= Fmmux_gmp_c_gmp_randinit_lc_2exp_size,
+    .implementation	= Fmmux_emacs_gmp_c_gmp_randinit_lc_2exp_size,
     .min_arity		= 2,
     .max_arity		= 2,
     .documentation	= "Initialize STATE with a linear congruential algorithm.",
   },
   { /* void gmp_randinit_set (gmp_randstate_t ROP, gmp_randstate_t OP) */
     .name		= "mmux-gmp-c-gmp-randinit-set",
-    .implementation	= Fmmux_gmp_c_gmp_randinit_set,
+    .implementation	= Fmmux_emacs_gmp_c_gmp_randinit_set,
     .min_arity		= 2,
     .max_arity		= 2,
     .documentation	= "Initialize ROP with a copy of the algorithm and state from OP.",
@@ -201,14 +201,14 @@ static module_function_t const module_functions_table[NUMBER_OF_MODULE_FUNCTIONS
   /* random seeding functions */
   { /* void gmp_randseed (gmp_randstate_t STATE, const mpz_t SEED) */
     .name		= "mmux-gmp-c-gmp-randseed",
-    .implementation	= Fmmux_gmp_c_gmp_randseed,
+    .implementation	= Fmmux_emacs_gmp_c_gmp_randseed,
     .min_arity		= 2,
     .max_arity		= 2,
     .documentation	= "Set an initial seed value into STATE.",
   },
   { /* void gmp_randseed_ui (gmp_randstate_t STATE, unsigned long int SEED) */
     .name		= "mmux-gmp-c-gmp-randseed-ui",
-    .implementation	= Fmmux_gmp_c_gmp_randseed_ui,
+    .implementation	= Fmmux_emacs_gmp_c_gmp_randseed_ui,
     .min_arity		= 2,
     .max_arity		= 2,
     .documentation	= "Set an initial seed value into STATE.",
@@ -217,14 +217,14 @@ static module_function_t const module_functions_table[NUMBER_OF_MODULE_FUNCTIONS
   /* random number generation */
   { /* unsigned long gmp_urandomb_ui (gmp_randstate_t STATE, unsigned long N) */
     .name		= "mmux-gmp-c-gmp-urandomb-ui",
-    .implementation	= Fmmux_gmp_c_gmp_urandomb_ui,
+    .implementation	= Fmmux_emacs_gmp_c_gmp_urandomb_ui,
     .min_arity		= 2,
     .max_arity		= 2,
     .documentation	= "Return a uniformly distributed random number of N bits, in the range 0 to 2^N-1 inclusive.",
   },
   { /* unsigned long gmp_urandomm_ui (gmp_randstate_t STATE, unsigned long N) */
     .name		= "mmux-gmp-c-gmp-urandomm-ui",
-    .implementation	= Fmmux_gmp_c_gmp_urandomm_ui,
+    .implementation	= Fmmux_emacs_gmp_c_gmp_urandomm_ui,
     .min_arity		= 2,
     .max_arity		= 2,
     .documentation	= "Return a uniformly distributed random number in the range 0 to N-1, inclusive.",

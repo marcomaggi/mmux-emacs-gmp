@@ -37,7 +37,7 @@
  ** ----------------------------------------------------------------- */
 
 static emacs_value
-Fmmux_gmp_c_mpf_set_default_prec (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
+Fmmux_emacs_gmp_c_mpf_set_default_prec (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
 {
   assert(1 == nargs);
   mp_bitcnt_t	prec = mmux_emacs_get_bitcnt(env, args[0]);
@@ -47,7 +47,7 @@ Fmmux_gmp_c_mpf_set_default_prec (emacs_env *env, ptrdiff_t nargs, emacs_value a
 }
 
 static emacs_value
-Fmmux_gmp_c_mpf_get_default_prec (emacs_env *env, ptrdiff_t nargs,
+Fmmux_emacs_gmp_c_mpf_get_default_prec (emacs_env *env, ptrdiff_t nargs,
 				  emacs_value args[] MMUX_EMACS_GMP_UNUSED, void * data MMUX_EMACS_GMP_UNUSED)
 {
   assert(0 == nargs);
@@ -56,7 +56,7 @@ Fmmux_gmp_c_mpf_get_default_prec (emacs_env *env, ptrdiff_t nargs,
 }
 
 static emacs_value
-Fmmux_gmp_c_mpf_set_prec (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
+Fmmux_emacs_gmp_c_mpf_set_prec (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
 {
   assert(2 == nargs);
   mpf_ptr	rop  = mmux_emacs_get_mpf(env, args[0]);
@@ -67,7 +67,7 @@ Fmmux_gmp_c_mpf_set_prec (emacs_env *env, ptrdiff_t nargs, emacs_value args[], v
 }
 
 static emacs_value
-Fmmux_gmp_c_mpf_get_prec (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
+Fmmux_emacs_gmp_c_mpf_get_prec (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
 {
   assert(1 == nargs);
   mpf_ptr	rop  = mmux_emacs_get_ptr(env, args[0]);
@@ -81,7 +81,7 @@ Fmmux_gmp_c_mpf_get_prec (emacs_env *env, ptrdiff_t nargs, emacs_value args[], v
  ** ----------------------------------------------------------------- */
 
 static emacs_value
-Fmmux_gmp_c_mpf_set (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
+Fmmux_emacs_gmp_c_mpf_set (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
 {
   assert(2 == nargs);
   mpf_ptr	rop = mmux_emacs_get_mpf(env, args[0]);
@@ -92,7 +92,7 @@ Fmmux_gmp_c_mpf_set (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void *
 }
 
 static emacs_value
-Fmmux_gmp_c_mpf_set_si (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
+Fmmux_emacs_gmp_c_mpf_set_si (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
 {
   assert(2 == nargs);
   mpf_ptr	rop = mmux_emacs_get_mpf(env, args[0]);
@@ -103,7 +103,7 @@ Fmmux_gmp_c_mpf_set_si (emacs_env *env, ptrdiff_t nargs, emacs_value args[], voi
 }
 
 static emacs_value
-Fmmux_gmp_c_mpf_set_ui (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
+Fmmux_emacs_gmp_c_mpf_set_ui (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
 {
   assert(2 == nargs);
   mpf_ptr	rop = mmux_emacs_get_mpf(env, args[0]);
@@ -114,7 +114,7 @@ Fmmux_gmp_c_mpf_set_ui (emacs_env *env, ptrdiff_t nargs, emacs_value args[], voi
 }
 
 static emacs_value
-Fmmux_gmp_c_mpf_set_d (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
+Fmmux_emacs_gmp_c_mpf_set_d (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
 {
   assert(2 == nargs);
   mpf_ptr	rop = mmux_emacs_get_mpf(env, args[0]);
@@ -125,7 +125,7 @@ Fmmux_gmp_c_mpf_set_d (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void
 }
 
 static emacs_value
-Fmmux_gmp_c_mpf_set_z (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
+Fmmux_emacs_gmp_c_mpf_set_z (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
 {
   assert(2 == nargs);
   mpf_ptr	rop = mmux_emacs_get_mpf(env, args[0]);
@@ -136,7 +136,7 @@ Fmmux_gmp_c_mpf_set_z (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void
 }
 
 static emacs_value
-Fmmux_gmp_c_mpf_set_q (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
+Fmmux_emacs_gmp_c_mpf_set_q (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
 {
   assert(2 == nargs);
   mpf_ptr	rop = mmux_emacs_get_mpf(env, args[0]);
@@ -147,7 +147,7 @@ Fmmux_gmp_c_mpf_set_q (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void
 }
 
 static emacs_value
-Fmmux_gmp_c_mpf_set_str (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
+Fmmux_emacs_gmp_c_mpf_set_str (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
 {
   assert(3 == nargs);
   mpf_ptr	rop  = mmux_emacs_get_mpf(env, args[0]);
@@ -176,7 +176,7 @@ Fmmux_gmp_c_mpf_set_str (emacs_env *env, ptrdiff_t nargs, emacs_value args[], vo
 }
 
 static emacs_value
-Fmmux_gmp_c_mpf_swap (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
+Fmmux_emacs_gmp_c_mpf_swap (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
 {
   assert(2 == nargs);
   mpf_ptr	op1 = mmux_emacs_get_mpf(env, args[0]);
@@ -192,7 +192,7 @@ Fmmux_gmp_c_mpf_swap (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void 
  ** ----------------------------------------------------------------- */
 
 static emacs_value
-Fmmux_gmp_c_mpf_get_ui (emacs_env *env, ptrdiff_t nargs MMUX_EMACS_GMP_UNUSED,
+Fmmux_emacs_gmp_c_mpf_get_ui (emacs_env *env, ptrdiff_t nargs MMUX_EMACS_GMP_UNUSED,
 			emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
 {
   assert(1 == nargs);
@@ -202,7 +202,7 @@ Fmmux_gmp_c_mpf_get_ui (emacs_env *env, ptrdiff_t nargs MMUX_EMACS_GMP_UNUSED,
 }
 
 static emacs_value
-Fmmux_gmp_c_mpf_get_si (emacs_env *env, ptrdiff_t nargs MMUX_EMACS_GMP_UNUSED,
+Fmmux_emacs_gmp_c_mpf_get_si (emacs_env *env, ptrdiff_t nargs MMUX_EMACS_GMP_UNUSED,
 			emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
 {
   assert(1 == nargs);
@@ -212,7 +212,7 @@ Fmmux_gmp_c_mpf_get_si (emacs_env *env, ptrdiff_t nargs MMUX_EMACS_GMP_UNUSED,
 }
 
 static emacs_value
-Fmmux_gmp_c_mpf_get_d (emacs_env *env, ptrdiff_t nargs MMUX_EMACS_GMP_UNUSED,
+Fmmux_emacs_gmp_c_mpf_get_d (emacs_env *env, ptrdiff_t nargs MMUX_EMACS_GMP_UNUSED,
 			emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
 {
   assert(1 == nargs);
@@ -222,7 +222,7 @@ Fmmux_gmp_c_mpf_get_d (emacs_env *env, ptrdiff_t nargs MMUX_EMACS_GMP_UNUSED,
 }
 
 static emacs_value
-Fmmux_gmp_c_mpf_get_d_2exp (emacs_env *env, ptrdiff_t nargs MMUX_EMACS_GMP_UNUSED,
+Fmmux_emacs_gmp_c_mpf_get_d_2exp (emacs_env *env, ptrdiff_t nargs MMUX_EMACS_GMP_UNUSED,
 			    emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
 {
   assert(1 == nargs);
@@ -243,7 +243,7 @@ Fmmux_gmp_c_mpf_get_d_2exp (emacs_env *env, ptrdiff_t nargs MMUX_EMACS_GMP_UNUSE
 }
 
 static emacs_value
-Fmmux_gmp_c_mpf_get_str (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
+Fmmux_emacs_gmp_c_mpf_get_str (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
 {
   assert(3 == nargs);
   int		base      = mmux_emacs_get_sint(env, args[0]);
@@ -286,7 +286,7 @@ Fmmux_gmp_c_mpf_get_str (emacs_env *env, ptrdiff_t nargs, emacs_value args[], vo
  ** ----------------------------------------------------------------- */
 
 static emacs_value
-Fmmux_gmp_c_mpf_add (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
+Fmmux_emacs_gmp_c_mpf_add (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
 {
   assert(3 == nargs);
   mpf_ptr	rop = mmux_emacs_get_mpf(env, args[0]);
@@ -307,28 +307,28 @@ static module_function_t const module_functions_table[NUMBER_OF_MODULE_FUNCTIONS
   /* Assignment function. */
   {
     .name		= "mmux-gmp-c-mpf-set-default-prec",
-    .implementation	= Fmmux_gmp_c_mpf_set_default_prec,
+    .implementation	= Fmmux_emacs_gmp_c_mpf_set_default_prec,
     .min_arity		= 1,
     .max_arity		= 1,
     .documentation	= "Set the default precision of `mpf' objects."
   },
   {
     .name		= "mmux-gmp-c-mpf-get-default-prec",
-    .implementation	= Fmmux_gmp_c_mpf_get_default_prec,
+    .implementation	= Fmmux_emacs_gmp_c_mpf_get_default_prec,
     .min_arity		= 0,
     .max_arity		= 0,
     .documentation	= "Get the default precision of `mpf' objects."
   },
   {
     .name		= "mmux-gmp-c-mpf-set-prec",
-    .implementation	= Fmmux_gmp_c_mpf_set_prec,
+    .implementation	= Fmmux_emacs_gmp_c_mpf_set_prec,
     .min_arity		= 2,
     .max_arity		= 2,
     .documentation	= "Set the default precision of an `mpf' object."
   },
   {
     .name		= "mmux-gmp-c-mpf-get-prec",
-    .implementation	= Fmmux_gmp_c_mpf_get_prec,
+    .implementation	= Fmmux_emacs_gmp_c_mpf_get_prec,
     .min_arity		= 1,
     .max_arity		= 1,
     .documentation	= "Get the default precision of an `mpf' object."
@@ -337,56 +337,56 @@ static module_function_t const module_functions_table[NUMBER_OF_MODULE_FUNCTIONS
   /* Assignment function. */
   {
     .name		= "mmux-gmp-c-mpf-set",
-    .implementation	= Fmmux_gmp_c_mpf_set,
+    .implementation	= Fmmux_emacs_gmp_c_mpf_set,
     .min_arity		= 2,
     .max_arity		= 2,
     .documentation	= "Assign the value of an `mpf' object to another `mpf' object."
   },
   {
     .name		= "mmux-gmp-c-mpf-set-si",
-    .implementation	= Fmmux_gmp_c_mpf_set_si,
+    .implementation	= Fmmux_emacs_gmp_c_mpf_set_si,
     .min_arity		= 2,
     .max_arity		= 2,
     .documentation	= "Assign the value of a signed integer to an `mpf' object."
   },
   {
     .name		= "mmux-gmp-c-mpf-set-ui",
-    .implementation	= Fmmux_gmp_c_mpf_set_ui,
+    .implementation	= Fmmux_emacs_gmp_c_mpf_set_ui,
     .min_arity		= 2,
     .max_arity		= 2,
     .documentation	= "Assign the value of an unsigned integer to an `mpf' object."
   },
   {
     .name		= "mmux-gmp-c-mpf-set-d",
-    .implementation	= Fmmux_gmp_c_mpf_set_d,
+    .implementation	= Fmmux_emacs_gmp_c_mpf_set_d,
     .min_arity		= 2,
     .max_arity		= 2,
     .documentation	= "Assign the value of floating-point object to an `mpf' object."
   },
   {
     .name		= "mmux-gmp-c-mpf-set-z",
-    .implementation	= Fmmux_gmp_c_mpf_set_z,
+    .implementation	= Fmmux_emacs_gmp_c_mpf_set_z,
     .min_arity		= 2,
     .max_arity		= 2,
     .documentation	= "Assign the value of an `mpz' object to an `mpf' object."
   },
   {
     .name		= "mmux-gmp-c-mpf-set-q",
-    .implementation	= Fmmux_gmp_c_mpf_set_q,
+    .implementation	= Fmmux_emacs_gmp_c_mpf_set_q,
     .min_arity		= 2,
     .max_arity		= 2,
     .documentation	= "Assign the value of an `mpq' object to an `mpf' object."
   },
   {
     .name		= "mmux-gmp-c-mpf-set-str",
-    .implementation	= Fmmux_gmp_c_mpf_set_str,
+    .implementation	= Fmmux_emacs_gmp_c_mpf_set_str,
     .min_arity		= 3,
     .max_arity		= 3,
     .documentation	= "Assign the value of a string object to an `mpf' object."
   },
   {
     .name		= "mmux-gmp-c-mpf-swap",
-    .implementation	= Fmmux_gmp_c_mpf_swap,
+    .implementation	= Fmmux_emacs_gmp_c_mpf_swap,
     .min_arity		= 2,
     .max_arity		= 2,
     .documentation	= "Swap the values of two `mpf' objects."
@@ -395,35 +395,35 @@ static module_function_t const module_functions_table[NUMBER_OF_MODULE_FUNCTIONS
   /* Conversion functions */
   {
     .name		= "mmux-gmp-c-mpf-get-ui",
-    .implementation	= Fmmux_gmp_c_mpf_get_ui,
+    .implementation	= Fmmux_emacs_gmp_c_mpf_get_ui,
     .min_arity		= 1,
     .max_arity		= 1,
     .documentation	= "Convert an object of type `mpf' to an unsigned exact integer number."
   },
   {
     .name		= "mmux-gmp-c-mpf-get-si",
-    .implementation	= Fmmux_gmp_c_mpf_get_si,
+    .implementation	= Fmmux_emacs_gmp_c_mpf_get_si,
     .min_arity		= 1,
     .max_arity		= 1,
     .documentation	= "Convert an object of type `mpf' to a signed exact integer number."
   },
   {
     .name		= "mmux-gmp-c-mpf-get-d",
-    .implementation	= Fmmux_gmp_c_mpf_get_d,
+    .implementation	= Fmmux_emacs_gmp_c_mpf_get_d,
     .min_arity		= 1,
     .max_arity		= 1,
     .documentation	= "Convert an object of type `mpf' to a floating-point number."
   },
   {
     .name		= "mmux-gmp-c-mpf-get-d-2exp",
-    .implementation	= Fmmux_gmp_c_mpf_get_d_2exp,
+    .implementation	= Fmmux_emacs_gmp_c_mpf_get_d_2exp,
     .min_arity		= 1,
     .max_arity		= 1,
     .documentation	= "Convert an object of type `mpf' to a floating-point number, returning the exponent separately."
   },
   {
     .name		= "mmux-gmp-c-mpf-get-str",
-    .implementation	= Fmmux_gmp_c_mpf_get_str,
+    .implementation	= Fmmux_emacs_gmp_c_mpf_get_str,
     .min_arity		= 3,
     .max_arity		= 3,
     .documentation	= "Convert an `mpf' object to a string."
@@ -432,7 +432,7 @@ static module_function_t const module_functions_table[NUMBER_OF_MODULE_FUNCTIONS
   /* Arithmetic functions. */
   {
     .name		= "mmux-gmp-c-mpf-add",
-    .implementation	= Fmmux_gmp_c_mpf_add,
+    .implementation	= Fmmux_emacs_gmp_c_mpf_add,
     .min_arity		= 3,
     .max_arity		= 3,
     .documentation	= "Add two `mpf' objects."

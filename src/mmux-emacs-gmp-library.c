@@ -67,7 +67,7 @@ mmux_emacs_gmp_version_interface_age (void)
 /* ------------------------------------------------------------------ */
 
 static emacs_value
-Fmmux_gmp_version_string (emacs_env *env,
+Fmmux_emacs_gmp_version_string (emacs_env *env,
 			       ptrdiff_t nargs MMUX_EMACS_GMP_UNUSED, emacs_value args[] MMUX_EMACS_GMP_UNUSED,
 			       void *data MMUX_EMACS_GMP_UNUSED)
 {
@@ -76,7 +76,7 @@ Fmmux_gmp_version_string (emacs_env *env,
   return env->make_string(env, str, strlen(str));
 }
 static emacs_value
-Fmmux_gmp_version_interface_current (emacs_env *env,
+Fmmux_emacs_gmp_version_interface_current (emacs_env *env,
 					  ptrdiff_t nargs MMUX_EMACS_GMP_UNUSED, emacs_value args[] MMUX_EMACS_GMP_UNUSED,
 					  void *data MMUX_EMACS_GMP_UNUSED)
 {
@@ -85,7 +85,7 @@ Fmmux_gmp_version_interface_current (emacs_env *env,
   return env->make_integer(env, (intmax_t)N);
 }
 static emacs_value
-Fmmux_gmp_version_interface_revision (emacs_env *env,
+Fmmux_emacs_gmp_version_interface_revision (emacs_env *env,
 					   ptrdiff_t nargs MMUX_EMACS_GMP_UNUSED, emacs_value args[] MMUX_EMACS_GMP_UNUSED,
 					   void *data MMUX_EMACS_GMP_UNUSED)
 {
@@ -94,7 +94,7 @@ Fmmux_gmp_version_interface_revision (emacs_env *env,
   return env->make_integer(env, (intmax_t)N);
 }
 static emacs_value
-Fmmux_gmp_version_interface_age (emacs_env *env,
+Fmmux_emacs_gmp_version_interface_age (emacs_env *env,
 				      ptrdiff_t nargs MMUX_EMACS_GMP_UNUSED, emacs_value args[] MMUX_EMACS_GMP_UNUSED,
 				      void *data MMUX_EMACS_GMP_UNUSED)
 {
@@ -112,28 +112,28 @@ Fmmux_gmp_version_interface_age (emacs_env *env,
 static module_function_t const module_functions_table[NUMBER_OF_MODULE_FUNCTIONS] = {
   {
     .name		= "mmux-gmp-version-string",
-    .implementation	= Fmmux_gmp_version_string,
+    .implementation	= Fmmux_emacs_gmp_version_string,
     .min_arity		= 0,
     .max_arity		= 0,
     .documentation	= "Return the version string."
   },
   {
     .name		= "mmux-gmp-version-interface-current",
-    .implementation	= Fmmux_gmp_version_interface_current,
+    .implementation	= Fmmux_emacs_gmp_version_interface_current,
     .min_arity		= 0,
     .max_arity		= 0,
     .documentation	= "Return the interface version current number."
   },
   {
     .name		= "mmux-gmp-version-interface-revision",
-    .implementation	= Fmmux_gmp_version_interface_revision,
+    .implementation	= Fmmux_emacs_gmp_version_interface_revision,
     .min_arity		= 0,
     .max_arity		= 0,
     .documentation	= "Return the interface version revision number."
   },
   {
     .name		= "mmux-gmp-version-interface-age",
-    .implementation	= Fmmux_gmp_version_interface_age,
+    .implementation	= Fmmux_emacs_gmp_version_interface_age,
     .min_arity		= 0,
     .max_arity		= 0,
     .documentation	= "Return the interface version age number."

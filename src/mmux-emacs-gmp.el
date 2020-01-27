@@ -4,7 +4,7 @@
 
 ;; Author: Marco Maggi <mrc.mgg@gmail.com>
 ;; Created: Jan 15, 2020
-;; Time-stamp: <2020-01-27 14:13:04 marco>
+;; Time-stamp: <2020-01-27 14:49:20 marco>
 ;; Keywords: extensions
 
 ;; This file is part of MMUX Emacs GMP.
@@ -1573,6 +1573,37 @@ The argument BASE can vary from 2 to 62."
 (cl-defmethod  mpq= ((op1 mpq) (op2 mpq))
   "Return true if each argument is equal to the following argument; otherwise return false."
   (mpq-equal op1 op2))
+
+
+;;;; rational number functions: components
+
+;; void mpq_get_num (mpz_t NUMERATOR, const mpq_t RATIONAL)
+(cl-defgeneric mpq-get-num (numerator rational)
+  "Get the numerator of an `mpq' object.")
+(cl-defmethod  mpq-get-num ((numerator mpz) (rational mpq))
+  "Get the numerator of an `mpq' object."
+  (mmux-gmp-c-mpq-get-num (mpz-obj numerator) (mpq-obj rational)))
+
+;; void mpq_get_den (mpz_t DENOMINATOR, const mpq_t RATIONAL)
+(cl-defgeneric mpq-get-den (denominator rational)
+  "Get the denominator of an `mpq' object.")
+(cl-defmethod  mpq-get-den ((denominator mpz) (rational mpq))
+  "Get the denominator of an `mpq' object."
+  (mmux-gmp-c-mpq-get-den (mpz-obj denominator) (mpq-obj rational)))
+
+;; void mpq_set_num (mpq_t RATIONAL, const mpz_t NUMERATOR)
+(cl-defgeneric mpq-set-num (rational numerator)
+  "Set the numerator of an `mpq' object.")
+(cl-defmethod  mpq-set-num ((rational mpq) (numerator mpz))
+  "Set the numerator of an `mpq' object."
+  (mmux-gmp-c-mpq-set-num (mpq-obj rational) (mpz-obj numerator)))
+
+;; void mpq_set_den (mpq_t RATIONAL, const mpz_t DENOMINATOR)
+(cl-defgeneric mpq-set-den (rational denominator)
+  "Set the denominator of an `mpq' object.")
+(cl-defmethod  mpq-set-den ((rational mpq) (denominator mpz))
+  "Set the denominator of an `mpq' object."
+  (mmux-gmp-c-mpq-set-den (mpq-obj rational) (mpz-obj denominator)))
 
 
 ;;;; floating-point number functions: initialisation
