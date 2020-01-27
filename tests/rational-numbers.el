@@ -23,6 +23,12 @@
 (require 'mmux-emacs-gmp)
 
 
+;;;; helpers
+
+(defun mmux-gmp-print-stderr (obj)
+  (print obj #'external-debugging-output))
+
+
 ;;;; allocation functions
 
 (ert-deftest mpq-1 ()
@@ -131,7 +137,83 @@
 
 ;;;; arithmetic functions
 
+;; void mpq_add (mpq_t SUM, const mpq_t ADDEND1, const mpq_t ADDEND2)
+(ert-deftest mpq-add ()
+  "Add two `mpq' objects."
+  (let ((rop	(mpq))
+	(op1	(mpq 2 9))
+	(op2	(mpq 3 9)))
+    (mpq-add rop op1 op2)
+    (should (mpq-equal (mpq (+ 2 3) 9) rop))))
 
+;; void mpq_sub (mpq_t DIFFERENCE, const mpq_t MINUEND, const mpq_t SUBTRAHEND)
+(ert-deftest mpq-sub ()
+  "Set DIFFERENCE to MINUEND - SUBTRAHEND."
+  (let ((difference	(mpq))
+	(minuend	(mpq 7 9))
+	(subtrahend	(mpq 5 9)))
+    (mpq-sub difference minuend subtrahend)
+    (should (mpq-equal (mpq (- 7 5) 9) difference))))
+
+;; void mpq_mul (mpq_t PRODUCT, const mpq_t MULTIPLIER, const mpq_t MULTIPLICAND)
+(ert-deftest mpq-mul ()
+  "Set PRODUCT to MULTIPLIER times MULTIPLICAND."
+  (let ((product	(mpq))
+	(multiplier	(mpq 2 9))
+	(multiplicand	(mpq 4 9)))
+    (mpq-mul product multiplier multiplicand)
+    (should (mpq-equal (mpq (* 2 4) (* 9 9)) product))))
+
+;; void mpq_mul_2exp (mpq_t ROP, const mpq_t OP1, mp_bitcnt_t OP2)
+(ert-deftest mpq-mul-2exp ()
+  "Set ROP to OP1 times 2 raised to OP2."
+  (let ((rop	(mpq))
+	(op1	(mpq 1 3))
+	(op2	3))
+    (mpq-mul-2exp rop op1 op2)
+    (should (mpq-equal (mpq 8 3) rop))))
+
+;; void mpq_div (mpq_t QUOTIENT, const mpq_t DIVIDEND, const mpq_t DIVISOR)
+(ert-deftest mpq-div ()
+  "Set QUOTIENT to DIVIDEND/DIVISOR."
+  (let ((quotient	(mpq))
+	(dividend	(mpq 4 9))
+	(divisor	(mpq 2 3)))
+    (mpq-div quotient dividend divisor)
+    (should (mpq-equal (mpq 2 3) quotient))))
+
+;; void mpq_div_2exp (mpq_t ROP, const mpq_t OP1, mp_bitcnt_t OP2)
+(ert-deftest mpq-div-2exp ()
+  "Set ROP to OP1 divided by 2 raised to OP2."
+  (let ((rop	(mpq))
+	(op1	(mpq 16 17))
+	(op2	3))
+    (mpq-div-2exp rop op1 op2)
+    (should (mpq-equal (mpq (/ 16 (expt 2 3)) 17) rop))))
+
+;; void mpq_neg (mpq_t NEGATED_OPERAND, const mpq_t OPERAND)
+(ert-deftest mpq-neg ()
+  "Set NEGATED-OPERAND to -OPERAND."
+  (let ((negated-operand	(mpq))
+	(operand		(mpq 2 3)))
+    (mpq-neg negated-operand operand)
+    (should (mpq-equal (mpq -2 3) negated-operand))))
+
+;; void mpq_abs (mpq_t ROP, const mpq_t OP)
+(ert-deftest mpq-abs ()
+  "Set ROP to the absolute value of OP."
+  (let ((rop	(mpq))
+	(op	(mpq -3 17)))
+    (mpq-abs rop op)
+    (should (mpq-equal (mpq 3 17) rop))))
+
+;; void mpq_inv (mpq_t INVERTED_NUMBER, const mpq_t NUMBER)
+(ert-deftest mpq-inv ()
+  "Set INVERTED-NUMBER to 1/NUMBER."
+  (let ((inverted-number	(mpq))
+	(number			(mpq 13 17)))
+    (mpq-inv inverted-number number)
+    (should (mpq-equal (mpq 17 13) inverted-number))))
 
 
 ;;;; rational number functions: comparison

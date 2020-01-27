@@ -2818,6 +2818,12 @@ positive between @math{2} and @math{36} or negative between @math{-2} and @math{
 Add two @objtype{mpq} objects.
 
 @lisp
+(let ((rop    (mpq))
+      (op1    (mpq 2 9))
+      (op2    (mpq 3 9)))
+  (mpq-add rop op1 op2)
+  (mpq-equal (mpq (+ 2 3) 9) rop))
+@result{} t
 @end lisp
 @end deffn
 
@@ -2828,6 +2834,12 @@ Add two @objtype{mpq} objects.
 Set @var{DIFFERENCE} to @var{MINUEND} - @var{SUBTRAHEND}.
 
 @lisp
+(let ((difference     (mpq))
+      (minuend        (mpq 7 9))
+      (subtrahend     (mpq 5 9)))
+  (mpq-sub difference minuend subtrahend)
+  (mpq-equal (mpq (- 7 5) 9) difference))
+@result{} t
 @end lisp
 @end deffn
 
@@ -2838,6 +2850,12 @@ Set @var{DIFFERENCE} to @var{MINUEND} - @var{SUBTRAHEND}.
 Set @var{PRODUCT} to @var{MULTIPLIER} times @var{MULTIPLICAND}.
 
 @lisp
+(let ((product        (mpq))
+      (multiplier     (mpq 2 9))
+      (multiplicand   (mpq 4 9)))
+  (mpq-mul product multiplier multiplicand)
+  (mpq-equal (mpq (* 2 4) (* 9 9)) product))
+@result{} t
 @end lisp
 @end deffn
 
@@ -2848,6 +2866,12 @@ Set @var{PRODUCT} to @var{MULTIPLIER} times @var{MULTIPLICAND}.
 Set ROP to OP1 times 2 raised to OP2.
 
 @lisp
+(let ((rop    (mpq))
+      (op1    (mpq 1 3))
+      (op2    3))
+  (mpq-mul-2exp rop op1 op2)
+  (mpq-equal (mpq 8 3) rop))
+@result{} t
 @end lisp
 @end deffn
 
@@ -2858,6 +2882,12 @@ Set ROP to OP1 times 2 raised to OP2.
 Set @var{QUOTIENT} to @var{DIVIDEND}/@var{DIVISOR}.
 
 @lisp
+(let ((quotient       (mpq))
+      (dividend       (mpq 4 9))
+      (divisor        (mpq 2 3)))
+  (mpq-div quotient dividend divisor)
+  (mpq-equal (mpq 2 3) quotient))
+@result{} t
 @end lisp
 @end deffn
 
@@ -2868,6 +2898,12 @@ Set @var{QUOTIENT} to @var{DIVIDEND}/@var{DIVISOR}.
 Set @var{ROP} to @vari{OP} divided by 2 raised to @varii{OP}.
 
 @lisp
+(let ((rop    (mpq))
+      (op1    (mpq 16 17))
+      (op2    3))
+  (mpq-div-2exp rop op1 op2)
+  (mpq-equal (mpq (/ 16 (expt 2 3)) 17) rop))
+@result{} t
 @end lisp
 @end deffn
 
@@ -2877,6 +2913,11 @@ Set @var{ROP} to @vari{OP} divided by 2 raised to @varii{OP}.
 Set @var{NEGATED-OPERAND} to -@var{OPERAND}.
 
 @lisp
+(let ((negated-operand        (mpq))
+      (operand                (mpq 2 3)))
+  (mpq-neg negated-operand operand)
+  (mpq-equal (mpq -2 3) negated-operand))
+@result{} t
 @end lisp
 @end deffn
 
@@ -2887,6 +2928,11 @@ Set @var{NEGATED-OPERAND} to -@var{OPERAND}.
 Set @var{ROP} to the absolute value of @var{OP}.
 
 @lisp
+(let ((rop    (mpq))
+      (op     (mpq -3 17)))
+  (mpq-abs rop op)
+  (mpq-equal (mpq 3 17) rop))
+@result{} t
 @end lisp
 @end deffn
 
@@ -2897,6 +2943,11 @@ Set @var{ROP} to the absolute value of @var{OP}.
 Set @var{INVERTED-NUMBER} to 1/@var{NUMBER}.
 
 @lisp
+(let ((inverted-number        (mpq))
+      (number                 (mpq 13 17)))
+  (mpq-inv inverted-number number)
+  (mpq-equal (mpq 17 13) inverted-number))
+@result{} t
 @end lisp
 @end deffn
 

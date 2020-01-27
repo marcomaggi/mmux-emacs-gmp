@@ -95,7 +95,7 @@
 #define mmux_make_int(ENV, ARG)		((ENV)->make_integer((ENV), (intmax_t)(ARG)))
 
 #undef  mmux_make_float
-#define mmux_make_float(ENV, ARG)	((ENV)->make_integer((ENV), (ARG)))
+#define mmux_make_float(ENV, ARG)	((ENV)->make_float((ENV), (ARG)))
 
 #undef  mmux_make_uint
 #define mmux_make_uint(ENV, ARG)	(mmux_make_int((ENV), (ARG)))
@@ -108,6 +108,9 @@
 
 #undef  mmux_make_slint
 #define mmux_make_slint(ENV, ARG)	(mmux_make_int((ENV), (ARG)))
+
+#undef  mmux_make_string
+#define mmux_make_string(ENV, STRPTR, STRLEN)	(env->make_string((ENV), (STRPTR), (STRLEN)))
 
 /* ------------------------------------------------------------------ */
 

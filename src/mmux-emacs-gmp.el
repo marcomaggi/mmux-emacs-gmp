@@ -4,7 +4,7 @@
 
 ;; Author: Marco Maggi <mrc.mgg@gmail.com>
 ;; Created: Jan 15, 2020
-;; Time-stamp: <2020-01-27 07:15:17 marco>
+;; Time-stamp: <2020-01-27 07:38:12 marco>
 ;; Keywords: extensions
 
 ;; This file is part of MMUX Emacs GMP.
@@ -1374,21 +1374,24 @@ The argument BASE can vary from 2 to 62."
   "Add two `mpq' objects.")
 (cl-defmethod  mpq-add ((rop mpq) (op1 mpq) (op2 mpq))
   "Add two `mpq' objects."
-  (mmux-gmp-c-mpq-add (mpq-obj rop) (mpq-obj op1) (mpq-obj op2)))
+  (mmux-gmp-c-mpq-add (mpq-obj rop) (mpq-obj op1) (mpq-obj op2))
+  rop)
 
 ;; void mpq_sub (mpq_t DIFFERENCE, const mpq_t MINUEND, const mpq_t SUBTRAHEND)
 (cl-defgeneric mpq-sub (difference minuend subtrahend)
   "Set DIFFERENCE to MINUEND - SUBTRAHEND.")
 (cl-defmethod  mpq-sub ((difference mpq) (minuend mpq) (subtrahend mpq))
   "Set DIFFERENCE to MINUEND - SUBTRAHEND."
-  (mmux-gmp-c-mpq-sub difference (mpq-obj minuend) (mpq-obj subtrahend)))
+  (mmux-gmp-c-mpq-sub (mpq-obj difference) (mpq-obj minuend) (mpq-obj subtrahend))
+  difference)
 
 ;; void mpq_mul (mpq_t PRODUCT, const mpq_t MULTIPLIER, const mpq_t MULTIPLICAND)
 (cl-defgeneric mpq-mul (product multiplier multiplicand)
   "Set PRODUCT to MULTIPLIER times MULTIPLICAND.")
 (cl-defmethod  mpq-mul ((product mpq) (multiplier mpq) (multiplicand mpq))
   "Set PRODUCT to MULTIPLIER times MULTIPLICAND."
-  (mmux-gmp-c-mpq-mul (mpq-obj product) (mpq-obj multiplier) (mpq-obj multiplicand)))
+  (mmux-gmp-c-mpq-mul (mpq-obj product) (mpq-obj multiplier) (mpq-obj multiplicand))
+  product)
 
 ;; void mpq_mul_2exp (mpq_t ROP, const mpq_t OP1, mp_bitcnt_t OP2)
 (cl-defgeneric mpq-mul-2exp (rop op1 op2)
@@ -1396,14 +1399,16 @@ The argument BASE can vary from 2 to 62."
 (cl-defmethod  mpq-mul-2exp ((rop mpq) (op1 mpq) (op2 integer))
   "Set ROP to OP1 times 2 raised to OP2."
   (cl-assert (<= 0 op2))
-  (mmux-gmp-c-mpq-mul-2exp (mpq-obj rop) (mpq-obj op1) op2))
+  (mmux-gmp-c-mpq-mul-2exp (mpq-obj rop) (mpq-obj op1) op2)
+  rop)
 
 ;; void mpq_div (mpq_t QUOTIENT, const mpq_t DIVIDEND, const mpq_t DIVISOR)
 (cl-defgeneric mpq-div (quotient dividend divisor)
   "Set QUOTIENT to DIVIDEND/DIVISOR.")
 (cl-defmethod  mpq-div ((quotient mpq) (dividend mpq) (divisor mpq))
   "Set QUOTIENT to DIVIDEND/DIVISOR."
-  (mmux-gmp-c-mpq-div (mpq-obj quotient) (mpq-obj dividend) (mpq-obj divisor)))
+  (mmux-gmp-c-mpq-div (mpq-obj quotient) (mpq-obj dividend) (mpq-obj divisor))
+  quotient)
 
 ;; void mpq_div_2exp (mpq_t ROP, const mpq_t OP1, mp_bitcnt_t OP2)
 (cl-defgeneric mpq-div-2exp (rop op1 op2)
@@ -1411,28 +1416,32 @@ The argument BASE can vary from 2 to 62."
 (cl-defmethod  mpq-div-2exp ((rop mpq) (op1 mpq) (op2 integer))
   "Set ROP to OP1 divided by 2 raised to OP2."
   (cl-assert (<= 0 op2))
-  (mmux-gmp-c-mpq-div-2exp (mpq-obj rop) (mpq-obj op1) op2))
+  (mmux-gmp-c-mpq-div-2exp (mpq-obj rop) (mpq-obj op1) op2)
+  rop)
 
 ;; void mpq_neg (mpq_t NEGATED_OPERAND, const mpq_t OPERAND)
 (cl-defgeneric mpq-neg (negated-operand operand)
   "Set NEGATED-OPERAND to -OPERAND.")
 (cl-defmethod  mpq-neg ((negated-operand mpq) (operand mpq))
   "Set NEGATED-OPERAND to -OPERAND."
-  (mmux-gmp-c-mpq-neg (mpq-obj negated-operand) (mpq-obj operand)))
+  (mmux-gmp-c-mpq-neg (mpq-obj negated-operand) (mpq-obj operand))
+  negated-operand)
 
 ;; void mpq_abs (mpq_t ROP, const mpq_t OP)
 (cl-defgeneric mpq-abs (rop op)
   "Set ROP to the absolute value of OP.")
 (cl-defmethod  mpq-abs ((rop mpq) (op mpq))
   "Set ROP to the absolute value of OP."
-  (mmux-gmp-c-mpq-abs (mpq-obj rop) (mpq-obj op)))
+  (mmux-gmp-c-mpq-abs (mpq-obj rop) (mpq-obj op))
+  rop)
 
 ;; void mpq_inv (mpq_t INVERTED_NUMBER, const mpq_t NUMBER)
 (cl-defgeneric mpq-inv (inverted-number number)
   "Set INVERTED-NUMBER to 1/NUMBER.")
 (cl-defmethod  mpq-inv ((inverted-number mpq) (number mpq))
   "Set INVERTED-NUMBER to 1/NUMBER."
-  (mmux-gmp-c-mpq-inv (mpq-obj inverted-number) (mpq-obj number)))
+  (mmux-gmp-c-mpq-inv (mpq-obj inverted-number) (mpq-obj number))
+  inverted-number)
 
 
 ;;;; rational number functions: comparison

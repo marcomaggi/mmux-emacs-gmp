@@ -42,7 +42,7 @@ Fmmux_gmp_c_mpq_set (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void *
   mpq_ptr	op  = mmux_get_mpq(env, args[1]);
 
   mpq_set(rop, op);
-  return env->intern(env, "nil");
+  return mmux_make_nil(env);
 }
 
 /* void mpq_set_si (mpq_t ROP, signed long int OP1, unsigned long int OP2) */
@@ -55,7 +55,7 @@ Fmmux_gmp_c_mpq_set_si (emacs_env *env, ptrdiff_t nargs, emacs_value args[], voi
   mmux_ulint_t	op2 = mmux_get_ulint(env, args[2]);
 
   mpq_set_si(rop, op1, op2);
-  return env->intern(env, "nil");
+  return mmux_make_nil(env);
 }
 
 /* void mpq_set_ui (mpq_t ROP, unsigned long int OP1, unsigned long int OP2) */
@@ -68,7 +68,7 @@ Fmmux_gmp_c_mpq_set_ui (emacs_env *env, ptrdiff_t nargs, emacs_value args[], voi
   mmux_ulint_t	op2 = mmux_get_ulint(env, args[2]);
 
   mpq_set_ui(rop, op1, op2);
-  return env->intern(env, "nil");
+  return mmux_make_nil(env);
 }
 
 static emacs_value
@@ -79,7 +79,7 @@ Fmmux_gmp_c_mpq_set_d (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void
   double	op  = mmux_get_float(env, args[1]);
 
   mpq_set_d(rop, op);
-  return env->intern(env, "nil");
+  return mmux_make_nil(env);
 }
 
 static emacs_value
@@ -90,7 +90,7 @@ Fmmux_gmp_c_mpq_set_z (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void
   mpz_ptr	op  = mmux_get_mpz(env, args[1]);
 
   mpq_set_z(rop, op);
-  return env->intern(env, "nil");
+  return mmux_make_nil(env);
 }
 
 static emacs_value
@@ -101,7 +101,7 @@ Fmmux_gmp_c_mpq_set_f (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void
   mpf_ptr	op  = mmux_get_mpf(env, args[1]);
 
   mpq_set_f(rop, op);
-  return env->intern(env, "nil");
+  return mmux_make_nil(env);
 }
 
 /* int mpq_set_str (mpq_t ROP, const char *STR, int BASE) */
@@ -130,7 +130,7 @@ Fmmux_gmp_c_mpq_set_str (emacs_env *env, ptrdiff_t nargs, emacs_value args[], vo
        "Error Symbols"  for methods to define  error symbols.  (Marco Maggi;  Jan 14,
        2020) */
     env->non_local_exit_signal(env, env->intern(env, MMUX_EMAC_GMP_ERROR_STRING_TOO_LONG), Serrmsg);
-    return env->intern(env, "nil");
+    return mmux_make_nil(env);
   }
 }
 
@@ -142,7 +142,7 @@ Fmmux_gmp_c_mpq_swap (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void 
   mpq_ptr	op2 = mmux_get_mpq(env, args[1]);
 
   mpq_swap(op1, op2);
-  return env->intern(env, "nil");
+  return mmux_make_nil(env);
 }
 
 
@@ -157,7 +157,7 @@ Fmmux_gmp_c_mpq_get_d (emacs_env *env, ptrdiff_t nargs MMUX_EMACS_GMP_UNUSED,
   assert(1 == nargs);
   mpq_ptr	op   = mmux_get_mpq(env, args[0]);
 
-  return env->make_float(env, mpq_get_d(op));
+  return mmux_make_float(env, mpq_get_d(op));
 }
 
 static emacs_value
@@ -173,7 +173,7 @@ Fmmux_gmp_c_mpq_get_str (emacs_env *env, ptrdiff_t nargs MMUX_EMACS_GMP_UNUSED,
     char	str[maxlen];
 
     mpq_get_str(str, base, op);
-    return env->make_string(env, str, strlen(str));
+    return mmux_make_string(env, str, strlen(str));
   }
 }
 
@@ -192,7 +192,7 @@ Fmmux_gmp_c_mpq_add (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void *
   mpq_ptr	op2 = mmux_get_mpq(env, args[2]);
 
   mpq_add(rop, op1, op2);
-  return env->intern(env, "nil");
+  return mmux_make_nil(env);
 }
 
 /* void mpq_sub (mpq_t DIFFERENCE, const mpq_t MINUEND, const mpq_t SUBTRAHEND) */
@@ -205,7 +205,7 @@ Fmmux_gmp_c_mpq_sub (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void *
   mpq_ptr	subtrahend	= mmux_get_mpq(env, args[2]);
 
   mpq_sub(difference, minuend, subtrahend);
-  return env->intern(env, "nil");
+  return mmux_make_nil(env);
 }
 
 /* void mpq_mul (mpq_t PRODUCT, const mpq_t MULTIPLIER, const mpq_t MULTIPLICAND) */
@@ -218,7 +218,7 @@ Fmmux_gmp_c_mpq_mul (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void *
   mpq_ptr	multiplicand	= mmux_get_mpq(env, args[2]);
 
   mpq_mul(product, multiplier, multiplicand);
-  return env->intern(env, "nil");
+  return mmux_make_nil(env);
 }
 
 /* void mpq_mul_2exp (mpq_t ROP, const mpq_t OP1, mp_bitcnt_t OP2) */
@@ -231,7 +231,7 @@ Fmmux_gmp_c_mpq_mul_2exp (emacs_env *env, ptrdiff_t nargs, emacs_value args[], v
   mp_bitcnt_t	op2 = mmux_get_bitcnt(env, args[2]);
 
   mpq_mul_2exp(rop, op1, op2);
-  return env->intern(env, "nil");
+  return mmux_make_nil(env);
 }
 
 /* void mpq_div (mpq_t QUOTIENT, const mpq_t DIVIDEND, const mpq_t DIVISOR) */
@@ -244,7 +244,7 @@ Fmmux_gmp_c_mpq_div (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void *
   mpq_ptr	divisor		= mmux_get_mpq(env, args[2]);
 
   mpq_div(quotient, dividend, divisor);
-  return env->intern(env, "nil");
+  return mmux_make_nil(env);
 }
 
 /* void mpq_div_2exp (mpq_t ROP, const mpq_t OP1, mp_bitcnt_t OP2) */
@@ -257,7 +257,7 @@ Fmmux_gmp_c_mpq_div_2exp (emacs_env *env, ptrdiff_t nargs, emacs_value args[], v
   mp_bitcnt_t	op2 = mmux_get_bitcnt(env, args[2]);
 
   mpq_div_2exp(rop, op1, op2);
-  return env->intern(env, "nil");
+  return mmux_make_nil(env);
 }
 
 /* void mpq_neg (mpq_t NEGATED_OPERAND, const mpq_t OPERAND) */
@@ -269,7 +269,7 @@ Fmmux_gmp_c_mpq_neg (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void *
   mpq_ptr	operand		= mmux_get_mpq(env, args[1]);
 
   mpq_neg(negated_operand, operand);
-  return env->intern(env, "nil");
+  return mmux_make_nil(env);
 }
 
 /* void mpq_abs (mpq_t ROP, const mpq_t OP) */
@@ -281,7 +281,7 @@ Fmmux_gmp_c_mpq_abs (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void *
   mpq_ptr	op  = mmux_get_mpq(env, args[1]);
 
   mpq_abs(rop, op);
-  return env->intern(env, "nil");
+  return mmux_make_nil(env);
 }
 
 /* void mpq_inv (mpq_t INVERTED_NUMBER, const mpq_t NUMBER) */
@@ -293,7 +293,7 @@ Fmmux_gmp_c_mpq_inv (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void *
   mpq_ptr	number		= mmux_get_mpq(env, args[1]);
 
   mpq_inv(inverted_number, number);
-  return env->intern(env, "nil");
+  return mmux_make_nil(env);
 }
 
 
@@ -495,22 +495,22 @@ static module_function_t const module_functions_table[NUMBER_OF_MODULE_FUNCTIONS
   { /* void mpq_neg (mpq_t NEGATED_OPERAND, const mpq_t OPERAND) */
     .name		= "mmux-gmp-c-mpq-neg",
     .implementation	= Fmmux_gmp_c_mpq_neg,
-    .min_arity		= 3,
-    .max_arity		= 3,
+    .min_arity		= 2,
+    .max_arity		= 2,
     .documentation	= "Set NEGATED_OPERAND to -OPERAND.",
   },
   { /* void mpq_abs (mpq_t ROP, const mpq_t OP) */
     .name		= "mmux-gmp-c-mpq-abs",
     .implementation	= Fmmux_gmp_c_mpq_abs,
-    .min_arity		= 3,
-    .max_arity		= 3,
+    .min_arity		= 2,
+    .max_arity		= 2,
     .documentation	= "Set ROP to the absolute value of OP.",
   },
   { /* void mpq_inv (mpq_t INVERTED_NUMBER, const mpq_t NUMBER) */
     .name		= "mmux-gmp-c-mpq-inv",
     .implementation	= Fmmux_gmp_c_mpq_inv,
-    .min_arity		= 3,
-    .max_arity		= 3,
+    .min_arity		= 2,
+    .max_arity		= 2,
     .documentation	= "Set INVERTED_NUMBER to 1/NUMBER.",
   },
 
