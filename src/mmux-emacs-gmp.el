@@ -4,7 +4,7 @@
 
 ;; Author: Marco Maggi <mrc.mgg@gmail.com>
 ;; Created: Jan 15, 2020
-;; Time-stamp: <2020-01-27 07:38:12 marco>
+;; Time-stamp: <2020-01-27 14:13:04 marco>
 ;; Keywords: extensions
 
 ;; This file is part of MMUX Emacs GMP.
@@ -1348,6 +1348,15 @@ The argument BASE can vary from 2 to 62."
 (cl-defmethod  mpq-swap ((op1 mpq) (op2 mpq))
   "Swap the values of two `mpq' objects."
   (mmux-gmp-c-mpq-swap (mpq-obj op1) (mpq-obj op2)))
+
+;;; --------------------------------------------------------------------
+
+;; void mpq_canonicalize (mpq_t OP)
+(cl-defgeneric mpq-canonicalize (op)
+  "Remove any factors that are common to the numerator and denominator of OP, and make the denominator positive.")
+(cl-defmethod  mpq-canonicalize ((op mpq))
+  "Remove any factors that are common to the numerator and denominator of OP, and make the denominator positive."
+  (mmux-gmp-c-mpq-canonicalize (mpq-obj op)))
 
 
 ;;;; rational number functions: conversion

@@ -35,6 +35,16 @@
  ** ----------------------------------------------------------------- */
 
 static emacs_value
+Fmmux_gmp_c_mpq_canonicalize (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
+{
+  assert(1 == nargs);
+  mpq_ptr	op  = mmux_emacs_get_mpq(env, args[0]);
+
+  mpq_canonicalize(op);
+  return mmux_emacs_make_nil(env);
+}
+
+static emacs_value
 Fmmux_gmp_c_mpq_set (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
 {
   assert(2 == nargs);
@@ -373,9 +383,16 @@ Fmmux_gmp_c_mpq_equal (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void
  ** Elisp functions table.
  ** ----------------------------------------------------------------- */
 
-#define NUMBER_OF_MODULE_FUNCTIONS	25
+#define NUMBER_OF_MODULE_FUNCTIONS	26
 static module_function_t const module_functions_table[NUMBER_OF_MODULE_FUNCTIONS] = {
   /* Assignment function. */
+  { /* void mpq_canonicalize (mpq_t OP) */
+    .name		= "mmux-gmp-c-mpq-canonicalize",
+    .implementation	= Fmmux_gmp_c_mpq_canonicalize,
+    .min_arity		= 1,
+    .max_arity		= 1,
+    .documentation	= "Remove any factors that are common to the numerator and denominator of OP, and make the denominator positive.",
+  },
   {
     .name		= "mmux-gmp-c-mpq-set",
     .implementation	= Fmmux_gmp_c_mpq_set,

@@ -2662,6 +2662,14 @@ Return @true{} if @var{obj} is an instance of @objtype{mpq}; otherwise return @f
 @section Assigning values to rational number objects
 
 
+@c void mpq_canonicalize (mpq_t OP)
+@deffn {Generic Function} mpq-canonicalize (@var{OP})
+@deffnx {Method} mpq-canonicalize ((@var{OP} mpq))
+Remove any factors that are common to the numerator and denominator of OP, and make the denominator
+positive.
+@end deffn
+
+
 @deffn {Generic Function} mpq-set (@var{ROP} @var{OP})
 @deffnx {Method} mpq-set ((@var{ROP} mpq) (@var{OP} mpq))
 Assign the value of @var{OP} to @var{ROP}; both the operands must be of type @objtype{mpq}.

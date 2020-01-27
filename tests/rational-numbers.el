@@ -50,6 +50,13 @@
 
 ;;;; assignment functions
 
+;; void mpq_canonicalize (mpq_t OP)
+(ert-deftest mpq-canonicalize ()
+  "Remove any factors that are common to the numerator and denominator of OP, and make the denominator positive."
+  (let ((op	(mpq 3 9)))
+    (mpq-canonicalize op)
+    (should (mpq-equal (mpq 1 3) op))))
+
 (ert-deftest mpq-set ()
   "Assign an `mpq' object to an `mpq' object."
   (should (equal "3/4" (let ((rop (mpq))
