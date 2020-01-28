@@ -3200,6 +3200,7 @@ correctly garbage collected.
                                 other objects.
 * floats arithmetic::           Arithmetic operations.
 * floats comparison::           Comparison functions.
+* floats misc::                 Miscellaneous functions.
 @end menu
 
 @c page
@@ -4018,6 +4019,174 @@ Return true if each argument is equal to the following argument; otherwise retur
 @deffnx {Method} mpf-almost-equal-p ((@vari{OP} mpf) (@varii{OP} mpf) (@var{TOL} float))
 @deffnx {Method} mpf-almost-equal-p ((@vari{OP} mpf) (@varii{OP} float) (@var{TOL} float))
 Return true if abs(@vari{OP} - @varii{OP}) < @var{TOL}.
+@end deffn
+
+@c page
+@node floats misc
+@section Miscellaneous functions
+
+
+@c void mpf_ceil (mpf_t ROP, const mpf_t OP)
+@deffn {Generic Function} mpf-ceil (@var{ROP} @var{OP})
+@deffnx {Method} mpf-ceil ((@var{ROP} mpf) (@var{OP} mpf))
+Set @var{ROP} to @var{OP} rounded to an integer.
+
+@lisp
+(let ((rop    (mpf))
+      (op     (mpf 1.5)))
+  (mpf-ceil rop op)
+  (mpf-almost-equal-p rop 2.0 1e-5))
+@result{} t
+@end lisp
+@end deffn
+
+
+@c void mpf_floor (mpf_t ROP, const mpf_t OP)
+@deffn {Generic Function} mpf-floor (@var{ROP} @var{OP})
+@deffnx {Method} mpf-floor ((@var{ROP} mpf) (@var{OP} mpf))
+Set @var{ROP} to @var{OP} rounded to an integer.
+
+@lisp
+(let ((rop    (mpf))
+      (op     (mpf 1.5)))
+  (mpf-floor rop op)
+  (mpf-almost-equal-p rop 1.0 1e-5))
+@result{} t
+@end lisp
+@end deffn
+
+
+@c void mpf_trunc (mpf_t ROP, const mpf_t OP)
+@deffn {Generic Function} mpf-trunc (@var{ROP} @var{OP})
+@deffnx {Method} mpf-trunc ((@var{ROP} mpf) (@var{OP} mpf))
+Set @var{ROP} to @var{OP} rounded to an integer.
+
+@lisp
+(let ((rop    (mpf))
+      (op     (mpf 1.5)))
+  (mpf-trunc rop op)
+  (mpf-almost-equal-p rop 1.0 1e-5))
+@result{} t
+@end lisp
+@end deffn
+
+
+@c int mpf_integer_p (const mpf_t OP)
+@deffn {Generic Function} mpf-integer-p (@var{OP})
+@deffnx {Method} mpf-integer-p ((@var{OP} mpf))
+Return true if @var{OP} is an integer.
+
+@lisp
+(mpf-integer-p (mpf 1.0))       @result{} t
+(mpf-integer-p (mpf 1.1))       @result{} nil
+@end lisp
+@end deffn
+
+
+@c int mpf_fits_ulong_p (const mpf_t OP)
+@deffn {Generic Function} mpf-fits-ulong-p (@var{OP})
+@deffnx {Method} mpf-fits-ulong-p ((@var{OP} mpf))
+Return true if @var{OP} would fit in the respective C data type, when truncated to an integer.
+
+@lisp
+(mpf-fits-ulong-p (mpf 1.2))    @result{} t
+(mpf-fits-ulong-p (mpf 1.0e99)) @result{} nil
+@end lisp
+@end deffn
+
+
+@c int mpf_fits_slong_p (const mpf_t OP)
+@deffn {Generic Function} mpf-fits-slong-p (@var{OP})
+@deffnx {Method} mpf-fits-slong-p ((@var{OP} mpf))
+Return true if @var{OP} would fit in the respective C data type, when truncated to an integer.
+
+@lisp
+(mpf-fits-slong-p (mpf 1.2))    @result{} t
+(mpf-fits-slong-p (mpf 1.0e99)) @result{} nil
+@end lisp
+@end deffn
+
+
+@c int mpf_fits_uint_p (const mpf_t OP)
+@deffn {Generic Function} mpf-fits-uint-p (@var{OP})
+@deffnx {Method} mpf-fits-uint-p ((@var{OP} mpf))
+Return true if @var{OP} would fit in the respective C data type, when truncated to an integer.
+
+@lisp
+(mpf-fits-uint-p (mpf 1.2))     @result{} t
+(mpf-fits-uint-p (mpf 1.0e99))  @result{} nil
+@end lisp
+@end deffn
+
+
+@c int mpf_fits_sint_p (const mpf_t OP)
+@deffn {Generic Function} mpf-fits-sint-p (@var{OP})
+@deffnx {Method} mpf-fits-sint-p ((@var{OP} mpf))
+Return true if @var{OP} would fit in the respective C data type, when truncated to an integer.
+
+@lisp
+(mpf-fits-sint-p (mpf 1.2))     @result{} t
+(mpf-fits-sint-p (mpf 1.0e99))  @result{} nil
+@end lisp
+@end deffn
+
+
+@c int mpf_fits_ushort_p (const mpf_t OP)
+@deffn {Generic Function} mpf-fits-ushort-p (@var{OP})
+@deffnx {Method} mpf-fits-ushort-p ((@var{OP} mpf))
+Return true if @var{OP} would fit in the respective C data type, when truncated to an integer.
+
+@lisp
+(mpf-fits-ushort-p (mpf 1.2))           @result{} t
+(mpf-fits-ushort-p (mpf 1.0e99))        @result{} nil
+@end lisp
+@end deffn
+
+
+@c int mpf_fits_sshort_p (const mpf_t OP)
+@deffn {Generic Function} mpf-fits-sshort-p (@var{OP})
+@deffnx {Method} mpf-fits-sshort-p ((@var{OP} mpf))
+Return true if @var{OP} would fit in the respective C data type, when truncated to an integer.
+
+@lisp
+(mpf-fits-sshort-p (mpf 1.2))           @result{} t
+(mpf-fits-sshort-p (mpf 1.0e99))        @result{} nil
+@end lisp
+@end deffn
+
+
+@c void mpf_urandomb (mpf_t ROP, gmp_randstate_t STATE, mp_bitcnt_t NBITS)
+@deffn {Generic Function} mpf-urandomb (@var{ROP} @var{STATE} @var{NBITS})
+@deffnx {Method} mpf-urandomb ((@var{ROP} mpf) (@var{STATE} gmp-randstate) (@var{NBITS} integer))
+Generate a uniformly distributed random float in @var{ROP}.
+
+@lisp
+(let ((rop    (mpf))
+      (state  (gmp-randstate))
+      (nbits  3))
+  (gmp-randinit-default state)
+  (gmp-randseed-ui state 123)
+  (mpf-urandomb rop state nbits)
+  (mpf<= 0 rop)         @result{} t
+  (mpf<  rop 1.0))      @result{} t
+@end lisp
+@end deffn
+
+
+@c void mpf_random2 (mpf_t ROP, mp_size_t MAX_SIZE, mp_exp_t EXP)
+@deffn {Generic Function} mpf-random2 (@var{ROP} @var{MAX-SIZE} @var{EXP})
+@deffnx {Method} mpf-random2 ((@var{ROP} mpf) (@var{MAX-SIZE} integer) (@var{EXP} integer))
+Generate a random float of at most @var{MAX-SIZE} limbs, with long strings of zeros and ones in the
+binary representation.
+
+@lisp
+(let ((rop            (mpf))
+      (max-size       1)
+      (exp            3))
+  (mpf-random2 rop max-size exp)
+  (mpf-p rop))
+@result{} t
+@end lisp
 @end deffn
 
 @c page

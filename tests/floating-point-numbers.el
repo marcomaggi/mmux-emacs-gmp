@@ -23,6 +23,12 @@
 (require 'mmux-emacs-gmp)
 
 
+;;;; helpers
+
+(defun mmux-gmp-print-stderr (obj)
+  (print obj #'external-debugging-output))
+
+
 ;;;; allocation functions
 
 (ert-deftest mpf-1 ()
@@ -495,6 +501,96 @@
   (should (not (mpf= (mpf 1.0) (mpf 2.0))))
   (should      (mpf= (mpf 1.0) (mpf 1.0)))
   (should (not (mpf= (mpf 2.0) (mpf 1.0)))))
+
+
+;;;; floating-point numbers: miscellaneous functions
+
+;; void mpf_ceil (mpf_t ROP, const mpf_t OP)
+(ert-deftest mpf-ceil ()
+  "Set ROP to OP rounded to an integer."
+  (let ((rop	(mpf))
+	(op	(mpf 1.5)))
+    (mpf-ceil rop op)
+    (should (mpf-almost-equal-p rop 2.0 1e-5))))
+
+;; void mpf_floor (mpf_t ROP, const mpf_t OP)
+(ert-deftest mpf-floor ()
+  "Set ROP to OP rounded to an integer."
+  (let ((rop	(mpf))
+	(op	(mpf 1.5)))
+    (mpf-floor rop op)
+    (should (mpf-almost-equal-p rop 1.0 1e-5))))
+
+;; void mpf_trunc (mpf_t ROP, const mpf_t OP)
+(ert-deftest mpf-trunc ()
+  "Set ROP to OP rounded to an integer."
+  (let ((rop	(mpf))
+	(op	(mpf 1.5)))
+    (mpf-trunc rop op)
+    (should (mpf-almost-equal-p rop 1.0 1e-5))))
+
+;; int mpf_integer_p (const mpf_t OP)
+(ert-deftest mpf-integer-p ()
+  "Return non-zero if OP is an integer."
+  (should      (mpf-integer-p (mpf 1.0)))
+  (should (not (mpf-integer-p (mpf 1.1)))))
+
+;; int mpf_fits_ulong_p (const mpf_t OP)
+(ert-deftest mpf-fits-ulong-p ()
+  "Return non-zero if OP would fit in the respective C data type, when truncated to an integer."
+  (should      (mpf-fits-ulong-p (mpf 1.2)))
+  (should (not (mpf-fits-ulong-p (mpf 1.0e99)))))
+
+;; int mpf_fits_slong_p (const mpf_t OP)
+(ert-deftest mpf-fits-slong-p ()
+  "Return non-zero if OP would fit in the respective C data type, when truncated to an integer."
+  (should      (mpf-fits-slong-p (mpf 1.2)))
+  (should (not (mpf-fits-slong-p (mpf 1.0e99)))))
+
+;; int mpf_fits_uint_p (const mpf_t OP)
+(ert-deftest mpf-fits-uint-p ()
+  "Return non-zero if OP would fit in the respective C data type, when truncated to an integer."
+  (should      (mpf-fits-uint-p (mpf 1.2)))
+  (should (not (mpf-fits-uint-p (mpf 1.0e99)))))
+
+;; int mpf_fits_sint_p (const mpf_t OP)
+(ert-deftest mpf-fits-sint-p ()
+  "Return non-zero if OP would fit in the respective C data type, when truncated to an integer."
+  (should      (mpf-fits-sint-p (mpf 1.2)))
+  (should (not (mpf-fits-sint-p (mpf 1.0e99)))))
+
+;; int mpf_fits_ushort_p (const mpf_t OP)
+(ert-deftest mpf-fits-ushort-p ()
+  "Return non-zero if OP would fit in the respective C data type, when truncated to an integer."
+  (should      (mpf-fits-ushort-p (mpf 1.2)))
+  (should (not (mpf-fits-ushort-p (mpf 1.0e99)))))
+
+;; int mpf_fits_sshort_p (const mpf_t OP)
+(ert-deftest mpf-fits-sshort-p ()
+  "Return non-zero if OP would fit in the respective C data type, when truncated to an integer."
+  (should      (mpf-fits-sshort-p (mpf 1.2)))
+  (should (not (mpf-fits-sshort-p (mpf 1.0e99)))))
+
+;; void mpf_urandomb (mpf_t ROP, gmp_randstate_t STATE, mp_bitcnt_t NBITS)
+(ert-deftest mpf-urandomb ()
+  "Generate a uniformly distributed random float in ROP."
+  (let ((rop	(mpf))
+	(state	(gmp-randstate))
+	(nbits	3))
+    (gmp-randinit-default state)
+    (gmp-randseed-ui state 123)
+    (mpf-urandomb rop state nbits)
+    (should (mpf<= 0 rop))
+    (should (mpf<  rop 1.0))))
+
+;; void mpf_random2 (mpf_t ROP, mp_size_t MAX_SIZE, mp_exp_t EXP)
+(ert-deftest mpf-random2 ()
+  "Generate a random float of at most MAX_SIZE limbs, with long strings of zeros and ones in the binary representation."
+  (let ((rop		(mpf))
+	(max-size	1)
+	(exp		3))
+    (mpf-random2 rop max-size exp)
+    (should (mpf-p rop))))
 
 
 ;;;; done

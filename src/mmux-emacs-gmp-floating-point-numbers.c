@@ -587,10 +587,147 @@ Fmmux_emacs_gmp_c_mpf_reldiff (emacs_env *env, ptrdiff_t nargs, emacs_value args
 
 
 /** --------------------------------------------------------------------
+ ** Miscellaneous functions.
+ ** ----------------------------------------------------------------- */
+
+/* void mpf_ceil (mpf_t ROP, const mpf_t OP) */
+static emacs_value
+Fmmux_emacs_gmp_c_mpf_ceil (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
+{
+  assert(2 == nargs);
+  mpf_ptr	rop = mmux_emacs_get_mpf(env, args[0]);
+  mpf_ptr	op  = mmux_emacs_get_mpf(env, args[1]);
+
+  mpf_ceil(rop, op);
+  return mmux_emacs_make_nil(env);
+}
+
+/* void mpf_floor (mpf_t ROP, const mpf_t OP) */
+static emacs_value
+Fmmux_emacs_gmp_c_mpf_floor (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
+{
+  assert(2 == nargs);
+  mpf_ptr	rop = mmux_emacs_get_mpf(env, args[0]);
+  mpf_ptr	op  = mmux_emacs_get_mpf(env, args[1]);
+
+  mpf_floor(rop, op);
+  return mmux_emacs_make_nil(env);
+}
+
+/* void mpf_trunc (mpf_t ROP, const mpf_t OP) */
+static emacs_value
+Fmmux_emacs_gmp_c_mpf_trunc (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
+{
+  assert(2 == nargs);
+  mpf_ptr	rop = mmux_emacs_get_mpf(env, args[0]);
+  mpf_ptr	op  = mmux_emacs_get_mpf(env, args[1]);
+
+  mpf_trunc(rop, op);
+  return mmux_emacs_make_nil(env);
+}
+
+/* int mpf_integer_p (const mpf_t OP) */
+static emacs_value
+Fmmux_emacs_gmp_c_mpf_integer_p (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
+{
+  assert(1 == nargs);
+  mpf_ptr	op = mmux_emacs_get_mpf(env, args[0]);
+
+  return mmux_emacs_make_boolean(env, mpf_integer_p(op));
+}
+
+/* int mpf_fits_ulong_p (const mpf_t OP) */
+static emacs_value
+Fmmux_emacs_gmp_c_mpf_fits_ulong_p (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
+{
+  assert(1 == nargs);
+  mpf_ptr	op = mmux_emacs_get_mpf(env, args[0]);
+
+  return mmux_emacs_make_boolean(env, mpf_fits_ulong_p(op));
+}
+
+/* int mpf_fits_slong_p (const mpf_t OP) */
+static emacs_value
+Fmmux_emacs_gmp_c_mpf_fits_slong_p (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
+{
+  assert(1 == nargs);
+  mpf_ptr	op = mmux_emacs_get_mpf(env, args[0]);
+
+  return mmux_emacs_make_boolean(env, mpf_fits_slong_p(op));
+}
+
+/* int mpf_fits_uint_p (const mpf_t OP) */
+static emacs_value
+Fmmux_emacs_gmp_c_mpf_fits_uint_p (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
+{
+  assert(1 == nargs);
+  mpf_ptr	op = mmux_emacs_get_mpf(env, args[0]);
+
+  return mmux_emacs_make_boolean(env, mpf_fits_uint_p(op));
+}
+
+/* int mpf_fits_sint_p (const mpf_t OP) */
+static emacs_value
+Fmmux_emacs_gmp_c_mpf_fits_sint_p (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
+{
+  assert(1 == nargs);
+  mpf_ptr	op = mmux_emacs_get_mpf(env, args[0]);
+
+  return mmux_emacs_make_boolean(env, mpf_fits_sint_p(op));
+}
+
+/* int mpf_fits_ushort_p (const mpf_t OP) */
+static emacs_value
+Fmmux_emacs_gmp_c_mpf_fits_ushort_p (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
+{
+  assert(1 == nargs);
+  mpf_ptr	op = mmux_emacs_get_mpf(env, args[0]);
+
+  return mmux_emacs_make_boolean(env, mpf_fits_ushort_p(op));
+}
+
+/* int mpf_fits_sshort_p (const mpf_t OP) */
+static emacs_value
+Fmmux_emacs_gmp_c_mpf_fits_sshort_p (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
+{
+  assert(1 == nargs);
+  mpf_ptr	op = mmux_emacs_get_mpf(env, args[0]);
+
+  return mmux_emacs_make_boolean(env, mpf_fits_sshort_p(op));
+}
+
+/* void mpf_urandomb (mpf_t ROP, gmp_randstate_t STATE, mp_bitcnt_t NBITS) */
+static emacs_value
+Fmmux_emacs_gmp_c_mpf_urandomb (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
+{
+  assert(3 == nargs);
+  mpf_ptr		rop	= mmux_emacs_get_mpf(env, args[0]);
+  mmux_gmp_randstate_t	state	= mmux_emacs_get_randstate(env, args[1]);
+  mp_bitcnt_t		nbits	= mmux_emacs_get_bitcnt(env, args[2]);
+
+  mpf_urandomb(rop, state, nbits);
+  return mmux_emacs_make_nil(env);
+}
+
+/* void mpf_random2 (mpf_t ROP, mp_size_t MAX_SIZE, mp_exp_t EXP) */
+static emacs_value
+Fmmux_emacs_gmp_c_mpf_random2 (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
+{
+  assert(3 == nargs);
+  mpf_ptr	rop		= mmux_emacs_get_mpf(env, args[0]);
+  mp_size_t	max_size	= mmux_emacs_get_size(env, args[1]);
+  mp_exp_t	exp		= mmux_emacs_get_exp(env, args[2]);
+
+  mpf_random2(rop, max_size, exp);
+  return mmux_emacs_make_nil(env);
+}
+
+
+/** --------------------------------------------------------------------
  ** Elisp functions table.
  ** ----------------------------------------------------------------- */
 
-#define NUMBER_OF_MODULE_FUNCTIONS	41
+#define NUMBER_OF_MODULE_FUNCTIONS	53
 static module_function_t const module_functions_table[NUMBER_OF_MODULE_FUNCTIONS] = {
   /* Assignment function. */
   {
@@ -887,6 +1024,92 @@ static module_function_t const module_functions_table[NUMBER_OF_MODULE_FUNCTIONS
     .min_arity		= 3,
     .max_arity		= 3,
     .documentation	= "Compute the relative difference between OP1 and OP2 and store the result in ROP.  This is abs(OP1-OP2)/OP1.",
+  },
+
+  /* Miscellaneous functions. */
+  { /* void mpf_ceil (mpf_t ROP, const mpf_t OP) */
+    .name		= "mmux-gmp-c-mpf-ceil",
+    .implementation	= Fmmux_emacs_gmp_c_mpf_ceil,
+    .min_arity		= 2,
+    .max_arity		= 2,
+    .documentation	= "Set ROP to OP rounded to an integer.",
+  },
+  { /* void mpf_floor (mpf_t ROP, const mpf_t OP) */
+    .name		= "mmux-gmp-c-mpf-floor",
+    .implementation	= Fmmux_emacs_gmp_c_mpf_floor,
+    .min_arity		= 2,
+    .max_arity		= 2,
+    .documentation	= "Set ROP to OP rounded to an integer.",
+  },
+  { /* void mpf_trunc (mpf_t ROP, const mpf_t OP) */
+    .name		= "mmux-gmp-c-mpf-trunc",
+    .implementation	= Fmmux_emacs_gmp_c_mpf_trunc,
+    .min_arity		= 2,
+    .max_arity		= 2,
+    .documentation	= "Set ROP to OP rounded to an integer.",
+  },
+  { /* int mpf_integer_p (const mpf_t OP) */
+    .name		= "mmux-gmp-c-mpf-integer-p",
+    .implementation	= Fmmux_emacs_gmp_c_mpf_integer_p,
+    .min_arity		= 1,
+    .max_arity		= 1,
+    .documentation	= "Return true if OP is an integer.",
+  },
+  { /* int mpf_fits_ulong_p (const mpf_t OP) */
+    .name		= "mmux-gmp-c-mpf-fits-ulong-p",
+    .implementation	= Fmmux_emacs_gmp_c_mpf_fits_ulong_p,
+    .min_arity		= 1,
+    .max_arity		= 1,
+    .documentation	= "Return true if OP would fit in the respective C data type, when truncated to an integer.",
+  },
+  { /* int mpf_fits_slong_p (const mpf_t OP) */
+    .name		= "mmux-gmp-c-mpf-fits-slong-p",
+    .implementation	= Fmmux_emacs_gmp_c_mpf_fits_slong_p,
+    .min_arity		= 1,
+    .max_arity		= 1,
+    .documentation	= "Return true if OP would fit in the respective C data type, when truncated to an integer.",
+  },
+  { /* int mpf_fits_uint_p (const mpf_t OP) */
+    .name		= "mmux-gmp-c-mpf-fits-uint-p",
+    .implementation	= Fmmux_emacs_gmp_c_mpf_fits_uint_p,
+    .min_arity		= 1,
+    .max_arity		= 1,
+    .documentation	= "Return true if OP would fit in the respective C data type, when truncated to an integer.",
+  },
+  { /* int mpf_fits_sint_p (const mpf_t OP) */
+    .name		= "mmux-gmp-c-mpf-fits-sint-p",
+    .implementation	= Fmmux_emacs_gmp_c_mpf_fits_sint_p,
+    .min_arity		= 1,
+    .max_arity		= 1,
+    .documentation	= "Return true if OP would fit in the respective C data type, when truncated to an integer.",
+  },
+  { /* int mpf_fits_ushort_p (const mpf_t OP) */
+    .name		= "mmux-gmp-c-mpf-fits-ushort-p",
+    .implementation	= Fmmux_emacs_gmp_c_mpf_fits_ushort_p,
+    .min_arity		= 1,
+    .max_arity		= 1,
+    .documentation	= "Return true if OP would fit in the respective C data type, when truncated to an integer.",
+  },
+  { /* int mpf_fits_sshort_p (const mpf_t OP) */
+    .name		= "mmux-gmp-c-mpf-fits-sshort-p",
+    .implementation	= Fmmux_emacs_gmp_c_mpf_fits_sshort_p,
+    .min_arity		= 1,
+    .max_arity		= 1,
+    .documentation	= "Return true if OP would fit in the respective C data type, when truncated to an integer.",
+  },
+  { /* void mpf_urandomb (mpf_t ROP, gmp_randstate_t STATE, mp_bitcnt_t NBITS) */
+    .name		= "mmux-gmp-c-mpf-urandomb",
+    .implementation	= Fmmux_emacs_gmp_c_mpf_urandomb,
+    .min_arity		= 3,
+    .max_arity		= 3,
+    .documentation	= "Generate a uniformly distributed random float in ROP.",
+  },
+  { /* void mpf_random2 (mpf_t ROP, mp_size_t MAX_SIZE, mp_exp_t EXP) */
+    .name		= "mmux-gmp-c-mpf-random2",
+    .implementation	= Fmmux_emacs_gmp_c_mpf_random2,
+    .min_arity		= 3,
+    .max_arity		= 3,
+    .documentation	= "Generate a random float of at most MAX-SIZE limbs, with long strings of zeros and ones in the binary representation.",
   },
 };
 

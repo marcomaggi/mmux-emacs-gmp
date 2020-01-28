@@ -4,7 +4,7 @@
 
 ;; Author: Marco Maggi <mrc.mgg@gmail.com>
 ;; Created: Jan 15, 2020
-;; Time-stamp: <2020-01-28 06:58:49 marco>
+;; Time-stamp: <2020-01-28 08:25:07 marco>
 ;; Keywords: extensions
 
 ;; This file is part of MMUX Emacs GMP.
@@ -1982,6 +1982,12 @@ The argument BASE can vary from 2 to 62."
 (cl-defmethod  mpf< ((op1 mpf) (op2 mpf))
   "Return true if each argument is strictly less than the following argument; otherwise return false."
   (> 0 (mpf-cmp op1 op2)))
+(cl-defmethod  mpf< ((op1 mpf) (op2 float))
+  "Return true if each argument is strictly less than the following argument; otherwise return false."
+  (> 0 (mpf-cmp-d op1 op2)))
+(cl-defmethod  mpf< ((op1 float) (op2 mpf))
+  "Return true if each argument is strictly less than the following argument; otherwise return false."
+  (< 0 (mpf-cmp-d op2 op1)))
 
 (cl-defgeneric mpf> (op &rest ops)
   "Return true if each argument is strictly greater than the following argument; otherwise return false.")
@@ -1994,6 +2000,26 @@ The argument BASE can vary from 2 to 62."
 (cl-defmethod  mpf<= ((op1 mpf) (op2 mpf))
   "Return true if each argument is strictly less than, or equal to, the following argument; otherwise return false."
   (>= 0 (mpf-cmp op1 op2)))
+(cl-defmethod  mpf<= ((op1 mpf) (op2 float))
+  "Return true if each argument is strictly less than, or equal to, the following argument; otherwise return false."
+  (>= 0 (mpf-cmp-d op1 op2)))
+(cl-defmethod  mpf<= ((op1 float) (op2 mpf))
+  "Return true if each argument is strictly less than, or equal to, the following argument; otherwise return false."
+  (<= 0 (mpf-cmp op2 op1)))
+(cl-defmethod  mpf<= ((op1 mpf) (op2 integer))
+  "Return true if each argument is strictly less than, or equal to, the following argument; otherwise return false."
+  (>= 0 (mpf-cmp-si op1 op2)))
+(cl-defmethod  mpf<= ((op1 integer) (op2 mpf))
+  "Return true if each argument is strictly less than, or equal to, the following argument; otherwise return false."
+  (<= 0 (mpf-cmp-si op2 op1)))
+(cl-defmethod  mpf<= ((op1 mpf) (op2 integer))
+  "Return true if each argument is strictly less than, or equal to, the following argument; otherwise return false."
+  (cl-assert (<= 0 op2))
+  (>= 0 (mpf-cmp-ui op1 op2)))
+(cl-defmethod  mpf<= ((op1 integer) (op2 mpf))
+  "Return true if each argument is strictly less than, or equal to, the following argument; otherwise return false."
+  (cl-assert (<= 0 op1))
+  (<= 0 (mpf-cmp-ui op2 op1)))
 
 (cl-defgeneric mpf>= (op &rest ops)
   "Return true if each argument is greater than, or equal to, the following argument; otherwise return false.")
@@ -2032,6 +2058,96 @@ The argument BASE can vary from 2 to 62."
     (mpf-sub rop op1 (mpf op2))
     (mpf-abs rop rop)
     (= -1 (mpf-cmp-d rop tol))))
+
+
+;;;; floating-point numbers: miscellaneous functions
+
+;; void mpf_ceil (mpf_t ROP, const mpf_t OP)
+(cl-defgeneric mpf-ceil (rop op)
+  "Set ROP to OP rounded to an integer.")
+(cl-defmethod  mpf-ceil ((rop mpf) (op mpf))
+  "Set ROP to OP rounded to an integer."
+  (mmux-gmp-c-mpf-ceil (mpf-obj rop) (mpf-obj op)))
+
+;; void mpf_floor (mpf_t ROP, const mpf_t OP)
+(cl-defgeneric mpf-floor (rop op)
+  "Set ROP to OP rounded to an integer.")
+(cl-defmethod  mpf-floor ((rop mpf) (op mpf))
+  "Set ROP to OP rounded to an integer."
+  (mmux-gmp-c-mpf-floor (mpf-obj rop) (mpf-obj op)))
+
+;; void mpf_trunc (mpf_t ROP, const mpf_t OP)
+(cl-defgeneric mpf-trunc (rop op)
+  "Set ROP to OP rounded to an integer.")
+(cl-defmethod  mpf-trunc ((rop mpf) (op mpf))
+  "Set ROP to OP rounded to an integer."
+  (mmux-gmp-c-mpf-trunc (mpf-obj rop) (mpf-obj op)))
+
+;; int mpf_integer_p (const mpf_t OP)
+(cl-defgeneric mpf-integer-p (op)
+  "Return true if OP is an integer.")
+(cl-defmethod  mpf-integer-p ((op mpf))
+  "Return true if OP is an integer."
+  (mmux-gmp-c-mpf-integer-p (mpf-obj op)))
+
+;; int mpf_fits_ulong_p (const mpf_t OP)
+(cl-defgeneric mpf-fits-ulong-p (op)
+  "Return true if OP would fit in the respective C data type, when truncated to an integer.")
+(cl-defmethod  mpf-fits-ulong-p ((op mpf))
+  "Return true if OP would fit in the respective C data type, when truncated to an integer."
+  (mmux-gmp-c-mpf-fits-ulong-p (mpf-obj op)))
+
+;; int mpf_fits_slong_p (const mpf_t OP)
+(cl-defgeneric mpf-fits-slong-p (op)
+  "Return true if OP would fit in the respective C data type, when truncated to an integer.")
+(cl-defmethod  mpf-fits-slong-p ((op mpf))
+  "Return true if OP would fit in the respective C data type, when truncated to an integer."
+  (mmux-gmp-c-mpf-fits-slong-p (mpf-obj op)))
+
+;; int mpf_fits_uint_p (const mpf_t OP)
+(cl-defgeneric mpf-fits-uint-p (op)
+  "Return true if OP would fit in the respective C data type, when truncated to an integer.")
+(cl-defmethod  mpf-fits-uint-p ((op mpf))
+  "Return true if OP would fit in the respective C data type, when truncated to an integer."
+  (mmux-gmp-c-mpf-fits-uint-p (mpf-obj op)))
+
+;; int mpf_fits_sint_p (const mpf_t OP)
+(cl-defgeneric mpf-fits-sint-p (op)
+  "Return true if OP would fit in the respective C data type, when truncated to an integer.")
+(cl-defmethod  mpf-fits-sint-p ((op mpf))
+  "Return true if OP would fit in the respective C data type, when truncated to an integer."
+  (mmux-gmp-c-mpf-fits-sint-p (mpf-obj op)))
+
+;; int mpf_fits_ushort_p (const mpf_t OP)
+(cl-defgeneric mpf-fits-ushort-p (op)
+  "Return true if OP would fit in the respective C data type, when truncated to an integer.")
+(cl-defmethod  mpf-fits-ushort-p ((op mpf))
+  "Return true if OP would fit in the respective C data type, when truncated to an integer."
+  (mmux-gmp-c-mpf-fits-ushort-p (mpf-obj op)))
+
+;; int mpf_fits_sshort_p (const mpf_t OP)
+(cl-defgeneric mpf-fits-sshort-p (op)
+  "Return true if OP would fit in the respective C data type, when truncated to an integer.")
+(cl-defmethod  mpf-fits-sshort-p ((op mpf))
+  "Return true if OP would fit in the respective C data type, when truncated to an integer."
+  (mmux-gmp-c-mpf-fits-sshort-p (mpf-obj op)))
+
+;; void mpf_urandomb (mpf_t ROP, gmp_randstate_t STATE, mp_bitcnt_t NBITS)
+(cl-defgeneric mpf-urandomb (rop state nbits)
+  "Generate a uniformly distributed random float in ROP.")
+(cl-defmethod  mpf-urandomb ((rop mpf) (state gmp-randstate) (nbits integer))
+  "Generate a uniformly distributed random float in ROP."
+  (cl-assert (<= 0 nbits))
+  (mmux-gmp-c-mpf-urandomb (mpf-obj rop) (gmp-randstate-obj state) nbits))
+
+;; void mpf_random2 (mpf_t ROP, mp_size_t MAX_SIZE, mp_exp_t EXP)
+(cl-defgeneric mpf-random2 (rop max-size exp)
+  "Generate a random float of at most MAX-SIZE limbs, with long strings of zeros and ones in the binary representation.")
+(cl-defmethod  mpf-random2 ((rop mpf) (max-size integer) (exp integer))
+  "Generate a random float of at most MAX-SIZE limbs, with long strings of zeros and ones in the binary representation."
+  (cl-assert (<= 0 max-size))
+  (cl-assert (<= 0 exp))
+  (mmux-gmp-c-mpf-random2 (mpf-obj rop) max-size exp))
 
 
 ;;;; random number functions: state initialisation

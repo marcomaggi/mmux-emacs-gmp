@@ -239,6 +239,12 @@ mmux_emacs_get_size (emacs_env * env, emacs_value arg)
   return ((mp_size_t)(env->extract_integer(env, arg)));
 }
 
+static inline mp_exp_t
+mmux_emacs_get_exp (emacs_env * env, emacs_value arg)
+{
+  return ((mp_exp_t)(env->extract_integer(env, arg)));
+}
+
 static inline mmux_gmp_randstate_t
 mmux_emacs_get_randstate (emacs_env * env, emacs_value arg)
 {
