@@ -204,49 +204,49 @@ mmux_emacs_make_string (emacs_env * env, char const * strptr, size_t strlen)
  ** ----------------------------------------------------------------- */
 
 static inline mpz_ptr
-mmux_emacs_get_mpz (emacs_env * env, emacs_value arg)
+mmux_emacs_get_gmp_mpz (emacs_env * env, emacs_value arg)
 {
   return ((mpz_ptr)(mmux_emacs_get_ptr(env, arg)));
 }
 
 static inline mpq_ptr
-mmux_emacs_get_mpq (emacs_env * env, emacs_value arg)
+mmux_emacs_get_gmp_mpq (emacs_env * env, emacs_value arg)
 {
   return ((mpq_ptr)(mmux_emacs_get_ptr(env, arg)));
 }
 
 static inline mpf_ptr
-mmux_emacs_get_mpf (emacs_env * env, emacs_value arg)
+mmux_emacs_get_gmp_mpf (emacs_env * env, emacs_value arg)
 {
   return ((mpf_ptr)(mmux_emacs_get_ptr(env, arg)));
 }
 
 static inline mp_bitcnt_t
-mmux_emacs_get_bitcnt (emacs_env * env, emacs_value arg)
+mmux_emacs_get_gmp_bitcnt (emacs_env * env, emacs_value arg)
 {
   return ((mp_bitcnt_t)(env->extract_integer(env, arg)));
 }
 
 static inline mp_bitcnt_t
-mmux_emacs_get_prec (emacs_env * env, emacs_value arg)
+mmux_emacs_get_gmp_prec (emacs_env * env, emacs_value arg)
 {
   return ((mp_bitcnt_t)(env->extract_integer(env, arg)));
 }
 
 static inline mp_size_t
-mmux_emacs_get_size (emacs_env * env, emacs_value arg)
+mmux_emacs_get_gmp_size (emacs_env * env, emacs_value arg)
 {
   return ((mp_size_t)(env->extract_integer(env, arg)));
 }
 
 static inline mp_exp_t
-mmux_emacs_get_exp (emacs_env * env, emacs_value arg)
+mmux_emacs_get_gmp_exp (emacs_env * env, emacs_value arg)
 {
   return ((mp_exp_t)(env->extract_integer(env, arg)));
 }
 
 static inline mmux_gmp_randstate_t
-mmux_emacs_get_randstate (emacs_env * env, emacs_value arg)
+mmux_emacs_get_gmp_randstate (emacs_env * env, emacs_value arg)
 {
   return ((mmux_gmp_randstate_t)(mmux_emacs_get_ptr(env, arg)));
 }

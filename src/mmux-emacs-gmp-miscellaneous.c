@@ -38,7 +38,7 @@ static emacs_value
 Fmmux_emacs_gmp_c_gmp_randinit_default (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
 {
   assert(1 == nargs);
-  mmux_gmp_randstate_t	state	= mmux_emacs_get_randstate(env, args[0]);
+  mmux_gmp_randstate_t	state	= mmux_emacs_get_gmp_randstate(env, args[0]);
 
   gmp_randinit_default(state);
   return mmux_emacs_make_nil(env);
@@ -49,7 +49,7 @@ static emacs_value
 Fmmux_emacs_gmp_c_gmp_randinit_mt (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
 {
   assert(1 == nargs);
-  mmux_gmp_randstate_t	state	= mmux_emacs_get_randstate(env, args[0]);
+  mmux_gmp_randstate_t	state	= mmux_emacs_get_gmp_randstate(env, args[0]);
 
   gmp_randinit_mt(state);
   return mmux_emacs_make_nil(env);
@@ -60,10 +60,10 @@ static emacs_value
 Fmmux_emacs_gmp_c_gmp_randinit_lc_2exp (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
 {
   assert(4 == nargs);
-  mmux_gmp_randstate_t	state	= mmux_emacs_get_randstate(env, args[0]);
-  mpz_ptr		A	= mmux_emacs_get_mpz(env, args[1]);
+  mmux_gmp_randstate_t	state	= mmux_emacs_get_gmp_randstate(env, args[0]);
+  mpz_ptr		A	= mmux_emacs_get_gmp_mpz(env, args[1]);
   mmux_ulint_t		C	= mmux_emacs_get_ulint(env, args[2]);
-  mp_bitcnt_t		m2exp	= mmux_emacs_get_bitcnt(env, args[3]);
+  mp_bitcnt_t		m2exp	= mmux_emacs_get_gmp_bitcnt(env, args[3]);
 
   gmp_randinit_lc_2exp(state, A, C, m2exp);
   return mmux_emacs_make_nil(env);
@@ -74,8 +74,8 @@ static emacs_value
 Fmmux_emacs_gmp_c_gmp_randinit_lc_2exp_size (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
 {
   assert(2 == nargs);
-  mmux_gmp_randstate_t	state	= mmux_emacs_get_randstate(env, args[0]);
-  mp_bitcnt_t		size	= mmux_emacs_get_bitcnt(env, args[1]);
+  mmux_gmp_randstate_t	state	= mmux_emacs_get_gmp_randstate(env, args[0]);
+  mp_bitcnt_t		size	= mmux_emacs_get_gmp_bitcnt(env, args[1]);
 
   gmp_randinit_lc_2exp_size(state, size);
   return mmux_emacs_make_nil(env);
@@ -86,8 +86,8 @@ static emacs_value
 Fmmux_emacs_gmp_c_gmp_randinit_set (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
 {
   assert(2 == nargs);
-  mmux_gmp_randstate_t	rop	= mmux_emacs_get_randstate(env, args[0]);
-  mmux_gmp_randstate_t	op	= mmux_emacs_get_randstate(env, args[1]);
+  mmux_gmp_randstate_t	rop	= mmux_emacs_get_gmp_randstate(env, args[0]);
+  mmux_gmp_randstate_t	op	= mmux_emacs_get_gmp_randstate(env, args[1]);
 
   gmp_randinit_set(rop, op);
   return mmux_emacs_make_nil(env);
@@ -103,8 +103,8 @@ static emacs_value
 Fmmux_emacs_gmp_c_gmp_randseed (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
 {
   assert(2 == nargs);
-  mmux_gmp_randstate_t	state	= mmux_emacs_get_randstate(env, args[0]);
-  mpz_ptr		seed	= mmux_emacs_get_mpz(env, args[1]);
+  mmux_gmp_randstate_t	state	= mmux_emacs_get_gmp_randstate(env, args[0]);
+  mpz_ptr		seed	= mmux_emacs_get_gmp_mpz(env, args[1]);
 
   gmp_randseed(state, seed);
   return mmux_emacs_make_nil(env);
@@ -115,7 +115,7 @@ static emacs_value
 Fmmux_emacs_gmp_c_gmp_randseed_ui (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
 {
   assert(2 == nargs);
-  mmux_gmp_randstate_t	state	= mmux_emacs_get_randstate(env, args[0]);
+  mmux_gmp_randstate_t	state	= mmux_emacs_get_gmp_randstate(env, args[0]);
   mmux_ulint_t		seed	= mmux_emacs_get_ulint(env, args[1]);
 
   gmp_randseed_ui(state, seed);
@@ -132,7 +132,7 @@ static emacs_value
 Fmmux_emacs_gmp_c_gmp_urandomb_ui (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
 {
   assert(2 == nargs);
-  mmux_gmp_randstate_t	state	= mmux_emacs_get_randstate(env, args[0]);
+  mmux_gmp_randstate_t	state	= mmux_emacs_get_gmp_randstate(env, args[0]);
   mmux_ulint_t		N	= mmux_emacs_get_ulint(env, args[1]);
   mmux_ulint_t		num;
 
@@ -148,7 +148,7 @@ static emacs_value
 Fmmux_emacs_gmp_c_gmp_urandomm_ui (emacs_env *env, ptrdiff_t nargs, emacs_value args[], void * data MMUX_EMACS_GMP_UNUSED)
 {
   assert(2 == nargs);
-  mmux_gmp_randstate_t	state	= mmux_emacs_get_randstate(env, args[0]);
+  mmux_gmp_randstate_t	state	= mmux_emacs_get_gmp_randstate(env, args[0]);
   mmux_ulint_t		N	= mmux_emacs_get_ulint(env, args[1]);
 
   return mmux_emacs_make_ulint(env, gmp_urandomm_ui(state, N));
