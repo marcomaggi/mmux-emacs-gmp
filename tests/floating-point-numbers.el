@@ -211,6 +211,158 @@
     (should (equal "-0.1234e+2" (mpf-get-str* +10 ndigits op)))))
 
 
+;;;; arithmetic functions
+
+;; mpf_add (mpf_t ROP, const mpf_t OP1, const mpf_t OP2)
+(ert-deftest mpf-add ()
+  "Set ROP to OP1 + OP2."
+  (let ((rop	(mpf))
+	(op1	(mpf 1.2))
+	(op2	(mpf 3.4)))
+    (mpf-add rop op1 op2)
+    (should (mpf-almost-equal-p rop (+ 1.2 3.4) 1e-5))))
+
+;; void mpf_add_ui (mpf_t ROP, const mpf_t OP1, unsigned long int OP2)
+(ert-deftest mpf-add-ui ()
+  "Set ROP to OP1 + OP2."
+  (let ((rop	(mpf))
+	(op1	(mpf 1.2))
+	(op2	3))
+    (mpf-add-ui rop op1 op2)
+    (should (mpf-almost-equal-p rop (+ 1.2 3.0) 1e-5))))
+
+;; void mpf_sub (mpf_t ROP, const mpf_t OP1, const mpf_t OP2)
+(ert-deftest mpf-sub ()
+  "Set ROP to OP1 - OP2."
+  (let ((rop	(mpf))
+	(op1	(mpf 1.2))
+	(op2	(mpf 3.4)))
+    (mpf-sub rop op1 op2)
+    (should (mpf-almost-equal-p rop (- 1.2 3.4) 1e-5))))
+
+;; void mpf_ui_sub (mpf_t ROP, unsigned long int OP1, const mpf_t OP2)
+(ert-deftest mpf-ui-sub ()
+  "Set ROP to OP1 - OP2."
+  (let ((rop	(mpf))
+	(op1	1)
+	(op2	(mpf 3.4)))
+    (mpf-ui-sub rop op1 op2)
+    (should (mpf-almost-equal-p rop (- 1 3.4) 1e-5))))
+
+;; void mpf_sub_ui (mpf_t ROP, const mpf_t OP1, unsigned long int OP2)
+(ert-deftest mpf-sub-ui ()
+  "Set ROP to OP1 - OP2."
+  (let ((rop	(mpf))
+	(op1	(mpf 1.2))
+	(op2	3))
+    (mpf-sub-ui rop op1 op2)
+    (should (mpf-almost-equal-p rop (- 1.2 3) 1e-5))))
+
+;; void mpf_mul (mpf_t ROP, const mpf_t OP1, const mpf_t OP2)
+(ert-deftest mpf-mul ()
+  "Set ROP to OP1 times OP2."
+  (let ((rop	(mpf))
+	(op1	(mpf 1.2))
+	(op2	(mpf 3.4)))
+    (mpf-mul rop op1 op2)
+    (should (mpf-almost-equal-p rop (* 1.2 3.4) 1e-5))))
+
+;; void mpf_mul_ui (mpf_t ROP, const mpf_t OP1, unsigned long int OP2)
+(ert-deftest mpf-mul-ui ()
+  "Set ROP to OP1 times OP2."
+  (let ((rop	(mpf))
+	(op1	(mpf 1.2))
+	(op2	3))
+    (mpf-mul-ui rop op1 op2)
+    (should (mpf-almost-equal-p rop (* 1.2 3) 1e-5))))
+
+;; void mpf_div (mpf_t ROP, const mpf_t OP1, const mpf_t OP2)
+(ert-deftest mpf-div ()
+  "Set ROP to OP1/OP2."
+  (let ((rop	(mpf))
+	(op1	(mpf 1.2))
+	(op2	(mpf 3.4)))
+    (mpf-div rop op1 op2)
+    (should (mpf-almost-equal-p rop (/ 1.2 3.4) 1e-5))))
+
+;; void mpf_ui_div (mpf_t ROP, unsigned long int OP1, const mpf_t OP2)
+(ert-deftest mpf-ui-div ()
+  "Set ROP to OP1/OP2."
+  (let ((rop	(mpf))
+	(op1	1)
+	(op2	(mpf 3.4)))
+    (mpf-ui-div rop op1 op2)
+    (should (mpf-almost-equal-p rop (/ 1 3.4) 1e-5))))
+
+;; void mpf_div_ui (mpf_t ROP, const mpf_t OP1, unsigned long int OP2)
+(ert-deftest mpf-div-ui ()
+  "Set ROP to OP1/OP2."
+  (let ((rop	(mpf))
+	(op1	(mpf 1.2))
+	(op2	3))
+    (mpf-div-ui rop op1 op2)
+    (should (mpf-almost-equal-p rop (/ 1.2 3) 1e-5))))
+
+;; void mpf_sqrt (mpf_t ROP, const mpf_t OP)
+(ert-deftest mpf-sqrt ()
+  "Set ROP to the square root of OP."
+  (let ((rop	(mpf))
+	(op	(mpf 1.2)))
+    (mpf-sqrt rop op)
+    (should (mpf-almost-equal-p rop (sqrt 1.2) 1e-5))))
+
+;; void mpf_sqrt_ui (mpf_t ROP, unsigned long int OP)
+(ert-deftest mpf-sqrt-ui ()
+  "Set ROP to the square root of OP."
+  (let ((rop	(mpf))
+	(op	12))
+    (mpf-sqrt-ui rop op)
+    (should (mpf-almost-equal-p rop (sqrt 12) 1e-5))))
+
+;; void mpf_pow_ui (mpf_t ROP, const mpf_t OP1, unsigned long int OP2)
+(ert-deftest mpf-pow-ui ()
+  "Set ROP to OP1 raised to the power OP2."
+  (let ((rop	(mpf))
+	(op1	(mpf 1.2))
+	(op2	3))
+    (mpf-pow-ui rop op1 op2)
+    (should (mpf-almost-equal-p rop (expt 1.2 3) 1e-5))))
+
+;; void mpf_neg (mpf_t ROP, const mpf_t OP)
+(ert-deftest mpf-neg ()
+  "Set ROP to -OP."
+  (let ((rop	(mpf))
+	(op	(mpf 1.2)))
+    (mpf-neg rop op)
+    (should (mpf-almost-equal-p rop (- 1.2) 1e-5))))
+
+;; void mpf_abs (mpf_t ROP, const mpf_t OP)
+(ert-deftest mpf-abs ()
+  "Set ROP to the absolute value of OP."
+  (let ((rop	(mpf))
+	(op	(mpf -1.2)))
+    (mpf-abs rop op)
+    (should (mpf-almost-equal-p rop 1.2 1e-5))))
+
+;; void mpf_mul_2exp (mpf_t ROP, const mpf_t OP1, mp_bitcnt_t OP2)
+(ert-deftest mpf-mul-2exp ()
+  "Set ROP to OP1 times 2 raised to OP2."
+  (let ((rop	(mpf))
+	(op1	(mpf 1.2))
+	(op2	3))
+    (mpf-mul-2exp rop op1 op2)
+    (should (mpf-almost-equal-p rop (* 1.2 (expt 2 3)) 1e-5))))
+
+;; void mpf_div_2exp (mpf_t ROP, const mpf_t OP1, mp_bitcnt_t OP2)
+(ert-deftest mpf-div-2exp ()
+  "Set ROP to OP1 divided by 2 raised to OP2."
+  (let ((rop	(mpf))
+	(op1	(mpf 1.2))
+	(op2	3))
+    (mpf-div-2exp rop op1 op2)
+    (should (mpf-almost-equal-p rop (/ 1.2 (expt 2 3)) 1e-5))))
+
+
 ;;;; comparison functions
 
 ;; int mpf_cmp (const mpf_t OP1, const mpf_t OP2)

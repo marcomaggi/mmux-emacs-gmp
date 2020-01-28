@@ -4,7 +4,7 @@
 
 ;; Author: Marco Maggi <mrc.mgg@gmail.com>
 ;; Created: Jan 15, 2020
-;; Time-stamp: <2020-01-27 16:30:39 marco>
+;; Time-stamp: <2020-01-28 06:58:49 marco>
 ;; Keywords: extensions
 
 ;; This file is part of MMUX Emacs GMP.
@@ -1745,11 +1745,134 @@ The argument BASE can vary from 2 to 62."
 
 ;;;; floating-point number functions: arithmetic
 
+;; mpf_add (mpf_t ROP, const mpf_t OP1, const mpf_t OP2)
 (cl-defgeneric mpf-add (rop op1 op2)
-  "Add two `mpf' objects.")
+  "Set ROP to OP1 + OP2.")
 (cl-defmethod  mpf-add ((rop mpf) (op1 mpf) (op2 mpf))
-  "Add two `mpf' objects."
+  "Set ROP to OP1 + OP2."
   (mmux-gmp-c-mpf-add (mpf-obj rop) (mpf-obj op1) (mpf-obj op2)))
+
+;; void mpf_add_ui (mpf_t ROP, const mpf_t OP1, unsigned long int OP2)
+(cl-defgeneric mpf-add-ui (rop op1 op2)
+  "Set ROP to OP1 + OP2.")
+(cl-defmethod  mpf-add-ui ((rop mpf) (op1 mpf) (op2 integer))
+  "Set ROP to OP1 + OP2."
+  (cl-assert (<= 0 op2))
+  (mmux-gmp-c-mpf-add-ui (mpf-obj rop) (mpf-obj op1) op2))
+
+;; void mpf_sub (mpf_t ROP, const mpf_t OP1, const mpf_t OP2)
+(cl-defgeneric mpf-sub (rop op1 op2)
+  "Set ROP to OP1 - OP2.")
+(cl-defmethod  mpf-sub ((rop mpf) (op1 mpf) (op2 mpf))
+  "Set ROP to OP1 - OP2."
+  (mmux-gmp-c-mpf-sub (mpf-obj rop) (mpf-obj op1) (mpf-obj op2)))
+
+;; void mpf_ui_sub (mpf_t ROP, unsigned long int OP1, const mpf_t OP2)
+(cl-defgeneric mpf-ui-sub (rop op1 op2)
+  "Set ROP to OP1 - OP2.")
+(cl-defmethod  mpf-ui-sub ((rop mpf) (op1 integer) (op2 mpf))
+  "Set ROP to OP1 - OP2."
+  (cl-assert (<= 0 op1))
+  (mmux-gmp-c-mpf-ui-sub (mpf-obj rop) op1 (mpf-obj op2)))
+
+;; void mpf_sub_ui (mpf_t ROP, const mpf_t OP1, unsigned long int OP2)
+(cl-defgeneric mpf-sub-ui (rop op1 op2)
+  "Set ROP to OP1 - OP2.")
+(cl-defmethod  mpf-sub-ui ((rop mpf) (op1 mpf) (op2 integer))
+  "Set ROP to OP1 - OP2."
+  (cl-assert (<= 0 op2))
+  (mmux-gmp-c-mpf-sub-ui (mpf-obj rop) (mpf-obj op1) op2))
+
+;; void mpf_mul (mpf_t ROP, const mpf_t OP1, const mpf_t OP2)
+(cl-defgeneric mpf-mul (rop op1 op2)
+  "Set ROP to OP1 times OP2.")
+(cl-defmethod  mpf-mul ((rop mpf) (op1 mpf) (op2 mpf))
+  "Set ROP to OP1 times OP2."
+  (mmux-gmp-c-mpf-mul (mpf-obj rop) (mpf-obj op1) (mpf-obj op2)))
+
+;; void mpf_mul_ui (mpf_t ROP, const mpf_t OP1, unsigned long int OP2)
+(cl-defgeneric mpf-mul-ui (rop op1 op2)
+  "Set ROP to OP1 times OP2.")
+(cl-defmethod  mpf-mul-ui ((rop mpf) (op1 mpf) (op2 integer))
+  "Set ROP to OP1 times OP2."
+  (cl-assert (<= 0 op2))
+  (mmux-gmp-c-mpf-mul-ui (mpf-obj rop) (mpf-obj op1) op2))
+
+;; void mpf_div (mpf_t ROP, const mpf_t OP1, const mpf_t OP2)
+(cl-defgeneric mpf-div (rop op1 op2)
+  "Set ROP to OP1/OP2.")
+(cl-defmethod  mpf-div ((rop mpf) (op1 mpf) (op2 mpf))
+  "Set ROP to OP1/OP2."
+  (mmux-gmp-c-mpf-div (mpf-obj rop) (mpf-obj op1) (mpf-obj op2)))
+
+;; void mpf_ui_div (mpf_t ROP, unsigned long int OP1, const mpf_t OP2)
+(cl-defgeneric mpf-ui-div (rop op1 op2)
+  "Set ROP to OP1/OP2.")
+(cl-defmethod  mpf-ui-div ((rop mpf) (op1 integer) (op2 mpf))
+  "Set ROP to OP1/OP2."
+  (cl-assert (<= 0 op1))
+  (mmux-gmp-c-mpf-ui-div (mpf-obj rop) op1 (mpf-obj op2)))
+
+;; void mpf_div_ui (mpf_t ROP, const mpf_t OP1, unsigned long int OP2)
+(cl-defgeneric mpf-div-ui (rop op1 op2)
+  "Set ROP to OP1/OP2.")
+(cl-defmethod  mpf-div-ui ((rop mpf) (op1 mpf) (op2 integer))
+  "Set ROP to OP1/OP2."
+  (cl-assert (<= 0 op2))
+  (mmux-gmp-c-mpf-div-ui (mpf-obj rop) (mpf-obj op1) op2))
+
+;; void mpf_sqrt (mpf_t ROP, const mpf_t OP)
+(cl-defgeneric mpf-sqrt (rop op)
+  "Set ROP to the square root of OP.")
+(cl-defmethod  mpf-sqrt ((rop mpf) (op mpf))
+  "Set ROP to the square root of OP."
+  (mmux-gmp-c-mpf-sqrt (mpf-obj rop) (mpf-obj op)))
+
+;; void mpf_sqrt_ui (mpf_t ROP, unsigned long int OP)
+(cl-defgeneric mpf-sqrt-ui (rop op)
+  "Set ROP to the square root of OP.")
+(cl-defmethod  mpf-sqrt-ui ((rop mpf) (op integer))
+  "Set ROP to the square root of OP."
+  (cl-assert (<= 0 op))
+  (mmux-gmp-c-mpf-sqrt-ui (mpf-obj rop) op))
+
+;; void mpf_pow_ui (mpf_t ROP, const mpf_t OP1, unsigned long int OP2)
+(cl-defgeneric mpf-pow-ui (rop op1 op2)
+  "Set ROP to OP1 raised to the power OP2.")
+(cl-defmethod  mpf-pow-ui ((rop mpf) (op1 mpf) (op2 integer))
+  "Set ROP to OP1 raised to the power OP2."
+  (cl-assert (<= 0 op2))
+  (mmux-gmp-c-mpf-pow-ui (mpf-obj rop) (mpf-obj op1) op2))
+
+;; void mpf_neg (mpf_t ROP, const mpf_t OP)
+(cl-defgeneric mpf-neg (rop op)
+  "Set ROP to -OP.")
+(cl-defmethod  mpf-neg ((rop mpf) (op mpf))
+  "Set ROP to -OP."
+  (mmux-gmp-c-mpf-neg (mpf-obj rop) (mpf-obj op)))
+
+;; void mpf_abs (mpf_t ROP, const mpf_t OP)
+(cl-defgeneric mpf-abs (rop op)
+  "Set ROP to the absolute value of OP.")
+(cl-defmethod  mpf-abs ((rop mpf) (op mpf))
+  "Set ROP to the absolute value of OP."
+  (mmux-gmp-c-mpf-abs (mpf-obj rop) (mpf-obj op)))
+
+;; void mpf_mul_2exp (mpf_t ROP, const mpf_t OP1, mp_bitcnt_t OP2)
+(cl-defgeneric mpf-mul-2exp (rop op1 op2)
+  "Set ROP to OP1 times 2 raised to OP2.")
+(cl-defmethod  mpf-mul-2exp ((rop mpf) (op1 mpf) (op2 integer))
+  "Set ROP to OP1 times 2 raised to OP2."
+  (cl-assert (<= 0 op2))
+  (mmux-gmp-c-mpf-mul-2exp (mpf-obj rop) (mpf-obj op1) op2))
+
+;; void mpf_div_2exp (mpf_t ROP, const mpf_t OP1, mp_bitcnt_t OP2)
+(cl-defgeneric mpf-div-2exp (rop op1 op2)
+  "Set ROP to OP1 divided by 2 raised to OP2.")
+(cl-defmethod  mpf-div-2exp ((rop mpf) (op1 mpf) (op2 integer))
+  "Set ROP to OP1 divided by 2 raised to OP2."
+  (cl-assert (<= 0 op2))
+  (mmux-gmp-c-mpf-div-2exp (mpf-obj rop) (mpf-obj op1) op2))
 
 
 ;;;; floating-point number functions: comparison
@@ -1883,6 +2006,32 @@ The argument BASE can vary from 2 to 62."
 (cl-defmethod  mpf= ((op1 mpf) (op2 mpf))
   "Return true if each argument is equal to the following argument; otherwise return false."
   (mpf-equal op1 op2))
+
+;;; --------------------------------------------------------------------
+
+(cl-defgeneric mpf-almost-equal-p (op1 op2 tol)
+  "Return true if abs(OP1 - OP2) < TOL.")
+
+(cl-defmethod  mpf-almost-equal-p ((op1 mpf) (op2 mpf) (tol mpf))
+  "Return true if abs(OP1 - OP2) < TOL."
+  (let ((rop	(mpf)))
+    (mpf-sub rop op1 op2)
+    (mpf-abs rop rop)
+    (mpf< rop tol)))
+
+(cl-defmethod  mpf-almost-equal-p ((op1 mpf) (op2 mpf) (tol float))
+  "Return true if abs(OP1 - OP2) < TOL."
+  (let ((rop	(mpf)))
+    (mpf-sub rop op1 op2)
+    (mpf-abs rop rop)
+    (= -1 (mpf-cmp-d rop tol))))
+
+(cl-defmethod  mpf-almost-equal-p ((op1 mpf) (op2 float) (tol float))
+  "Return true if abs(OP1 - OP2) < TOL."
+  (let ((rop	(mpf)))
+    (mpf-sub rop op1 (mpf op2))
+    (mpf-abs rop rop)
+    (= -1 (mpf-cmp-d rop tol))))
 
 
 ;;;; random number functions: state initialisation

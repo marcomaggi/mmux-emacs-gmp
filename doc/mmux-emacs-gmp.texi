@@ -3494,6 +3494,272 @@ arguments @var{BASE} and @var{NDIGITS} are the same as documented for @func{mpf-
 @section Arithmetic operations
 
 
+@c mpf_add (mpf_t ROP, const mpf_t OP1, const mpf_t OP2)
+@deffn {Generic Function} mpf-add (@var{ROP} @vari{OP} @varii{OP})
+@deffnx {Method} mpf-add ((@var{ROP} mpf) (@vari{OP} mpf) (@varii{OP} mpf))
+Set @var{ROP} to @vari{OP} + @varii{OP}.
+
+@lisp
+(let ((rop    (mpf))
+      (op1    (mpf 1.2))
+      (op2    (mpf 3.4)))
+  (mpf-add rop op1 op2)
+  (mpf-almost-equal-p rop (+ 1.2 3.4) 1e-5))
+@result{} t
+@end lisp
+@end deffn
+
+
+@c void mpf_add_ui (mpf_t ROP, const mpf_t OP1, unsigned long int OP2)
+@deffn {Generic Function} mpf-add-ui (@var{ROP} @vari{OP} @varii{OP})
+@deffnx {Method} mpf-add-ui ((@var{ROP} mpf) (@vari{OP} mpf) (@varii{OP} integer))
+Set @var{ROP} to @vari{OP} + @varii{OP}.
+
+@lisp
+(let ((rop    (mpf))
+      (op1    (mpf 1.2))
+      (op2    3))
+  (mpf-add-ui rop op1 op2)
+  (mpf-almost-equal-p rop (+ 1.2 3.0) 1e-5))
+@result{} t
+@end lisp
+@end deffn
+
+
+@c void mpf_sub (mpf_t ROP, const mpf_t OP1, const mpf_t OP2)
+@deffn {Generic Function} mpf-sub (@var{ROP} @vari{OP} @varii{OP})
+@deffnx {Method} mpf-sub ((@var{ROP} mpf) (@vari{OP} mpf) (@varii{OP} mpf))
+Set @var{ROP} to @vari{OP} - @varii{OP}.
+
+@lisp
+(let ((rop    (mpf))
+      (op1    (mpf 1.2))
+      (op2    (mpf 3.4)))
+  (mpf-sub rop op1 op2)
+  (mpf-almost-equal-p rop (- 1.2 3.4) 1e-5))
+@result{} t
+@end lisp
+@end deffn
+
+
+@c void mpf_ui_sub (mpf_t ROP, unsigned long int OP1, const mpf_t OP2)
+@deffn {Generic Function} mpf-ui-sub (@var{ROP} @vari{OP} @varii{OP})
+@deffnx {Method} mpf-ui-sub ((@var{ROP} mpf) (@vari{OP} integer) (@varii{OP} mpf))
+Set @var{ROP} to @vari{OP} - @varii{OP}.
+
+@lisp
+(let ((rop    (mpf))
+      (op1    1)
+      (op2    (mpf 3.4)))
+  (mpf-ui-sub rop op1 op2)
+  (mpf-almost-equal-p rop (- 1 3.4) 1e-5))
+@result{} t
+@end lisp
+@end deffn
+
+
+@c void mpf_sub_ui (mpf_t ROP, const mpf_t OP1, unsigned long int OP2)
+@deffn {Generic Function} mpf-sub-ui (@var{ROP} @vari{OP} @varii{OP})
+@deffnx {Method} mpf-sub-ui ((@var{ROP} mpf) (@vari{OP} mpf) (@varii{OP} integer))
+Set @var{ROP} to @vari{OP} - @varii{OP}.
+
+@lisp
+(let ((rop    (mpf))
+      (op1    (mpf 1.2))
+      (op2    3))
+  (mpf-sub-ui rop op1 op2)
+  (mpf-almost-equal-p rop (- 1.2 3) 1e-5))
+@result{} t
+@end lisp
+@end deffn
+
+
+@c void mpf_mul (mpf_t ROP, const mpf_t OP1, const mpf_t OP2)
+@deffn {Generic Function} mpf-mul (@var{ROP} @vari{OP} @varii{OP})
+@deffnx {Method} mpf-mul ((@var{ROP} mpf) (@vari{OP} mpf) (@varii{OP} mpf))
+Set @var{ROP} to @vari{OP} times @varii{OP}.
+
+@lisp
+(let ((rop    (mpf))
+      (op1    (mpf 1.2))
+      (op2    (mpf 3.4)))
+  (mpf-mul rop op1 op2)
+  (mpf-almost-equal-p rop (* 1.2 3.4) 1e-5))
+@result{} t
+@end lisp
+@end deffn
+
+
+@c void mpf_mul_ui (mpf_t ROP, const mpf_t OP1, unsigned long int OP2)
+@deffn {Generic Function} mpf-mul-ui (@var{ROP} @vari{OP} @varii{OP})
+@deffnx {Method} mpf-mul-ui ((@var{ROP} mpf) (@vari{OP} mpf) (@varii{OP} integer))
+Set @var{ROP} to @vari{OP} times @varii{OP}.
+
+@lisp
+(let ((rop    (mpf))
+      (op1    (mpf 1.2))
+      (op2    3))
+  (mpf-mul-ui rop op1 op2)
+  (mpf-almost-equal-p rop (* 1.2 3) 1e-5))
+@result{} t
+@end lisp
+@end deffn
+
+
+@c void mpf_div (mpf_t ROP, const mpf_t OP1, const mpf_t OP2)
+@deffn {Generic Function} mpf-div (@var{ROP} @vari{OP} @varii{OP})
+@deffnx {Method} mpf-div ((@var{ROP} mpf) (@vari{OP} mpf) (@varii{OP} mpf))
+Set @var{ROP} to @vari{OP}/@varii{OP}.
+
+@lisp
+(let ((rop    (mpf))
+      (op1    (mpf 1.2))
+      (op2    (mpf 3.4)))
+  (mpf-div rop op1 op2)
+  (mpf-almost-equal-p rop (/ 1.2 3.4) 1e-5))
+@result{} t
+@end lisp
+@end deffn
+
+
+@c void mpf_ui_div (mpf_t ROP, unsigned long int OP1, const mpf_t OP2)
+@deffn {Generic Function} mpf-ui-div (@var{ROP} @vari{OP} @varii{OP})
+@deffnx {Method} mpf-ui-div ((@var{ROP} mpf) (@vari{OP} integer) (@varii{OP} mpf))
+Set @var{ROP} to @vari{OP}/@varii{OP}.
+
+@lisp
+(let ((rop    (mpf))
+      (op1    1)
+      (op2    (mpf 3.4)))
+  (mpf-ui-div rop op1 op2)
+  (mpf-almost-equal-p rop (/ 1 3.4) 1e-5))
+@result{} t
+@end lisp
+@end deffn
+
+
+@c void mpf_div_ui (mpf_t ROP, const mpf_t OP1, unsigned long int OP2)
+@deffn {Generic Function} mpf-div-ui (@var{ROP} @vari{OP} @varii{OP})
+@deffnx {Method} mpf-div-ui ((@var{ROP} mpf) (@vari{OP} mpf) (@varii{OP} integer))
+Set @var{ROP} to @vari{OP}/@varii{OP}.
+
+@lisp
+(let ((rop    (mpf))
+      (op1    (mpf 1.2))
+      (op2    3))
+  (mpf-div-ui rop op1 op2)
+  (mpf-almost-equal-p rop (/ 1.2 3) 1e-5))
+@result{} t
+@end lisp
+@end deffn
+
+
+@c void mpf_sqrt (mpf_t ROP, const mpf_t OP)
+@deffn {Generic Function} mpf-sqrt (rop op)
+@deffnx {Method} mpf-sqrt ((@var{ROP} mpf) (op mpf))
+Set @var{ROP} to the square root of @var{OP}.
+
+@lisp
+(let ((rop    (mpf))
+      (op     (mpf 1.2)))
+  (mpf-sqrt rop op)
+  (mpf-almost-equal-p rop (sqrt 1.2) 1e-5))
+@result{} t
+@end lisp
+@end deffn
+
+
+@c void mpf_sqrt_ui (mpf_t ROP, unsigned long int OP)
+@deffn {Generic Function} mpf-sqrt-ui (rop op)
+@deffnx {Method} mpf-sqrt-ui ((@var{ROP} mpf) (op integer))
+Set @var{ROP} to the square root of @var{OP}.
+
+@lisp
+(let ((rop    (mpf))
+      (op     12))
+  (mpf-sqrt-ui rop op)
+  (mpf-almost-equal-p rop (sqrt 12) 1e-5))
+@result{} t
+@end lisp
+@end deffn
+
+
+@c void mpf_pow_ui (mpf_t ROP, const mpf_t OP1, unsigned long int OP2)
+@deffn {Generic Function} mpf-pow-ui (@var{ROP} @vari{OP} @varii{OP})
+@deffnx {Method} mpf-pow-ui ((@var{ROP} mpf) (@vari{OP} mpf) (@varii{OP} integer))
+Set @var{ROP} to @vari{OP} raised to the power @varii{OP}.
+
+@lisp
+(let ((rop    (mpf))
+      (op1    (mpf 1.2))
+      (op2    3))
+  (mpf-pow-ui rop op1 op2)
+  (mpf-almost-equal-p rop (expt 1.2 3) 1e-5))
+@result{} t
+@end lisp
+@end deffn
+
+
+@c void mpf_neg (mpf_t ROP, const mpf_t OP)
+@deffn {Generic Function} mpf-neg (rop op)
+@deffnx {Method} mpf-neg ((@var{ROP} mpf) (op mpf))
+Set @var{ROP} to -@var{OP}.
+
+@lisp
+(let ((rop    (mpf))
+      (op     (mpf 1.2)))
+  (mpf-neg rop op)
+  (mpf-almost-equal-p rop (- 1.2) 1e-5))
+@result{} t
+@end lisp
+@end deffn
+
+
+@c void mpf_abs (mpf_t ROP, const mpf_t OP)
+@deffn {Generic Function} mpf-abs (rop op)
+@deffnx {Method} mpf-abs ((@var{ROP} mpf) (op mpf))
+Set @var{ROP} to the absolute value of @var{OP}.
+
+@lisp
+(let ((rop    (mpf))
+      (op     (mpf -1.2)))
+  (mpf-abs rop op)
+  (mpf-almost-equal-p rop 1.2 1e-5))
+@result{} t
+@end lisp
+@end deffn
+
+
+@c void mpf_mul_2exp (mpf_t ROP, const mpf_t OP1, mp_bitcnt_t OP2)
+@deffn {Generic Function} mpf-mul-2exp (@var{ROP} @vari{OP} @varii{OP})
+@deffnx {Method} mpf-mul-2exp ((@var{ROP} mpf) (@vari{OP} mpf) (@varii{OP} integer))
+Set @var{ROP} to @vari{OP} times 2 raised to @varii{OP}.
+
+@lisp
+(let ((rop    (mpf))
+      (op1    (mpf 1.2))
+      (op2    3))
+  (mpf-mul-2exp rop op1 op2)
+  (mpf-almost-equal-p rop (* 1.2 (expt 2 3)) 1e-5))
+@result{} t
+@end lisp
+@end deffn
+
+
+@c void mpf_div_2exp (mpf_t ROP, const mpf_t OP1, mp_bitcnt_t OP2)
+@deffn {Generic Function} mpf-div-2exp (@var{ROP} @vari{OP} @varii{OP})
+@deffnx {Method} mpf-div-2exp ((@var{ROP} mpf) (@vari{OP} mpf) (@varii{OP} integer))
+Set @var{ROP} to @vari{OP} divided by 2 raised to @varii{OP}.
+
+@lisp
+(let ((rop    (mpf))
+      (op1    (mpf 1.2))
+      (op2    3))
+  (mpf-div-2exp rop op1 op2)
+  (mpf-almost-equal-p rop (/ 1.2 (expt 2 3)) 1e-5))
+@result{} t
+@end lisp
+@end deffn
 
 @c page
 @node floats comparison
@@ -3743,6 +4009,15 @@ Return true if each argument is equal to the following argument; otherwise retur
 (mpf= (mpf 1.0) (mpf 1.0))      @result{} t
 (mpf= (mpf 2.0) (mpf 1.0))      @result{} nil
 @end lisp
+@end deffn
+
+@c ------------------------------------------------------------------------
+
+@deffn {Generic Function} mpf-almost-equal-p (@vari{OP} @varii{OP} @var{TOL})
+@deffnx {Method} mpf-almost-equal-p ((@vari{OP} mpf) (@varii{OP} mpf) (@var{TOL} mpf))
+@deffnx {Method} mpf-almost-equal-p ((@vari{OP} mpf) (@varii{OP} mpf) (@var{TOL} float))
+@deffnx {Method} mpf-almost-equal-p ((@vari{OP} mpf) (@varii{OP} float) (@var{TOL} float))
+Return true if abs(@vari{OP} - @varii{OP}) < @var{TOL}.
 @end deffn
 
 @c page
