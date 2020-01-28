@@ -2,7 +2,7 @@
 #
 
 AC_PREREQ([2.69])
-MMUX_PKG_VERSIONS([0],[1],[0],[devel.0])
+MMUX_PKG_VERSIONS([0],[1],[0],[devel.1])
 AC_INIT([MMUX Emacs GMP],[MMUX_PACKAGE_VERSION],
   [mrc.mgg@gmail.com],
   [mmux-emacs-gmp],[http://github.com/marcomaggi/mmux-emacs-gmp])
