@@ -43,6 +43,7 @@ libmmux_emacs_gmp_la_CFLAGS	= $(AM_CFLAGS)
 libmmux_emacs_gmp_la_LDFLAGS	= $(mmux_emacs_gmp_LINKER_VERSION) $(AM_LDFLAGS)
 libmmux_emacs_gmp_la_SOURCES	= \
 	src/mmux-emacs-gmp.h				\
+	src/mmux-emacs-internals.h			\
 	src/mmux-emacs-gmp-internals.h			\
 	src/mmux-emacs-gmp-library.c			\
 	src/mmux-emacs-gmp-user-pointer-objects.c	\
