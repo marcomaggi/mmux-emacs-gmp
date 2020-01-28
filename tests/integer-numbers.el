@@ -121,13 +121,13 @@
 
 (ert-deftest mpz-swap-1 ()
   "Swap values between `mpz' objects."
-  (defconst op1 (mpz))
-  (defconst op2 (mpz))
-  (mpz-set-si op1 123)
-  (mpz-set-si op2 456)
-  (mpz-swap op1 op2)
-  (should (equal "123" (mpz-get-str 10 op2)))
-  (should (equal "456" (mpz-get-str 10 op1))))
+  (let ((op1 (mpz))
+	(op2 (mpz)))
+    (mpz-set-si op1 123)
+    (mpz-set-si op2 456)
+    (mpz-swap op1 op2)
+    (should (equal "123" (mpz-get-str 10 op2)))
+    (should (equal "456" (mpz-get-str 10 op1)))))
 
 
 ;;;; conversion functions

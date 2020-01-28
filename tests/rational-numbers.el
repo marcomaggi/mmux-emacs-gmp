@@ -134,8 +134,7 @@
 
 (ert-deftest mpq-get-str ()
   "Conversion to string."
-  (let ()
-    (defconst op (mpq))
+  (let ((op (mpq)))
     (mpq-set-si op 17 13)
     (should (equal "17/13" (mpq-get-str +10 op)))
     (should (equal "11/d"  (mpq-get-str +16 op)))

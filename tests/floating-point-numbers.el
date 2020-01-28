@@ -68,23 +68,23 @@
 
 (ert-deftest mpf-set ()
   "Assign an `mpf' object to an `mpf' object."
-  (defconst rop (mpf))
-  (defconst op  (mpf))
-  (mpf-set-si rop 123)
-  (mpf-set    op rop)
-  (should (equal "+0.123e+3" (mpf-get-str* 10 8 op))))
+  (let ((rop (mpf))
+	(op  (mpf)))
+    (mpf-set-si rop 123)
+    (mpf-set    op rop)
+    (should (equal "+0.123e+3" (mpf-get-str* 10 8 op)))))
 
 (ert-deftest mpf-set-si ()
   "Assign a signed exact integer to an `mpf' object."
-  (defconst rop (mpf))
-  (mpf-set-si rop 123)
-  (should (equal "+0.123e+3" (mpf-get-str* 10 8 rop))))
+  (let ((rop (mpf)))
+    (mpf-set-si rop 123)
+    (should (equal "+0.123e+3" (mpf-get-str* 10 8 rop)))))
 
 (ert-deftest mpf-set-ui ()
   "Assign an unsigned exact integer to an `mpf' object."
-  (defconst rop (mpf))
-  (mpf-set-ui rop 123)
-  (should (equal "+0.123e+3" (mpf-get-str* 10 8 op))))
+  (let ((rop (mpf)))
+    (mpf-set-ui rop 123)
+    (should (equal "+0.123e+3" (mpf-get-str* 10 8 rop)))))
 
 (ert-deftest mpf-set-d ()
   "Assign a floating point to an `mpf' object."
@@ -157,40 +157,40 @@
 
 (ert-deftest mpf-get-str ()
   "Conversion to string."
-  (defconst op (mpf))
-  (defconst ndigits 5)
-  (mpf-set-si op 15)
-  (should (equal '("15" . 2) (mpf-get-str +10 ndigits op)))
-  (should (equal '("f"  . 1) (mpf-get-str +16 ndigits op)))
-  (should (equal '("F"  . 1) (mpf-get-str -16 ndigits op))))
+  (let ((op (mpf))
+	(ndigits 5))
+    (mpf-set-si op 15)
+    (should (equal '("15" . 2) (mpf-get-str +10 ndigits op)))
+    (should (equal '("f"  . 1) (mpf-get-str +16 ndigits op)))
+    (should (equal '("F"  . 1) (mpf-get-str -16 ndigits op)))))
 
 (ert-deftest mpf-get-str-1 ()
   "Conversion to string: floating-point object as source."
-  (defconst op (mpf))
-  (defconst ndigits 5)
-  (mpf-set-d op 12.34)
-  (should (equal '("1234" . 2) (mpf-get-str +10 ndigits op))))
+  (let ((op (mpf))
+	(ndigits 5))
+    (mpf-set-d op 12.34)
+    (should (equal '("1234" . 2) (mpf-get-str +10 ndigits op)))))
 
 (ert-deftest mpf-get-str-2 ()
   "Conversion to string: negative floating-point object as source."
-  (defconst op (mpf))
-  (defconst ndigits 5)
-  (mpf-set-d op -12.34)
-  (should (equal '("-1234" . 2) (mpf-get-str +10 ndigits op))))
+  (let ((op (mpf))
+	(ndigits 5))
+    (mpf-set-d op -12.34)
+    (should (equal '("-1234" . 2) (mpf-get-str +10 ndigits op)))))
 
 (ert-deftest mpf-get-str-3 ()
   "Conversion to string: negative floating-point object as source, less than zero."
-  (defconst op (mpf))
-  (defconst ndigits 5)
-  (mpf-set-d op -0.1234)
-  (should (equal '("-1234" . 0) (mpf-get-str +10 ndigits op))))
+  (let ((op (mpf))
+	(ndigits 5))
+    (mpf-set-d op -0.1234)
+    (should (equal '("-1234" . 0) (mpf-get-str +10 ndigits op)))))
 
 (ert-deftest mpf-get-str-4 ()
   "Conversion to string: negative floating-point object as source, less than zero."
-  (defconst op (mpf))
-  (defconst ndigits 5)
-  (mpf-set-d op -0.001234)
-  (should (equal '("-1234" . -2) (mpf-get-str +10 ndigits op))))
+  (let ((op (mpf))
+	(ndigits 5))
+    (mpf-set-d op -0.001234)
+    (should (equal '("-1234" . -2) (mpf-get-str +10 ndigits op)))))
 
 ;;; --------------------------------------------------------------------
 

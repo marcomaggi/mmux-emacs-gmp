@@ -57,7 +57,7 @@ libmmux_emacs_gmp_la_SOURCES	= \
 
 # This  variable is  reserved to  the  package author.   Users of  the
 # package can set ELCFLAGS.
-AM_ELCFLAGS	= --quick --directory $(PWD)/.libs
+AM_ELCFLAGS	= --quick --directory $(builddir)/src --directory $(PWD)/.libs
 
 dist_lisp_LISP	= src/gmp.el
 
@@ -66,7 +66,7 @@ src/gmp.elc: libmmux-emacs-gmp.la
 
 #### tests
 
-MMUX_EMACS_GMP_TESTS = \
+MMUX_EMACS_GMP_TESTS_SRC = \
 	tests/version.el			\
 	tests/user-pointer-objects.el		\
 	tests/integer-numbers.el		\
@@ -74,14 +74,23 @@ MMUX_EMACS_GMP_TESTS = \
 	tests/floating-point-numbers.el		\
 	tests/random-numbers-generators.el
 
-EXTRA_DIST	+= $(MMUX_EMACS_GMP_TESTS)
+MMUX_EMACS_GMP_TESTS = \
+	tests/version.elc			\
+	tests/user-pointer-objects.elc		\
+	tests/integer-numbers.elc		\
+	tests/rational-numbers.elc		\
+	tests/floating-point-numbers.elc	\
+	tests/random-numbers-generators.elc
+
+EXTRA_DIST	+= $(MMUX_EMACS_GMP_TESTS_SRC)
 TESTS		 = $(MMUX_EMACS_GMP_TESTS)
 
 # We must make sure that this ends with a semicolon!!!
 AM_TESTS_ENVIRONMENT	=
-TEST_EXTENSIONS		= .el
-EL_LOG_COMPILER		= $(EMACS)
-AM_EL_LOG_FLAGS		= --batch --quick --directory $(builddir)/.libs --directory $(builddir)/src --load
+TEST_EXTENSIONS		= .elc
+ELC_LOG_COMPILER	= $(EMACS)
+AM_ELC_LOG_FLAGS	= --batch --quick --directory $(builddir)/.libs --directory $(builddir)/src --load
+CLEANFILES		= $(MMUX_EMACS_GMP_TESTS)
 
 .PHONY: test
 
@@ -89,8 +98,8 @@ AM_EL_LOG_FLAGS		= --batch --quick --directory $(builddir)/.libs --directory $(b
 
 MMUX_EMACS_INSTALLCHECK	= $(EMACS) --batch --quick --directory $(libdir) --directory $(lispdir) --load
 
-installcheck-local: $(TESTS)
-	@for f in $(TESTS); do $(MMUX_EMACS_INSTALLCHECK) $(srcdir)/$$f; done
+installcheck-local:
+	@for f in $(MMUX_EMACS_GMP_TESTS_SRC); do $(MMUX_EMACS_INSTALLCHECK) $(srcdir)/$$f; done
 
 ## --------------------------------------------------------------------
 
