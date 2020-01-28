@@ -7,6 +7,7 @@ EXTRA_DIST		= INSTALL			\
 dist_doc_DATA		= README COPYING
 AM_CFLAGS		= $(MMUX_CFLAGS)
 AM_CPPFLAGS		= -I$(srcdir)/src
+CLEANFILES		=
 
 ## --------------------------------------------------------------------
 
@@ -15,8 +16,11 @@ nodist_pkgconfig_DATA	= meta/scripts/mmux-emacs-gmp.pc
 
 #### documentation
 
+EXTRA_DIST		+= doc/mmux-emacs-gmp.style.css
+CLEANFILES		+= doc/mmux-emacs-gmp.css
+
 AM_MAKEINFOFLAGS	= --no-split
-AM_MAKEINFOHTMLFLAGS	= --split=node -c WORDS_IN_PAGE=0 \
+AM_MAKEINFOHTMLFLAGS	= --split=node -c WORDS_IN_PAGE=0 --css-ref=mmux-emacs-gmp.css \
 	-c PRE_BODY_CLOSE="<p>This document describes version <tt>$(PACKAGE_VERSION)</tt> of <em>$(PACKAGE_NAME)</em>.</p>"
 
 info_TEXINFOS		= doc/mmux-emacs-gmp.texi
@@ -26,6 +30,23 @@ doc_mmux_emacs_gmp_TEXINFOS = \
 	doc/overview-linking.texi	\
 	doc/gpl-3.0.texi		\
 	doc/fdl-1.3.texi
+
+## --------------------------------------------------------------------
+
+doc/mmux-emacs-gmp.html/$(am__dirstamp): doc/$(am__dirstamp)
+	@$(MKDIR_P) doc/mmux-emacs-gmp.html/
+	@: > doc/mmux-emacs-gmp.html/$(am__dirstamp)
+
+doc/mmux-emacs-gmp.html/mmux-emacs-gmp.css: doc/mmux-emacs-gmp.style.css doc/mmux-emacs-gmp.html/$(am__dirstamp)
+	$(INSTALL) -m 0444 "$(top_srcdir)/doc/mmux-emacs-gmp.style.css" "$(builddir)/doc/mmux-emacs-gmp.html/mmux-emacs-gmp.css"
+
+## --------------------------------------------------------------------
+
+html-local: doc/mmux-emacs-gmp.html/mmux-emacs-gmp.css
+
+install-html-local:
+	$(MKDIR_P) "$(DESTDIR)$(htmldir)/mmux-emacs-gmp.html/"
+	$(INSTALL) -m 0444 $(builddir)/doc/mmux-emacs-gmp.html/mmux-emacs-gmp.css "$(DESTDIR)$(htmldir)/mmux-emacs-gmp.html/"
 
 
 #### libraries
@@ -90,7 +111,7 @@ AM_TESTS_ENVIRONMENT	=
 TEST_EXTENSIONS		= .elc
 ELC_LOG_COMPILER	= $(EMACS)
 AM_ELC_LOG_FLAGS	= --batch --quick --directory $(builddir)/.libs --directory $(builddir)/src --load
-CLEANFILES		= $(MMUX_EMACS_GMP_TESTS)
+CLEANFILES		+= $(MMUX_EMACS_GMP_TESTS)
 
 .PHONY: test
 
