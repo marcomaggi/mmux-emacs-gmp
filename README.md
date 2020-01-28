@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.org/marcomaggi/mmux-emacs-gmp.svg?branch=master)](https://travis-ci.org/marcomaggi/mmux-emacs-gmp)
 [![codecov](https://codecov.io/gh/marcomaggi/mmux-emacs-gmp/branch/master/graph/badge.svg)](https://codecov.io/gh/marcomaggi/mmux-emacs-gmp)
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/b41898f85f6e4e4bad28a1236c086ff3)](https://www.codacy.com/manual/marcomaggi_2/mmux-emacs-gmp?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=marcomaggi/mmux-emacs-gmp&amp;utm_campaign=Badge_Grade)
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/08fbed135c6d424ea6686ae65fd1410f)](https://www.codacy.com/manual/marcomaggi_2/mmux-emacs-gmp?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=marcomaggi/mmux-emacs-gmp&amp;utm_campaign=Badge_Grade)
 
 ## Introduction
 
