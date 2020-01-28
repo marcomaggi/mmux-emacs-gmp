@@ -18,6 +18,21 @@ The package uses the GNU Autotools and it is tested, using Travis CI, on
 both Ubuntu GNU+Linux  systems and OS X systems.  The  package relies on
 `pkg-config` to find the dependencies installed on the system.
 
+  Here is a usage snippet:
+
+```
+(require 'gmp)
+
+(let ((rop      (mpf))
+      (op1      (mpf 1.2))
+      (op2      (mpf 3.4)))
+  (mpf-add rop op1 op2)
+  (let ((base           10)
+        (ndigits        17))
+    (mpf-get-str* base ndigits rop)))
+=> "+0.45999999999999999e+1"
+```
+
 ## License
 
 Copyright (c) 2020 Marco Maggi<br/>
