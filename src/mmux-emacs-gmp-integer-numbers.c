@@ -1216,7 +1216,7 @@ Fmmux_emacs_gmp_c_mpz_remove (emacs_env *env, ptrdiff_t nargs, emacs_value args[
   mpz_ptr	op	= mmux_emacs_get_gmp_mpz(env, args[1]);
   mpz_ptr	F	= mmux_emacs_get_gmp_mpz(env, args[2]);
 
-  return mmux_emacs_make_bitcnt(env, mpz_remove(rop, op, F));
+  return mmux_emacs_make_gmp_bitcnt(env, mpz_remove(rop, op, F));
 }
 
 /* void mpz_fac_ui (mpz_t ROP, unsigned long int N) */
@@ -1503,7 +1503,7 @@ Fmmux_emacs_gmp_c_mpz_popcount (emacs_env *env, ptrdiff_t nargs, emacs_value arg
   assert(1 == nargs);
   mpz_ptr	op	= mmux_emacs_get_gmp_mpz(env, args[0]);
 
-  return mmux_emacs_make_bitcnt(env, mpz_popcount(op));
+  return mmux_emacs_make_gmp_bitcnt(env, mpz_popcount(op));
 }
 
 /* mp_bitcnt_t mpz_hamdist (const mpz_t OP1, const mpz_t OP2) */
@@ -1514,7 +1514,7 @@ Fmmux_emacs_gmp_c_mpz_hamdist (emacs_env *env, ptrdiff_t nargs, emacs_value args
   mpz_ptr	op1	= mmux_emacs_get_gmp_mpz(env, args[0]);
   mpz_ptr	op2	= mmux_emacs_get_gmp_mpz(env, args[1]);
 
-  return mmux_emacs_make_bitcnt(env, mpz_hamdist(op1, op2));
+  return mmux_emacs_make_gmp_bitcnt(env, mpz_hamdist(op1, op2));
 }
 
 /* mp_bitcnt_t mpz_scan0 (const mpz_t OP, mp_bitcnt_t STARTING_BIT) */
@@ -1525,7 +1525,7 @@ Fmmux_emacs_gmp_c_mpz_scan0 (emacs_env *env, ptrdiff_t nargs, emacs_value args[]
   mpz_ptr	op		= mmux_emacs_get_gmp_mpz(env, args[0]);
   mp_bitcnt_t	starting_bit	= mmux_emacs_get_gmp_bitcnt(env, args[1]);
 
-  return mmux_emacs_make_bitcnt(env, mpz_scan0(op, starting_bit));
+  return mmux_emacs_make_gmp_bitcnt(env, mpz_scan0(op, starting_bit));
 }
 
 /* mp_bitcnt_t mpz_scan1 (const mpz_t OP, mp_bitcnt_t STARTING_BIT) */
@@ -1536,7 +1536,7 @@ Fmmux_emacs_gmp_c_mpz_scan1 (emacs_env *env, ptrdiff_t nargs, emacs_value args[]
   mpz_ptr	op		= mmux_emacs_get_gmp_mpz(env, args[0]);
   mp_bitcnt_t	starting_bit	= mmux_emacs_get_gmp_bitcnt(env, args[1]);
 
-  return mmux_emacs_make_bitcnt(env, mpz_scan1(op, starting_bit));
+  return mmux_emacs_make_gmp_bitcnt(env, mpz_scan1(op, starting_bit));
 }
 
 /* void mpz_setbit (mpz_t ROP, mp_bitcnt_t BIT_INDEX) */

@@ -52,7 +52,7 @@ Fmmux_emacs_gmp_c_mpf_get_default_prec (emacs_env *env, ptrdiff_t nargs,
 {
   assert(0 == nargs);
 
-  return mmux_emacs_make_prec(env, mpf_get_default_prec());
+  return mmux_emacs_make_gmp_prec(env, mpf_get_default_prec());
 }
 
 static emacs_value
@@ -72,7 +72,7 @@ Fmmux_emacs_gmp_c_mpf_get_prec (emacs_env *env, ptrdiff_t nargs, emacs_value arg
   assert(1 == nargs);
   mpf_ptr	rop  = mmux_emacs_get_ptr(env, args[0]);
 
-  return mmux_emacs_make_prec(env, mpf_get_prec(rop));
+  return mmux_emacs_make_gmp_prec(env, mpf_get_prec(rop));
 }
 
 
@@ -235,7 +235,7 @@ Fmmux_emacs_gmp_c_mpf_get_d_2exp (emacs_env *env, ptrdiff_t nargs MMUX_EMACS_GMP
     emacs_value Qcons       = env->intern(env, "cons");
     emacs_value operands[2] = {
       mmux_emacs_make_float(env, rv),
-      mmux_emacs_make_mp_exp(env, exponent)
+      mmux_emacs_make_gmp_mp_exp(env, exponent)
     };
 
     return env->funcall(env, Qcons, 2, operands);
@@ -273,7 +273,7 @@ Fmmux_emacs_gmp_c_mpf_get_str (emacs_env *env, ptrdiff_t nargs, emacs_value args
 
   {
     emacs_value Qcons       = env->intern(env, "cons");
-    emacs_value operands[2] = { Srv, mmux_emacs_make_mp_exp(env, exponent) };
+    emacs_value operands[2] = { Srv, mmux_emacs_make_gmp_mp_exp(env, exponent) };
 
     return env->funcall(env, Qcons, 2, operands);
   }
