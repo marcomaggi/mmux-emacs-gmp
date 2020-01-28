@@ -25,7 +25,7 @@
 ;;; Code:
 
 (require 'ert)
-(require 'mmux-emacs-gmp)
+(require 'gmp)
 
 
 ;;;; random number generators: initialisation

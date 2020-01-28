@@ -192,8 +192,8 @@ The library supports @posix{} platforms.  This package is meant to work with @gn
 @value{PACKAGE} installs a single elisp module @value{PackageEmacsModule} and a C language shared
 library with basename @value{PackageSharedLibraryBasename} (using the @gnu{} Libtool
 infrastructure).  All the elisp definition names are prefixed with either
-@code{@value{PackageApiElispPrefix}}, @samp{mpz-}, @samp{mpq-} or @samp{mpf-}.  The C language
-shared library is installed under @samp{$libdir}, for example:
+@code{@value{PackageApiElispPrefix}}, @samp{gmp-}, @samp{mpz-}, @samp{mpq-} or @samp{mpf-}.  The C
+language shared library is installed under @samp{$libdir}, for example:
 
 @center @file{/usr/local/lib64}
 
@@ -209,7 +209,7 @@ something like:
 @lisp
 (add-to-list 'load-path "/usr/local/lib64"
                         "/usr/local/share/emacs/site-lisp")
-(require 'mmux-emacs-gmp)
+(require 'gmp)
 @end lisp
 
 @cindex @value{PackageHeaderFile}, header file

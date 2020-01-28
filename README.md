@@ -138,7 +138,7 @@ so to load the module we should do something like:
 ```
 (add-to-list 'load-path "/usr/local/lib64"
                         "/usr/local/share/emacs/site-lisp")
-(require 'mmux-emacs-gmp)
+(require gmp)
 ```
 
 ## Usage

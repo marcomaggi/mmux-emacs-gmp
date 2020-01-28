@@ -1,10 +1,10 @@
-;;; mmux-emacs-gmp.el --- gmp module
+;;; gmp.el --- gmp module
 
 ;; Copyright (C) 2020 Marco Maggi
 
 ;; Author: Marco Maggi <mrc.mgg@gmail.com>
 ;; Created: Jan 15, 2020
-;; Time-stamp: <2020-01-28 08:25:07 marco>
+;; Time-stamp: <2020-01-28 09:55:18 marco>
 ;; Keywords: extensions
 
 ;; This file is part of MMUX Emacs GMP.
@@ -2224,6 +2224,6 @@ The argument BASE can vary from 2 to 62."
 
 ;;;; done
 
-(provide 'mmux-emacs-gmp)
+(provide 'gmp)
 
 ;;; mmux-emacs-gmp.el ends here

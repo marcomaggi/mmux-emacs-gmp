@@ -20,7 +20,7 @@
 ;;; Code:
 
 (require 'ert)
-(require 'mmux-emacs-gmp)
+(require 'gmp)
 
 
 ;;;; helpers

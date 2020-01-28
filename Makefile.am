@@ -58,9 +58,9 @@ libmmux_emacs_gmp_la_SOURCES	= \
 # package can set ELCFLAGS.
 AM_ELCFLAGS	= --quick --directory $(PWD)/.libs
 
-dist_lisp_LISP	= src/mmux-emacs-gmp.el
+dist_lisp_LISP	= src/gmp.el
 
-src/mmux-emacs-gmp.elc: libmmux-emacs-gmp.la
+src/gmp.elc: libmmux-emacs-gmp.la
 
 
 #### tests
