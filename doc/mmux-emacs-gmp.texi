@@ -4462,6 +4462,11 @@ There is also a list of resources about Emacs modules:
 
 @center @url{https://github.com/emacs-pe/emacs-modules}
 
+If we want to compare our usage code with someone else's code we can look at this site (@aurl{} last
+checked Jan 28, 2020):
+
+@center @url{https://documentation.help/Math.Gmp.Native.NET/846f5c8a-6cba-433e-9f18-cde2ff5695cd.htm}
+
 @c page
 @node concept index
 @appendix An entry for each concept
