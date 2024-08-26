@@ -14,7 +14,6 @@ Topics
   A. Credits
   B. Bugs, vulnerabilities and contributions
   C. Resources
-  D. Badges and static analysis
 
 
 1. Introduction
@@ -49,7 +48,7 @@ on "pkg-config" to find the dependencies installed on the system.
 2. License
 ----------
 
-Copyright (c) 2020 Marco Maggi <mrc.mgg@gmail.com>
+Copyright (c) 2020, 2024 Marco Maggi <mrc.mgg@gmail.com>
 
 This program is free software: you  can redistribute it and/or modify it
 under the  terms of the GNU  General Public License as  published by the
@@ -200,60 +199,6 @@ the GNU Project software can be found here:
 we can find GMP here:
 
 			 <https://gmplib.org/>
-
-
-D. Badges and static analysis
------------------------------
-
-D.1 Travis CI
--------------
-
-Travis CI is  a hosted, distributed continuous  integration service used
-to build and test software projects  hosted at GitHub.  We can find this
-project's dashboard at:
-
-	   <https://travis-ci.org/marcomaggi/mmux-emacs-gmp>
-
-  Usage of this service is configured through the file ".travis.yml" and
-the scripts under the directory "meta/travis-ci".
-
-
-D.2 Clang's Static Analyzer
----------------------------
-
-The Clang Static Analyzer is a source code analysis tool that finds bugs
-in C, C++, and Objective-C programs.  It is distributed along with Clang
-and we can find it at:
-
-		   <http://clang-analyzer.llvm.org/>
-
-  Usage of this service is implemented with make rules; see the relevant
-section in the file "Makefile.am".
-
-
-D.3 Codecov
------------
-
-Codecov is a service providing code  coverage reports.  We can find this
-project's dashboard at:
-
-	   <https://codecov.io/gh/marcomaggi/mmux-emacs-gmp>
-
-Usage of  this service is  implemented through direct  interface between
-GitHub and Codecov  sites; it configured through  the file `codecov.yml`
-and appropriate entries in Travis CI's matrix of builds.
-
-
-D.4 Codacy
-----------
-
-Codacy is  an online service  providing code  review.  We can  find this
-project's dashboard at:
-
-	 <https://www.codacy.com/app/marcomaggi/mmux-emacs-gmp>
-
-Usage of this service is  implemented through direct integration between
-GitHub and Codacy sites.
 
 
 ### end of file

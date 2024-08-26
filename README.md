@@ -1,9 +1,5 @@
 # MMUX Emacs GMP
 
-[![Build Status](https://travis-ci.org/marcomaggi/mmux-emacs-gmp.svg?branch=master)](https://travis-ci.org/marcomaggi/mmux-emacs-gmp)
-[![codecov](https://codecov.io/gh/marcomaggi/mmux-emacs-gmp/branch/master/graph/badge.svg)](https://codecov.io/gh/marcomaggi/mmux-emacs-gmp)
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/08fbed135c6d424ea6686ae65fd1410f)](https://www.codacy.com/manual/marcomaggi_2/mmux-emacs-gmp?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=marcomaggi/mmux-emacs-gmp&amp;utm_campaign=Badge_Grade)
-
 ## Introduction
 
 This package  provides a  dynamic module for  GNU Emacs  implementing an
@@ -35,7 +31,7 @@ both Ubuntu GNU+Linux  systems and OS X systems.  The  package relies on
 
 ## License
 
-Copyright (c) 2020 Marco Maggi<br/>
+Copyright (c) 2020, 2024 Marco Maggi<br/>
 `mrc.mgg@gmail.com`<br/>
 All rights reserved.
 
@@ -205,47 +201,3 @@ we can find GMP here:
 
 [https://gmplib.org/](https://gmplib.org/)
 
-## Badges and static analysis
-
-### Travis CI
-
-Travis CI is  a hosted, distributed continuous  integration service used
-to build and test software projects  hosted at GitHub.  We can find this
-project's dashboard at:
-
-[https://travis-ci.org/marcomaggi/mmux-emacs-gmp](https://travis-ci.org/marcomaggi/mmux-emacs-gmp)
-
-Usage of this  service is configured through the  file `.travis.yml` and
-additional scripts are under the directory `meta/travis-ci`.
-
-### Clang's Static Analyzer
-
-The Clang Static Analyzer is a source code analysis tool that finds bugs
-in C, C++, and Objective-C programs.  It is distributed along with Clang
-and we can find it at:
-
-[http://clang-analyzer.llvm.org/](http://clang-analyzer.llvm.org/)
-
-Usage of this  service is implemented with make rules;  see the relevant
-section in the file `Makefile.am`.
-
-### Codecov
-
-Codecov is a service providing code  coverage reports.  We can find this
-project's dashboard at:
-
-[https://codecov.io/gh/marcomaggi/mmux-emacs-gmp](https://codecov.io/gh/marcomaggi/mmux-emacs-gmp)
-
-Usage of  this service is  implemented through direct  interface between
-GitHub and Codecov  sites; it configured through  the file `codecov.yml`
-and appropriate entries in Travis CI's matrix of builds.
-
-### Codacy
-
-Codacy is  an online service  providing code  review.  We can  find this
-project's dashboard at:
-
-[https://www.codacy.com/app/marcomaggi/mmux-emacs-gmp](https://www.codacy.com/app/marcomaggi/mmux-emacs-gmp)
-
-Usage of this service is  implemented through direct integration between
-GitHub and Codacy sites.
