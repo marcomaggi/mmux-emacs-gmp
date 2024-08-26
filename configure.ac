@@ -9,7 +9,7 @@ AC_INIT([MMUX Emacs GMP],[MMUX_PACKAGE_VERSION],
 MMUX_INIT
 MMUX_LIBTOOL_LIBRARY_VERSIONS([mmux_emacs_gmp],1,0,0)
 AC_REVISION([0.1])
-AC_COPYRIGHT([Copyright (c) 2020 Marco Maggi <mrc.mgg@gmail.com>
+AC_COPYRIGHT([Copyright (c) 2020, 2024 Marco Maggi <mrc.mgg@gmail.com>
 
 This program is free software: you  can redistribute it and/or modify it
 under the  terms of the GNU  General Public License as  published by the
@@ -59,47 +59,9 @@ AM_PROG_AS
 AM_PROG_CC_C_O
 AC_HEADER_STDC
 AC_HEADER_SYS_WAIT
-AC_CHECK_HEADERS([assert.h stdint.h strings.h errno.h stddef.h unistd.h])
-
-dnl AC_CHECK_SIZEOF(void *)
-dnl AC_C_CONST
-dnl AC_C_INLINE
-dnl AC_C_RESTRICT
-dnl AC_TYPE_LONG_LONG_INT
-dnl AC_TYPE_UNSIGNED_LONG_LONG_INT
-dnl AC_TYPE_SIZE_T
-dnl AC_TYPE_SSIZE_T
-dnl AC_TYPE_INT8_T
-dnl AC_TYPE_INT16_T
-dnl AC_TYPE_INT32_T
-dnl AC_TYPE_INT64_T
-dnl AC_TYPE_UINT8_T
-dnl AC_TYPE_UINT16_T
-dnl AC_TYPE_UINT32_T
-dnl AC_TYPE_UINT64_T
-
-dnl MMUX_CHECK_PAGE_SIZE
-dnl MMUX_CHECK_PAGE_SHIFT($mmux_cv_page_size)
-
-dnl MMUX_DETERMINE_SIZEOF([SIZE_T],[size_t],[MMUX_INCLUDE_STDDEF_H])
-dnl MMUX_DETERMINE_SIZEOF([SSIZE_T],[ssize_t],[MMUX_INCLUDE_UNISTD_H])
-dnl MMUX_DETERMINE_SIZEOF([PTRDIFF_T],[ptrdiff_t],[MMUX_INCLUDE_STDDEF_H])
-
-dnl AC_LANG([C++])
-dnl AC_PROG_CXX
+AC_CHECK_HEADERS([assert.h stdint.h strings.h errno.h])
 
 AC_CACHE_SAVE
-
-
-#### checks for library functions
-
-dnl AC_FUNC_MALLOC
-dnl AC_FUNC_MEMCMP
-dnl AC_CHECK_FUNCS([memmove memset strerror])
-dnl AC_CHECK_FUNCS([mmap munmap msync mremap madvise mlock munlock mlockall munlockall mprotect])
-dnl AC_CHECK_FUNCS([getenv])
-
-dnl AC_CACHE_SAVE
 
 
 #### external libraries

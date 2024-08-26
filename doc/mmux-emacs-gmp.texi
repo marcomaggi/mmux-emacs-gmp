@@ -34,7 +34,7 @@
 
 @c To be used as @value{COPYRIGHT_YEARS} whenever we need to include the
 @c list of copyright years.
-@set COPYRIGHT_YEARS            2020
+@set COPYRIGHT_YEARS            2020, 2024
 
 @c ------------------------------------------------------------
 

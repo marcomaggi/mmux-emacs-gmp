@@ -56,9 +56,9 @@ mmux_emacs_gmp_REVISION		= @mmux_emacs_gmp_VERSION_INTERFACE_REVISION@
 mmux_emacs_gmp_AGE			= @mmux_emacs_gmp_VERSION_INTERFACE_AGE@
 mmux_emacs_gmp_LINKER_VERSION	= -version-info $(mmux_emacs_gmp_CURRENT):$(mmux_emacs_gmp_REVISION):$(mmux_emacs_gmp_AGE)
 
-include_HEADERS		= src/mmux-emacs-gmp.h
+include_HEADERS			= src/mmux-emacs-gmp.h
 
-lib_LTLIBRARIES		= libmmux-emacs-gmp.la
+lib_LTLIBRARIES			= libmmux-emacs-gmp.la
 libmmux_emacs_gmp_la_CPPFLAGS	= $(AM_CPPFLAGS)
 libmmux_emacs_gmp_la_CFLAGS	= $(AM_CFLAGS)
 libmmux_emacs_gmp_la_LDFLAGS	= $(mmux_emacs_gmp_LINKER_VERSION) $(AM_LDFLAGS)
