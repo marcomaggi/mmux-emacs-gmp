@@ -10,9 +10,9 @@ GNU Emacs version 26+ and GMP version 6.2.0+.  This package depends upon
 the  external packages:  cl-lib.  To  run the  test suite:  this package
 requires the ERT package.
 
-The package uses the GNU Autotools and it is tested, using Travis CI, on
-both Ubuntu GNU+Linux  systems and OS X systems.  The  package relies on
-`pkg-config` to find the dependencies installed on the system.
+The  package uses  the GNU  Autotools and  it is  tested on  a GNU+Linux
+system.  The  package relies  on `pkg-config`  to find  the dependencies
+installed on the system.
 
   Here is a usage snippet:
 
